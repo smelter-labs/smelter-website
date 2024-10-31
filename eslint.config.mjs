@@ -16,11 +16,8 @@ export default [
   pluginPrettierRecommended,
   eslintConfigPrettier,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     ignores: ['.prettierrc.js'],
-    // plugins: {
-    //   '@typescript-eslint': tsEslintPlugin,
-    // },
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -28,15 +25,10 @@ export default [
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
-      globals: {
-        ...globals.browser,
-      },
     },
     rules: {
-      'prettier/prettier': ['error'],
       '@typescript-eslint/no-explicit-any': [0, {}],
       '@typescript-eslint/no-floating-promises': ['error'],
-      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -59,6 +51,19 @@ export default [
     },
   },
   {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    ignores: ['.prettierrc.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
+    rules: {
+      'prettier/prettier': ['error'],
+      'no-unused-vars': 'off',
+    },
+  },
+  {
     files: ['**/*.{ts,tsx}'],
     plugins: {
       'react-hooks': reactHooks,
@@ -70,6 +75,6 @@ export default [
     },
   },
   {
-    ignores: ['**/dist/**/*', '**/generated/**/*', '**/*.d.ts', '**/*.config.mjs'],
+    ignores: ['**/dist/**/*', '**/generated/**/*', '**/*.d.ts', '**/*.config.*'],
   },
 ];
