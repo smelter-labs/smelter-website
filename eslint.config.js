@@ -1,6 +1,7 @@
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import eslintPluginAstro from 'eslint-plugin-astro';
+import eslintPluginTailwind from 'eslint-plugin-tailwindcss';
 import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import eslintConfigPrettier from 'eslint-config-prettier';
 
@@ -10,6 +11,7 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginPrettierRecommended,
+  ...eslintPluginTailwind.configs['flat/recommended'],
   ...eslintPluginAstro.configs.recommended,
   eslintConfigPrettier,
   {
