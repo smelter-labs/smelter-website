@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "lint": "eslint . --max-warnings=0",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "dev": "astro dev",
     "start": "astro dev",

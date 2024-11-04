@@ -3,11 +3,11 @@ const { comment } = Astro.props;
 ---
 
 <li>
-  <div class="by">
+  <div>
     <a href={`/users/${comment.user}`}>{comment.user}</a>
     {comment.time_ago}
   </div>
-  <div class="text" set:html={comment.content} />
+  <div set:html={comment.content} />
   <h1 class="text-3xl font-bold underline">TEST HEADER</h1>
   <!-- <Show when={comment.comments.length}>
     <Toggle open>
