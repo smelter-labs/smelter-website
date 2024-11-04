@@ -5,11 +5,13 @@
   "scripts": {
     "lint": "pnpm -r --no-bail run lint",
     "lint:fix": "pnpm -r run lint -- --fix",
+    "typecheck": "tsc --noEmit",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prettier": "prettier . --write"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
