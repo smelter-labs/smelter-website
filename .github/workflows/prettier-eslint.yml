@@ -38,6 +38,7 @@ jobs:
         run: pnpm run lint
 
       - name: Typecheck code
+        working-directory: ./src
         run: pnpm run typecheck
 
       - name: Prettier write
