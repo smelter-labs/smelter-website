@@ -3,6 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "lint": "pnpm -r --no-bail run lint",
+    "lint:fix": "pnpm -r run lint -- --fix",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",

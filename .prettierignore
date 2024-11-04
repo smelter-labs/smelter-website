@@ -1,0 +1,10 @@
+public/
+
+node_modules/
+
+*.lock
+pnpm-lock.yaml
+
+*.md
+
+assets/**
