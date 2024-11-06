@@ -1,16 +1,15 @@
 ---
-import NightwindStatus from '../components/NightwindStatus';
-import NightwindSwitch from '../components/NightwindSwitch';
+import TokenwindSwitch from '../components/TokenwindSwitch';
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout>
   <main class="bg-mainBackground">
-    <h1 class="text-red-900 text-3xl font-bold underline">Live compositor</h1>
-    <p>Now, the website theme is: <NightwindStatus client:only="react" />.</p>
+    <h1 class="text-3xl font-bold text-red-900 underline">Live compositor</h1>
+    <!-- <p>Now, the website theme is: <NightwindStatus client:only="react" />.</p> -->
     <p>Try to toggle the theme!</p>
     <div class="flex justify-center">
-      <NightwindSwitch client:only="react" />
+      <TokenwindSwitch client:only="react" />
     </div>
   </main>
 </MainLayout>

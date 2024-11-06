@@ -13,7 +13,7 @@ const generateTheme = (theme: Theme, darkMode: boolean): DynamicColors => {
       if (typeof obj[property] === 'object') {
         traverse(obj[property] as Theme, newStack);
       } else {
-        newStack = darkMode ? newStack : `${newStack}-light`;
+        newStack = darkMode ? `${newStack}-dark` : newStack;
         dynamicColors[newStack] = obj[property];
       }
     }
@@ -23,7 +23,7 @@ const generateTheme = (theme: Theme, darkMode: boolean): DynamicColors => {
   return dynamicColors;
 };
 
-const mapToNightwind = (theme: Theme): Record<string, string> => {
+const generateTokenWindMap = (theme: Theme): Record<string, string> => {
   const mapper: Record<string, string> = {};
 
   function traverse(obj: Theme, stack: string = ''): void {
@@ -35,7 +35,7 @@ const mapToNightwind = (theme: Theme): Record<string, string> => {
       if (typeof obj[property] === 'object') {
         traverse(obj[property] as Theme, newStack);
       } else {
-        mapper[newStack] = `${newStack}-light`;
+        mapper[newStack] = `${newStack}-dark`;
       }
     }
   }
@@ -44,4 +44,4 @@ const mapToNightwind = (theme: Theme): Record<string, string> => {
   return mapper;
 };
 
-export { generateTheme, mapToNightwind };
+export { generateTheme, generateTokenWindMap };

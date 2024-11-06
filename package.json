@@ -19,7 +19,6 @@
     "@astrojs/starlight": "^0.28.4",
     "@astrojs/tailwind": "^5.1.2",
     "astro": "^4.15.3",
-    "nightwind": "^1.1.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.32.5",
@@ -28,8 +27,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
-    "@types/nightwind": "^1.0.0",
     "@types/react": "^18.3.12",
+    "@types/tailwindcss": "^3.1.0",
     "@typescript-eslint/parser": "^8.12.2",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
