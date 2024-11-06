@@ -1,6 +1,5 @@
-// darkModeColorsPlugin.ts
-
 import plugin from 'tailwindcss/plugin';
+import type { CSSRuleObject } from 'tailwindcss/types/config';
 
 const TRANSITION_DURATION = '300ms';
 const PREFIXES = ['text', 'bg', 'border'] as const;
@@ -9,35 +8,29 @@ const tokenWind = plugin(options => {
   const { addUtilities, theme, config } = options;
 
   const colors = theme('colors');
-  const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-  const transitionClasses = [];
+  const transitionClasses: Array<CSSRuleObject> = [];
 
   const colorMappingConfig: Record<string, string> = config('tokenWind.colorMap');
 
-  const utilities = Object.entries(colorMappingConfig).reduce(
-    (acc, [lightKey, darkKey]) => {
-      acc[`.bg-${lightKey}`] = {
-        [`@apply bg-[${theme(`colors.${lightKey}`)}]`]: {},
+  const utilities = Object.entries(colorMappingConfig).reduce((acc, [lightKey, darkKey]) => {
+    PREFIXES.forEach(prefix => {
+      acc[`.${prefix}-${lightKey}`] = {
+        [`@apply ${prefix}-[${theme(`colors.${lightKey}`)}]`]: {},
         '.dark &': {
-          [`@apply bg-[${theme(`colors.${darkKey}`)}]`]: {},
+          [`@apply ${prefix}-[${theme(`colors.${darkKey}`)}]`]: {},
         },
       };
+    });
 
-      // Extend for other utilities like text or border colors if needed
-
-      return acc;
-    },
-    {} as Record<string, unknown>
-  );
-
-  // Add theme transition handler
+    return acc;
+  }, {} as CSSRuleObject);
 
   const transitionPrefixes = [...PREFIXES];
 
   if (colors)
     Object.keys(colors).forEach(color => {
       transitionPrefixes.forEach(prefix => {
-        const transitionClass = {
+        const transitionClass: CSSRuleObject = {
           [`.tokenwind .${prefix}-${color}`]: {
             transitionDuration: TRANSITION_DURATION,
             transitionProperty: theme('transitionProperty.colors'),
@@ -51,10 +44,8 @@ const tokenWind = plugin(options => {
       });
     });
 
-  addUtilities(utilities, {
-    variants: ['responsive', 'hover', 'focus', 'dark'],
-  });
-  addUtilities(transitionClasses, { variants: ['responsive'] });
+  addUtilities(utilities);
+  addUtilities(transitionClasses);
 });
 
 export default tokenWind;

@@ -7,10 +7,6 @@ const colors = { ...generateTheme(LIGHT_THEME, false) };
 const darkColors = { ...generateTheme(DARK_THEME, true) };
 const tokenWindColorMap = { ...generateTokenWindMap(LIGHT_THEME) };
 
-console.log('COLORS ', colors);
-console.log('DARK ', darkColors);
-console.log('NIGHTWIND ', tokenWindColorMap);
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
