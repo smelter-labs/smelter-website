@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { beforeThemeTransition } from '../../styles/tokenwind/utils';
+import { beforeThemeTransition } from '../../../styles/tokenwind/utils';
 
 export default function TokenwindSwitch() {
   const [darkMode, setDarkMode] = useState(document.documentElement.classList.contains('dark'));
