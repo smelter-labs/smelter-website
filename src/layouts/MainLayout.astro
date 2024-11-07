@@ -9,27 +9,6 @@ import TokenwindInit from '../components/TokenwindInit';
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <script>
-      (() => {
-        function getInitialColorMode() {
-          const persistedColorPreference = window.localStorage.getItem('tokenwind-mode');
-          if (persistedColorPreference) {
-            return persistedColorPreference;
-          }
-          const mql = window.matchMedia('(prefers-color-scheme: dark)');
-          if (mql.matches !== undefined) {
-            return mql.matches ? 'dark' : 'light';
-          }
-          return 'light';
-        }
-
-        if (getInitialColorMode() === 'light') {
-          document.documentElement.classList.remove('dark');
-        } else {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
     <title>Live compositor</title>
   </head>
   <body>

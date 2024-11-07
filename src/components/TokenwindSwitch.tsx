@@ -4,10 +4,6 @@ import { beforeThemeTransition } from '../../styles/tokenwind/utils';
 export default function TokenwindSwitch() {
   const [darkMode, setDarkMode] = useState(document.documentElement.classList.contains('dark'));
 
-  // useEffect(() => {
-  //   nightwind.enable(darkMode);
-  // }, [darkMode]);
-
   const toggle = () => {
     beforeThemeTransition();
     const newMode = !darkMode;
@@ -18,7 +14,6 @@ export default function TokenwindSwitch() {
     const isDarkMode = document.documentElement.classList.contains('dark');
     const mode = isDarkMode ? 'dark' : 'light';
     const opposite = isDarkMode ? 'light' : 'dark';
-    console.log('OPPOSITE ', opposite);
 
     if (document.documentElement.classList.contains(opposite)) {
       document.documentElement.classList.replace(opposite, mode);
