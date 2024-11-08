@@ -17,6 +17,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^3.6.2",
     "@astrojs/starlight": "^0.28.4",
+    "@astrojs/starlight-docsearch": "^0.2.0",
     "@astrojs/tailwind": "^5.1.2",
     "astro": "^4.15.3",
     "react": "^18.3.1",
