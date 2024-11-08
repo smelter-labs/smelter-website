@@ -1,4 +1,5 @@
 ---
+import NavBar from '../components/NavBar.astro';
 import TokenwindInit from '../components/tokenwind/TokenwindInit';
 ---
 
@@ -11,8 +12,12 @@ import TokenwindInit from '../components/tokenwind/TokenwindInit';
     <meta name="generator" content={Astro.generator} />
     <title>Live compositor</title>
   </head>
-  <body>
+  <body class="bg-mainBackground">
     <TokenwindInit client:only="react" />
+    <NavBar />
     <slot />
   </body>
+  <style is:global>
+    @import '../../styles/global.css';
+  </style>
 </html>

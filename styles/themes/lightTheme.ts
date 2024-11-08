@@ -11,6 +11,8 @@ export const LIGHT_THEME = {
     hero: {
       title: COLORS.black100,
       subtitle: COLORS.secondary60,
+      authorLabel: COLORS.black100,
+      docsButton: COLORS.black100,
     },
   },
 } as const;

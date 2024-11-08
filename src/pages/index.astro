@@ -1,14 +1,29 @@
 ---
-import TokenwindSwitch from '../components/tokenwind/TokenwindSwitch';
+import Image from 'astro/components/Image.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+
+import swmLogo from '../assets/swm-logo.svg';
+import tempHero from '../assets/temp-hero.svg';
 ---
 
 <MainLayout>
-  <main class="bg-mainBackground">
-    <h1 class="text-3xl font-bold text-hero-title underline">Live compositor</h1>
-    <p>Try to toggle the theme!</p>
-    <div class="flex justify-center">
-      <TokenwindSwitch client:only="react" />
+  <main class="px-20 pt-6">
+    <div class="flex flex-col items-center justify-center">
+      <div class="mb-8 flex gap-x-2">
+        <p class="par-xs text-hero-authorLabel">Created by</p>
+        <Image src={swmLogo} alt="SoftwareMansion logo" class="fill-hero-authorLabel" />
+      </div>
+      <div class="flex flex-col gap-y-4 text-center">
+        <h1 class="text-hero-title">Mix video and audio with low latency.</h1>
+        <p class="par-l text-hero-subtitle">
+          Media server for real-time, low latency, programmable video and audio mixing.
+        </p>
+      </div>
+
+      <div class="mt-16">
+        <Image src={tempHero} alt="Temp hero" />
+      </div>
+      <button class="text-hero-docsButton"> Visit the docs </button>
     </div>
   </main>
 </MainLayout>

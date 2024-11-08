@@ -11,6 +11,8 @@ export const DARK_THEME = {
     hero: {
       title: COLORS.white100,
       subtitle: COLORS.secondary60,
+      authorLabel: COLORS.white100,
+      docsButton: COLORS.white100,
     },
   },
 } as const;
