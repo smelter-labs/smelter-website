@@ -1,9 +1,11 @@
 ---
 import Image from 'astro/components/Image.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/Button.astro';
 
 import swmLogo from '../assets/swm-logo.svg';
 import tempHero from '../assets/temp-hero.svg';
+import arrowRight from '../assets/arrow-right.svg';
 ---
 
 <MainLayout>
@@ -20,10 +22,13 @@ import tempHero from '../assets/temp-hero.svg';
         </p>
       </div>
 
-      <div class="mt-16">
+      <div class="mb-14 mt-16">
         <Image src={tempHero} alt="Temp hero" />
       </div>
-      <button class="text-hero-docsButton"> Visit the docs </button>
+      <Button>
+        <span> Visit the docs </span>
+        <Image src={arrowRight} alt="Visit docs" />
+      </Button>
     </div>
   </main>
 </MainLayout>

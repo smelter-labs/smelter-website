@@ -13,6 +13,8 @@ export const DARK_THEME = {
       subtitle: COLORS.secondary60,
       authorLabel: COLORS.white100,
       docsButton: COLORS.white100,
+      docsGradientFrom: COLORS.secondary100,
+      docsGradientTo: COLORS.primary100,
     },
   },
 } as const;

@@ -19,6 +19,9 @@ export default {
         ...colors,
         ...darkColors,
       },
+      spacing: {
+        17.5: '4.375rem',
+      },
     },
   },
   darkMode: 'selector',
