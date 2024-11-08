@@ -1,0 +1,14 @@
+---
+import { Image } from 'astro:assets';
+
+import footerWave from '../assets/footer.svg';
+import swmLogo from '../assets/swm-logo.svg';
+---
+
+<footer class="relative h-[17.5rem] overflow-hidden">
+  <div class="absolute inset-0 m-auto flex flex-col items-center justify-center gap-y-6">
+    <Image src={swmLogo} alt="SoftwareMansion logo" class="w-32 text-footer-logo" />
+    <p class="par-xl text-footer-copyright">Copyright © 2024 Software Mansion S.A.</p>
+  </div>
+  <Image src={footerWave} alt="Footer gradient" class="w-svw" />
+</footer>

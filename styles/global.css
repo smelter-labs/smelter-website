@@ -81,6 +81,13 @@ body {
 }
 
 @layer components {
+  .par-xl {
+    font-family: Aeonik;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 150%;
+  }
+
   .par-l {
     font-family: Aeonik;
     font-weight: 400;

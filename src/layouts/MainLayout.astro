@@ -1,7 +1,7 @@
 ---
+import Footer from '../components/Footer.astro';
 import NavBar from '../components/NavBar.astro';
 import TokenwindInit from '../components/tokenwind/TokenwindInit';
-import TokenwindSwitch from '../components/tokenwind/TokenwindSwitch';
 ---
 
 <!doctype html>
@@ -17,6 +17,7 @@ import TokenwindSwitch from '../components/tokenwind/TokenwindSwitch';
     <TokenwindInit client:only="react" />
     <NavBar />
     <slot />
+    <Footer />
   </body>
   <style is:global>
     @import '../../styles/global.css';

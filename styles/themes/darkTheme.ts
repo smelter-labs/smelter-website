@@ -16,5 +16,9 @@ export const DARK_THEME = {
       docsGradientFrom: COLORS.secondary100,
       docsGradientTo: COLORS.primary100,
     },
+    footer: {
+      logo: COLORS.white100,
+      copyright: COLORS.white100,
+    },
   },
 } as const;
