@@ -22,6 +22,9 @@ export default {
       spacing: {
         17.5: '4.375rem',
       },
+      borderRadius: {
+        '4xl': '2rem',
+      },
     },
   },
   darkMode: 'selector',

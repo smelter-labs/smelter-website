@@ -1,7 +1,8 @@
 ---
-import Footer from '../components/Footer.astro';
+import Footer from '../components/base/Footer.astro';
 import NavBar from '../components/navigation/NavBar.astro';
 import TokenwindInit from '../components/tokenwind/TokenwindInit';
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <!doctype html>
@@ -12,14 +13,14 @@ import TokenwindInit from '../components/tokenwind/TokenwindInit';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>Live compositor</title>
+    <ViewTransitions />
   </head>
   <body class="bg-mainBackground">
     <TokenwindInit client:only="react" />
     <NavBar />
     <slot />
     <Footer />
-  </body>
-  <style is:global>
+  </body><style is:global>
     @import '../../styles/global.css';
   </style>
 </html>

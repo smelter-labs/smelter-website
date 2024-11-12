@@ -16,6 +16,11 @@ export const LIGHT_THEME = {
       docsGradientFrom: COLORS.secondary100,
       docsGradientTo: COLORS.primary100,
     },
+    form: {
+      header: COLORS.black100,
+      border: COLORS.white25,
+      label: COLORS.black100,
+    },
     footer: {
       logo: COLORS.black100,
       copyright: COLORS.black100,

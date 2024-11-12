@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import Button from './base/Button.astro';
+import Select from './base/Select.astro';
+import TextArea from './base/TextArea.astro';
+import TextInput from './base/TextInput.astro';
+
+import arrowRight from '../assets/arrow-right.svg';
+---
+
+<section class="mx-40 my-20 flex gap-x-28 rounded-4xl border border-form-border p-10">
+  <h2 class="text-form-header">Interested in<br />working together?</h2>
+  <form class="flex w-full flex-col gap-y-10">
+    <TextInput label="Your e-mail" type="email" name="email" placeholder="joe@acme.com" />
+    <Select label="Type of inquiry" name="inquiry" placeholder="Choose type of inquiry">
+      <option value="cooperation">Cooperation</option>
+      <option value="pricing">Pricing</option>
+      <option value="technical request">Technical request</option>
+    </Select>
+    <TextArea
+      label="Your message"
+      type="text"
+      name="message"
+      placeholder="I want to work with you"
+      class="resize-none"
+      rows="6"
+    />
+    <Button type="submit" class="self-end">
+      <p class="par-xl">Send the message</p>
+      <Image src={arrowRight} alt="Visit docs" />
+    </Button>
+  </form>
+</section>
