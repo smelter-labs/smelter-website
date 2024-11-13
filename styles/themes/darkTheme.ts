@@ -16,6 +16,11 @@ export const DARK_THEME = {
       docsGradientFrom: COLORS.secondary100,
       docsGradientTo: COLORS.primary100,
     },
+    capabilities: {
+      header: COLORS.white100,
+      subHeader: COLORS.white100,
+      border: COLORS.white25,
+    },
     form: {
       header: COLORS.white100,
       border: COLORS.white25,
