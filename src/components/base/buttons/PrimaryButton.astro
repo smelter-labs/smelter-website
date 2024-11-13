@@ -1,9 +1,9 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
-interface ButtonProps extends HTMLAttributes<'button'> {}
+interface PrimaryButtonProps extends HTMLAttributes<'button'> {}
 
-const { class: buttonClass, ...buttonProps } = Astro.props;
+const { class: buttonClass, ...primaryButtonProps } = Astro.props;
 ---
 
 <button
@@ -11,7 +11,7 @@ const { class: buttonClass, ...buttonProps } = Astro.props;
     'h-17.5 rounded-full bg-gradient-to-r from-hero-docsGradientFrom to-hero-docsGradientTo px-7 w-fit',
     buttonClass,
   ]}
-  {...buttonProps}>
+  {...primaryButtonProps}>
   <div class="flex gap-x-3 text-xl text-white">
     <slot />
   </div>

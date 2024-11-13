@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import GhostButton from '../base/buttons/GhostButton.astro';
+
+import arrowRight from '../../assets/arrow-right.svg';
+
+const { label, text } = Astro.props;
+---
+
+<div
+  class="flex items-center justify-between gap-x-16 rounded-4xl border border-capabilities-border bg-transparent p-10 transition duration-300 ease-in-out hover:bg-usage-hoverBackground">
+  <div class="flex flex-1 flex-col">
+    <h3 class="mb-4 text-capabilities-header">{label}</h3>
+    <p class="text-capabilities-subHeader">{text}</p>
+  </div>
+
+  <div class="flex flex-col gap-y-4 self-end">
+    <a href="/docs" style="text-decoration: none; color: inherit;">
+      <GhostButton>
+        <p class="par-xl">Docs</p>
+        <Image src={arrowRight} alt={`${label} docs`} />
+      </GhostButton>
+    </a>
+    <a href="/docs" style="text-decoration: none; color: inherit;">
+      <GhostButton>
+        <p class="par-xl">Dockerfiles</p>
+        <Image src={arrowRight} alt={`${label} dockerfiles`} />
+      </GhostButton>
+    </a>
+  </div>
+</div>

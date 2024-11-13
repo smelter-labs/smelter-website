@@ -5,6 +5,7 @@ export const COLORS = {
   black50: '#9E9E9E',
 
   primary100: '#001A72',
+  primary15: '#001A7226',
 
   secondary100: '#38ACDD',
   secondary80: '#5BB9E0',

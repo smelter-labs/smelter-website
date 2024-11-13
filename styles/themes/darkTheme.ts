@@ -16,6 +16,11 @@ export const DARK_THEME = {
       docsGradientFrom: COLORS.secondary100,
       docsGradientTo: COLORS.primary100,
     },
+    usage: {
+      header: COLORS.white100,
+      subHeader: COLORS.secondary60,
+      hoverBackground: COLORS.primary15,
+    },
     capabilities: {
       header: COLORS.white100,
       subHeader: COLORS.white100,

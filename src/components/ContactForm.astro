@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import Button from './base/Button.astro';
+import PrimaryButton from './base/buttons/PrimaryButton.astro';
 import Select from './base/Select.astro';
 import TextArea from './base/TextArea.astro';
 import TextInput from './base/TextInput.astro';
@@ -25,9 +25,9 @@ import arrowRight from '../assets/arrow-right.svg';
       class="resize-none"
       rows="6"
     />
-    <Button type="submit" class="self-end">
+    <PrimaryButton type="submit" class="self-end">
       <p class="par-xl">Send the message</p>
       <Image src={arrowRight} alt="Visit docs" />
-    </Button>
+    </PrimaryButton>
   </form>
 </section>
