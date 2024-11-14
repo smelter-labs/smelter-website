@@ -1,31 +1,42 @@
 ---
 import { Image } from 'astro:assets';
+import UseCaseItem from './UseCaseItem.astro';
 
-import usageGradient from '../../assets/usage-gradient.svg';
+import useCasesWave from '../../assets/use-cases-wave.svg';
+import useCase1Image from '../../assets/use-cases/temp-use-case1.png';
+import useCase2Image from '../../assets/use-cases/temp-use-case2.png';
+import useCase3Image from '../../assets/use-cases/temp-use-case3.png';
 
 const USE_CASES = [
   {
-    label: 'Video conferencing',
-    text: 'Stream or record video conferences',
+    header: 'Video conferencing',
+    subHeader: 'Stream or record video conferences',
+    image: useCase1Image,
   },
   {
-    label: 'Broadcasting',
-    text: 'Compose broadcasts',
+    header: 'Broadcasting',
+    subHeader: 'Compose broadcasts',
+    image: useCase2Image,
   },
   {
-    label: 'Live-streaming',
-    text: 'Create awesome live-streams',
+    header: 'Live-streaming',
+    subHeader: 'Create awesome live-streams',
+    image: useCase3Image,
   },
 ] as const;
 ---
 
-<section class="mx-40 mb-20 flex items-center px-16">
-  <div>
-    <h2 class="mb-6 text-usage-header">Usage</h2>
-    <p class="text-usage-subHeader">Some text that is missing from current website.</p>
+<section class="relative">
+  <div class="mx-40 mb-20 flex justify-center gap-x-24">
+    <div class="flex shrink flex-col">
+      <h2 class="mb-6 text-useCases-header">Use cases</h2>
+      <p class="text-useCases-subHeader">
+        Use LiveCompositor for video conferencing, live-streaming,<br />broadcasting, and more.
+      </p>
+    </div>
+    <Image src={useCasesWave} alt="gradient" class="absolute -left-20 top-1/4 -z-10" />
+    <div class="flex flex-1 flex-col gap-y-6">
+      {USE_CASES.map((useCase, index) => <UseCaseItem {...useCase} active={index === 0} />)}
+    </div>
   </div>
-  <div class="mt-20 flex flex-col gap-y-4">
-    <!-- {USE_CASES.map(useCase => <UsageItem {...useCase} />)} -->
-  </div>
-  <Image src={usageGradient} alt="gradient" class="absolute right-0 -z-10" />
 </section>

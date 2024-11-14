@@ -23,6 +23,14 @@ export const LIGHT_THEME = {
       borderFrom: COLORS.secondary100,
       borderTo: COLORS.primary100,
     },
+    useCases: {
+      header: COLORS.black100,
+      subHeader: COLORS.black100,
+      background: COLORS.white100,
+      borderFrom: COLORS.secondary100,
+      borderTo: COLORS.primary100,
+      borderInactive: COLORS.white25,
+    },
     usage: {
       header: COLORS.black100,
       subHeader: COLORS.secondary60,

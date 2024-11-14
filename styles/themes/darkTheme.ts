@@ -23,6 +23,14 @@ export const DARK_THEME = {
       borderFrom: COLORS.secondary100,
       borderTo: COLORS.primary100,
     },
+    useCases: {
+      header: COLORS.white100,
+      subHeader: COLORS.white100,
+      background: COLORS.black100,
+      borderFrom: COLORS.secondary100,
+      borderTo: COLORS.primary100,
+      borderInactive: COLORS.white25,
+    },
     usage: {
       header: COLORS.white100,
       subHeader: COLORS.secondary60,
