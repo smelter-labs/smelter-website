@@ -11,10 +11,20 @@ const tokenWindColorMap = { ...generateTokenWindMap(LIGHT_THEME) };
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
+    fontFamily: {
+      aeonik: ['Aeonik'],
+    },
     extend: {
       colors: {
         ...colors,
         ...darkColors,
+      },
+      spacing: {
+        17.5: '4.375rem',
+        18: '4.5rem',
+      },
+      borderRadius: {
+        '4xl': '2rem',
       },
     },
   },

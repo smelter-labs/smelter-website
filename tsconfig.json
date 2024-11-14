@@ -2,9 +2,6 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@components/*": ["./src/components/*"]
-    }
+    "skipLibCheck": true
   }
 }

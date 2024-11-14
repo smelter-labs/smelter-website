@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import UseCaseItem from './UseCaseItem.astro';
+
+import useCasesWave from '../../assets/use-cases-wave.svg';
+import useCase1Image from '../../assets/use-cases/temp-use-case1.png';
+import useCase2Image from '../../assets/use-cases/temp-use-case2.png';
+import useCase3Image from '../../assets/use-cases/temp-use-case3.png';
+
+const USE_CASES = [
+  {
+    header: 'Video conferencing',
+    subHeader: 'Stream or record video conferences',
+    image: useCase1Image,
+  },
+  {
+    header: 'Broadcasting',
+    subHeader: 'Compose broadcasts',
+    image: useCase2Image,
+  },
+  {
+    header: 'Live-streaming',
+    subHeader: 'Create awesome live-streams',
+    image: useCase3Image,
+  },
+] as const;
+---
+
+<section class="relative">
+  <div class="mx-40 mb-20 flex justify-center gap-x-24">
+    <div class="flex shrink flex-col">
+      <h2 class="mb-6 text-useCases-header">Use cases</h2>
+      <p class="text-useCases-subHeader">
+        Use LiveCompositor for video conferencing, live-streaming,<br />broadcasting, and more.
+      </p>
+    </div>
+    <Image src={useCasesWave} alt="gradient" class="absolute -left-20 top-1/4 -z-10" />
+    <div class="flex flex-1 flex-col gap-y-6">
+      {USE_CASES.map((useCase, index) => <UseCaseItem {...useCase} active={index === 0} />)}
+    </div>
+  </div>
+</section>

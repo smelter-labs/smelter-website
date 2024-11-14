@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+
+const { index, text, image, indexImage } = Astro.props;
+---
+
+<div
+  class="flex h-full flex-1 rounded-4xl bg-gradient-to-b from-explanation-borderFrom to-explanation-borderTo p-px">
+  <div class="h-full rounded-[calc(2rem-1px)] bg-explanation-background">
+    <div class="relative z-0 flex h-full flex-col justify-between p-6 pt-18 text-center">
+      <Image src={indexImage} alt={`step ${index + 1}`} class="absolute top-10 -z-10 self-center" />
+      <h3 class="text-explanation-text" set:html={text} />
+
+      <div class="mt-6 flex items-center justify-center">
+        <Image src={image} alt={`step ${index} image`} />
+      </div>
+    </div>
+  </div>
+</div>

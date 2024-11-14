@@ -1,14 +1,46 @@
 ---
-import TokenwindSwitch from '../components/tokenwind/TokenwindSwitch';
+import Image from 'astro/components/Image.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+import PrimaryButton from '../components/base/buttons/PrimaryButton.astro';
+import CapabilitiesSection from '../components/capabilities/CapabilitiesSection.astro';
+import UseCasesSection from '../components/use-cases/UseCasesSection.astro';
+import ExplanationSection from '../components/explanation/ExplanationSection.astro';
+
+import swmLogo from '../assets/swm-logo.svg';
+import tempHero from '../assets/temp-hero.svg';
+import arrowRight from '../assets/arrow-right.svg';
+import ContactForm from '../components/ContactForm.astro';
+import UsageSection from '../components/usage/UsageSection.astro';
 ---
 
 <MainLayout>
-  <main class="bg-mainBackground">
-    <h1 class="text-3xl font-bold text-hero-title underline">Live compositor</h1>
-    <p>Try to toggle the theme!</p>
-    <div class="flex justify-center">
-      <TokenwindSwitch client:only="react" />
+  <main class="px-20 pt-6">
+    <div class="flex flex-col items-center justify-center">
+      <div class="mb-8 flex gap-x-2">
+        <p class="par-xs text-hero-authorLabel">Created by</p>
+        <Image src={swmLogo} alt="SoftwareMansion logo" class="fill-hero-authorLabel" />
+      </div>
+      <div class="flex flex-col gap-y-4 text-center">
+        <h1 class="text-hero-title">Mix video and audio with low latency.</h1>
+        <p class="par-l text-hero-subtitle">
+          Media server for real-time, low latency, programmable video and audio mixing.
+        </p>
+      </div>
+
+      <div class="mb-14 mt-16">
+        <Image src={tempHero} alt="Temp hero" />
+      </div>
+      <a href="/docs" style="text-decoration: none; color: inherit;">
+        <PrimaryButton>
+          <p class="par-xl">Visit the docs</p>
+          <Image src={arrowRight} alt="Visit docs" />
+        </PrimaryButton>
+      </a>
     </div>
+    <ExplanationSection />
+    <UseCasesSection />
+    <UsageSection />
+    <CapabilitiesSection />
+    <ContactForm />
   </main>
 </MainLayout>
