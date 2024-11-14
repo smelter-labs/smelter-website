@@ -16,6 +16,13 @@ export const LIGHT_THEME = {
       docsGradientFrom: COLORS.secondary100,
       docsGradientTo: COLORS.primary100,
     },
+    explanation: {
+      header: COLORS.black100,
+      text: COLORS.black100,
+      background: COLORS.white100,
+      borderFrom: COLORS.secondary100,
+      borderTo: COLORS.primary100,
+    },
     usage: {
       header: COLORS.black100,
       subHeader: COLORS.secondary60,

@@ -2,7 +2,9 @@
 import Image from 'astro/components/Image.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import PrimaryButton from '../components/base/buttons/PrimaryButton.astro';
-import CapabilitiesSection from '../components/capabilities /CapabilitiesSection.astro';
+import CapabilitiesSection from '../components/capabilities/CapabilitiesSection.astro';
+import UseCasesSection from '../components/use-cases/UseCasesSection.astro';
+import ExplanationSection from '../components/explanation/ExplanationSection.astro';
 
 import swmLogo from '../assets/swm-logo.svg';
 import tempHero from '../assets/temp-hero.svg';
@@ -35,6 +37,8 @@ import UsageSection from '../components/usage/UsageSection.astro';
         </PrimaryButton>
       </a>
     </div>
+    <ExplanationSection />
+    <UseCasesSection />
     <UsageSection />
     <CapabilitiesSection />
     <ContactForm />
