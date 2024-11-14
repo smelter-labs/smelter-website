@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import PageSearch from './PageSearch.astro';
 
 import compositorLogo from '../../assets/navigation/compositor-logo.svg';
 import discordLogo from '../../assets/navigation/discord-logo.svg';
@@ -11,7 +10,6 @@ import githubLogo from '../../assets/navigation/github-logo.svg';
   <nav class="flex h-20 justify-between px-20">
     <Image src={compositorLogo} alt="Compositor logo" class="fill-nav-icon" />
     <div class="flex gap-x-6">
-      <PageSearch />
       <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon" />
       <Image src={githubLogo} alt="Github logo" class="fill-nav-icon" />
     </div>
