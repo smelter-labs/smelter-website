@@ -1,6 +1,6 @@
 ---
-title: Example Reference
-description: A reference page in my new Starlight docs site.
+title: Input Stream
+description: Test input stream
 ---
 
 Reference pages are ideal for outlining how things work in terse and clear terms.

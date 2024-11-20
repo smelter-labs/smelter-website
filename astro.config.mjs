@@ -8,21 +8,21 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'My Docs',
+      title: 'Live compositor',
       social: {
-        github: 'https://github.com/withastro/starlight',
+        github: 'https://github.com/software-mansion/live-compositor',
       },
       sidebar: [
         {
-          label: 'Guides',
+          label: 'Fundamentials',
           items: [
             // Each item here is one entry in the navigation menu.
-            { label: 'Example Guide', slug: 'guides/example' },
+            { label: 'Getting started', slug: 'fundamentials/getting-started' },
           ],
         },
         {
-          label: 'Reference',
-          autogenerate: { directory: 'reference' },
+          label: 'Components',
+          autogenerate: { directory: 'components' },
         },
       ],
     }),
