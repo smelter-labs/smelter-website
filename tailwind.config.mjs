@@ -2,6 +2,7 @@ import { DARK_THEME } from './styles/themes/darkTheme';
 import { LIGHT_THEME } from './styles/themes/lightTheme';
 import { generateTheme, generateTokenWindMap } from './styles/themes/themeGenerator';
 import tokenWind from './styles/themes/tokenWind';
+import starlightPlugin from '@astrojs/starlight-tailwind';
 
 const colors = { ...generateTheme(LIGHT_THEME, false) };
 const darkColors = { ...generateTheme(DARK_THEME, true) };
@@ -29,7 +30,7 @@ export default {
     },
   },
   darkMode: 'selector',
-  plugins: [tokenWind],
+  plugins: [tokenWind, starlightPlugin()],
   tokenWind: {
     colorMap: tokenWindColorMap,
   },

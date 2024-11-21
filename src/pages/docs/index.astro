@@ -4,4 +4,7 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 
 <StarlightPage frontmatter={{ title: 'Live compositor docs' }}>
   <p>Live compositor docs page</p>
+  <style is:global>
+    @import '../../../styles/global.css';
+  </style>
 </StarlightPage>
