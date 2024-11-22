@@ -80,10 +80,6 @@ body {
   line-height: 160%;
 }
 
-ul {
-  list-style: disc !important;
-}
-
 @layer components {
   .par-xl {
     font-family: Aeonik;
