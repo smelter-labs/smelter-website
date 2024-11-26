@@ -1,3 +1,45 @@
 ---
 title: InputStream
 ---
+import { Aside, Code } from '@astrojs/starlight/components';
+import inputStreamExample from './examples/inputStream.tsx?raw';
+
+A component for displaying registered media inputs.
+
+<Aside>To use this component, you need to first register the image with a matching `inputId` using the [`LiveCompositor.registerInput`]() function.</Aside>
+
+## Example
+
+<Code code={inputStreamExample} title='InputStreamExample.tsx' lang='tsx' collapse={["1-5", "19-47"]} mark='4-6' />
+
+## Props
+
+
+### inputId
+ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
+
+- Type: `string`
+
+---
+
+### id
+ID of a component.
+
+- Type: `string`
+- Default value: Value produced by useId hook
+
+---
+
+### volume
+Audio volume of the input stream. Accepts values between 0 and 1.
+
+- Type: `number`
+- Default value: 1
+
+---
+
+### mute
+Determines whether to mute audio of the input stream.
+
+- Type: `boolean`
+- Default value: false
