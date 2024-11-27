@@ -6,6 +6,8 @@ import shaderExample from './examples/Shader.tsx?raw';
 
 Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Live Compositor, please visit [Shaders documentation]().
 
+<Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`LiveCompositor.registerShader`]() function.</Aside>
+
 ## Example
 
 <Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["1-58"]} mark='4-6' />

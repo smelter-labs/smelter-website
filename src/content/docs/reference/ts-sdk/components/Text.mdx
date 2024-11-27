@@ -1,3 +1,34 @@
 ---
 title: Text
 ---
+import { Aside, Code } from '@astrojs/starlight/components';
+import textExample from './examples/Text.tsx?raw';
+
+A component for rendering text.
+
+## Example
+
+<Code code={textExample} title='Text.tsx' lang='tsx' collapse={["1-4", "14-36"]} />
+
+## Props
+
+### children
+Text content to be displayed.
+
+- Type: `string | number | (string | number)[]`
+
+---
+
+### id
+ID of a component.
+
+- Type: `string`
+- Default value: Value produced by useId hook
+
+---
+
+### style
+Text styling properties.
+
+- Type: [`TextStyleProps`](/reference/ts-sdk/props/text-style-props)
+
