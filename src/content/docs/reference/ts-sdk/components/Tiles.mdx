@@ -1,3 +1,78 @@
 ---
 title: Tiles
 ---
+import { Aside, Code } from '@astrojs/starlight/components';
+import tilesExample from './examples/Tiles.tsx?raw';
+
+Tiles is a layout component that arranges all child components side by side, optimizing the use of available space. It divides its area into multiple rectangles or tiles, assigning one to each child component. Each of these rectangles is of equal size and they do not overlap.
+
+## Example
+
+<Code code={tilesExample} title='TilesExample.tsx' lang='tsx' collapse={["1-5", "25-71"]} />
+
+## Positioning
+
+### Absolute
+A component is absolutely positioned when it specifies style properties such as `top`, `left`, `right`, `bottom`, or `rotation`. These properties determine the component's position relative to its parent. However, the parent component must support absolute positioning for these values to take effect.
+
+<Aside type='caution'><ul><li>Tiles **do not** support absolute positioning for its child components. All children will still be rendered, but all fields like top, left, right, bottom, and rotation will be ignored.</li>
+<li>Tiles **cannot** be absolutely positioned relative to its parent.</li></ul></Aside>
+
+
+### Static
+The component determines the number of rows and columns in which children should be placed, based on several factors:
+- The size of the `Tiles` component.
+- The aspect ratio of a single tile (specified by the `titleAspectRatio` field).
+- The number of child components.
+
+An optimal configuration of rows and columns aims to utilize the largest possible area of the component. Children are positioned in the order they appear, from left to right, and arranged row-by-row from top to bottom.
+
+The placement and sizing behavior of child components varies depending on their type, as detailed in the table below:
+
+  <table>
+    <tr>
+      <th><strong>Component Type</strong></th>
+      <th><strong>Behavior</strong></th>
+    </tr>
+    <tr>
+      <td><strong>Non-layout Component</strong></td>
+      <td>Scales proportionally to fit inside the parent. If the aspect ratios do not match, the component will be centered vertically or horizontally.</td>
+    </tr>
+    <tr>
+      <td><strong>Layout Component</strong></td>
+      <td>Takes the width and height of a tile, ignoring its own width/height fields if they are defined.</td>
+    </tr>
+  </table>
+
+
+## Transitions
+
+## Props
+
+### children
+Text content to be displayed.
+
+- Type: `string | number | (string | number)[]`
+
+---
+
+### id
+ID of a component.
+
+- Type: `string`
+- Default value: Value produced by useId hook
+
+---
+
+### style
+Tiles styling properties.
+
+- Type: [`TilesStyleProps`](/reference/ts-sdk/props/tiles-style-props)
+
+
+---
+
+### transition
+Defines how this component will behave during a scene update. This will only have an effect if the previous scene already contained a `Rescaler` component with the same id.
+
+- Type: `Transition`
