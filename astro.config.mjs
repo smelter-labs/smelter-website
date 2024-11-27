@@ -71,6 +71,11 @@ export default defineConfig({
               collapsed: true,
               autogenerate: { directory: 'reference/ts-sdk/renderers' },
             },
+            {
+              label: 'Props',
+              collapsed: true,
+              autogenerate: { directory: 'reference/ts-sdk/props' },
+            },
           ],
         },
         {

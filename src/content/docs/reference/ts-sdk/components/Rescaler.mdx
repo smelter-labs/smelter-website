@@ -1,3 +1,42 @@
 ---
 title: Rescaler
 ---
+import { Aside, Code } from '@astrojs/starlight/components';
+import rescalerExample from './examples/Rescaler.tsx?raw';
+
+A layout component responsible for rescaling other components.
+
+## Example
+
+<Code code={rescalerExample} title='RescalerExample.tsx' lang='tsx' collapse={["1-5", "17-55"]} mark='4-6' />
+
+## Props
+
+
+### children
+A single child component to be rescaled.
+
+- Type: `ReactElement`
+
+---
+
+### id
+ID of a component.
+
+- Type: `string`
+- Default value: Value produced by useId hook
+
+---
+
+### style
+Rescaler styling properties.
+
+- Type: [`RescalerStyleProps`](/reference/ts-sdk/props/rescaler-style-props)
+
+
+---
+
+### transition
+Defines how this component will behave during a scene update. This will only have an effect if the previous scene already contained a `Rescaler` component with the same id.
+
+- Type: `Transition`
