@@ -60,9 +60,9 @@ Adding, removing, or reordering `Tiles` content requires a method to identify ch
 ## Props
 
 ### children
-Text content to be displayed.
+Content to be displayed within the `Tile`.
 
-- Type: `string | number | (string | number)[]`
+- Type: `ReactNode`
 
 ---
 
@@ -83,6 +83,6 @@ Tiles styling properties.
 ---
 
 ### transition
-Defines how this component will behave during a scene update. This will only have an effect if the previous scene already contained a `Rescaler` component with the same id.
+Specification of the transition properties to be applied while reordering `Tiles` children
 
 - Type: `Transition`
