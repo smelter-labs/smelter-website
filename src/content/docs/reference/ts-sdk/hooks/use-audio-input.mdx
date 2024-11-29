@@ -1,0 +1,27 @@
+---
+title: useAudioInput
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import useAudioInput from './examples/useAudioInput.tsx?raw';
+
+`useAudioInput` can be used to control audio configuration. If you're using the `InputStream` component, you can use the `mute` and `volume` properties to control the audio instead.
+
+<Aside type='caution'>Adding this hook more than once for the specific input will sum the volume from all hooks.</Aside>
+
+## Example
+
+<Code code={useAudioInput} title='useAudioInputExample.tsx' lang='tsx' collapse={['1-5', '17-48']} />
+
+## Arguments
+
+### inputId
+ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
+
+- Type: `string`
+
+---
+
+### audioOptions
+Number between 0 and 1 representing the audio volume
+
+- Type: `{volume: number}`
