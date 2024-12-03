@@ -5,6 +5,14 @@ import { Aside, Code } from '@astrojs/starlight/components';
 
 TypeScript SDK is a library that provides a set of React components, hooks, and utility functions you can use to control how Live Compositor manipulates videos. In this section, we'll briefly describe its interface so you can get the general impression of how to process multimedia using Live Compositor TypeScript SDK. 
 
+### LiveCompositor
+The primary element required to start using the Live Compositor TypeScript SDK is the `LiveCompositor` class. This class is crucial for initializing and managing the Live Compositor server instance. You can import `LiveCompositor` class from:    
+    - `@live-compositor/node`
+    - `@live-compositor/node`
+    - `@live-compositor/node`
+
+Visit [LiveCompositor class documentation](/reference/ts-sdk/live-compositor) for more details
+
 ### Components
 Live Compositor TypeScript SDK draws heavy inspiration from React Native in terms of the synthax. It's important to note that standard DOM components, such as `<div/>`, are not supported. Instead, you should use LiveCompositor-specific components, such as:
 - [Image](/reference/ts-sdk/components/image)
@@ -35,7 +43,7 @@ You can handle most of the stream composing by using React components. However, 
 
 After registering the stream, you can use it in composition by using [InputStream](/) component. 
 
-<Code code={`<InputStream inputId="example_input" />`} lang="js" />
+<Code code={`<InputStream inputId="example_input" />`} lang="tsx" />
 
 ### Outputs
 Similar to inputs, outputs require registering them before they can be utilized. You can register an output by using `LiveCompositor.registerOutput`. Currently, we support the same output types as input types:

@@ -46,6 +46,7 @@ export default defineConfig({
           label: 'TypeScript SDK',
           items: [
             { label: 'Overview', slug: 'reference/ts-sdk/overview' },
+            { label: 'LiveCompositor', slug: 'reference/ts-sdk/live-compositor' },
             {
               label: 'Components',
               collapsed: true,
