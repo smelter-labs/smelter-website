@@ -1,3 +1,38 @@
 ---
 title: Image
 ---
+import { Code } from '@astrojs/starlight/components';
+
+Represents an image asset uploaded to the compositor. Used by an [Image component]().
+
+<Code code={`import { Renderers } from "live-compositor"`} lang='tsx' />
+
+## Renderers.RegisterImage
+
+### Properties
+
+#### assetType
+Image format.
+
+- Type: `"jpeg" | "png" | "gif" | "svg"`
+
+---
+
+#### url
+URL for downloading an image. This field cannot be used together with the path field.
+
+- Type: `string`
+
+---
+
+#### serverPath
+Path to an image, specifying its location on the server where the LiveCompositor is deployed.
+
+- Type: `string`
+
+---
+
+#### resolution
+The resolution to use when rendering an SVG image.
+
+- Type: `string`
