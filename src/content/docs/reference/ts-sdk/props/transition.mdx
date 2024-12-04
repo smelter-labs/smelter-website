@@ -1,16 +1,13 @@
 ---
-title: Shader
+title: Transition
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
-import shaderExample from './examples/Shader.tsx?raw';
 
 Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Live Compositor, please visit [Shaders documentation]().
 
 <Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`LiveCompositor.registerShader`]() function.</Aside>
 
 ## Example
-
-<Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["1-58"]} mark='4-6' />
 
 ## Props
 
@@ -49,36 +46,3 @@ Object that will be serialized into a struct and passed to the shader as `@group
 Resolution of the texture where shader will be executed.
 
 - Type: `{ width: number; height: number;}`
-
-## ShaderParam
-
-<Code code={`
-type ShaderParam = 
-  | { type: "f32"; value: f32; }
-  | { type: "u32"; value: u32; }
-  | { type: "i32"; value: i32; }
-  | { type: "list"; value: ShaderParam[]; }
-  | {
-      type: "struct";
-      value: ShaderParamStructField[];
-    }
-`} lang='tsx'/>
-
-## ShaderParamStructField
-
-<Code code={`
-type ShaderParamStructField = 
-  | { field_name: string; type: "f32"; value: f32; }
-  | { field_name: string; type: "u32"; value: u32; }
-  | { field_name: string; type: "i32"; value: i32; }
-  | {
-      field_name: string;
-      type: "list";
-      value: ShaderParam[];
-    }
-  | {
-      field_name: string;
-      type: "struct";
-      value: ShaderParamStructField[];
-    }
-`} lang='tsx'/>
