@@ -2,6 +2,7 @@
 title: RTP
 ---
 import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 **add more details** An input type that allows streaming video and audio to the compositor over RTP.
 
@@ -9,6 +10,19 @@ import { Code } from '@astrojs/starlight/components';
 
 ## Inputs.RegisterRtpInput
 Parameters for an input stream from RTP source. At least one of video and audio has to be defined.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterRtpInput = {
+    port: string | u16;
+    transportProtocol?: "udp" | "tcp_server";
+    video?: Inputs.InputRtpVideoOptions;
+    audio?: Inputs.InputRtpAudioOptions;
+    required?: bool;
+    offsetMs?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -59,6 +73,14 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 ## Inputs.InputRtpVideoOptions
 Parameters of a video source included in the RTP stream.
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputRtpVideoOptions = {
+    decoder: "ffmpeg_h264";
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties
 
 #### decoder
@@ -68,6 +90,21 @@ UDP port or port range for the compositor to listen to incoming streams.
 
 ## Inputs.InputRtpAudioOptions
 Parameters of a audio source included in the RTP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputRtpAudioOptions = 
+  | {
+      decoder: "opus";
+      forwardErrorCorrection?: bool;
+    }
+  | {
+      decoder: "aac";
+      audioSpecificConfig: string;
+      rtpMode?: "low_bitrate" | "high_bitrate";
+    }
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties (decoder: "opus")
 

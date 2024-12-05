@@ -3,14 +3,30 @@ title: Shader
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import shaderExample from './examples/Shader.tsx?raw';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Live Compositor, please visit [Shaders documentation]().
 
 <Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`LiveCompositor.registerShader`]() function.</Aside>
 
-## Example
+## Reference
 
 <Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["1-58"]} mark='4-6' />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type ShaderProps = {
+    id?: string;
+    children?: ReactElement[];
+    shaderId: string;
+    shaderParam?: ShaderParam;
+    resolution: {
+      width: number;
+      height: number;
+    };
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ## Props
 

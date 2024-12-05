@@ -2,6 +2,7 @@
 title: RTP
 ---
 import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 **add more details** An output type that allows streaming video and audio from the compositor over RTP.
 
@@ -9,6 +10,18 @@ import { Code } from '@astrojs/starlight/components';
 
 ## Outputs.RegisterRtpOutput
 Parameters for an RTP output stream from the compositor.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RtpOutputStream = {
+    port: string | number;
+    ip?: string;
+    transportProtocol?: "udp" | "tcp_server";
+    video?: Outputs.RtpVideoOptions;
+    audio?: Outputs.RtpAudioOptions;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -57,6 +70,20 @@ Parameters of an audio source included in the RTP stream.
 ## OutputRtpVideoOptions
 Parameters of a video source included in the RTP stream.
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RtpVideoOptions = {
+    resolution: {
+      width: number;
+      height: number;
+    };
+    sendEosWhen?: Outputs.OutputEndCondition;
+    encoder: Outputs.RtpVideoEncoderOptions;
+    root: React.ReactElement;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties
 
 #### resolution
@@ -88,6 +115,26 @@ Root of a component tree/scene that should be rendered for the output.
 ## RtpVideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RtpVideoEncoderOptions = {
+      type: "ffmpeg_h264";
+      preset: 
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      ffmpegOptions?: Map<string, string>;
+    }
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties (type: “ffmpeg_h264”)
 
 #### preset
@@ -116,6 +163,19 @@ Raw FFmpeg encoder options. Visit [FFmpeg docs](https://ffmpeg.org/ffmpeg-codecs
 
 ## RtpAudioOptions
 Parameters of an audio source included in the RTP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RtpAudioOptions = {
+    mixingStrategy?: "sum_clip" | "sum_scale";
+    sendEosWhen?: Outputs.OutputEndCondition;
+    encoder: Outputs.RtpAudioEncoderOptions;
+    initial?: {
+      inputs: Outputs.InputAudio[];
+    };
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -152,6 +212,16 @@ Initial audio mixer configuration for the output.
 ## RtpAudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RtpAudioEncoderOptions = {
+      type: "opus";
+      channels: "mono" | "stereo";
+      preset?: "quality" | "voip" | "lowest_latency";
+    }
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties(type: "opus")
 
 #### channels
@@ -184,6 +254,16 @@ By default, the input stream is considered finished/ended when:
 - MP4 track has ended.
 - Input was unregistered already (or never registered).
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type OutputEndCondition = 
+    | { anyOf: string[]; }
+    | { allOf: string[]; }
+    | { anyInput: boolean; }
+    | { allInputs: boolean; };
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties
 
 #### anyOf
@@ -214,6 +294,15 @@ Terminate the output stream only when all input streams have finished. Notably, 
 
 ## InputAudio
 Audio input information.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputAudio = {
+    inputId: string;
+    volume?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 

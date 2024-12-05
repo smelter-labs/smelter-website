@@ -3,12 +3,23 @@ title: Text
 ---
 import { Code } from '@astrojs/starlight/components';
 import textExample from './examples/Text.tsx?raw';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 A component for rendering text.
 
-## Example
+## Reference
 
 <Code code={textExample} title='TextExample.tsx' lang='tsx' collapse={["1-4", "12-39"]} />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type TextProps = {
+    id?: string;
+    children?: (string | number)[] | string | number;
+    style?: TextStyleProps;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ## Props
 

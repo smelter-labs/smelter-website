@@ -2,47 +2,28 @@
 title: Transition
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
-Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Live Compositor, please visit [Shaders documentation]().
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type Transition {
+    durationMs: number;
+    easingFunction?: EasingFunction | null;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
-<Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`LiveCompositor.registerShader`]() function.</Aside>
+### Props
 
-## Example
+#### durationMs
+Duration of a transition in milliseconds.
 
-## Props
-
-### shaderId
-ID of a shader. It identifies a shader registered using a [LiveCompositor.registerShader]() method.
-
-- Type: `string`
-
----
-
-### children
-A single child component to be transformed.
-
-- Type: `ReactNode`
+- **Type**: `number`
 
 ---
 
-### id
-ID of a component.
+#### easingFunction
+Easing function to be used for the transition.
 
-- Type: `string`
-- Default value: Value produced by `useId` hook
-
----
-
-### shaderParam
-Object that will be serialized into a struct and passed to the shader as `@group(1) @binding(0) var<uniform>`. ShaderParam object must match the structure defined in a shader source code.
-
-- Type: [`ShaderParam`](/reference/ts-sdk/props/rescaler-style-props)
-
-<Aside>Right now, we don't handle memory layout automatically. To get the correct memory alignment, you might need to add some extra fields as padding. Visit the [WGSL documentation]() for more details.</Aside>
-
----
-
-### resolution
-Resolution of the texture where shader will be executed.
-
-- Type: `{ width: number; height: number;}`
+- **Type**: [`EasingFunction`]()
+- **Default value**: `"linear"`

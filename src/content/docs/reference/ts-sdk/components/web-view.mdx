@@ -3,6 +3,7 @@ title: WebView
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import viewExample from './examples/WebView.tsx?raw';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 `WebView` renders a website using Chromium engine embedded inside the compositor.
 
@@ -10,9 +11,19 @@ import viewExample from './examples/WebView.tsx?raw';
 
 <Aside type='caution'>Only one component can use specific `instanceId` at the time.</Aside>
 
-## Example
+## Reference
 
 <Code code={viewExample} title='WebViewExample.tsx' lang='tsx' collapse={["1-4", "14-36"]} />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type WebView = {
+    id?: string;
+    children?: ReactElement[];
+    instanceId: string;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ## Props
 

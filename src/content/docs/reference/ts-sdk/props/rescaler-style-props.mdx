@@ -2,23 +2,26 @@
 title: RescalerStyleProps
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RescalerStyleProps = {
+    mode?: "fit" | "fill";
+    horizontalAlign?: "left" | "right" | "justified" | "center";
+    verticalAlign?: "top" | "center" | "bottom" | "justified";
+    width?: number;
+    height?: number;
+    top?: number;
+    left?: number;
+    bottom?: number;
+    right?: number;
+    rotation?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Props
-
-#### id
-Id of a component.
-
-- Type: `string`
-- Default value: Value produced by `useId` hook
-
----
-
-#### children
-List of component's children.
-
-- Type: `ReactNode`
-
----
 
 #### mode
 Content resize mode.
@@ -98,13 +101,6 @@ Vertical alignment.
 
 - Type: `"top" | "center" | "bottom" | "justified"`
 - Default value: `"center"`
-
----
-
-#### transition
-Defines how this component will behave during a scene update. This will only have an effect if the previous scene already contained a `Rescaler` component with the same `id`.
-
-- Type: `Transition`
 
 ---
 

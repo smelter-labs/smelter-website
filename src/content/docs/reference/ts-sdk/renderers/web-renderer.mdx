@@ -2,14 +2,32 @@
 title: WebRenderer
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 <Code code={`import { Renderers } from "live-compositor"`} lang='tsx' />
 
 Represents an instance of a website rendered using Chromium embedded in the compositor. It is utilized by a WebView component. Ensure that the compositor supports web rendering before utilizing the web renderer.
 
+<Aside>You need to enable `LIVE_COMPOSITOR_WEB_RENDERER_ENABLE` environment variable to use web rendering capabilities.</Aside>
 <Aside type='caution'>Only one component can use specific instance at the time.</Aside>
 
 ## Renderers.RegisterWebRenderer
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterWebRenderer = {
+    url: string;
+    resolution: {
+      width: number;
+      height: number;
+    };
+    embeddingMethod?: 
+      | "chromium_embedding"
+      | "native_embedding_over_content"
+      | "native_embedding_under_content";
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 

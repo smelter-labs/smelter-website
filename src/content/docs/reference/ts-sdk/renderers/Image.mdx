@@ -2,12 +2,31 @@
 title: Image
 ---
 import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 Represents an image asset uploaded to the compositor. Used by an [Image component]().
 
 <Code code={`import { Renderers } from "live-compositor"`} lang='tsx' />
 
 ## Renderers.RegisterImage
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterImage = {
+    | { assetType: "png"; url?: string; serverPath?: string; }
+    | { assetType: "jpeg"; url?: string; serverPath?: string; }
+    | { assetType: "gif"; url?: string; serverPath?: string; }
+    | { 
+        assetType: "svg";
+        url?: string;
+        serverPath?: string;
+        resolution?: {
+          width: u32,
+          height: u32,
+        };
+      }
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 

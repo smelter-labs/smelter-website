@@ -3,14 +3,25 @@ title: useAudioInput
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import useAudioInput from './examples/useAudioInput.tsx?raw';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 `useAudioInput` can be used to control audio configuration. If you're using the `InputStream` component, you can use the `mute` and `volume` properties to control the audio instead.
 
 <Aside type='caution'>Adding this hook more than once for the specific input will sum the volume from all hooks.</Aside>
 
-## Example
+## Reference
 
 <Code code={useAudioInput} title='useAudioInputExample.tsx' lang='tsx' collapse={['1-5', '17-48']} />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type AudioOptions = {
+    volume: number
+}
+
+function useAudioInput(inputId: Api.InputId, audioOptions: AudioOptions);
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ## Arguments
 

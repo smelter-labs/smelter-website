@@ -2,6 +2,7 @@
 title: MP4
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 An output type that allows saving video and audio from the compositor to MP4 file.
 
@@ -9,6 +10,16 @@ An output type that allows saving video and audio from the compositor to MP4 fil
 
 ## Outputs.RegisterMp4Output
 Parameters for an output stream to MP4 file.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterMp4Output = {
+    serverPath: string;
+    video?: Outputs.Mp4VideoOptions;
+    audio?: Outputs.Mp4AudioOptions;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -33,6 +44,20 @@ Audio track configuration.
 
 ## Mp4VideoOptions
 Video track configuration options.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type Mp4VideoOptions = {
+    resolution: {
+      width: number;
+      height: number;
+    };
+    sendEosWhen?: Outputs.OutputEndCondition;
+    encoder: Outputs.Mp4VideoEncoderOptions;
+    root: React.ReactElement;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -65,6 +90,26 @@ Root of a component tree/scene that should be rendered for the output.
 ## Mp4VideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type Mp4VideoEncoderOptions = {
+      type: "ffmpeg_h264";
+      preset: 
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      ffmpegOptions?: Map<string, string>;
+    }
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties (type: “ffmpeg_h264”)
 
 #### preset
@@ -93,6 +138,19 @@ Raw FFmpeg encoder options. Visit [FFmpeg docs](https://ffmpeg.org/ffmpeg-codecs
 
 ## Mp4AudioOptions
 Parameters of an audio source included in the stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type Mp4AudioOptions = {
+    mixingStrategy?: "sum_clip" | "sum_scale";
+    sendEosWhen?: Outputs.OutputEndCondition;
+    encoder: Outputs.Mp4AudioEncoderOptions;
+    initial: {
+      inputs: Outputs.InputAudio[];
+    };
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -129,6 +187,15 @@ Initial audio mixer configuration for the output.
 ## Mp4AudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
 
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type Mp4AudioEncoderOptions = {
+    type: "aac";
+    channels: "mono" | "stereo";
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
 ### Properties(type: "aac")
 
 #### channels
@@ -147,6 +214,16 @@ By default, the input stream is considered finished/ended when:
 - RTCP Goodbye packet (BYE) was received.
 - MP4 track has ended.
 - Input was unregistered already (or never registered).
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type OutputEndCondition = 
+    | { anyOf: string[]; }
+    | { allOf: string[]; }
+    | { anyInput: boolean; }
+    | { allInputs: boolean; };
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 
@@ -178,6 +255,15 @@ Terminate the output stream only when all input streams have finished. Notably, 
 
 ## InputAudio
 Audio input information.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputAudio = {
+    inputId: string;
+    volume?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Properties
 

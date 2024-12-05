@@ -3,12 +3,24 @@ title: Tiles
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import tilesExample from './examples/Tiles.tsx?raw';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 Tiles is a layout component that arranges all child components side by side, optimizing the use of available space. It divides its area into multiple rectangles or tiles, assigning one to each child component. Each of these rectangles is of equal size and they do not overlap.
 
-## Example
+## Reference
 
 <Code code={tilesExample} title='TilesExample.tsx' lang='tsx' collapse={["1-5", "25-71"]} />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type TilesProps = {
+    id?: string;
+    children: ReactNode;
+    style?: TilesStyleProps;
+    transition?: Transition;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ## Positioning
 

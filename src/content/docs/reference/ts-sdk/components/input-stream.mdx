@@ -3,17 +3,29 @@ title: InputStream
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import inputStreamExample from './examples/InputStream.tsx?raw';
+import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
 
 A component for displaying registered media inputs.
 
 <Aside>To use this component, you need to first register the image with a matching `inputId` using the [`LiveCompositor.registerInput`]() function.</Aside>
 
-## Example
+## Reference
 
 <Code code={inputStreamExample} title='InputStreamExample.tsx' lang='tsx' collapse={["1-5", "19-47"]} mark='4-6' />
 
-## Props
 
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type InputStreamProps = {
+    id?: string;
+    inputId: string;
+    volume?: number;
+    mute?: boolean;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+## Props
 
 ### inputId
 ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
