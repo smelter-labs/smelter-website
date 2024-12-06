@@ -29,15 +29,15 @@ type RegisterRtpInput = {
 #### port
 UDP port or port range for the compositor to listen to incoming streams.
 
-- Type: `string | number`
+- **Type**: `string | number`
 
 ---
 
 #### transportProtocol
 UDP port or port range for the compositor to listen to incoming streams.
 
-- Type: `"udp" | "tcp_server"`
-- Supported values:
+- **Type**: `"udp" | "tcp_server"`
+- **Supported values**:
     - `udp` - UDP protocol.
     -  `tcp_server` - TCP protocol where LiveCompositor is the server side of the connection.
 
@@ -46,29 +46,29 @@ UDP port or port range for the compositor to listen to incoming streams.
 #### video
 Parameters of a video source included in the RTP stream.
 
-- Type: [`InputRtpVideoOptions`]()
+- **Type**: [`InputRtpVideoOptions`]()
 
 ---
 
 #### audio
 Parameters of an audio source included in the RTP stream.
 
-- Type: [`InputRtpAudioOptions`]()
+- **Type**: [`InputRtpAudioOptions`]()
 
 ---
 
 #### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, LiveCompositor will postpone output frames until the stream is received.
 
-- Type: `boolean`
-- Default value: `false`
+- **Type**: `boolean`
+- **Default value**: `false`
 
 ---
 
 #### offsetMs
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
-- Type: `number`
+- **Type**: `number`
 
 ## Inputs.InputRtpVideoOptions
 Parameters of a video source included in the RTP stream.
@@ -86,7 +86,7 @@ type InputRtpVideoOptions = {
 #### decoder
 UDP port or port range for the compositor to listen to incoming streams.
 
-- Type: `"ffmpeg_h264"`
+- **Type**: `"ffmpeg_h264"`
 
 ## Inputs.InputRtpAudioOptions
 Parameters of a audio source included in the RTP stream.
@@ -111,15 +111,15 @@ type InputRtpAudioOptions =
 #### forwardErrorCorrection
 Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit [RFC specification](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7).
 
-- Type: `string`
+- **Type**: `string`
 
 ### Properties (decoder: "aac")
 
 #### audioSpecificConfig
 Configuration encoded in the format described in [RFC 3640](https://datatracker.ietf.org/doc/html/rfc3640#section-4.1).
 
-- Type: `boolean`
-- Default value: `false`
+- **Type**: `boolean`
+- **Default value**: `false`
 
 For detailed instructions on obtaining this value, refer to the information provided in the table below:
 <table>
@@ -152,5 +152,5 @@ For detailed instructions on obtaining this value, refer to the information prov
 #### rtpMode
 Specifies the RFC 3640 mode that should be used when depacketizing this stream. For more information, visit [RFC specification](https://datatracker.ietf.org/doc/html/rfc3640#section-3.3.1)
 
-- Type: `"low_bitrate" | "high_bitrate"`
-- Default value: `"high_bitrate"`
+- **Type**: `"low_bitrate" | "high_bitrate"`
+- **Default value**: `"high_bitrate"`

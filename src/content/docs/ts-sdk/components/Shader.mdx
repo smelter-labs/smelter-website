@@ -33,29 +33,29 @@ type ShaderProps = {
 ### shaderId
 ID of a shader. It identifies a shader registered using a [LiveCompositor.registerShader]() method.
 
-- Type: `string`
+- **Type**: `string`
 
 ---
 
 ### children
 A single child component to be transformed.
 
-- Type: `ReactNode`
+- **Type**: `ReactNode`
 
 ---
 
 ### id
 ID of a component.
 
-- Type: `string`
-- Default value: Value produced by `useId` hook
+- **Type**: `string`
+- **Default value**: Value produced by `useId` hook
 
 ---
 
 ### shaderParam
 Object that will be serialized into a struct and passed to the shader as `@group(1) @binding(0) var<uniform>`. ShaderParam object must match the structure defined in a shader source code.
 
-- Type: [`ShaderParam`](/reference/ts-sdk/props/rescaler-style-props)
+- **Type**: [`ShaderParam`](/reference/ts-sdk/props/rescaler-style-props)
 
 <Aside>Right now, we don't handle memory layout automatically. To get the correct memory alignment, you might need to add some extra fields as padding. Visit the [WGSL documentation]() for more details.</Aside>
 
@@ -64,7 +64,7 @@ Object that will be serialized into a struct and passed to the shader as `@group
 ### resolution
 Resolution of the texture where shader will be executed.
 
-- Type: `{ width: number; height: number;}`
+- **Type**: `{ width: number; height: number;}`
 
 ## ShaderParam
 

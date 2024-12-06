@@ -34,23 +34,23 @@ type RegisterWebRenderer = {
 #### url
 Url of a website that to render.
 
-- Type: `string`
+- **Type**: `string`
 
 ---
 
 #### resolution
 Resulution of the rendered website.
 
-- Type: `{ width: number; height: number;}`
+- **Type**: `{ width: number; height: number;}`
 
 ---
 
 #### embeddingMethod
 Mechanism used to render input frames on the website.
 
-- Type: `"chromium_embedding" | "native_embedding_over_content" | "native_embedding_under_content"`
-- Default value: ???
-- Supported values:
+- **Type**: `"chromium_embedding" | "native_embedding_over_content" | "native_embedding_under_content"`
+- **Default value**: ???
+- **Supported values**:
     - `native_embedding_over_content` - Renders a website without any inputs, then overlays the inputs onto the website.
     - `native_embedding_under_content` - Renders a website without any inputs, then underlays the inputs beneath the website.
     - `chromium_embedding` - Pass raw input frames as JS buffers so they can be rendered, for example, using a `<canvas>` component.

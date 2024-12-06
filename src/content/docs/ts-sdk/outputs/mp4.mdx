@@ -26,21 +26,21 @@ type RegisterMp4Output = {
 #### serverPath
 Path to the MP4 file, specifying its location on the server where the LiveCompositor is deployed.
 
-- Type: `string`
+- **Type**: `string`
 
 ---
 
 #### video
 Video track configuration.
 
-- Type: `Mp4VideoOptions`
+- **Type**: `Mp4VideoOptions`
 
 ---
 
 #### audio
 Audio track configuration.
 
-- Type: `Mp4AudioOptions`
+- **Type**: `Mp4AudioOptions`
 
 ## Mp4VideoOptions
 Video track configuration options.
@@ -64,28 +64,28 @@ type Mp4VideoOptions = {
 #### resolution
 Output resolution in pixels.
 
-- Type: `{ width: number; height: number;}`
+- **Type**: `{ width: number; height: number;}`
 
 ---
 
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- Type: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`]()
 
 ---
 
 #### encoder
 Video encoder options.
 
-- Type: [`RtpVideoEncoderOptions`]()
+- **Type**: [`RtpVideoEncoderOptions`]()
 
 ---
 
 #### root
 Root of a component tree/scene that should be rendered for the output.
 
-- Type: `ReactNode`
+- **Type**: `ReactNode`
 
 ## Mp4VideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
@@ -115,9 +115,9 @@ type Mp4VideoEncoderOptions = {
 #### preset
 Video output encoder preset. Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset) to learn more.
 
-- Type: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
-- Default value: `fast`
-- Supported values:
+- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
+- **Default value**: `fast`
+- **Supported values**:
     - `ultrafast`
     - `superfast`
     - `veryfast`
@@ -134,7 +134,7 @@ Video output encoder preset. Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/En
 #### ffmpegOptions
 Raw FFmpeg encoder options. Visit [FFmpeg docs](https://ffmpeg.org/ffmpeg-codecs.html) to learn more.
 
-- Type: `Map<string, string>`
+- **Type**: `Map<string, string>`
 
 ## Mp4AudioOptions
 Parameters of an audio source included in the stream.
@@ -157,9 +157,9 @@ type Mp4AudioOptions = {
 #### mixingStrategy
 Specifies how audio should be mixed.
 
-- Type: `"sum_clip" | "sum_scale"`
-- Default value: `"sum_clip"`
-- Supported values:
+- **Type**: `"sum_clip" | "sum_scale"`
+- **Default value**: `"sum_clip"`
+- **Supported values**:
     - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
     - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
 
@@ -168,21 +168,21 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- Type: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`]()
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- Type: [`Mp4AudioEncoderOptions`]()
+- **Type**: [`Mp4AudioEncoderOptions`]()
 
 ---
 
 #### initial
 Initial audio mixer configuration for the output.
 
-- Type: [`{inputs: InputAudio[]}`]()
+- **Type**: [`{inputs: InputAudio[]}`]()
 
 ## Mp4AudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
@@ -201,8 +201,8 @@ type Mp4AudioEncoderOptions = {
 #### channels
 Channels configuration
 
-- Type: `"mono" | "stereo"`
-- Supported values:
+- **Type**: `"mono" | "stereo"`
+- **Supported values**:
     - `mono` - Mono audio (single channel).
     - `stereo` - Stereo audio (two channels).
 
@@ -230,28 +230,28 @@ type OutputEndCondition =
 #### anyOf
 List of the input streams. The output stream will terminate if any stream in the list finishes.
 
-- Type: `string[]`
+- **Type**: `string[]`
 
 ---
 
 #### allOf
 List of the input streams. The output stream will terminate when all streams in the list finish.
 
-- Type: `string[]`
+- **Type**: `string[]`
 
 ---
 
 #### anyInput
 Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
 
-- Type: `boolean`
+- **Type**: `boolean`
 
 ---
 
 #### allInputs
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
-- Type: `boolean`
+- **Type**: `boolean`
 
 ## InputAudio
 Audio input information.
@@ -270,11 +270,11 @@ type InputAudio = {
 #### inputId
 ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
 
-- Type: `string`
+- **Type**: `string`
 
 ---
 
 #### volume
 Number between 0 and 1 representing the audio volume
 
-- Type: `number`
+- **Type**: `number`

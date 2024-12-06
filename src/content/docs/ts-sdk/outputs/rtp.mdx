@@ -40,9 +40,9 @@ Depends on the value of the `transportProtocol` field:
 #### transportProtocol
 Transport layer protocol that will be used to send RTP packets.
 
-- Type: `"udp" | "tcp_server"`
-- Default value: `udp`
-- Supported values:
+- **Type**: `"udp" | "tcp_server"`
+- **Default value**: `udp`
+- **Supported values**:
     - `udp` - UDP protocol.
     -  `tcp_server` - TCP protocol where LiveCompositor is the server side of the connection.
 
@@ -58,14 +58,14 @@ IP address to which RTP packets should be sent. This field is only valid if `tra
 #### video
 Parameters of a video source included in the RTP stream.
 
-- Type: [`OutputRtpVideoOptions`]()
+- **Type**: [`OutputRtpVideoOptions`]()
 
 ---
 
 #### audio
 Parameters of an audio source included in the RTP stream.
 
-- Type: [`OutputRtpAudioOptions`]()
+- **Type**: [`OutputRtpAudioOptions`]()
 
 ## OutputRtpVideoOptions
 Parameters of a video source included in the RTP stream.
@@ -89,28 +89,28 @@ type RtpVideoOptions = {
 #### resolution
 Output resolution in pixels.
 
-- Type: `{ width: number; height: number;}`
+- **Type**: `{ width: number; height: number;}`
 
 ---
 
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- Type: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`]()
 
 ---
 
 #### encoder
 Video encoder options.
 
-- Type: [`RtpVideoEncoderOptions`]()
+- **Type**: [`RtpVideoEncoderOptions`]()
 
 ---
 
 #### root
 Root of a component tree/scene that should be rendered for the output.
 
-- Type: `ReactNode`
+- **Type**: `ReactNode`
 
 ## RtpVideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
@@ -140,9 +140,9 @@ type RtpVideoEncoderOptions = {
 #### preset
 Video output encoder preset. Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset) to learn more.
 
-- Type: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
-- Default value: `fast`
-- Supported values:
+- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
+- **Default value**: `fast`
+- **Supported values**:
     - `ultrafast`
     - `superfast`
     - `veryfast`
@@ -159,7 +159,7 @@ Video output encoder preset. Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/En
 #### ffmpegOptions
 Raw FFmpeg encoder options. Visit [FFmpeg docs](https://ffmpeg.org/ffmpeg-codecs.html) to learn more.
 
-- Type: `Map<string, string>`
+- **Type**: `Map<string, string>`
 
 ## RtpAudioOptions
 Parameters of an audio source included in the RTP stream.
@@ -182,9 +182,9 @@ type RtpAudioOptions = {
 #### mixingStrategy
 Specifies how audio should be mixed.
 
-- Type: `"sum_clip" | "sum_scale"`
-- Default value: `"sum_clip"`
-- Supported values:
+- **Type**: `"sum_clip" | "sum_scale"`
+- **Default value**: `"sum_clip"`
+- **Supported values**:
     - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
     - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
 
@@ -193,21 +193,21 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- Type: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`]()
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- Type: [`RtpAudioEncoderOptions`]()
+- **Type**: [`RtpAudioEncoderOptions`]()
 
 ---
 
 #### initial
 Initial audio mixer configuration for the output.
 
-- Type: [`{inputs: InputAudio[]}`]()
+- **Type**: [`{inputs: InputAudio[]}`]()
 
 ## RtpAudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
@@ -227,8 +227,8 @@ type RtpAudioEncoderOptions = {
 #### channels
 Channels configuration
 
-- Type: `"mono" | "stereo"`
-- Supported values:
+- **Type**: `"mono" | "stereo"`
+- **Supported values**:
     - `mono` - Mono audio (single channel).
     - `stereo` - Stereo audio (two channels).
 
@@ -237,9 +237,9 @@ Channels configuration
 #### preset
 Audio output encoder preset.
 
-- Type: `"quality" | "voip" | "lowest_latency"`
-- Default value: `voip`
-- Supported values:
+- **Type**: `"quality" | "voip" | "lowest_latency"`
+- **Default value**: `voip`
+- **Supported values**:
     - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
     - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
     - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
@@ -269,28 +269,28 @@ type OutputEndCondition =
 #### anyOf
 List of the input streams. The output stream will terminate if any stream in the list finishes.
 
-- Type: `string[]`
+- **Type**: `string[]`
 
 ---
 
 #### allOf
 List of the input streams. The output stream will terminate when all streams in the list finish.
 
-- Type: `string[]`
+- **Type**: `string[]`
 
 ---
 
 #### anyInput
 Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
 
-- Type: `boolean`
+- **Type**: `boolean`
 
 ---
 
 #### allInputs
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
-- Type: `boolean`
+- **Type**: `boolean`
 
 ## InputAudio
 Audio input information.
@@ -309,11 +309,11 @@ type InputAudio = {
 #### inputId
 ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
 
-- Type: `string`
+- **Type**: `string`
 
 ---
 
 #### volume
 Number between 0 and 1 representing the audio volume
 
-- Type: `number`
+- **Type**: `number`
