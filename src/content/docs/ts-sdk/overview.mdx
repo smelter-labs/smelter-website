@@ -11,18 +11,18 @@ The primary element required to start using the Live Compositor TypeScript SDK i
     - `@live-compositor/node`
     - `@live-compositor/node`
 
-Visit [LiveCompositor class documentation](/reference/ts-sdk/live-compositor) for more details
+Visit [LiveCompositor class documentation](/ts-sdk/live-compositor) for more details
 
 ### Components
 Live Compositor TypeScript SDK draws heavy inspiration from React Native in terms of the synthax. It's important to note that standard DOM components, such as `<div/>`, are not supported. Instead, you should use LiveCompositor-specific components, such as:
-- [Image](/reference/ts-sdk/components/image)
-- [InputStream](/reference/ts-sdk/components/input-stream)
-- [Rescaler](/reference/ts-sdk/components/rescaler)
-- [Shader](/reference/ts-sdk/components/shader)
-- [Text](/reference/ts-sdk/components/text)
-- [Tiles](/reference/ts-sdk/components/tiles)
-- [View](/reference/ts-sdk/components/view)
-- [WebView](/reference/ts-sdk/components/web-view)
+- [Image](/ts-sdk/components/image)
+- [InputStream](/ts-sdk/components/input-stream)
+- [Rescaler](/ts-sdk/components/rescaler)
+- [Shader](/ts-sdk/components/shader)
+- [Text](/ts-sdk/components/text)
+- [Tiles](/ts-sdk/components/tiles)
+- [View](/ts-sdk/components/view)
+- [WebView](/ts-sdk/components/web-view)
 
 #### Styling
 Live Compositor components can be customized in a way similar to React inline styling. Most of the components accept `style` prop - an object defining custom visual aspects. However, some of the animation-related customizations, such as `transition` are handled by specific dedicated props. 
@@ -31,15 +31,15 @@ Live Compositor components can be customized in a way similar to React inline st
 
 ### Hooks
 Our hooks are primarily designed for managing stream configurations and accessing information about them. Live Compositor currently offers two hooks:
-- [useInputStreams](/reference/ts-sdk/hooks/use-input-streams)
-- [useInputAudio](/reference/ts-sdk/hooks/use-input-audio)
+- [useInputStreams](/ts-sdk/hooks/use-input-streams)
+- [useInputAudio](/ts-sdk/hooks/use-input-audio)
 
 You're free to use any standard React hooks such as `useState`, `useEffect`, and more.
 
 ### Inputs
 You can handle most of the stream composing by using React components. However, delivering multimedia to the compositor requires registering the input beforehand. You can register an input by using [LiveCompositor.registerInput](), which accepts `inputId` and `inputType`. Right now, we support two input types:
-- [MP4](/reference/ts-sdk/inputs/mp4)
-- [RTP](/reference/ts-sdk/inputs/rtp)
+- [MP4](/ts-sdk/inputs/mp4)
+- [RTP](/ts-sdk/inputs/rtp)
 
 After registering the stream, you can use it in composition by using [InputStream](/) component. 
 
@@ -47,11 +47,11 @@ After registering the stream, you can use it in composition by using [InputStrea
 
 ### Outputs
 Similar to inputs, outputs require registering them before they can be utilized. You can register an output by using `LiveCompositor.registerOutput`. Currently, we support the same output types as input types:
-- [MP4](/reference/ts-sdk/outputs/mp4)
-- [RTP](/reference/ts-sdk/outputs/rtp)
+- [MP4](/ts-sdk/outputs/mp4)
+- [RTP](/ts-sdk/outputs/rtp)
 
 ### Renderers
 <b>Describe renerers</b> Right now we support three renderers:
-- [Shader](/reference/ts-sdk/renderers/shader)
-- [Image](/reference/ts-sdk/renderers/image)
-- [WebRenderer](/reference/ts-sdk/renderers/web-renderer)
+- [Shader](/ts-sdk/renderers/shader)
+- [Image](/ts-sdk/renderers/image)
+- [WebRenderer](/ts-sdk/renderers/web-renderer)

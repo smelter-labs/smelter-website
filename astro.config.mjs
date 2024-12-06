@@ -10,10 +10,10 @@ export default defineConfig({
   redirects: {
     '/fundamentials': '/fundamentials/getting-started',
     '/deployment': '/deployment/setup',
-    '/reference/ts-sdk': '/reference/ts-sdk/overview',
-    '/reference/ts-sdk/renderers': '/reference/ts-sdk/renderers/overview',
-    '/reference/http-api': '/reference/http-api/overview',
-    '/reference/http-api/renderers': '/reference/http-api/renderers/overview',
+    '/ts-sdk': '/ts-sdk/overview',
+    '/ts-sdk/renderers': '/ts-sdk/renderers/overview',
+    '/http-api': '/http-api/overview',
+    '/http-api/renderers': '/http-api/renderers/overview',
   },
   integrations: [
     starlight({
@@ -45,67 +45,67 @@ export default defineConfig({
         {
           label: 'TypeScript SDK',
           items: [
-            { label: 'Overview', slug: 'reference/ts-sdk/overview' },
-            { label: 'LiveCompositor', slug: 'reference/ts-sdk/live-compositor' },
+            { label: 'Overview', slug: 'ts-sdk/overview' },
+            { label: 'LiveCompositor', slug: 'ts-sdk/live-compositor' },
             {
               label: 'Components',
               collapsed: true,
-              autogenerate: { directory: 'reference/ts-sdk/components' },
+              autogenerate: { directory: 'ts-sdk/components' },
             },
             {
               label: 'Hooks',
               collapsed: true,
-              autogenerate: { directory: 'reference/ts-sdk/hooks' },
+              autogenerate: { directory: 'ts-sdk/hooks' },
             },
             {
               label: 'Inputs',
               collapsed: true,
-              autogenerate: { directory: 'reference/ts-sdk/inputs' },
+              autogenerate: { directory: 'ts-sdk/inputs' },
             },
             {
               label: 'Outputs',
               collapsed: true,
-              autogenerate: { directory: 'reference/ts-sdk/outputs' },
+              autogenerate: { directory: 'ts-sdk/outputs' },
             },
             {
               label: 'Renderers',
               collapsed: true,
-              autogenerate: { directory: 'reference/ts-sdk/renderers' },
+              autogenerate: { directory: 'ts-sdk/renderers' },
             },
             {
               label: 'Props',
               collapsed: true,
-              autogenerate: { directory: 'reference/ts-sdk/props' },
+              autogenerate: { directory: 'ts-sdk/props' },
             },
           ],
         },
         {
           label: 'HTTP API',
           items: [
-            { label: 'Overview', slug: 'reference/http-api/overview' },
+            { label: 'Overview', slug: 'http-api/overview' },
             {
               label: 'Events',
-              slug: 'reference/http-api/events',
+              slug: 'http-api/events',
             },
             {
               label: 'Components',
               collapsed: true,
-              autogenerate: { directory: 'reference/http-api/components' },
+              autogenerate: { directory: 'http-api/components' },
             },
             {
               label: 'Inputs',
               collapsed: true,
-              autogenerate: { directory: 'reference/http-api/inputs' },
+              autogenerate: { directory: 'http-api/inputs' },
             },
             {
               label: 'Outputs',
               collapsed: true,
-              autogenerate: { directory: 'reference/http-api/outputs' },
+              autogenerate: { directory: 'http-api/outputs' },
             },
             {
               label: 'Renderers',
               collapsed: true,
-              autogenerate: { directory: 'reference/http-api/renderers' },
+              autogenerate: { directory: 'http-api/renderers' },
             },
           ],
         },

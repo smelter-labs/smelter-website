@@ -1,28 +1,38 @@
 ---
-title: ViewStyleProps
+title: RescalerStyleProps
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../../components/CollapsibleDetails.astro';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type ViewStyleProps = {
+type RescalerStyleProps = {
+    mode?: "fit" | "fill";
+    horizontalAlign?: "left" | "right" | "justified" | "center";
+    verticalAlign?: "top" | "center" | "bottom" | "justified";
     width?: number;
     height?: number;
-    direction?: "row" | "column";
     top?: number;
     left?: number;
     bottom?: number;
     right?: number;
     rotation?: number;
-    transition?: Transition;
-    overflow?: "visible" | "hidden" | "fit";
-    backgroundColor?: string;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
 
 ### Props
+
+#### mode
+Content resize mode.
+
+- Type: `"fit" | "fill"`
+- Default value: `"fit"`
+- Supported values:
+    - `"fit"` - Resizes the component to match one dimension of the parent while ensuring it remains fully visible.
+    - `"fill"` - Resizes the component to cover the entire area of the parent by matching at least one dimension; excess is clipped.
+
+---
 
 #### width
 Width of a component in pixels.
@@ -30,7 +40,7 @@ Width of a component in pixels.
 - Type: `number`
 
 <Aside type='caution'>
-The behavior of the `View` component varies depending on the type of its parent component:
+The behavior of the `Rescaler` component varies depending on the type of its parent component:
 - **Non-layout parent** - When the parent is not a layout component, the `width` property is **required**.
 - **Layout parent** - For parents that are layout components, please refer to the relevant component documentation.
 </Aside>
@@ -43,21 +53,10 @@ Height of a component in pixels.
 - Type: `number`
 
 <Aside type='caution'>
-The behavior of the `View` component varies depending on the type of its parent component:
+The behavior of the `Rescaler` component varies depending on the type of its parent component:
 - **Non-layout parent** - When the parent is not a layout component, the `height` property is **required**.
 - **Layout parent** - For parents that are layout components, please refer to the relevant component documentation.
 </Aside>
-
----
-
-#### direction
-Defines how static children are positioned inside a View component.
-
-- Type: `"row" | "column"`
-- Default value: `"row"`
-- Supported values:
-    - `"row"` - Children are positioned from left to right.
-    - `"column"` - Children are positioned from top to bottom.
 
 ---
 
@@ -89,31 +88,23 @@ Specifies the distance in pixels from the left edge of this component to the lef
 
 ---
 
+#### horizontalAlign
+Horizontal alignment.
+
+- Type: `"left" | "right" | "justified" | "center"`
+- Default value: `"center"`
+
+---
+
+#### verticalAlign
+Vertical alignment.
+
+- Type: `"top" | "center" | "bottom" | "justified"`
+- Default value: `"center"`
+
+---
+
 #### rotation
 Specifies the rotation of a component, measured in degrees. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - Type: `number`
-
----
-
-#### overflow
-Controls the behaviour of the content exceeding the area size.
-
-- Type: `"visible" | "hidden" | "fit"`
-- Default value: `"hidden"`
-- Supported values:
-    - `"visible"` - Render everything, including content that extends beyond their parent.
-    - `"hidden"` - Render only parts of the children that are inside their parent area.
-    - `"fit"` - If children components are too big to fit inside the parent, resize everything inside to fit.
-
-<Aside>When using `fit`, components with unknown sizes are treated as if they had a size of 0 when calculating the scaling factor.</Aside>
-
-<Aside type="caution">`fit` will resize everything inside the parent, including absolutely positioned elements.</Aside>
-
----
-
-#### backgroundColor
-Background color in `#RRGGBBAA` or `#RRGGBB` format.
-
-- Type: `string`
-- Default value: `#00000000`
