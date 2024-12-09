@@ -10,7 +10,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 // https://astro.build/config
 export default defineConfig({
   redirects: {
-    '/fundamentials': '/fundamentials/getting-started',
+    '/fundamentals': '/fundamentals/getting-started',
     '/deployment': '/deployment/setup',
     '/ts-sdk': '/ts-sdk/overview',
     '/ts-sdk/renderers': '/ts-sdk/renderers/overview',
@@ -26,12 +26,12 @@ export default defineConfig({
       customCss: ['./styles/headings.css'],
       sidebar: [
         {
-          label: 'Fundamentials',
+          label: 'Fundamentals',
           items: [
             // Each item here is one entry in the navigation menu.
-            { label: 'Getting started', slug: 'fundamentials/getting-started' },
-            { label: 'How it works', slug: 'fundamentials/how-it-works' },
-            { label: 'Glossary of terms', slug: 'fundamentials/glossary' },
+            { label: 'Getting started', slug: 'fundamentals/getting-started' },
+            { label: 'How it works', slug: 'fundamentals/how-it-works' },
+            { label: 'Glossary of terms', slug: 'fundamentals/glossary' },
           ],
         },
         {
