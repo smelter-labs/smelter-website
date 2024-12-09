@@ -58,14 +58,14 @@ IP address to which RTP packets should be sent. This field is only valid if `tra
 #### video
 Parameters of a video source included in the RTP stream.
 
-- **Type**: [`OutputRtpVideoOptions`]()
+- **Type**: [`OutputRtpVideoOptions`](/ts-sdk/outputs/rtp#outputrtpvideooptions)
 
 ---
 
 #### audio
 Parameters of an audio source included in the RTP stream.
 
-- **Type**: [`OutputRtpAudioOptions`]()
+- **Type**: [`OutputRtpAudioOptions`](/ts-sdk/outputs/rtp#rtpaudiooptions)
 
 ## OutputRtpVideoOptions
 Parameters of a video source included in the RTP stream.
@@ -96,14 +96,14 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`]()
+- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#rtpvideoencoderoptions)
 
 ---
 
@@ -193,21 +193,21 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`]()
+- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#rtpaudioencoderoptions)
 
 ---
 
 #### initial
 Initial audio mixer configuration for the output.
 
-- **Type**: [`{inputs: InputAudio[]}`]()
+- **Type**: [`{inputs: InputAudio[]}`](/ts-sdk/outputs/rtp#inputaudio)
 
 ## RtpAudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
@@ -307,7 +307,7 @@ type InputAudio = {
 ### Properties
 
 #### inputId
-ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
+ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput](/ts-sdk/live-compositor#registerinput) method.
 
 - **Type**: `string`
 

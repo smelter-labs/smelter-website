@@ -1,5 +1,7 @@
 ---
 title: Transition
+sidebar:
+    order: 0
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
@@ -23,7 +25,7 @@ Duration of a transition in milliseconds.
 ---
 
 #### easingFunction
-Easing function to be used for the transition.
+Easing functions are used to interpolate between two values over time during transition. 
 
-- **Type**: [`EasingFunction`]()
+- **Type**: [`EasingFunction`](/ts-sdk/props/easing-function)
 - **Default value**: `"linear"`

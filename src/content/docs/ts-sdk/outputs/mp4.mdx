@@ -71,14 +71,14 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`]()
+- **Type**: [`Mp4VideoEncoderOptions`](/ts-sdk/outputs/mp4#mp4videoencoderoptions)
 
 ---
 
@@ -168,21 +168,21 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`]()
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`Mp4AudioEncoderOptions`]()
+- **Type**: [`Mp4AudioEncoderOptions`](/ts-sdk/outputs/mp4#mp4audioencoderoptions)
 
 ---
 
 #### initial
 Initial audio mixer configuration for the output.
 
-- **Type**: [`{inputs: InputAudio[]}`]()
+- **Type**: [`{inputs: InputAudio[]}`](/ts-sdk/outputs/mp4#inputaudio)
 
 ## Mp4AudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
@@ -268,7 +268,7 @@ type InputAudio = {
 ### Properties
 
 #### inputId
-ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput]() method.
+ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput](/ts-sdk/live-compositor#registerinput) method.
 
 - **Type**: `string`
 

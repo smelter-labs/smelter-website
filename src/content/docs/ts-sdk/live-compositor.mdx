@@ -2,23 +2,33 @@
 title: LiveCompositor
 ---
 import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../components/CollapsibleDetails.astro';
 
 <Code code={`import LiveCompositor from "@live-compositor/node"`} lang="tsx" />
 
 The primary element required to start using the Live Compositor TypeScript SDK is the `LiveCompositor` class. This class is crucial for initializing and managing the Live Compositor server instance.
 
 ## new LiveCompositor()
-<Code code={`new LiveCompositor(manager?: CompositorManager)`} lang="tsx" />
-
 Creates new compositor configuration. You have to call init first before this object can be used.
 
+<Code code={`new LiveCompositor(manager?: CompositorManager)`} lang="tsx" />
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type CompositorManager {
+  setupInstance(): Promise<void>;
+  sendRequest(request: ApiRequest): Promise<object>;
+  registerEventListener(cb: (event: unknown) => void): void;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### Parameters
 
 #### manager
 Configures how the client code will connect and manage `LiveCompositor`. 
 
-- **Type**: [`CompositorManager`]()
+- **Type**: [`CompositorManager`](/ts-sdk/live-compositor#new-livecompositor)
 <br/>
 You have two main configuration options:
 - **Default Configuration:** Use `LocallySpawnedInstance` from `@live-compositor/node` to automatically download the necessary LiveCompositor binaries and launch the server on your local machine.
@@ -46,8 +56,8 @@ LiveCompositor.registerOutput(
 ): Promise<object>`} lang="tsx" />
 
 Register external destination that can be used as a compositor output. Visit output documentation to learn more:
-- [RTP]()
-- [MP4]()
+- [RTP](/ts-sdk/outputs/rtp)
+- [MP4](/ts-sdk/outputs/mp4)
 
 ## unregisterOutput()
 <Code code={`LiveCompositor.unregisterOutput(outputId: string): Promise<void>`} lang="tsx" />
@@ -64,8 +74,8 @@ LiveCompositor.registerInput(
 ): Promise<object>`} lang="tsx" />
 
 Register external source that can be used as a compositor input. Visit input documentation to learn more:
-- [RTP]()
-- [MP4]()
+- [RTP](/ts-sdk/inputs/rtp)
+- [MP4](/ts-sdk/inputs/mp4)
 
 ## unregisterInput()
 <Code code={`LiveCompositor.unregisterInput(inputId: string): Promise<void>`} lang="tsx" />
@@ -81,7 +91,7 @@ LiveCompositor.registerImage(
   image: Renderers.RegisterImage,
 ): Promise<void>`} lang="tsx" />
 
-Register an image asset. See [Renderers.RegisterImage]() to learn more.
+Register an image asset. See [Renderers.RegisterImage](/ts-sdk/renderers/image/#renderersregisterimage) to learn more.
 
 ## unregisterImage()
 <Code code={`LiveCompositor.unregisterImage(imageId: string): Promise<void>`} lang="tsx" />
@@ -97,7 +107,7 @@ LiveCompositor.registerShader(
   shader: Renderers.RegisterShader,
 ): Promise<void>`} lang="tsx" />
 
-Register a shader. See [Renderers.RegisterShader]() to learn more.
+Register a shader. See [Renderers.RegisterShader](/ts-sdk/renderers/shader#renderersregistershader) to learn more.
 
 ## unregisterShader()
 <Code code={`LiveCompositor.unregisterShader(shaderId: string): Promise<void>`} lang="tsx" />
@@ -113,7 +123,7 @@ LiveCompositor.registerWebRenderer(
   instance: Renderers.RegisterWebRenderer,
 ): Promise<object>`} lang="tsx" />
 
-Register a web renderer instance. See [Renderer.RegisterWebRenderer]() to learn more.
+Register a web renderer instance. See [Renderers.RegisterWebRenderer](/ts-sdk/renderers/web-renderer#renderersregisterwebrenderer) to learn more.
 
 ## unregisterWebRenderer()
 <Code code={`LiveCompositor.unregisterWebRenderer(instanceId: string): Promise<void>`} lang="tsx" />
