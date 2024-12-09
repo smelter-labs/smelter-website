@@ -4,6 +4,8 @@ import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
+import { rehypeHeadingIds } from '@astrojs/markdown-remark';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,6 +23,7 @@ export default defineConfig({
       social: {
         github: 'https://github.com/software-mansion/live-compositor',
       },
+      customCss: ['./styles/headings.css'],
       sidebar: [
         {
           label: 'Fundamentials',
@@ -115,4 +118,16 @@ export default defineConfig({
     react(),
     mdx(),
   ],
+  markdown: {
+    rehypePlugins: [
+      rehypeHeadingIds,
+      [
+        rehypeAutolinkHeadings,
+        {
+          // Wrap the heading text in a link.
+          behavior: 'wrap',
+        },
+      ],
+    ],
+  },
 });
