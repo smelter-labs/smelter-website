@@ -32,6 +32,10 @@ export default defineConfig({
             { label: 'Getting started', slug: 'fundamentals/getting-started' },
             { label: 'How it works', slug: 'fundamentals/how-it-works' },
             { label: 'Glossary of terms', slug: 'fundamentals/glossary' },
+            {
+              label: 'Concepts',
+              autogenerate: { directory: 'fundamentals/concepts' },
+            },
           ],
         },
         {
