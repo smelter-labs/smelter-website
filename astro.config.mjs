@@ -84,6 +84,11 @@ export default defineConfig({
               collapsed: true,
               autogenerate: { directory: 'ts-sdk/props' },
             },
+            {
+              label: 'Guides',
+              collapsed: true,
+              autogenerate: { directory: 'ts-sdk/guides' },
+            },
           ],
         },
         {
