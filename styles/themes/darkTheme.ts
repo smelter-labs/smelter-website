@@ -10,11 +10,11 @@ export const DARK_THEME = {
     },
     hero: {
       title: COLORS.white100,
-      subtitle: COLORS.secondary60,
+      subtitle: COLORS.purple20,
       authorLabel: COLORS.white100,
       docsButton: COLORS.white100,
-      docsGradientFrom: COLORS.secondary100,
-      docsGradientTo: COLORS.primary100,
+      docsGradientFrom: COLORS.red40,
+      docsGradientTo: COLORS.purple100,
     },
     explanation: {
       header: COLORS.white100,

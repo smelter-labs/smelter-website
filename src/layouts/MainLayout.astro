@@ -1,7 +1,6 @@
 ---
 import Footer from '../components/base/Footer.astro';
 import NavBar from '../components/navigation/NavBar.astro';
-import TokenwindInit from '../components/tokenwind/TokenwindInit';
 import { ViewTransitions } from 'astro:transitions';
 ---
 
@@ -16,7 +15,6 @@ import { ViewTransitions } from 'astro:transitions';
     <ViewTransitions />
   </head>
   <body class="bg-mainBackground">
-    <TokenwindInit client:only="react" />
     <NavBar />
     <slot />
     <Footer />
