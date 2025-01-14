@@ -107,3 +107,75 @@ body {
     line-height: 160%;
   }
 }
+
+.gradient-red-1 {
+  background: linear-gradient(
+    180deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-2 {
+  background: linear-gradient(
+    360deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-3 {
+  background: linear-gradient(
+    90deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-4 {
+  background: linear-gradient(
+    270deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-5 {
+  background: linear-gradient(
+    135deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-6 {
+  background: linear-gradient(
+    315deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-7 {
+  background: linear-gradient(
+    45deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+.gradient-red-8 {
+  background: linear-gradient(
+    45deg,
+    theme('colors.gradient.red') 0%,
+    theme('colors.gradient.purple') 100%
+  );
+}
+
+.gradient-light-1 {
+  background: linear-gradient(
+    180deg,
+    theme('colors.gradient.redLight') 0%,
+    theme(colors.gradient.black) 100%
+  );
+}
+.gradient-light-2 {
+  background: linear-gradient(
+    117.75deg,
+    theme('colors.gradient.redLight') -0.12%,
+    theme(colors.gradient.black) 100%
+  );
+}

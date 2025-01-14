@@ -1,33 +1,41 @@
 ---
-import heroGradient from '../../assets/hero/gradient.svg';
 import Image from 'astro/components/Image.astro';
 import PrimaryButton from '../../components/base/buttons/PrimaryButton.astro';
 
 import swmLogo from '../../assets/swm-logo.svg';
 import arrowRight from '../../assets/arrow-right.svg';
+import tempHero from '../../assets/hero/temp-hero.svg';
+import heroGradient from '../../assets/hero/gradient.svg';
 ---
 
 <div class="flex h-screen flex-col items-start justify-center">
-  <div class="flex flex-col gap-y-4">
-    <h1 class="text-hero-title">Mix video and audio<br />with low latency.</h1>
-    <p class="par-l text-hero-subtitle">
-      Media server for real-time, low latency, programmable video<br />and audio mixing.
-    </p>
+  <Image src={tempHero} alt="Hero" class="absolute right-0 -z-10" />
+
+  <Image src={heroGradient} alt="Hero" class="absolute -top-28 left-28 -z-20" />
+  <div class="px-40">
+    <div class="mb-8 flex gap-x-2 px-4 py-2">
+      <p class="par-xs text-hero-authorLabel">Created by</p>
+      <Image src={swmLogo} alt="SoftwareMansion logo" class="fill-hero-authorLabel" />
+    </div>
+    <div class="mb-14 flex flex-col gap-y-4">
+      <h1 class="text-hero-title">Mix video and audio<br />with low latency.</h1>
+      <p class="par-l text-hero-subtitle">
+        Media server for real-time, low latency, programmable video<br />and audio mixing.
+      </p>
+    </div>
+    <a href="/docs" style="text-decoration: none; color: inherit;">
+      <PrimaryButton>
+        <p class="par-xl">Visit the docs</p>
+        <Image src={arrowRight} alt="Visit docs" />
+      </PrimaryButton>
+    </a>
   </div>
 
-  <!-- <div class="mb-8 flex gap-x-2">
-    <p class="par-xs text-hero-authorLabel">Created by</p>
-    <Image src={swmLogo} alt="SoftwareMansion logo" class="fill-hero-authorLabel" />
-  </div>
+  <!-- 
 
 
   <div class="mb-14 mt-16">
     <Image src={heroGradient} alt="Temp hero" />
   </div>
-  <a href="/docs" style="text-decoration: none; color: inherit;">
-    <PrimaryButton>
-      <p class="par-xl">Visit the docs</p>
-      <Image src={arrowRight} alt="Visit docs" />
-    </PrimaryButton>
-  </a> -->
+ -->
 </div>

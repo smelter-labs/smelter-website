@@ -16,6 +16,12 @@ export const DARK_THEME = {
       docsGradientFrom: COLORS.red40,
       docsGradientTo: COLORS.purple100,
     },
+    gradient: {
+      red: COLORS.red40,
+      purple: COLORS.purple100,
+      redLight: COLORS.red0,
+      black: COLORS.black100,
+    },
     explanation: {
       header: COLORS.white100,
       text: COLORS.white100,
