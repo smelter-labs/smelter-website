@@ -8,12 +8,12 @@ const { label, text, icon } = Astro.props;
   <div
     class="mb-10 aspect-square w-18 overflow-hidden rounded-2xl border border-capabilities-border">
     <div
-      class="size-full bg-gradient-to-b from-capabilities-gradientFrom to-capabilities-gradientTo">
+      class="from-capabilities-gradientFrom to-capabilities-gradientTo size-full bg-gradient-to-b">
       <div class="flex aspect-square h-full items-center justify-center">
         <Image src={icon} alt="capability icon" />
       </div>
     </div>
   </div>
   <h3 class="mb-4 text-capabilities-header">{label}</h3>
-  <p class="text-capabilities-subHeader">{text}</p>
+  <p class="text-capabilities-subheader">{text}</p>
 </div>

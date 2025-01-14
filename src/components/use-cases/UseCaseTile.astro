@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+
+import flash from '../../assets/use-cases/flash.svg';
+
+const { header, subHeader, image, active } = Astro.props;
+---
+
+<div class:list={['flex flex-1 relative items-center']}>
+  {
+    active && (
+      <Image
+        src={flash}
+        alt={`Active use-case flash`}
+        class="absolute left-1/2 top-[-25px] -z-10 -translate-x-1/2"
+      />
+    )
+  }
+
+  <div
+    class:list={[
+      'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackground ',
+      active ? 'border-gradient-light-1' : 'border border-solid border-useCases-borderInactive',
+    ]}>
+    <div class="flex flex-col justify-between p-10 text-center">
+      <div class="flex flex-col gap-y-2">
+        <h3 class="text-useCases-tileHeader">{header}</h3>
+        <p class="text-useCases-tileSubheader">{subHeader}</p>
+      </div>
+      <div class="mt-6">
+        <Image src={image} alt={`${header} image`} class="aspect-video w-full" />
+      </div>
+    </div>
+  </div>
+</div>

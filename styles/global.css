@@ -179,3 +179,23 @@ body {
     theme('colors.gradient.black') 100%
   );
 }
+
+/* Gradient border with transparent container background support */
+.border-gradient-light-1::before {
+  position: absolute;
+  content: '';
+  inset: 0;
+  border-radius: 32px;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    theme('colors.gradient.redLight') 0%,
+    theme('colors.gradient.black') 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}

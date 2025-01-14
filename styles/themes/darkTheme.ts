@@ -29,20 +29,20 @@ export const DARK_THEME = {
     },
     useCases: {
       header: COLORS.white100,
-      subHeader: COLORS.white100,
-      background: COLORS.black100,
-      borderFrom: COLORS.secondary100,
-      borderTo: COLORS.primary100,
+      subheader: COLORS.purple20,
+      tileHeader: COLORS.white100,
+      tileSubheader: COLORS.white100,
+      tileBackground: COLORS.black75,
       borderInactive: COLORS.white25,
     },
     usage: {
       header: COLORS.white100,
-      subHeader: COLORS.secondary60,
+      subheader: COLORS.secondary60,
       hoverBackground: COLORS.primary15,
     },
     capabilities: {
       header: COLORS.white100,
-      subHeader: COLORS.white100,
+      subheader: COLORS.white100,
       border: COLORS.white25,
     },
     form: {
