@@ -169,13 +169,13 @@ body {
   background: linear-gradient(
     180deg,
     theme('colors.gradient.redLight') 0%,
-    theme(colors.gradient.black) 100%
+    theme('colors.gradient.black') 100%
   );
 }
 .gradient-light-2 {
   background: linear-gradient(
     117.75deg,
     theme('colors.gradient.redLight') -0.12%,
-    theme(colors.gradient.black) 100%
+    theme('colors.gradient.black') 100%
   );
 }

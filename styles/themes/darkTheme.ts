@@ -26,8 +26,6 @@ export const DARK_THEME = {
       header: COLORS.white100,
       text: COLORS.white100,
       background: COLORS.black100,
-      borderFrom: COLORS.secondary100,
-      borderTo: COLORS.primary100,
     },
     useCases: {
       header: COLORS.white100,
