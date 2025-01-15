@@ -6,7 +6,7 @@ import discordLogo from '../../assets/navigation/discord-logo.svg';
 import githubLogo from '../../assets/navigation/github-logo.svg';
 ---
 
-<header class="fixed w-full">
+<header id="pageHeader" class="fixed z-50 w-full bg-transparent">
   <nav class="flex h-20 justify-between px-20">
     <Image src={smelterLogo} alt="Compositor logo" class="fill-nav-icon" />
     <div class="flex gap-x-6">
@@ -15,3 +15,16 @@ import githubLogo from '../../assets/navigation/github-logo.svg';
     </div>
   </nav>
 </header>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    const header = document.getElementById('pageHeader');
+
+    window.addEventListener('scroll', () => {
+      const scrollDistanceLimit = 100;
+      const alphaDecimal = Math.min(128, (window.scrollY / scrollDistanceLimit) * 128);
+      const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, '0');
+      if (header) header.style.backgroundColor = `#161127${alphaHex}`;
+    });
+  });
+</script>
