@@ -37,12 +37,15 @@ export const DARK_THEME = {
     },
     usage: {
       header: COLORS.white100,
-      subheader: COLORS.secondary60,
-      hoverBackground: COLORS.primary15,
+      subheader: COLORS.purple20,
+      tileHeader: COLORS.white100,
+      tileText: COLORS.white100,
+      hoverBackground: COLORS.black75,
     },
     capabilities: {
       header: COLORS.white100,
-      subheader: COLORS.white100,
+      subheader: COLORS.purple20,
+      text: COLORS.white100,
       border: COLORS.white25,
     },
     form: {
