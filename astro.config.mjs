@@ -1,10 +1,8 @@
-// @ts-check
-import { defineConfig } from "astro/config";
-import starlight from "@astrojs/starlight";
 import react from "@astrojs/react";
+import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
+import { defineConfig } from "astro/config";
 
-// https://astro.build/config
 export default defineConfig({
 	integrations: [
 		starlight({
