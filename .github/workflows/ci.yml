@@ -1,17 +1,25 @@
-name: Astro check
+name: CI
 
 on:
   push:
-    branches: [main]
+    branches: ['main']
   pull_request:
-    types: [opened, synchronize]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+    branches: ['main']
+  workflow_dispatch:
+  merge_group:
+    types:
+      - checks_requested
 
 jobs:
-  lint-and-prettier:
+  biome-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+      - name: Run Biome check
+        run: biome ci .
+  astro-check:
     runs-on: ubuntu-latest
     permissions:
       contents: write
