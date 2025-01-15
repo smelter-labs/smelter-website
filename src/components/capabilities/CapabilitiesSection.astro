@@ -1,41 +1,41 @@
 ---
-import { Image } from 'astro:assets';
-import CapabilitiesItem from './CapabilitiesItem.astro';
+import { Image } from "astro:assets";
+import CapabilitiesItem from "./CapabilitiesItem.astro";
 
-import wavePattern from '../../assets/capabilities/capabilities-wave.svg';
-import capabilitiesBlur from '../../assets/capabilities/capabilities-blur2.svg';
-import bolt from '../../assets/capabilities/bolt.svg';
-import edit from '../../assets/capabilities/edit.svg';
-import alarm from '../../assets/capabilities/alarm.svg';
-import upload from '../../assets/capabilities/upload.svg';
-import screen from '../../assets/capabilities/screen.svg';
+import wavePattern from "../../assets/capabilities/capabilities-wave.svg";
+import capabilitiesBlur from "../../assets/capabilities/capabilities-blur2.svg";
+import bolt from "../../assets/capabilities/bolt.svg";
+import edit from "../../assets/capabilities/edit.svg";
+import alarm from "../../assets/capabilities/alarm.svg";
+import upload from "../../assets/capabilities/upload.svg";
+import screen from "../../assets/capabilities/screen.svg";
 
 const CAPABILITIES = [
-  {
-    label: 'Your own composition',
-    text: 'Streamline your media production with LiveCompositor, effortlessly combining streams, text, images, and more into dynamic output streams.',
-    icon: bolt,
-  },
-  {
-    label: 'Highly customizable',
-    text: 'Create custom effects with WGSL shaders and directly leverage GPU parallel processing capabilities.',
-    icon: edit,
-  },
-  {
-    label: 'Real-time processing',
-    text: 'Process live streams in real-time with low latency.',
-    icon: alarm,
-  },
-  {
-    label: 'Flexible',
-    text: 'Leverage LiveCompositor for flexible, real-time low-latency streaming and efficient offline processing.',
-    icon: upload,
-  },
-  {
-    label: 'WebGPU and Rust',
-    text: 'Leverage Rust and WebGPU rendering for great performance.',
-    icon: screen,
-  },
+	{
+		label: "Your own composition",
+		text: "Streamline your media production with LiveCompositor, effortlessly combining streams, text, images, and more into dynamic output streams.",
+		icon: bolt,
+	},
+	{
+		label: "Highly customizable",
+		text: "Create custom effects with WGSL shaders and directly leverage GPU parallel processing capabilities.",
+		icon: edit,
+	},
+	{
+		label: "Real-time processing",
+		text: "Process live streams in real-time with low latency.",
+		icon: alarm,
+	},
+	{
+		label: "Flexible",
+		text: "Leverage LiveCompositor for flexible, real-time low-latency streaming and efficient offline processing.",
+		icon: upload,
+	},
+	{
+		label: "WebGPU and Rust",
+		text: "Leverage Rust and WebGPU rendering for great performance.",
+		icon: screen,
+	},
 ] as const;
 ---
 

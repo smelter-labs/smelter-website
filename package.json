@@ -1,34 +1,34 @@
 {
-  "name": "live-compositor-website",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "dev": "astro dev",
-    "start": "astro dev",
-    "check": "biome check --write .",
-    "build": "astro check && astro build",
-    "astrocheck": "astro check --minimumFailingSeverity warning",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/react": "^3.6.2",
-    "@astrojs/starlight": "^0.28.4",
-    "@astrojs/starlight-docsearch": "^0.2.0",
-    "@astrojs/tailwind": "^5.1.2",
-    "astro": "^4.15.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "sharp": "^0.32.5",
-    "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.3"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/react": "^18.3.12",
-    "@types/tailwindcss": "^3.1.0",
-    "globals": "^15.11.0"
-  }
+	"name": "live-compositor-website",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"dev": "astro dev",
+		"start": "astro dev",
+		"check": "biome check --write .",
+		"build": "astro check && astro build",
+		"astrocheck": "astro check --minimumFailingSeverity warning",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.9.4",
+		"@astrojs/react": "^3.6.2",
+		"@astrojs/starlight": "^0.28.4",
+		"@astrojs/starlight-docsearch": "^0.2.0",
+		"@astrojs/tailwind": "^5.1.2",
+		"astro": "^4.15.3",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"sharp": "^0.32.5",
+		"tailwindcss": "^3.4.14",
+		"typescript": "^5.6.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/react": "^18.3.12",
+		"@types/tailwindcss": "^3.1.0",
+		"globals": "^15.11.0"
+	}
 }
