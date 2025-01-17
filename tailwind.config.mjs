@@ -18,6 +18,9 @@ export default {
 			borderRadius: {
 				"4xl": "2rem",
 			},
+			flex:{
+				'2': '2 2 0%'
+			}
 		},
 	},
 	darkMode: "selector",

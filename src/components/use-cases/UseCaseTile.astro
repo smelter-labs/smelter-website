@@ -15,7 +15,7 @@ interface Props {
 const { header, subHeader, image, isActive, index } = Astro.props;
 ---
 
-<div id={`useCaseTile${index}`} class:list={['sticky top-28 items-center']}>
+<div class:list={['sticky top-28 items-center']}>
   {
     isActive && (
       <Image
@@ -28,8 +28,8 @@ const { header, subHeader, image, isActive, index } = Astro.props;
 
   <div
     class:list={[
-      'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackground',
-      isActive ? 'border-gradient-light-1' : 'border border-solid border-useCases-borderInactive',
+      'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackground border border-useCases-borderInactive',
+      // isActive ? 'border-gradient-light-1' : 'border border-solid border-useCases-borderInactive',
     ]}>
     <div class="flex flex-col justify-between p-10 text-center">
       <div class="flex flex-col gap-y-2">
