@@ -32,8 +32,8 @@ export const DARK_THEME = {
 			subheader: COLORS.purple20,
 			tileHeader: COLORS.white100,
 			tileSubheader: COLORS.white100,
-			tileBackground: COLORS.black75,
-			tileBackgroundOverlay: COLORS.black100,
+			tileBackground: COLORS.black100,
+			tileBackgroundOpacity: COLORS.black75,
 			borderInactive: COLORS.white25,
 		},
 		usage: {
