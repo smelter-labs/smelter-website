@@ -1,14 +1,23 @@
 ---
 import { Image } from "astro:assets";
 
+import type { ImageMetadata } from "astro";
 import flash from "../../assets/use-cases/flash.svg";
 
-const { header, subHeader, image, active } = Astro.props;
+interface Props {
+	header: string;
+	subHeader: string;
+	image: ImageMetadata;
+	isActive: boolean;
+	index: number;
+}
+
+const { header, subHeader, image, isActive, index } = Astro.props;
 ---
 
-<div class:list={['sticky top-28 items-center']}>
+<div id={`useCaseTile${index}`} class:list={['sticky top-28 items-center']}>
   {
-    active && (
+    isActive && (
       <Image
         src={flash}
         alt={`Active use-case flash`}
@@ -20,7 +29,7 @@ const { header, subHeader, image, active } = Astro.props;
   <div
     class:list={[
       'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackground',
-      active ? 'border-gradient-light-1' : 'border border-solid border-useCases-borderInactive',
+      isActive ? 'border-gradient-light-1' : 'border border-solid border-useCases-borderInactive',
     ]}>
     <div class="flex flex-col justify-between p-10 text-center">
       <div class="flex flex-col gap-y-2">

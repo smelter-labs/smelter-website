@@ -41,7 +41,7 @@ const USE_CASES = [
                     </div>
                 </div>              
                 <div class="flex flex-1 flex-col gap-y-6">
-                    {USE_CASES.map((useCase, index) => <UseCaseTile {...useCase} active={index === 0} />)}
+                    {USE_CASES.map((useCase, index) => <UseCaseTile {...useCase} isActive={index === 0}  index={index}/>)}
                 </div>
             </div>
         </div>
