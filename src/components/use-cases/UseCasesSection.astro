@@ -32,7 +32,7 @@ const USE_CASES = [
             <div class="flex justify-center gap-x-24 mt-4 mx-40 mb-44">
                 <div class="flex flex-1 flex-col gap-y-6">
 					<div class="flex flex-2">
-						<div class="sticky top-28 self-start">
+						<div id="useCasesHeader" class="sticky top-28 self-start">
 							<h2 class="mb-6 text-useCases-header">Use cases</h2>
 							<p class="text-useCases-subheader">
 								Use LiveCompositor for video conferencing, live-streaming,
@@ -40,7 +40,7 @@ const USE_CASES = [
 							</p>
 						</div>
 					</div>
-					<div class="flex flex-1 bg-red-900"/>                         
+					<div class="flex flex-1"/>                         
                 </div> 
                 <div id="useCasesList" class="flex flex-1 flex-col gap-y-6">
                     {USE_CASES.map((useCase, index) => <UseCaseTile {...useCase} isActive={index === 0}  index={index}/>)}
@@ -49,7 +49,14 @@ const USE_CASES = [
         </div>
     </div>
 </section>
+<script type="module">
+	document.addEventListener("DOMContentLoaded", () => {
+		const useCasesHeader = document.getElementById('useCasesHeader')
+		const headerHeight = useCasesHeader.getBoundingClientRect().height
 
+		useCasesHeader.style.marginBottom = `-${headerHeight}px`
+	})
+</script>
 <!-- <script type="module">
     document.addEventListener("DOMContentLoaded", () => {
         const useCasesList = document.querySelector('#useCasesList');
