@@ -24,21 +24,25 @@ import "./hero.scss";
       function moveLayers(e: MouseEvent) {
         const x = e.clientX;
         const y = e.clientY;
-        const factor = 1;
-
+        
         requestAnimationFrame(function() {
           const bottomLayer = streamLayers[0];
           const rect = bottomLayer.getBoundingClientRect();
           const midX = rect.left + rect.width / 2;
           const midY = rect.top + rect.height / 2;
-
+          
           streamLayers.forEach((layer, index) => {
+            const factor = 1;
             const htmlLayer = layer as HTMLElement;
             const dx = (x - midX) * factor * (index + 1) / 3;
             const dy = (y - midY) * factor * (index + 1) / 3;
             htmlLayer.style.opacity = '1';
+            htmlLayer.style.top = '50%';
+            htmlLayer.style.left = '0';
+            htmlLayer.style.right = '4rem'
+
             htmlLayer.style.animation = 'none'
-            htmlLayer.style.transform = `translate(${dx}px, calc(-50% + ${dy}px))`;
+            htmlLayer.style.transform = `translate(calc(-4rem + ${dx}px), calc(-50% + ${dy}px))`;
           });
         });
       }
