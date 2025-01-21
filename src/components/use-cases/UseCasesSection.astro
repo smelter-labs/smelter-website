@@ -49,72 +49,66 @@ const USE_CASES = [
         </div>
     </div>
 </section>
+
 <script type="module">
-	document.addEventListener("DOMContentLoaded", () => {
-		// Adjust sticky for the left section
-		const useCasesHeader = document.getElementById('useCasesHeader')
-		const headerHeight = useCasesHeader.getBoundingClientRect().height
+    document.addEventListener("DOMContentLoaded", () => {
+        const useCasesHeader = document.getElementById('useCasesHeader');
+        const headerHeight = useCasesHeader.getBoundingClientRect().height;
+        useCasesHeader.style.marginBottom = `-${headerHeight + 32}px`;
 
-		useCasesHeader.style.marginBottom = `-${headerHeight + 32}px`
-
-		function interpolateColor(color1, color2, factor) {
-		    var result = {};
-		    result.r = Math.round(color1.r + factor * (color2.r - color1.r));
-		    result.g = Math.round(color1.g + factor * (color2.g - color1.g));
-		    result.b = Math.round(color1.b + factor * (color2.b - color1.b));
-		    return result;
-		}
-
-		// Apply gradient change on scroll
-		const tiles = useCasesList.querySelectorAll('#useCaseTile');
-		const scrollPivot = tiles[0].getBoundingClientRect().top;
-
+        const tiles = document.querySelectorAll('#useCaseTile');
         let tileBorderDivs = [];
         tiles.forEach(tile => {
             const children = Array.from(tile.querySelectorAll(':scope > div'));
-            tileBorderDivs = tileBorderDivs.concat(children); 
-        });  
+            tileBorderDivs = tileBorderDivs.concat(children);
+            children.forEach(child => {
+                child.style.setProperty('--start-r', '255');
+                child.style.setProperty('--start-g', '255');
+                child.style.setProperty('--start-b', '255');
+                child.style.setProperty('--start-a', '0.25');  // Using normalized alpha
+                child.style.setProperty('--end-r', '255');
+                child.style.setProperty('--end-g', '255');
+                child.style.setProperty('--end-b', '255');
+                child.style.setProperty('--end-a', '0.25');  // Using normalized alpha
+            });
+        });
 
-		function onScroll(ev) {
-			tileBorderDivs.forEach(el => {
-				const rect = el.getBoundingClientRect();
-        		const topOffset = 112;
-        		let distance = Math.abs(topOffset - rect.top);
-        		const crossPoint = window.innerHeight / 2 + rect.height / 2;
-
-        		let scrollPercentage = 1 - (distance / crossPoint);				
-
-				const startColorEnabled = { r: 251, g: 198, b: 207, a: 255 };
-        		const endColorEnabled = { r: 22, g: 17, b: 39, a: 255 };
-
-				const colorDisabled = { r: 255, g: 255, b: 255, a: 64 };
-
-        		const startColor = interpolateColor(colorDisabled, startColorEnabled, scrollPercentage);
-        		const endColor = interpolateColor(colorDisabled, endColorEnabled, scrollPercentage);
-
-				el.style.setProperty('--start-r', startColor.r.toString());
-    			el.style.setProperty('--start-g', startColor.g.toString());
-    			el.style.setProperty('--start-b', startColor.b.toString());
-    			el.style.setProperty('--start-a', (startColor.a / 255).toString());
-
-    			el.style.setProperty('--end-r', endColor.r.toString());
-    			el.style.setProperty('--end-g', endColor.g.toString());
-    			el.style.setProperty('--end-b', endColor.b.toString());
-    			el.style.setProperty('--end-a', (endColor.a / 255).toString());
-			});
+        function interpolateColor(color1, color2, factor) {
+            return {
+                r: Math.round(color1.r + factor * (color2.r - color1.r)),
+                g: Math.round(color1.g + factor * (color2.g - color1.g)),
+                b: Math.round(color1.b + factor * (color2.b - color1.b)),
+                a: Math.round(color1.a + factor * (color2.a - color1.a))
+            };
         }
 
-	 	function interpolateColor(color1, color2, factor) {
-    		return {
-        		r: Math.round(color1.r + factor * (color2.r - color1.r)),
-        		g: Math.round(color1.g + factor * (color2.g - color1.g)),
-        		b: Math.round(color1.b + factor * (color2.b - color1.b)),
-        		a: Math.round(color1.a + factor * (color2.a - color1.a))
-    		};
-		}
+        function onScroll(ev) {
+            tileBorderDivs.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const topOffset = 112;
+                let distance = Math.abs(topOffset - rect.top);
+                const crossPoint = window.innerHeight / 2 + rect.height / 2;
+                let scrollPercentage = 1 - 2 * (distance / crossPoint);
+                const startColorEnabled = { r: 251, g: 198, b: 207, a: 255 };
+                const endColorEnabled = { r: 22, g: 17, b: 39, a: 255 };
+                const colorDisabled = { r: 255, g: 255, b: 255, a: 64 };
+
+                const startColor = interpolateColor(colorDisabled, startColorEnabled, Math.max(0, Math.min(1, scrollPercentage)));
+                const endColor = interpolateColor(colorDisabled, endColorEnabled, Math.max(0, Math.min(1, scrollPercentage)));
+
+                el.style.setProperty('--start-r', startColor.r.toString());
+                el.style.setProperty('--start-g', startColor.g.toString());
+                el.style.setProperty('--start-b', startColor.b.toString());
+                el.style.setProperty('--start-a', (startColor.a / 255).toString());
+
+                el.style.setProperty('--end-r', endColor.r.toString());
+                el.style.setProperty('--end-g', endColor.g.toString());
+                el.style.setProperty('--end-b', endColor.b.toString());
+                el.style.setProperty('--end-a', (endColor.a / 255).toString());
+            });
+        }
 
         window.addEventListener('scroll', onScroll);
-
-	})
+    });
 </script>
 
