@@ -4,23 +4,23 @@ $animationDelay: 0.3s;
     @apply w-full absolute left-0 top-1/2 -z-30 -translate-y-1/2;
     opacity: 0;
     transform: translate(20px, calc(-50% + 20px));
-    animation: fadeInMove 0.5s ease-out forwards;
+    animation: fadeInMove 0.8s ease-out forwards;
     
     &--1 {
         @extend .heroStreamLayer;
-        left: 9rem;
+        left: 11rem;
         animation-delay: $animationDelay;
     }
     &--2 {
         @extend .heroStreamLayer;
         top: calc(50% + 2rem);
-        left: 0;
+        left: 2rem;
         animation-delay: calc($animationDelay * 2);
     }
     &--3 {
         @extend .heroStreamLayer;
         top: calc(50% + 4rem);
-        left: -9rem;
+        left: -7rem;
         animation-delay: calc($animationDelay * 3);
     }
 }
