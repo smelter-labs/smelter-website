@@ -32,16 +32,18 @@ import "./hero.scss";
           const midY = rect.top + rect.height / 2;
           
           streamLayers.forEach((layer, index) => {
-            const factor = 1;
+            const factor = 0.5;
             const htmlLayer = layer as HTMLElement;
+
             const dx = (x - midX) * factor * (index + 1) / 3;
             const dy = (y - midY) * factor * (index + 1) / 3;
             htmlLayer.style.opacity = '1';
-            htmlLayer.style.top = '50%';
+            htmlLayer.style.top = '45%';
             htmlLayer.style.left = '0';
             htmlLayer.style.right = '4rem'
 
             htmlLayer.style.animation = 'none'
+            htmlLayer.style.transition = 'top 0.5s ease, bottom 0.5s ease, left 0.5s ease, right 0.5s ease';
             htmlLayer.style.transform = `translate(calc(-4rem + ${dx}px), calc(-50% + ${dy}px))`;
           });
         });
