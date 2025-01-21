@@ -8,18 +8,19 @@ $animationDelay: 0.3s;
     
     &--1 {
         @extend .heroStreamLayer;
+        left: 9rem;
         animation-delay: $animationDelay;
     }
     &--2 {
         @extend .heroStreamLayer;
         top: calc(50% + 2rem);
-        left: 9rem;
+        left: 0;
         animation-delay: calc($animationDelay * 2);
     }
     &--3 {
         @extend .heroStreamLayer;
         top: calc(50% + 4rem);
-        left: 18rem;
+        left: -9rem;
         animation-delay: calc($animationDelay * 3);
     }
 }
