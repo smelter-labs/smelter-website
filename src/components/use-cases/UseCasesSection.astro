@@ -51,24 +51,12 @@ const USE_CASES = [
 </section>
 <script type="module">
 	document.addEventListener("DOMContentLoaded", () => {
+		// Adjust sticky for the left section
 		const useCasesHeader = document.getElementById('useCasesHeader')
 		const headerHeight = useCasesHeader.getBoundingClientRect().height
 
-		useCasesHeader.style.marginBottom = `-${headerHeight}px`
-	})
-</script>
-<!-- <script type="module">
-    document.addEventListener("DOMContentLoaded", () => {
-        const useCasesList = document.querySelector('#useCasesList');
-        const tiles = useCasesList.querySelectorAll(':scope > div');
+		useCasesHeader.style.marginBottom = `-${headerHeight + 32}px`
 
-        let tileBorderDivs = [];
-
-        tiles.forEach(tile => {
-            const children = Array.from(tile.querySelectorAll(':scope > *'));
-            tileBorderDivs = tileBorderDivs.concat(children); 
-        });        
-	
 		function interpolateColor(color1, color2, factor) {
 		    var result = {};
 		    result.r = Math.round(color1.r + factor * (color2.r - color1.r));
@@ -77,43 +65,56 @@ const USE_CASES = [
 		    return result;
 		}
 
-        function onScroll() {
-            tileBorderDivs.forEach(el => {
+		// Apply gradient change on scroll
+		const tiles = useCasesList.querySelectorAll('#useCaseTile');
+		const scrollPivot = tiles[0].getBoundingClientRect().top;
+
+        let tileBorderDivs = [];
+        tiles.forEach(tile => {
+            const children = Array.from(tile.querySelectorAll(':scope > div'));
+            tileBorderDivs = tileBorderDivs.concat(children); 
+        });  
+
+		function onScroll(ev) {
+			tileBorderDivs.forEach(el => {
 				const rect = el.getBoundingClientRect();
+        		const topOffset = 112;
+        		let distance = Math.abs(topOffset - rect.top);
+        		const crossPoint = window.innerHeight / 2 + rect.height / 2;
 
-				const windowHeight = window.innerHeight;
-        		const elementVisible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+        		let scrollPercentage = 1 - (distance / crossPoint);				
 
-            	var totalHeight = rect.height + windowHeight;
-            	var visibleRatio = elementVisible / totalHeight;
-            	var scrollPercent = (rect.top + elementVisible / 2) / windowHeight; // Calculate scroll percent based on visibility center
-            	scrollPercent = Math.max(0, Math.min(1, scrollPercent)); // Clamp value between 0 and 1
-				
-				var startColor1 = { r: 251, g: 198, b: 207 };
-    			var endColor1 = { r: 22, g: 17, b: 39 };
-    			var startColor2 = { r: 255, g: 255, b: 255 };
-    			var endColor2 = {  r: 255, g: 255, b: 255 };
+				const startColorEnabled = { r: 251, g: 198, b: 207, a: 255 };
+        		const endColorEnabled = { r: 22, g: 17, b: 39, a: 255 };
 
-    			var startColor = interpolateColor(startColor1, startColor2, scrollPercent);
-    			var endColor = interpolateColor(endColor1, endColor2, scrollPercent);
+				const colorDisabled = { r: 255, g: 255, b: 255, a: 64 };
 
-    			el.style.background = `linear-gradient(to bottom, rgb(${startColor.r},${startColor.g},${startColor.b}), rgb(${endColor.r},${endColor.g},${endColor.b}))`;
-            });
+        		const startColor = interpolateColor(colorDisabled, startColorEnabled, scrollPercentage);
+        		const endColor = interpolateColor(colorDisabled, endColorEnabled, scrollPercentage);
+
+				el.style.setProperty('--start-r', startColor.r.toString());
+    			el.style.setProperty('--start-g', startColor.g.toString());
+    			el.style.setProperty('--start-b', startColor.b.toString());
+    			el.style.setProperty('--start-a', (startColor.a / 255).toString());
+
+    			el.style.setProperty('--end-r', endColor.r.toString());
+    			el.style.setProperty('--end-g', endColor.g.toString());
+    			el.style.setProperty('--end-b', endColor.b.toString());
+    			el.style.setProperty('--end-a', (endColor.a / 255).toString());
+			});
         }
 
+	 	function interpolateColor(color1, color2, factor) {
+    		return {
+        		r: Math.round(color1.r + factor * (color2.r - color1.r)),
+        		g: Math.round(color1.g + factor * (color2.g - color1.g)),
+        		b: Math.round(color1.b + factor * (color2.b - color1.b)),
+        		a: Math.round(color1.a + factor * (color2.a - color1.a))
+    		};
+		}
+
         window.addEventListener('scroll', onScroll);
-    });
+
+	})
 </script>
-		
-		// function onScroll() {
-        //     tiles.forEach(el => {
-        //         const rect = el.getBoundingClientRect();
-        //         const isActive = rect.top - 112 <= 0 && rect.bottom - 112 >= 0;
-        //         if (isActive) {
-		// 			el.classList.add('border-gradient-light-1')
-        //         } else {
-		// 			el.classList.add(['border','border-solid', 'border-useCases-borderInactive'])
-        //         }
-        //     });
-        // } -->
 

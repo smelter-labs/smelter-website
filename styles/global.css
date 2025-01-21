@@ -180,17 +180,13 @@ body {
 	);
 }
 
-.border-gradient-light-1::before {
+.border-gradient::before {
 	position: absolute;
 	content: "";
 	inset: 0;
 	border-radius: 32px;
 	padding: 1px;
-	/* background: linear-gradient(
-		180deg,
-		theme("colors.gradient.redLight") 0%,
-		theme("colors.gradient.black") 100%
-	); */
+	background: linear-gradient(to bottom, rgba(var(--start-r), var(--start-g), var(--start-b), var(--start-a)), rgba(var(--end-r), var(--end-g), var(--end-b), var(--end-a)));
 	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 	-webkit-mask-composite: xor;
 	mask-composite: exclude;
