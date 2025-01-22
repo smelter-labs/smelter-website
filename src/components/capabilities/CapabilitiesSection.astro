@@ -39,12 +39,12 @@ const CAPABILITIES = [
 ] as const;
 ---
 
-<section class="mx-40 flex flex-col items-center px-16">
+<section class="mx-40 flex flex-col items-center px-16 relative">
+  <Image src={wavePattern} alt="wave pattern" class="absolute right-0 -z-10" />
+  <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute -left-56 -translate-x-1/2 top-4 -z-10" />
   <h2 class="mb-2 text-capabilities-header">Capabilities</h2>
   <p class="text-capabilities-subheader">Simple, powerful, fast</p>
   <div class="mt-20 flex gap-6">
-    <Image src={wavePattern} alt="wave pattern" class="absolute right-0 -z-10" />
-    <Image src={capabilitiesBlur} alt="gradient" class="absolute -left-80 -z-10" />
 
     <div class="flex flex-1 flex-col gap-y-6">
       {
@@ -62,3 +62,25 @@ const CAPABILITIES = [
     </div>
   </div>
 </section>
+
+
+<script type="module">
+  document.addEventListener('DOMContentLoaded', function () {
+    const parallaxImage = document.getElementById('capabilitiesBlur');
+    const parentSection = parallaxImage.closest('section');
+
+    const handleScroll = () => {
+        const sectionTop = parentSection.getBoundingClientRect().top;
+        const scrollY = window.screenY;
+        const sectionTopToPageTop = scrollY + sectionTop;
+        const relativeTop = scrollY - sectionTopToPageTop + window.innerHeight;
+        
+        if (relativeTop > -window.innerHeight && sectionTop < window.innerHeight) {
+            const translateY = (relativeTop * 0.3);
+            parallaxImage.style.transform = `translateY(-${translateY}px) translateX(-50%)`;
+        }
+    };
+
+  	window.addEventListener('scroll', handleScroll);
+  });
+</script>

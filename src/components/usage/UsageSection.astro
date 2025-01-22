@@ -26,5 +26,26 @@ const USE_CASES = [
   <div class="mx-40 mt-20 flex flex-col gap-y-4">
     {USE_CASES.map(useCase => <UsageItem {...useCase} />)}
   </div>
-  <Image src={usageBlur} alt="gradient" class="absolute -right-72 -top-40 -z-10" />
+  <Image id="usageBlur" src={usageBlur} alt="gradient" class="absolute -right-72 -top-40 -z-10" />
 </section>
+
+<script type="module">
+  document.addEventListener('DOMContentLoaded', function () {
+    const parallaxImage = document.getElementById('usageBlur');
+    const parentSection = parallaxImage.closest('section');
+
+    const handleScroll = () => {
+        const sectionTop = parentSection.getBoundingClientRect().top;
+        const scrollY = window.screenY;
+        const sectionTopToPageTop = scrollY + sectionTop;
+        const relativeTop = scrollY - sectionTopToPageTop + window.innerHeight;
+        
+        if (relativeTop > -window.innerHeight && sectionTop < window.innerHeight) {
+            const translateY = (relativeTop * 0.2);
+            parallaxImage.style.transform = `translateY(-${translateY}px)`;
+        }
+    };
+
+  	window.addEventListener('scroll', handleScroll);
+  });
+</script>
