@@ -193,3 +193,10 @@ body {
 	mask-composite: exclude;
 	pointer-events: none;
 }
+
+.use-case-tile-gradient {
+	background: radial-gradient(ellipse at center, #FBC6CF var(--start-ratio), #FBC6CF00 var(--end-ratio));
+	background-size: 90% 110%;
+	background-position: center center;
+    background-repeat: no-repeat;
+}
