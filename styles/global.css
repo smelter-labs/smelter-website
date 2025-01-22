@@ -186,24 +186,9 @@ body {
 	inset: 0;
 	border-radius: 32px;
 	padding: 1px;
-	background: linear-gradient(to bottom, rgba(var(--start-r), var(--start-g), var(--start-b), var(--start-a)), rgba(var(--end-r), var(--end-g), var(--end-b), var(--end-a)));
+	background: linear-gradient(to bottom, rgba(var(--start-r), var(--start-g), var(--start-b), var(--start-a)), 30%, rgba(var(--end-r), var(--end-g), var(--end-b), var(--end-a)));
+	mask: linear-gradient(#161127 0 0) content-box, linear-gradient(#161127 0 0);
 	-webkit-mask: linear-gradient(#161127 0 0) content-box, linear-gradient(#161127 0 0);
-	-webkit-mask-composite: xor;
-	mask-composite: exclude;
-	pointer-events: none;
-}
-
-.border-gradient-disabled::before {
-	position: absolute;
-	content: "";
-	inset: 0;
-	border-radius: 32px;
-	padding: 1px;
-	background: linear-gradient(
-		180deg,
-		theme("colors.useCases.borderInactive") 100%,
-	);
-	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 	-webkit-mask-composite: xor;
 	mask-composite: exclude;
 	pointer-events: none;
