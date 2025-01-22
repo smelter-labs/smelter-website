@@ -14,15 +14,17 @@ const { header, subHeader, image } = Astro.props;
 ---
 
 <div id="useCaseTile" class:list={['sticky top-28 items-center']}>
-  <!-- <Image
-    src={flash}
-    alt={`Active use-case flash`}
-    class="absolute left-1/2 top-[-25px] -z-10 -translate-x-1/2"
-  /> -->
   <div
-    class:list={[
-      'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackground border-gradient'
-    ]}>
+  class:list={
+    'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackgroundOpacity border-gradient overflow-clip'
+    }>
+    <div class="-z-10 bg-useCases-tileBackground rounded-[calc(2rem-1px)] h-full w-full absolute">
+      <Image
+        src={flash}
+        alt={`Active use-case flash`}
+        class="absolute left-1/2 top-[-25px] -z-10 -translate-x-1/2"
+      />
+    </div>
     <div class="flex flex-col justify-between p-10 text-center">
       <div class="flex flex-col gap-y-2">
         <h3 class="text-useCases-tileHeader">{header}</h3>
