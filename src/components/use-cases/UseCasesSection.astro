@@ -28,23 +28,22 @@ const USE_CASES = [
 
 <section class="py-14">
     <div>
-        <div class="">
-            <div class="flex justify-center gap-x-24 mt-4 mx-40 mb-44">
-                <div class="flex flex-1 flex-col gap-y-6">
-					<div class="flex flex-2">
-						<div id="useCasesHeader" class="sticky top-28 self-start">
-							<h2 class="mb-6 text-useCases-header">Use cases</h2>
-							<p class="text-useCases-subheader">
-								Use LiveCompositor for video conferencing, live-streaming,
-								broadcasting, and more.
-							</p>
-						</div>
+        <div class="flex justify-center gap-x-24 mt-4 mx-40 mb-44">
+            <div class="flex flex-1 flex-col gap-y-6">
+				<div class="flex flex-2">
+					<div id="useCasesHeader" class="sticky top-28 self-start">
+						<h2 class="mb-6 text-useCases-header">Use cases</h2>
+						<p class="text-useCases-subheader">
+							Use LiveCompositor for video conferencing, live-streaming,
+							broadcasting, and more.
+						</p>
+						<Image src={useCasesWave} alt="wave pattern" class="absolute -left-40 top-56 -z-10" />
 					</div>
-					<div class="flex flex-1"/>                         
-                </div> 
-                <div id="useCasesList" class="flex flex-1 flex-col gap-y-6">
-                    {USE_CASES.map((useCase, index) => <UseCaseTile {...useCase} isActive={index === 0}  index={index}/>)}
-                </div>
+				</div>
+				<div class="flex flex-1"/>                         
+            </div> 
+            <div id="useCasesList" class="flex flex-1 flex-col gap-y-6">
+                {USE_CASES.map((useCase, index) => <UseCaseTile {...useCase} />)}
             </div>
         </div>
     </div>
