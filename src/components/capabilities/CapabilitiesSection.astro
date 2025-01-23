@@ -40,8 +40,8 @@ const CAPABILITIES = [
 ---
 
 <section class="mx-40 flex flex-col items-center px-16 relative">
-  <Image src={wavePattern} alt="wave pattern" class="absolute right-0 -z-10" />
-  <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute -left-56 -translate-x-1/2 top-4 -z-10" />
+  <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute top-36 -right-40 -z-10" />
+  <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute -bottom-52 -left-40 -translate-x-1/2 -z-10" />
   <h2 class="mb-2 text-capabilities-header">Capabilities</h2>
   <p class="text-capabilities-subheader">Simple, powerful, fast</p>
   <div class="mt-20 flex gap-6">
@@ -66,18 +66,21 @@ const CAPABILITIES = [
 
 <script type="module">
   document.addEventListener('DOMContentLoaded', function () {
-    const parallaxImage = document.getElementById('capabilitiesBlur');
-    const parentSection = parallaxImage.closest('section');
+    const capabilitiesBlur = document.getElementById('capabilitiesBlur');
+	const capabilitiesWave = document.getElementById('capabilitiesWave');
+    
+	const parentSection = capabilitiesBlur.closest('section');
 
     const handleScroll = () => {
-        const sectionTop = parentSection.getBoundingClientRect().top;
+        const sectionBottom = parentSection.getBoundingClientRect().bottom;
         const scrollY = window.screenY;
-        const sectionTopToPageTop = scrollY + sectionTop;
-        const relativeTop = scrollY - sectionTopToPageTop + window.innerHeight;
+        const sectionBottomToPageTop = scrollY + sectionBottom;
+        const relativeBottom = scrollY - sectionBottomToPageTop + window.innerHeight;
         
-        if (relativeTop > -window.innerHeight && sectionTop < window.innerHeight) {
-            const translateY = (relativeTop * 0.3);
-            parallaxImage.style.transform = `translateY(-${translateY}px) translateX(-50%)`;
+        if (relativeBottom > -window.innerHeight && sectionBottom < window.innerHeight) {
+            const translateY = relativeBottom;
+            capabilitiesBlur.style.transform = `translateY(-${translateY * 0.7}px) translateX(-50%)`;
+			capabilitiesWave.style.transform = `translateY(${translateY * 0.4}px)`
         }
     };
 
