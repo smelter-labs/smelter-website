@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import GhostButton from "../base/buttons/GhostButton.astro";
 
-import arrowRight from "../../assets/arrow-right.svg";
+import ArrowRight from "../../assets/arrow-right.svg";
 
 interface Props {
 	label: string;
@@ -23,9 +23,10 @@ const { label, text, buttons } = Astro.props;
     {
         Object.entries(buttons).map(([label, url]) => (
           <a href={url} target="_blank" style="text-decoration: none; color: inherit;">
-            <GhostButton>
-              <p class="par-xl capitalize hover:text-usage-hoverText">{label}</p>
-              <Image src={arrowRight} class="hover:text-usage-hoverText" alt={`${label} redirect`} />
+            <GhostButton id="usageGhostButton" class="hover:text-usage-hoverText" >
+              <p class="par-xl capitalize ">{label}</p>
+              {/* <Image src={arrowRight} class="hover:text-usage-hoverText" alt={`${label} redirect`} /> */}
+              <ArrowRight  />
             </GhostButton>
           </a>
         ))

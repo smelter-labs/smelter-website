@@ -4,6 +4,9 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
+	experimental: {
+		svg: true
+	},
 	integrations: [
 		starlight({
 			title: "My Docs",
