@@ -50,6 +50,10 @@ export const DARK_THEME = {
 			text: COLORS.white100,
 			border: COLORS.white25,
 		},
+		license: {
+			header: COLORS.white100,
+			subheader: COLORS.purple20,
+		},
 		form: {
 			header: COLORS.white100,
 			border: COLORS.white25,
