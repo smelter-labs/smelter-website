@@ -4,7 +4,13 @@ import GhostButton from "../base/buttons/GhostButton.astro";
 
 import arrowRight from "../../assets/arrow-right.svg";
 
-const { label, text } = Astro.props;
+interface Props {
+	label: string;
+	text: string;
+	buttons: Record<string, string>;
+}
+
+const { label, text, buttons } = Astro.props;
 ---
 
 <div
@@ -13,9 +19,20 @@ const { label, text } = Astro.props;
     <h3 class="text-usage-tileHeader mb-4">{label}</h3>
     <p class="text-usage-tileText">{text}</p>
   </div>
-
-  <div class="flex flex-col gap-y-4 self-end">
-    <a href="/docs" style="text-decoration: none; color: inherit;">
+  <div class="flex flex-col gap-y-4 justify-between" style="width: 200px;">  <!-- Set a fixed width for the button section -->
+    {
+        Object.entries(buttons).map(([label, url]) => (
+          <a href={url} target="_blank" style="text-decoration: none; color: inherit;">
+            <GhostButton>
+              <p class="par-xl capitalize hover:text-usage-hoverText">{label}</p>
+              <Image src={arrowRight} class="hover:text-usage-hoverText" alt={`${label} redirect`} />
+            </GhostButton>
+          </a>
+        ))
+    }
+  </div>
+</div>
+    <!-- <a href="/docs" style="text-decoration: none; color: inherit;">
       <GhostButton>
         <p class="par-xl">Docs</p>
         <Image src={arrowRight} alt={`${label} docs`} />
@@ -26,6 +43,4 @@ const { label, text } = Astro.props;
         <p class="par-xl">Dockerfiles</p>
         <Image src={arrowRight} alt={`${label} dockerfiles`} />
       </GhostButton>
-    </a>
-  </div>
-</div>
+    </a> -->

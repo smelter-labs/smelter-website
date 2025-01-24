@@ -2,50 +2,55 @@
 import { Image } from "astro:assets";
 import CapabilitiesItem from "./CapabilitiesItem.astro";
 
-import alarm from "../../assets/capabilities/alarm.svg";
+import api from "../../assets/capabilities/api.svg";
+import battery from "../../assets/capabilities/battery.svg";
 import bolt from "../../assets/capabilities/bolt.svg";
 import capabilitiesBlur from "../../assets/capabilities/capabilities-blur2.svg";
 import wavePattern from "../../assets/capabilities/capabilities-wave.svg";
-import edit from "../../assets/capabilities/edit.svg";
-import screen from "../../assets/capabilities/screen.svg";
-import upload from "../../assets/capabilities/upload.svg";
+import flexbility from "../../assets/capabilities/flexbility.svg";
+import offline from "../../assets/capabilities/offline.svg";
+import sliders from "../../assets/capabilities/sliders.svg";
 
 const CAPABILITIES = [
 	{
-		label: "Your own composition",
-		text: "Streamline your media production with LiveCompositor, effortlessly combining streams, text, images, and more into dynamic output streams.",
+		label: "Simple, declarative API",
+		text: "You can easily mix streams with an intuitive component tree. Smelter is quick to pick up for anyone familiar with web development.",
+		icon: api,
+	},
+	{
+		label: "Unmatched flexibility",
+		text: "The API is language-agnostic and fits right into the existing setup. It operates across the web, server environments, and supports a range of protocols.",
+		icon: flexbility,
+	},
+	{
+		label: "Real-time and low latency",
+		text: "Smelter targets real-time use cases, where latency is measured in milliseconds. It ensures seamless performance for applications that demand immediate responsiveness.",
 		icon: bolt,
 	},
 	{
+		label: "Batteries included",
+		text: "The tool lets you process streams, render text, images, GIFs, or websites, and combine them using high-level components. Plus, with our animated transitions, you can change layouts on the fly.",
+		icon: battery,
+	},
+	{
 		label: "Highly customizable",
-		text: "Create custom effects with WGSL shaders and directly leverage GPU parallel processing capabilities.",
-		icon: edit,
+		text: "Choose from pre-built options or create custom effects with WGSL shaders and directly leverage GPU parallel processing capabilities.",
+		icon: sliders,
 	},
 	{
-		label: "Real-time processing",
-		text: "Process live streams in real-time with low latency.",
-		icon: alarm,
-	},
-	{
-		label: "Flexible",
-		text: "Leverage LiveCompositor for flexible, real-time low-latency streaming and efficient offline processing.",
-		icon: upload,
-	},
-	{
-		label: "WebGPU and Rust",
-		text: "Leverage Rust and WebGPU rendering for great performance.",
-		icon: screen,
+		label: "Offline processing available",
+		text: " With Smelter, you can also handle non-real-time scenarios by enabling offline processing. This allows you to process content asynchronously, giving you more flexibility for tasks that don’t require immediate results.",
+		icon: offline,
 	},
 ] as const;
 ---
 
-<section class="mx-40 flex flex-col items-center px-16 relative">
+<section class="mx-40 flex flex-col items-center px-16 relative mb-28">
   <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute top-36 -right-40 -z-10" />
   <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute -bottom-52 -left-40 -translate-x-1/2 -z-10" />
-  <h2 class="mb-2 text-capabilities-header">Capabilities</h2>
+  <h2 class="mb-2 text-capabilities-header">Live stream mixing simplified</h2>
   <p class="text-capabilities-subheader">Simple, powerful, fast</p>
-  <div class="mt-20 flex gap-6">
-
+  <div class="mt-20 flex gap-6 overflow-hidden relative">
     <div class="flex flex-1 flex-col gap-y-6">
       {
         CAPABILITIES.filter((_, index) => !(index % 2)).map(capability => (
@@ -53,7 +58,7 @@ const CAPABILITIES = [
         ))
       }
     </div>
-    <div class="flex flex-1 flex-col gap-y-6 self-center">
+    <div class="flex flex-1 flex-col gap-y-6 mt-1/6">
       {
         CAPABILITIES.filter((_, index) => index % 2).map(capability => (
           <CapabilitiesItem {...capability} />
