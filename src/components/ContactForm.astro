@@ -8,18 +8,22 @@ import ArrowRight from "../assets/arrow-right.svg";
 ---
 
 <section class="mx-40 my-20 flex gap-x-28 rounded-4xl border border-form-border p-10">
-  <h2 class="shrink-0 text-form-header">Interested in<br />working together?</h2>
+  <h2 class="shrink-0 text-form-header">
+      Want to use Smelter or<br />
+      need our help?
+  </h2>
   <form class="flex w-full flex-col gap-y-10">
     <TextInput label="Your e-mail" type="email" name="email" placeholder="joe@acme.com" />
     <Select label="Type of inquiry" name="inquiry">
-      <option value="cooperation">Cooperation</option>
-      <option value="pricing">Pricing</option>
-      <option value="technical request">Technical request</option>
+      <option value="question">I have a few questions about Smelter I'd like to ask</option>
+      <option value="feature-request">I need additional features implemented for my project</option>
+      <option value="enterprise">I’m interested in enterprise-level deployment and integration</option>
+      <option value="unique-use-case">I have a unique use case in mind and want to discuss it</option>
+      <option value="demo">I’m interested in a demo or trial to see how Smelter works</option>
     </Select>
     <TextArea
       label="Your message"
       name="message"
-      placeholder="I want to work with you"
       class="resize-none"
       rows="6"
     />
