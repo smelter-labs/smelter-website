@@ -49,8 +49,13 @@ html {
 h1 {
 	font-family: Aeonik;
 	font-weight: 500;
-	font-size: 3.25rem;
+	font-size: 1.875rem;
 	line-height: 130%;
+	
+	@media (min-width: 640px) {
+		font-size: 3.25rem;
+		line-height: 130%;
+	}
 }
 
 h2 {
@@ -84,15 +89,23 @@ body {
 	.par-xl {
 		font-family: Aeonik;
 		font-weight: 400;
-		font-size: 1.25rem;
+		font-size: 1.125rem;
 		line-height: 150%;
+
+		@media (min-width: 640px) {
+			font-size: 1.25rem;
+		}
 	}
 
 	.par-l {
 		font-family: Aeonik;
 		font-weight: 400;
-		font-size: 1.125rem;
+		font-size: 1rem;
 		line-height: 150%;
+
+		@media (min-width: 640px) {
+			font-size: 1.125rem;
+		}
 	}
 
 	.par-s {

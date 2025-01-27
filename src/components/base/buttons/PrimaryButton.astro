@@ -7,7 +7,7 @@ const { class: buttonClass, ...primaryButtonProps } = Astro.props;
 ---
 
 <button
-  class:list={['h-17.5 rounded-full gradient-red-5 px-7 w-fit', buttonClass]}
+  class:list={['rounded-full w-fit gradient-red-5 px-6 h-14 sm:px-7 sm:h-17.5', buttonClass]}
   {...primaryButtonProps}>
   <div class="flex gap-x-3 text-xl text-white">
     <slot />
