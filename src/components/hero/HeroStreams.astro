@@ -41,7 +41,7 @@ import "./heroStreams.scss";
           // New condition: check if the cursor is within the "extended" boundaries
           const shouldSnap = (y >= topBound && y <= bottomBound) && (x >= leftBound && x <= rightBound);
 
-          console.log('SHOULD SNAP ', shouldSnap)
+          // console.log('SHOULD SNAP ', shouldSnap)
           streamLayers.forEach((layer, index) => {
             const factor = 0.3;
             const htmlLayer = layer as HTMLElement;
