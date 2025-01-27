@@ -85,6 +85,14 @@ body {
 	line-height: 160%;
 }
 
+.footer-wave {
+	@apply absolute w-auto min-w-full h-full;
+
+	@media (min-width: 640px) {
+		width: 100svw;
+	}
+}
+
 @layer components {
 	.par-xl {
 		font-family: Aeonik;
