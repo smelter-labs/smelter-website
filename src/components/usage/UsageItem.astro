@@ -17,14 +17,14 @@ const { label, text, buttons } = Astro.props;
   class="flex flex-col items-center justify-between gap-x-16 rounded-4xl border border-capabilities-border bg-transparent p-10 transition duration-300 ease-in-out hover:bg-usage-hoverBackground sm:flex-row">
   <div class="flex flex-1 flex-col">
     <h3 class="text-usage-tileHeader mb-4">{label}</h3>
-    <p class="text-usage-tileText">{text}</p>
+    <p class="par-l text-usage-tileText">{text}</p>
   </div>
   <div class="flex flex-col gap-y-4 justify-between sm:w-[200px]">
     {
         Object.entries(buttons).map(([label, url]) => (
           <a href={url} target="_blank" style="text-decoration: none; color: inherit;">
             <GhostButton id="usageGhostButton" class="hover:text-usage-hoverText" >
-              <p class="par-xl capitalize ">{label}</p>
+              <p class="par-xl capitalize">{label}</p>
               {/* <Image src={arrowRight} class="hover:text-usage-hoverText" alt={`${label} redirect`} /> */}
               <ArrowRight  />
             </GhostButton>
