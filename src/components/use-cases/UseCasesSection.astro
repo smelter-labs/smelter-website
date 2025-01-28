@@ -26,9 +26,9 @@ const USE_CASES = [
 ] as const;
 ---
 
-<section class="sm:py-14">
+<section class="sm:py-14 min-h-screen">
     <div>
-        <div class="flex justify-center gap-x-24 mt-4 mx-4 sm:mx-40 mb-44 flex-col sm:flex-row">
+        <div class="flex justify-center gap-x-24 mt-4 mx-4 sm:mx-40 mb-28 flex-col sm:flex-row">
             <div class="flex flex-1 flex-col gap-y-6">
 				<div class="flex flex-2">
 					<div id="useCasesHeader" class="sm:sticky sm:top-28 self-start">
@@ -60,10 +60,8 @@ const USE_CASES = [
     	  const mediaQuery = window.innerWidth > 640;
 
     	  if (mediaQuery) {
-    	    console.log('TEST 1');
     	    useCasesHeader.style.marginBottom = `-${headerHeight + 32}px`;
     	  } else {
-    	    console.log('TEST 2');
     	    useCasesHeader.style.marginBottom = '0';
     	  }
     	}
