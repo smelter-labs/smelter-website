@@ -32,13 +32,13 @@ const USE_CASES = [
 ] as const;
 ---
 
-<section class="relative mb-28 flex flex-col items-center px-4 sm:px-40 text-center sm:text-start">
+<section class="relative mb-28 flex flex-col items-center px-4 sm:px-40 text-center sm:text-start overflow-x-clip">
   <h2 class="mb-6 text-usage-header">Start using Smelter</h2>
   <p class="par-l text-usage-subheader">Select an option to seamlessly blend smelter into your existing solutions.</p>
   <div class="mt-12 flex flex-col gap-y-4 sm:mt-20">
     {USE_CASES.map(useCase => <UsageItem {...useCase} />)}
   </div>
-  <!-- <Image id="usageBlur" src={usageBlur} alt="gradient" class="absolute -right-72 -top-40 -z-10" /> -->
+  <Image id="usageBlur" src={usageBlur} alt="gradient" class="absolute -right-32 top-8 sm:-right-72 sm:-top-40 -z-10" />
 </section>
 
 <script type="module">

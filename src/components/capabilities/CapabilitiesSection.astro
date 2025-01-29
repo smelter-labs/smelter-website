@@ -45,9 +45,9 @@ const CAPABILITIES = [
 ] as const;
 ---
 
-<section class="px-4 flex flex-col items-center relative mb-28 text-center sm:text-start sm:px-40">
-  <!-- <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute top-36 -right-40 -z-10" /> -->
-  <!-- <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute -bottom-52 -left-40 -translate-x-1/2 -z-10" /> -->
+<section class="px-4 flex flex-col items-center relative mb-28 text-center sm:text-start sm:px-40 overflow-clip">
+  <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute -right-56 opacity-45 sm:top-36 sm:-right-40 -z-10" />
+  <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute bottom-40 sm:-bottom-52 sm:-left-40 -translate-x-1/2 -z-10" />
   <h2 class="mb-2 text-capabilities-header">Live stream mixing simplified</h2>
   <p class="par-l text-capabilities-subheader">Simple, powerful, fast</p>
   <div class="flex gap-6 overflow-hidden relative flex-col sm:flex-row mt-12 sm:mt-20">
