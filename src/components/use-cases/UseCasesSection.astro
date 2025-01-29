@@ -26,15 +26,15 @@ const USE_CASES = [
 ] as const;
 ---
 
-<section class="sm:py-14 min-h-screen">
+<section class="min-h-screen overflow-x-clip sm:py-14">
     <div>
-        <div class="flex justify-center gap-x-24 mt-4 mx-4 mb-28 sm:mx-40 sm:mb-0 flex-col sm:flex-row">
+        <div class="flex justify-center gap-x-10 lg:gap-x-24 mt-4 mx-4 flex-col mb-28 sm:mx-8 sm:mb-0 sm:flex-row lg:mx-8 xl:mx-40">
             <div class="flex flex-1 flex-col gap-y-6 sticky top-28 sm:static sm:top-0">
-				<div class="flex flex-2 text-center sm:text-start mb-6 sm:mb-0">
-					<div id="useCasesHeader" class="sm:sticky sm:top-28 self-start">
+				<div class="flex flex-2 text-center mb-6 sm:text-start sm:mb-0">
+					<div id="useCasesHeader" class="self-start sm:sticky sm:top-28">
 						<h2 class="mb-6 text-useCases-header">Use cases</h2>
 						<p class="par-l text-useCases-subheader">
-							Use LiveCompositor for video conferencing, live-streaming, <br class="hidden sm:block"/>
+							Use LiveCompositor for video conferencing, live-streaming, <br class="hidden xl:block"/>
 							broadcasting, and more.
 						</p>
 						<Image src={useCasesWave} alt="wave pattern" class="absolute -left-40 top-6 opacity-45 sm:opacity-1 sm:top-56 -z-10" />

@@ -3,15 +3,18 @@ import { Image } from "astro:assets";
 
 import discordLogo from "../../assets/navigation/discord-logo.svg";
 import githubLogo from "../../assets/navigation/github-logo.svg";
+import smelterLogoSmall from "../../assets/navigation/smelter-logo-small.svg";
 import smelterLogo from "../../assets/navigation/smelter-logo.svg";
 ---
 
 <header id="pageHeader" class="fixed z-50 w-screen max-w-screen bg-transparent">
-  <nav class="flex h-20 justify-between px-4 sm:px-20">
-    <Image src={smelterLogo} alt="Compositor logo" />
-    <div class="flex gap-x-6">
-      <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon" />
-      <Image src={githubLogo} alt="Github logo" class="fill-nav-icon" />
+  <nav class="flex h-18 md:h-20 justify-between px-4 sm:px-8 lg:px-20">
+    <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" />
+    <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" />
+
+    <div class="flex gap-x-4 md:gap-x-6">
+      <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" />
+      <Image src={githubLogo} alt="Github logo" class="fill-nav-icon aspect-square w-5 md:w-6" />
     </div>
   </nav>
 </header>
