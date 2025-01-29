@@ -1,0 +1,166 @@
+---
+import { Image } from "astro:assets";
+import UseCaseTile from "./UseCaseTile.astro";
+
+import useCase1Image from "../../../assets/use-cases/temp-use-case1.png";
+import useCase2Image from "../../../assets/use-cases/temp-use-case2.png";
+import useCase3Image from "../../../assets/use-cases/temp-use-case3.png";
+import useCasesWave from "../../../assets/use-cases/use-cases-wave.svg";
+
+const USE_CASES = [
+	{
+		header: "Video conferencing",
+		subHeader: "Stream or record video conferences seamlessly",
+		image: useCase1Image,
+	},
+	{
+		header: "Broadcasting",
+		subHeader: "Compose professional-grade broadcasts",
+		image: useCase2Image,
+	},
+	{
+		header: "Live-streaming",
+		subHeader: "Create awesome, interactive live streams",
+		image: useCase3Image,
+	},
+] as const;
+---
+
+<section class="min-h-screen overflow-x-clip 2xl:overflow-x-visible sm:py-14">
+    <div>
+        <div class="flex justify-center gap-x-10 lg:gap-x-24 mt-4 mx-4 flex-col mb-28 sm:mx-8 sm:mb-0 sm:flex-row lg:mx-8 xl:mx-40">
+            <div class="flex flex-1 flex-col gap-y-6 sticky top-28 sm:static sm:top-0">
+				<div class="flex flex-2 text-center mb-6 sm:text-start sm:mb-0">
+					<div id="useCasesHeader" class="self-start sm:sticky sm:top-28">
+						<h2 class="mb-6 text-useCases-header">Use cases</h2>
+						<p class="par-l text-useCases-subheader">
+							Use LiveCompositor for video conferencing, live-streaming, <br class="hidden xl:block"/>
+							broadcasting, and more.
+						</p>
+						<Image src={useCasesWave} alt="wave pattern" class="absolute -left-40 top-6 opacity-45 sm:opacity-1 sm:top-56 -z-10" />
+					</div>
+				</div>
+				<div class="flex flex-1"/>                         
+            </div> 
+            <div id="useCasesList" class="flex flex-1 flex-col gap-y-6">
+                {USE_CASES.map((useCase) => <UseCaseTile {...useCase} />)}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+        const useCasesHeader = document.getElementById('useCasesHeader');
+			
+    	function adjustHeaderMargin() {
+    	  if (!useCasesHeader) return;
+		
+    	  const headerHeight = useCasesHeader.getBoundingClientRect().height;
+    	  const mediaQuery = window.innerWidth > 640;
+
+    	  if (mediaQuery) {
+			useCasesHeader.style.marginBottom = `-${headerHeight + 32}px`;
+    	  } else {
+			return
+    	  }
+    	}
+
+    	// Call on initial load
+    	adjustHeaderMargin();
+
+    	// Add event listener to re-calculate when window is resized
+    	window.addEventListener('resize', adjustHeaderMargin);
+
+        const tiles = document.querySelectorAll('#useCaseTile');
+        let tileBorderDivs = [];
+		
+        tiles.forEach(tile => {
+            const children = Array.from(tile.querySelectorAll(':scope > div'));
+            tileBorderDivs = tileBorderDivs.concat(children);
+        });
+
+        function interpolateColor(color1, color2, factor) {
+            return {
+                r: Math.round(color1.r + factor * (color2.r - color1.r)),
+                g: Math.round(color1.g + factor * (color2.g - color1.g)),
+                b: Math.round(color1.b + factor * (color2.b - color1.b)),
+                a: Math.round(color1.a + factor * (color2.a - color1.a))
+            };
+        }
+
+	function onScroll() {
+	    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+	    const stickyTopOffset = 112;
+
+	    tileBorderDivs.forEach((el, index) => {
+			const gradient = el.querySelector("#gradient");
+
+	        const rect = el.getBoundingClientRect();
+	        const buffer = rect.height; // Buffer range above and below the offset for the gradient effect
+	        const gradientBuffer = 120;
+
+			const elTopPosition = scrollTop + rect.top;
+
+	        let distance = Math.abs(stickyTopOffset + scrollTop - elTopPosition);
+	        let scrollPercentage;
+	        let gradientScrollPercentage;
+
+	        if (distance > buffer) {
+	            scrollPercentage = 0;
+	        } else {
+	            scrollPercentage = 1 - (distance / buffer);
+	        }
+			
+			if (distance > gradientBuffer) {
+	            gradientScrollPercentage = 0;
+	        } else {
+	            gradientScrollPercentage = 1 - (distance / gradientBuffer);
+	        }
+
+	        if (index < tileBorderDivs.length - 1) {
+	            const nextEl = tileBorderDivs[index + 1];
+	            const nextRect = nextEl.getBoundingClientRect();
+	            const nextElTopPosition = scrollTop + nextRect.top;
+	            const nextDistance = Math.abs(stickyTopOffset + scrollTop - nextElTopPosition);
+	            let nextScrollPercentage;
+	            // let nextGradientScrollPercentage;
+
+	            if (nextDistance > buffer) {
+	                nextScrollPercentage = 0;
+					// nextGradientScrollPercentage = 0;
+	            } else {
+	                nextScrollPercentage = 1 - (nextDistance / buffer);
+					// nextGradientScrollPercentage = 1 - (nextDistance / gradientBuffer)
+	            }
+
+	            scrollPercentage *= (1 - nextScrollPercentage);
+				gradientScrollPercentage *= (1 - nextScrollPercentage)
+	        }
+
+	        const startColorEnabled = { r: 251, g: 198, b: 207, a: 255 };
+	        const endColorEnabled = { r: 22, g: 17, b: 39, a: 255 };
+	        const colorDisabled = { r: 255, g: 255, b: 255, a: 64 };
+
+	        const startColor = interpolateColor(colorDisabled, startColorEnabled, scrollPercentage);
+	        const endColor = interpolateColor(colorDisabled, endColorEnabled, scrollPercentage);
+
+	        el.style.setProperty('--start-r', startColor.r.toString());
+	        el.style.setProperty('--start-g', startColor.g.toString());
+	        el.style.setProperty('--start-b', startColor.b.toString());
+	        el.style.setProperty('--start-a', (startColor.a / 255).toString());
+
+	        el.style.setProperty('--end-r', endColor.r.toString());
+	        el.style.setProperty('--end-g', endColor.g.toString());
+	        el.style.setProperty('--end-b', endColor.b.toString());
+	        el.style.setProperty('--end-a', (endColor.a / 255).toString());
+
+			gradient.style.setProperty('--start-ratio', 0);
+			gradient.style.setProperty('--end-ratio', `${gradientScrollPercentage * 100/2}%`);
+	    });
+	}
+
+        window.addEventListener('scroll', onScroll);
+    });
+</script>
+

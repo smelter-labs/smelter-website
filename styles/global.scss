@@ -88,6 +88,10 @@ p {
 	line-height: 150%;
 }
 
+a {
+	@apply text-link
+}
+
 body {
 	font-family: Aeonik;
 	font-weight: 400;

@@ -1,0 +1,37 @@
+---
+import ExplanationStepItem from "./ExplanationStepItem.astro";
+
+import index1Image from "../../../assets/explanation/1.svg";
+import index2Image from "../../../assets/explanation/2.svg";
+import index3Image from "../../../assets/explanation/3.svg";
+import step1Image from "../../../assets/explanation/temp-step1.png";
+import step2Image from "../../../assets/explanation/temp-step2.png";
+import step3Image from "../../../assets/explanation/temp-step3.png";
+
+const STEPS = [
+	{
+		text: "Stream inputs <br /> or provide MP4 files",
+		image: step1Image,
+		indexImage: index1Image,
+	},
+	{
+		text: `Configure mixing using <br class="sm:hidden block"/> React components<br/>or HTTP API`,
+		image: step2Image,
+		indexImage: index2Image,
+	},
+	{
+		text: `Write the outputs to a file <br class="sm:hidden block" /> or stream them to a separate device`,
+		image: step3Image,
+		indexImage: index3Image,
+	},
+] as const;
+---
+
+<section class="flex flex-col items-center justify-center px-4 mb-28 sm:px-8 xl:px-40 sm:min-h-screen sm:mb-0 2xl:h-fit 2xl:py-40">
+  <h2 class="mb-12 text-explanation-header">How does it work?</h2>
+  <div class="flex">
+    <div class="flex flex-col sm:flex-row gap-x-4 lg:gap-x-8">
+      {STEPS.map((step, index) => <ExplanationStepItem {...step} index={index} />)}
+    </div>
+  </div>
+</section>

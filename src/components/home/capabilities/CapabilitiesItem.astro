@@ -1,0 +1,20 @@
+---
+import { Image } from "astro:assets";
+
+const { label, text, icon } = Astro.props;
+---
+
+<div class="h-fit rounded-4xl border border-capabilities-border p-10">
+  <div class="flex items-center mb-6 gap-4">
+    <div
+      class="aspect-square w-18 overflow-hidden rounded-2xl border border-capabilities-border">
+      <div class="gradient-red-1 size-full">
+        <div class="flex aspect-square h-full items-center justify-center p-5">
+          <Image src={icon} alt="capability icon" class="w-full h-ful" />
+        </div>
+      </div>
+    </div>
+    <h3 class="text-capabilities-header text-start">{label}</h3>
+  </div>
+  <p class="par-l text-capabilities-text">{text}</p>
+</div>

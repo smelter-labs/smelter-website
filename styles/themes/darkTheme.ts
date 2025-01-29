@@ -3,6 +3,7 @@ import { COLORS } from "../colors";
 export const DARK_THEME = {
 	colors: {
 		mainBackground: COLORS.black100,
+		link: COLORS.red40,
 		nav: {
 			icon: COLORS.white100,
 			searchContent: COLORS.white100,
@@ -50,7 +51,7 @@ export const DARK_THEME = {
 			text: COLORS.white100,
 			border: COLORS.white25,
 		},
-		license: {
+		homeLicense: {
 			header: COLORS.white100,
 			subheader: COLORS.purple20,
 		},
@@ -63,5 +64,8 @@ export const DARK_THEME = {
 			logo: COLORS.white100,
 			copyright: COLORS.white100,
 		},
+		license: {
+			content: COLORS.white100,
+		}
 	},
 } as const;
