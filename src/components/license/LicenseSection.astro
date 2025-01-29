@@ -29,11 +29,11 @@ const LICENSE_TIERS = [
 ] as const;
 ---
 
-<section class="flex h-screen flex-col items-center justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:py-40">
+<section class="flex min-h-screen flex-col items-center justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:min-h-[unset] 2xl:py-40">
     <div class="justify-center text-center">
         <h2 class="mb-6 text-license-header">Try Smelter now!</h2>
         <p class="text-license-subheader text-center">
-            Smelter is licensed under a <a href="" class="underline">Custom License</a>, designed to keep it accessible for growing teams<br class="hidden sm:block" />
+            Smelter is licensed under a <a href="/license" class="underline">Custom License</a>, designed to keep it accessible for growing teams<br class="hidden sm:block" />
             while supporting larger-scale use with fair licensing terms.
         </p>
     </div>
@@ -45,7 +45,7 @@ const LICENSE_TIERS = [
             ))
           }
         </div>
-        <div class="flex sm:flex-1 flex-col gap-y-6 justify-center">
+        <div class="flex sm:flex-1 gap-y-6 justify-center">
           {
             LICENSE_TIERS.filter((_, index) => index % 2).map(tier => (
               <LicenseTile {...tier} />
