@@ -1,22 +1,28 @@
 ---
-import { Image } from "astro:assets";
+import Image from "astro/components/Image.astro";
+
 import GhostButton from "../../base/buttons/GhostButton.astro";
 
+import type { LocalImageProps } from "astro:assets";
 import ArrowRight from "../../../assets/arrow-right.svg";
 
 interface Props {
 	label: string;
+	iconUrl: LocalImageProps["src"];
 	text: string;
 	buttons: Record<string, string>;
 }
 
-const { label, text, buttons } = Astro.props;
+const { label, iconUrl, text, buttons } = Astro.props;
 ---
 
 <div
   class="flex flex-col items-center justify-between gap-x-16 gap-y-8 rounded-4xl border border-capabilities-border bg-transparent p-10 transition duration-300 ease-in-out hover:bg-usage-hoverBackground lg:flex-row w-full">
   <div class="flex flex-1 flex-col">
-    <h3 class="text-usage-tileHeader mb-4">{label}</h3>
+    <div class="flex mb-4 gap-x-2">
+      <Image src={iconUrl} alt="SoftwareMansion logo" class="aspect-square" />
+      <h3 class="text-usage-tileHeader">{label}</h3>
+    </div>
     <p class="par-l text-usage-tileText hidden md:block">{text}</p>
   </div>
   <div class="flex gap-x-4 flex-row lg:flex-col gap-y-4 justify-between lg:w-[200px] md:self-start lg:self-center">

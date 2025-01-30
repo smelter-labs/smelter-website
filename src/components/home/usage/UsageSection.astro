@@ -2,11 +2,15 @@
 import { Image } from "astro:assets";
 import UsageItem from "./UsageItem.astro";
 
+import docker from "../../../assets/usage/docker.svg";
+import elixir from "../../../assets/usage/elixir.svg";
+import react from "../../../assets/usage/react.svg";
 import usageBlur from "../../../assets/usage/usage-blur.svg";
 
 const USE_CASES = [
 	{
-		label: "TypeScript SDK",
+		label: "React / TypeScript SDK",
+		iconUrl: react,
 		text: "React is a powerful library for building user interfaces, leverage its benefits and seamlessly compose scenes. Alternatively, you can manage your Smelter instance directly using TypeScript SDK.",
 		buttons: {
 			docs: "/docs/ts-sdk",
@@ -14,6 +18,7 @@ const USE_CASES = [
 	},
 	{
 		label: "Membrane plugin",
+		iconUrl: elixir,
 		text: "Membrane is a developer-friendly multimedia framework for Elixir. With its use, you can easily integrate video and audio mixing into your multimedia pipeline using the Membrane Smelter plugin.",
 		buttons: {
 			docs: "https://hexdocs.pm/membrane_live_compositor_plugin/0.9.0/Membrane.LiveCompositor.html",
@@ -22,6 +27,7 @@ const USE_CASES = [
 	},
 	{
 		label: "Standalone server",
+		iconUrl: docker,
 		text: "Deploy Smelter as a standalone server. Its language-agnostic API integrates easily with your solutions. With Dockerfiles and comprehensive deployment guidelines in our documentation, setting up Smelter is effortless.",
 		buttons: {
 			docs: "",
