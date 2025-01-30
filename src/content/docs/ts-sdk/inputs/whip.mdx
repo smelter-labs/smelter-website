@@ -1,0 +1,92 @@
+---
+title: WHIP
+---
+import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+**add more details** An input type that allows streaming video and audio to the compositor over WHIP.
+
+<Code code={`import { Inputs } from "live-compositor"`} lang='tsx' />
+
+## Inputs.RegisterWhipInput
+Parameters for an input stream from WHIP source. At least one of video and audio has to be defined.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterWhipInput = {
+    video?: Inputs.InputWhipVideoOptions;
+    audio?: Inputs.InputWhipAudioOptions;
+    required?: boolean;
+    offsetMs?: number;
+};
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Parameters of a video source included in the WHIP stream.
+
+- **Type**: [`InputWhipVideoOptions`](/ts-sdk/inputs/whip#inputsinputwhipvideooptions)
+
+---
+
+#### audio
+Parameters of an audio source included in the WHIP stream.
+
+- **Type**: [`InputWhipAudioOptions`](/ts-sdk/inputs/whip#inputsinputwhipaudiooptions)
+
+---
+
+#### required
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, LiveCompositor will postpone output frames until the stream is received.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+---
+
+#### offsetMs
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `number`
+
+## Inputs.InputWhipVideoOptions
+Parameters of a video source included in the WHIP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputWhipVideoOptions = {
+    decoder: "ffmpeg_h264" | "vulkan_video";
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### decoder
+
+- **Type**: `"ffmpeg_h264" | "vulkan_video"`
+- **Supported values**:
+    - `ffmpeg_h264` - uses FFmpeg’s H.264 software decoding.
+    - `vulkan_video` - uses Vulkan Video for hardware-accelerated decoding.
+
+## Inputs.InputWhipAudioOptions
+Parameters of a audio source included in the WHIP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputWhipAudioOptions = 
+  {
+    decoder: "opus";
+    forwardErrorCorrection?: bool;
+  }
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties (decoder: "opus")
+
+#### forwardErrorCorrection
+Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
+
+- **Type**: `string`
