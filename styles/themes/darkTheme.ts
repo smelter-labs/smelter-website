@@ -54,6 +54,7 @@ export const DARK_THEME = {
 		homeLicense: {
 			header: COLORS.white100,
 			subheader: COLORS.purple20,
+			border: COLORS.white25
 		},
 		form: {
 			header: COLORS.white100,
