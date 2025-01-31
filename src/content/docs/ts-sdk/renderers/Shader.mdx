@@ -1,0 +1,27 @@
+---
+title: Shader
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+Represents compiled shader. Used by a [Shader component](/ts-sdk/components/shader).
+
+<Code code={`import { Renderers } from "live-compositor"`} lang='tsx' />
+
+## Renderers.RegisterShader
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type Shader = {
+    source: string;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### source
+Shader source code. To learn more visit [Shaders documentation]().
+
+- **Type**: `string`
+

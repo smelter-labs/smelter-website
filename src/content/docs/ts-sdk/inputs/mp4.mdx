@@ -1,0 +1,64 @@
+---
+title: MP4
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+An input type that allows the compositor to read static MP4 files.
+
+<Code code={`import { Inputs } from "live-compositor"`} lang='tsx' />
+
+<Aside>MP4 files can contain video and audio tracks encoded with various codecs. This input type supports MP4 video tracks encoded with `h264` and audio tracks encoded with `AAC`.</Aside>
+<Aside type='caution'>If the file contains multiple audio or video tracks, only the first audio track and the first video track will be processed; all additional tracks will be ignored.</Aside>
+
+## Inputs.RegisterMp4Input
+Parameters for an input stream from MP4 file. You need to specify either a `url` or a `serverPath`.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterMp4Input = {
+    url?: string;
+    serverPath?: string;
+    loop?: bool;
+    required?: bool;
+    offsetMs?: f64;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### url
+URL of the MP4 file.
+
+- **Type**: `string`
+
+---
+
+#### serverPath
+Path to the MP4 file, specifying its location on the server where the LiveCompositor is deployed.
+
+- **Type**: `string`
+
+---
+
+#### loop
+Specifies whether the input should be played in a loop.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+---
+
+#### required
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, LiveCompositor will postpone output frames until the stream is received.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+---
+
+#### offsetMs
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `number`

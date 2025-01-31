@@ -1,0 +1,156 @@
+---
+title: RTP
+---
+import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+**add more details** An input type that allows streaming video and audio to the compositor over RTP.
+
+<Code code={`import { Inputs } from "live-compositor"`} lang='tsx' />
+
+## Inputs.RegisterRtpInput
+Parameters for an input stream from RTP source. At least one of video and audio has to be defined.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterRtpInput = {
+    port: string | u16;
+    transportProtocol?: "udp" | "tcp_server";
+    video?: Inputs.InputRtpVideoOptions;
+    audio?: Inputs.InputRtpAudioOptions;
+    required?: bool;
+    offsetMs?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### port
+UDP port or port range for the compositor to listen to incoming streams.
+
+- **Type**: `string | number`
+
+---
+
+#### transportProtocol
+UDP port or port range for the compositor to listen to incoming streams.
+
+- **Type**: `"udp" | "tcp_server"`
+- **Supported values**:
+    - `udp` - UDP protocol.
+    -  `tcp_server` - TCP protocol where LiveCompositor is the server side of the connection.
+
+---
+
+#### video
+Parameters of a video source included in the RTP stream.
+
+- **Type**: [`InputRtpVideoOptions`](/ts-sdk/inputs/rtp#inputsinputrtpvideooptions)
+
+---
+
+#### audio
+Parameters of an audio source included in the RTP stream.
+
+- **Type**: [`InputRtpAudioOptions`](/ts-sdk/inputs/rtp#inputsinputrtpaudiooptions)
+
+---
+
+#### required
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, LiveCompositor will postpone output frames until the stream is received.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+---
+
+#### offsetMs
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `number`
+
+## Inputs.InputRtpVideoOptions
+Parameters of a video source included in the RTP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputRtpVideoOptions = {
+    decoder: "ffmpeg_h264";
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### decoder
+UDP port or port range for the compositor to listen to incoming streams.
+
+- **Type**: `"ffmpeg_h264"`
+
+## Inputs.InputRtpAudioOptions
+Parameters of a audio source included in the RTP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputRtpAudioOptions = 
+  | {
+      decoder: "opus";
+      forwardErrorCorrection?: bool;
+    }
+  | {
+      decoder: "aac";
+      audioSpecificConfig: string;
+      rtpMode?: "low_bitrate" | "high_bitrate";
+    }
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties (decoder: "opus")
+
+#### forwardErrorCorrection
+Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
+
+- **Type**: `string`
+
+### Properties (decoder: "aac")
+
+#### audioSpecificConfig
+Configuration encoded in the format described in <a href='https://datatracker.ietf.org/doc/html/rfc3640#section-4.1' target='_blank'>RFC 3640</a>.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+For detailed instructions on obtaining this value, refer to the information provided in the table below:
+<table>
+  <thead>
+    <tr>
+      <th>Format/Protocol</th>
+      <th>Location of AAC Specific Config (ASC)</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>FFmpeg Streaming</strong></td>
+      <td>SDP file</td>
+      <td>Use the <code>-sdp_file FILENAME</code> option when streaming to a compositor to generate an SDP file containing the ASC.</td>
+    </tr>
+    <tr>
+      <td><strong>MP4 Files</strong></td>
+      <td>Inside the <code>esds</code> box</td>
+      <td>The ASC is embedded as part of the <code>esds</code> box, not the entire box. Applies to regular MP4 and fragmented MP4s (used in HLS playlists with MP4 files).</td>
+    </tr>
+    <tr>
+      <td><strong>FLV Files / RTMP</strong></td>
+      <td>Inside the <code>AACAUDIODATA</code> tag</td>
+      <td>The ASC is contained within the <code>AACAUDIODATA</code> tag.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### rtpMode
+Specifies the RFC 3640 mode that should be used when depacketizing this stream. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc3640#section-3.3.1' target='_blank'>RFC specification</a>
+
+- **Type**: `"low_bitrate" | "high_bitrate"`
+- **Default value**: `"high_bitrate"`

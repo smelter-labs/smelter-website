@@ -1,5 +1,5 @@
 {
-	"name": "live-compositor-website",
+	"name": "smelter-website",
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
@@ -14,20 +14,25 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
-		"@astrojs/react": "^4.1.6",
+		"@astrojs/markdown-remark": "^6.1.0",
+		"@astrojs/mdx": "^4.0.8",
 		"@astrojs/starlight": "^0.31.1",
-		"@astrojs/starlight-docsearch": "^0.4.0",
+		"@astrojs/starlight-docsearch": "^0.5.0",
+		"@expressive-code/plugin-collapsible-sections": "^0.38.3",
+		"@live-compositor/node": "^0.1.0",
+		"astro": "^5.2.1",
+		"astro-expressive-code": "^0.38.3",
+		"live-compositor": "^0.1.0",
+		"rehype-autolink-headings": "^7.1.0",
+		"sharp": "^0.32.5",
+		"typescript": "^5.6.3",
 		"@astrojs/tailwind": "^5.1.5",
-		"astro": "^5.1.9",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
-		"sharp": "^0.32.5",
-		"tailwindcss": "^3.4.14",
-		"typescript": "^5.6.3"
+		"tailwindcss": "^3.4.14"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@types/react": "^18.3.12",
 		"@types/tailwindcss": "^3.1.0",
 		"globals": "^15.11.0",
 		"sass-embedded": "^1.83.4"

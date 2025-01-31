@@ -1,0 +1,27 @@
+/* Style the Markdown heading links. */
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a {
+	color: white;
+	text-decoration: none;
+}
+
+/* Targeting headings within the markdown content container */
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a {
+	color: white;
+	text-decoration: none;
+	position: relative; /* Required for absolute positioning of pseudo-elements */
+}
+
+/* Hide the icon by default and show it on hover */
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a::after {
+	content: "#"; /* Anchor Unicode */
+	position: absolute;
+	left: 100%; /* Position to the left of the link */
+	margin-left: 10px; /* Space between the icon and text */
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out; /* Smooth transition for the icon appearance */
+}
+
+/* Show the icon on hover */
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:hover::after {
+	opacity: 1;
+}

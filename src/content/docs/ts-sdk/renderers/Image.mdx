@@ -1,0 +1,57 @@
+---
+title: Image
+---
+import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+Represents an image asset uploaded to the compositor. Used by an [Image component](/ts-sdk/components/image).
+
+<Code code={`import { Renderers } from "live-compositor"`} lang='tsx' />
+
+## Renderers.RegisterImage
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterImage = {
+    | { assetType: "png"; url?: string; serverPath?: string; }
+    | { assetType: "jpeg"; url?: string; serverPath?: string; }
+    | { assetType: "gif"; url?: string; serverPath?: string; }
+    | { 
+        assetType: "svg";
+        url?: string;
+        serverPath?: string;
+        resolution?: {
+          width: u32,
+          height: u32,
+        };
+      }
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### assetType
+Image format.
+
+- **Type**: `"jpeg" | "png" | "gif" | "svg"`
+
+---
+
+#### url
+URL for downloading an image. This field cannot be used together with the path field.
+
+- **Type**: `string`
+
+---
+
+#### serverPath
+Path to an image, specifying its location on the server where the LiveCompositor is deployed.
+
+- **Type**: `string`
+
+---
+
+#### resolution
+The resolution to use when rendering an SVG image.
+
+- **Type**: `string`

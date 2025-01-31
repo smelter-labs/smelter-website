@@ -1,0 +1,55 @@
+---
+title: Getting started
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+
+## What is Live Compositor?
+
+Live Compositor is an engine for real-time video processing built by <a href="https://swmansion.com/" target="_blank">Software Mansion</a>. It provides functionalities to apply custom effects, mix, and combine multiple videos together. By exposing an HTTP API, Live Compositor enables users to define video sources, specify modifications, and composition settings.
+
+## Quick start
+
+You can use Live Compositor in a few ways, however we recommend the TypeScript SDK as the best option right now.
+
+### Typescript SDK
+
+TypeScript SDK is a library that provides a set of React components you can use to control how Live Compositor manipulates videos. Currently, we only support running TypeScript SDK in Node.js environment, but browser and React Native support will be added soon.
+
+You can generate a new starter project using the following commands:
+<Tabs syncKey="package-manager">
+  <TabItem label="npm" icon="seti:npm">
+    ```sh frame=none
+    npx create-live-compositor
+    ```
+  </TabItem>
+  <TabItem label="pnpm" icon="pnpm">
+    ```sh frame=none
+    pnpx create-live-compositor
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="seti:yarn">
+    ```sh frame=none
+    yarn create live-compositor
+    ```
+  </TabItem>
+    <TabItem label="bun" icon="bun">
+    ```sh frame=none
+    bunx create-live-compositor
+    ```
+  </TabItem>
+</Tabs>
+  
+To learn more, visit <a href="/ts-sdk">TypeScript SDK documentation</a> or explore <a href="/ts-sdk">TypeScript SDK examples</a>.
+
+### Standalone
+
+**Some intro with multimedia server** You can use LiveCompositor as a standalone multimedia server. The server can be started by:
+
+
+### Membrane Framework plugin
+
+Membrane is a multimedia processing framework written in Elixir. **Why use it**, **Cases where it is recommended**, **Redirect to docs**
+
+<Aside>Membrane has its own way of handling multimedia, so there are some notable differences in comparison to the standalone Live Compositor. Visit <a href="">Membrane plugin section</a> for more details.</Aside>
