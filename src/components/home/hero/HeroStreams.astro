@@ -8,7 +8,7 @@ import stream3 from "../../../assets/hero/stream3.svg";
 import "./heroStreams.scss";
 ---
 
-<div id="heroStreams" class="flex-1 flex-col h-full relative hidden lg:flex">
+<div id="heroStreams" class="flex-1 w-full flex-col h-full relative hidden lg:flex">
     <Image id="streamLayer1" src={stream1} alt="Hero" class="heroStreamLayer--1" />
     <Image id="streamLayer2" src={stream2} alt="Hero" class="heroStreamLayer--2" />
     <Image id="streamLayer3" src={stream3} alt="Hero" class="heroStreamLayer--3" />
@@ -22,7 +22,8 @@ import "./heroStreams.scss";
 
     // Define constants for a fixed point of reference relative to the container
     const containerRect = document.querySelectorAll('#heroStreams')[0].getBoundingClientRect();
-    const fixedMidX = containerRect.left + containerRect.width / 2;
+    console.log("CONTAINER RECT ", containerRect)
+    const fixedMidX = window.innerWidth / 2 + containerRect.width / 2;
     const fixedMidY = containerRect.top + containerRect.height / 2;
 
     function startFollowingMouse() {
