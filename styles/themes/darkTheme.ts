@@ -43,7 +43,7 @@ export const DARK_THEME = {
 			tileHeader: COLORS.white100,
 			tileText: COLORS.white100,
 			hoverBackground: COLORS.black75,
-			hoverText: COLORS.red40
+			hoverText: COLORS.red40,
 		},
 		capabilities: {
 			header: COLORS.white100,
@@ -54,7 +54,7 @@ export const DARK_THEME = {
 		homeLicense: {
 			header: COLORS.white100,
 			subheader: COLORS.purple20,
-			border: COLORS.white25
+			border: COLORS.white25,
 		},
 		form: {
 			header: COLORS.white100,
@@ -67,6 +67,6 @@ export const DARK_THEME = {
 		},
 		license: {
 			content: COLORS.white100,
-		}
+		},
 	},
 } as const;

@@ -14,14 +14,14 @@ export default {
 			spacing: {
 				17.5: "4.375rem",
 				18: "4.5rem",
-				'1/6': '16.666667%' 
+				"1/6": "16.666667%",
 			},
 			borderRadius: {
 				"4xl": "2rem",
 			},
-			flex:{
-				'2': '2 2 0%'
-			}
+			flex: {
+				2: "2 2 0%",
+			},
 		},
 	},
 	darkMode: "selector",

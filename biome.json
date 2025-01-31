@@ -18,7 +18,7 @@
 	},
 	"linter": {
 		"enabled": true,
-		"ignore": ["**/*.css"],
+		"ignore": ["**/*.css", "**/*.d.ts"],
 		"rules": {
 			"recommended": true
 		}
