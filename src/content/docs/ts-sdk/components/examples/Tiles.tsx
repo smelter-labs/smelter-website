@@ -1,7 +1,7 @@
-import LiveCompositor from '@live-compositor/node';
-import { useInputStreams, InputStream, Tiles, Rescaler, View } from 'live-compositor';
-import { downloadAllAssets, ffplayStartPlayerAsync, sleep } from './utils';
 import path from 'path';
+import LiveCompositor from '@live-compositor/node';
+import { InputStream, Rescaler, Tiles, View, useInputStreams } from 'live-compositor';
+import { downloadAllAssets, ffplayStartPlayerAsync, sleep } from './utils';
 
 function ExampleApp() {
   const inputs = useInputStreams();

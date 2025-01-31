@@ -1,7 +1,7 @@
-import LiveCompositor from '@live-compositor/node';
-import { InputStream, Tiles, Rescaler, View } from 'live-compositor';
-import { downloadAllAssets, gstReceiveTcpStream } from './utils';
 import path from 'path';
+import LiveCompositor from '@live-compositor/node';
+import { InputStream, Rescaler, Tiles, View } from 'live-compositor';
+import { downloadAllAssets, gstReceiveTcpStream } from './utils';
 
 function ExampleApp() {
   return (

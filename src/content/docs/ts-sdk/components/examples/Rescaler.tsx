@@ -1,7 +1,7 @@
+import path from 'path';
 import LiveCompositor from '@live-compositor/node';
 import { InputStream, Rescaler, View } from 'live-compositor';
 import { downloadAllAssets, gstReceiveTcpStream } from './utils';
-import path from 'path';
 
 function ExampleApp() {
   return (

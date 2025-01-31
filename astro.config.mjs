@@ -1,11 +1,11 @@
+import { rehypeHeadingIds } from '@astrojs/markdown-remark';
+import mdx from '@astrojs/mdx';
+import starlight from '@astrojs/starlight';
 // @ts-check
 import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
-import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
-import mdx from '@astrojs/mdx';
-import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,6 +17,7 @@ export default defineConfig({
     '/http-api': '/http-api/overview',
     '/http-api/renderers': '/http-api/renderers/overview',
   },
+
   integrations: [
     starlight({
       title: 'Live compositor',
@@ -123,10 +124,9 @@ export default defineConfig({
         },
       ],
     }),
-    tailwind(),
-    react(),
     mdx(),
   ],
+
   markdown: {
     rehypePlugins: [
       rehypeHeadingIds,
@@ -138,5 +138,9 @@ export default defineConfig({
         },
       ],
     ],
+  },
+
+  vite: {
+    plugins: [tailwindcss()],
   },
 });
