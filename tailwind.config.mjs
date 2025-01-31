@@ -1,12 +1,4 @@
 import { DARK_THEME } from './styles/themes/darkTheme';
-import { LIGHT_THEME } from './styles/themes/lightTheme';
-import { generateTheme, generateTokenWindMap } from './styles/themes/themeGenerator';
-import tokenWind from './styles/themes/tokenWind';
-import starlightPlugin from '@astrojs/starlight-tailwind';
-
-const colors = { ...generateTheme(LIGHT_THEME, false) };
-const darkColors = { ...generateTheme(DARK_THEME, true) };
-const tokenWindColorMap = { ...generateTokenWindMap(LIGHT_THEME) };
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -17,21 +9,20 @@ export default {
     },
     extend: {
       colors: {
-        ...colors,
-        ...darkColors,
+        ...DARK_THEME.colors,
       },
       spacing: {
         17.5: '4.375rem',
         18: '4.5rem',
+        '1/6': '16.666667%',
       },
       borderRadius: {
         '4xl': '2rem',
       },
+      flex: {
+        2: '2 2 0%',
+      },
     },
   },
   darkMode: 'selector',
-  plugins: [tokenWind, starlightPlugin()],
-  tokenWind: {
-    colorMap: tokenWindColorMap,
-  },
 };

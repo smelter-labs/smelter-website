@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: "Aeonik";
+	src: url("/fonts/Aeonik-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Aeonik";
+	src: url("/fonts/Aeonik-Medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Aeonik";
+	src: url("/fonts/Aeonik-Light.woff2") format("woff2");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Aeonik";
+	src: url("/fonts/Aeonik-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Aeonik";
+	src: url("/fonts/Aeonik-Thin.woff2") format("woff2");
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+
+html {
+	font-family: Aeonik;
+}
+
+h1 {
+	font-family: Aeonik;
+	font-weight: 500;
+	font-size: 1.875rem;
+	line-height: 130%;
+	
+	@media (min-width: 1024px) {
+		font-size: 3.25rem;
+		line-height: 130%;
+	}
+}
+
+h2 {
+	font-family: Aeonik;
+	font-weight: 500;
+	font-size: 1.5rem;
+	line-height: 130%;
+
+	@media (min-width: 1024px) {
+		font-size: 2.125rem;
+		line-height: 130%;
+	}
+}
+
+h3 {
+	font-family: Aeonik;
+	font-weight: 500;
+	font-size: 1.25rem;
+	line-height: 130%;
+	
+	@media (min-width: 1024px) {
+		font-size: 1.5rem;
+		line-height: 130%;
+	}
+}
+
+p {
+	font-family: Aeonik;
+	font-size: 1.125rem;
+	line-height: 150%;
+}
+
+a {
+	@apply text-link
+}
+
+body {
+	font-family: Aeonik;
+	font-weight: 400;
+	font-size: 1.125rem;
+	line-height: 160%;
+}
+
+.footer-wave {
+	@apply absolute w-auto min-w-full h-full;
+
+	@media (min-width: 640px) {
+		width: 100svw;
+	}
+}
+
+@layer components {
+	.par-xl {
+		font-family: Aeonik;
+		font-weight: 400;
+		font-size: 1.125rem;
+		line-height: 150%;
+
+		@media (min-width: 1024px) {
+			font-size: 1.25rem;
+		}
+	}
+
+	.par-l {
+		font-family: Aeonik;
+		font-weight: 400;
+		font-size: 1rem;
+		line-height: 150%;
+
+		@media (min-width: 1024px) {
+			font-size: 1.125rem;
+		}
+	}
+
+	.par-s {
+		font-family: Aeonik;
+		font-size: 1rem;
+		line-height: 160%;
+	}
+
+	.par-xs {
+		font-family: Aeonik;
+		font-size: 0.875rem;
+		line-height: 160%;
+	}
+}
+
+.gradient-red-1 {
+	background: linear-gradient(
+		180deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-2 {
+	background: linear-gradient(
+		360deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-3 {
+	background: linear-gradient(
+		90deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-4 {
+	background: linear-gradient(
+		270deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-5 {
+	background: linear-gradient(
+		135deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-6 {
+	background: linear-gradient(
+		315deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-7 {
+	background: linear-gradient(
+		45deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+.gradient-red-8 {
+	background: linear-gradient(
+		45deg,
+		theme("colors.gradient.red") 0%,
+		theme("colors.gradient.purple") 100%
+	);
+}
+
+.gradient-light-1 {
+	background: linear-gradient(
+		180deg,
+		theme("colors.gradient.redLight") 0%,
+		theme("colors.gradient.black") 100%
+	);
+}
+.gradient-light-2 {
+	background: linear-gradient(
+		117.75deg,
+		theme("colors.gradient.redLight") -0.12%,
+		theme("colors.gradient.black") 100%
+	);
+}
+
+.border-gradient::before {
+	position: absolute;
+	content: "";
+	inset: 0;
+	border-radius: 32px;
+	padding: 1px;
+	background: linear-gradient(to bottom, rgba(var(--start-r), var(--start-g), var(--start-b), var(--start-a)), 30%, rgba(var(--end-r), var(--end-g), var(--end-b), var(--end-a)));
+	mask: linear-gradient(#161127 0 0) content-box, linear-gradient(#161127 0 0);
+	-webkit-mask: linear-gradient(#161127 0 0) content-box, linear-gradient(#161127 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+.use-case-tile-gradient {
+	background: radial-gradient(ellipse at center, #FBC6CF var(--start-ratio), #FBC6CF00 var(--end-ratio));
+	background-size: 90% 110%;
+	background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#usageGhostButton:hover svg path {
+	@apply stroke-usage-hoverText;
+}
