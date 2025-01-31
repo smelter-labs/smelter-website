@@ -20,6 +20,11 @@ import "./heroStreams.scss";
 
     let animationsCompleted = 0;
 
+    // Define constants for a fixed point of reference relative to the container
+    const containerRect = document.querySelectorAll('#heroStreams')[0].getBoundingClientRect();
+    const fixedMidX = containerRect.left + containerRect.width / 2;
+    const fixedMidY = containerRect.top + containerRect.height / 2;
+
     function startFollowingMouse() {
       function moveLayers(e: MouseEvent) {
         const x = e.clientX;
@@ -32,29 +37,27 @@ import "./heroStreams.scss";
           const midX = rect.left + rect.width / 2;
           const midY = rect.top + rect.height / 2;
           const proximityThreshold = 150; // Distance from bottom layer to start snapping
-          // Create outer bounds considering the proximity threshold
-          const topBound = rect.top - proximityThreshold / 3;
-          const bottomBound = rect.bottom + proximityThreshold / 3;
-          const leftBound = rect.left - proximityThreshold;
-          const rightBound = rect.right;
+          const topBound = fixedMidY - containerRect.height / 3 - proximityThreshold / 3;
+          const bottomBound = fixedMidY + containerRect.height / 3 + proximityThreshold / 3;
+          const leftBound = fixedMidX - containerRect.width / 2 - proximityThreshold / 2;
+          const rightBound = fixedMidX + containerRect.width / 2;
            
-          // New condition: check if the cursor is within the "extended" boundaries
+          console.log('TEST ', rect)
           const shouldSnap = (y >= topBound && y <= bottomBound) && (x >= leftBound && x <= rightBound);
 
-          // console.log('SHOULD SNAP ', shouldSnap)
           streamLayers.forEach((layer, index) => {
             const factor = 0.3;
             const htmlLayer = layer as HTMLElement;
             
             let dx, dy;
-            // if(shouldSnap) {
-            //   dx = 0;
-            //   dy = 0; 
-            //   htmlLayer.style.opacity = '1';
-            //   htmlLayer.style.top = '50%';
-            //   htmlLayer.style.left = '0';
-            //   htmlLayer.style.right = '4rem'
-            // } else {
+            if(shouldSnap) {
+              dx = 0;
+              dy = 0; 
+              htmlLayer.style.opacity = '1';
+              htmlLayer.style.top = '50%';
+              htmlLayer.style.left = '0';
+              htmlLayer.style.right = '4rem'
+            } else {
               dx = (x - midX) * factor * (index + 1) / 3;
               dy = (y - midY) * factor * (index + 1) / 3;
               htmlLayer.style.opacity = '1';
@@ -62,7 +65,7 @@ import "./heroStreams.scss";
               htmlLayer.style.left = '0';
               htmlLayer.style.right = '5rem'
               htmlLayer.style.animation = 'none'
-            // }
+            }
 
             htmlLayer.style.transition = 'top 1s ease, bottom 1s ease, left 1s ease, right 1s ease';
             htmlLayer.style.transform = `translate(calc(-5rem + ${dx}px), calc(-50% + ${dy}px))`;
