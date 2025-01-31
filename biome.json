@@ -18,7 +18,11 @@
 	},
 	"linter": {
 		"enabled": true,
-		"ignore": ["**/*.css", "**/*.d.ts"],
+		"ignore": [
+			"**/*.css",
+			"**/*.d.ts",
+			"src/content/docs/ts-sdk/components/examples/**/*.tsx"
+		],
 		"rules": {
 			"recommended": true,
 			"nursery": {

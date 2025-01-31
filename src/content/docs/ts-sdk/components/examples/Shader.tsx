@@ -1,6 +1,6 @@
-import LiveCompositor from '@live-compositor/node';
-import { Shader, Image } from 'live-compositor';
-import { ffplayStartPlayerAsync } from './utils';
+import LiveCompositor from "@live-compositor/node";
+import { Image, Shader } from "live-compositor";
+import { ffplayStartPlayerAsync } from "./utils";
 
 const RED_BORDER_SHADER = `
 /// Adds red border to input
@@ -57,46 +57,46 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4<f32> {
 `;
 
 function ExampleApp() {
-  return (
-    <Shader shaderId="test_shader" resolution={{ width: 1920, height: 1080 }}>
-      <Image imageId="test_image" />
-    </Shader>
-  );
+	return (
+		<Shader shaderId="test_shader" resolution={{ width: 1920, height: 1080 }}>
+			<Image imageId="test_image" />
+		</Shader>
+	);
 }
 
 async function run() {
-  const compositor = new LiveCompositor();
-  await compositor.init();
+	const compositor = new LiveCompositor();
+	await compositor.init();
 
-  void ffplayStartPlayerAsync('127.0.0.1', 8001);
+	void ffplayStartPlayerAsync("127.0.0.1", 8001);
 
-  await compositor.registerImage('test_image', {
-    assetType: 'svg',
-    url: 'https://compositor.live/img/logo.svg',
-    resolution: {
-      width: 960,
-      height: 540,
-    },
-  });
-  await compositor.registerShader('test_shader', { source: RED_BORDER_SHADER });
+	await compositor.registerImage("test_image", {
+		assetType: "svg",
+		url: "https://compositor.live/img/logo.svg",
+		resolution: {
+			width: 960,
+			height: 540,
+		},
+	});
+	await compositor.registerShader("test_shader", { source: RED_BORDER_SHADER });
 
-  await compositor.registerOutput('output_1', {
-    type: 'rtp_stream',
-    port: 8001,
-    ip: '127.0.0.1',
-    transportProtocol: 'udp',
-    video: {
-      encoder: {
-        type: 'ffmpeg_h264',
-        preset: 'ultrafast',
-      },
-      resolution: {
-        width: 1920,
-        height: 1080,
-      },
-      root: <ExampleApp />,
-    },
-  });
-  await compositor.start();
+	await compositor.registerOutput("output_1", {
+		type: "rtp_stream",
+		port: 8001,
+		ip: "127.0.0.1",
+		transportProtocol: "udp",
+		video: {
+			encoder: {
+				type: "ffmpeg_h264",
+				preset: "ultrafast",
+			},
+			resolution: {
+				width: 1920,
+				height: 1080,
+			},
+			root: <ExampleApp />,
+		},
+	});
+	await compositor.start();
 }
 void run();
