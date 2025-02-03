@@ -1,11 +1,8 @@
 import { Image, Shader } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
 
+// Adds red border to input texture
 const RED_BORDER_SHADER = `
-/// Adds red border to input
-
-/// Depends on base_params.output_resolution
-
 struct VertexInput {
   @location(0) position: vec3<f32>,
   @location(1) tex_coords: vec2<f32>,
@@ -57,7 +54,9 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4<f32> {
 
 function ExampleApp() {
   return (
-    <Shader shaderId="example_shader" resolution={{ width: 1920, height: 1080 }}>
+    <Shader
+      shaderId="example_shader"
+      resolution={{ width: 1920, height: 1080 }}>
       <Image source="https://mywebsite.com/example.svg" />
     </Shader>
   );
@@ -67,7 +66,9 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
 
-  await smelter.registerShader("test_shader", { source: RED_BORDER_SHADER });
+  await smelter.registerShader("example_shader", {
+    source: RED_BORDER_SHADER,
+  });
 
   await smelter.registerOutput("output", <ExampleApp />, {
     type: "mp4",

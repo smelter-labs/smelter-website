@@ -21,8 +21,7 @@
     "enabled": true,
     "ignore": [
       "**/*.css",
-      "**/*.d.ts",
-      "src/content/docs/ts-sdk/components/examples/**/*.tsx"
+      "**/*.d.ts"
     ],
     "rules": {
       "recommended": true,
@@ -38,5 +37,15 @@
       "trailingCommas": "es5",
       "lineWidth": 100
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": [
+        "src/content/docs/ts-sdk/**/examples/**/*.tsx"
+      ],
+      "formatter": {
+        "lineWidth": 75
+      }
+    }
+  ]
 }

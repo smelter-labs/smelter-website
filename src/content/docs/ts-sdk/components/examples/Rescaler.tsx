@@ -1,10 +1,10 @@
-import { InputStream, Rescaler } from "@swmansion/smelter";
+import { Image, Rescaler } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
-    <Rescaler style={{ rescaleMode: "fit" }}>
-      <InputStream inputId="test_input" />
+    <Rescaler style={{ rescaleMode: "fill" }}>
+      <Image source="https://example.com/image.png" />
     </Rescaler>
   );
 }
@@ -32,11 +32,6 @@ async function run() {
         channels: "stereo",
       },
     },
-  });
-
-  await smelter.registerInput("example_input", {
-    type: "mp4",
-    serverPath: "./inputExample.mp4",
   });
 
   await smelter.start();

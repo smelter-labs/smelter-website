@@ -4,7 +4,9 @@ import Smelter from "@swmansion/smelter-node";
 function ExampleApp() {
   return (
     <View>
-      <Text style={{ fontSize: 64, color: "#a5baf0", fontWeight: "bold" }}>Test text</Text>
+      <Text style={{ fontSize: 64, color: "#a5baf0", fontWeight: "bold" }}>
+        Test text
+      </Text>
     </View>
   );
 }
@@ -30,5 +32,4 @@ async function run() {
 
   await smelter.start();
 }
-
 void run();

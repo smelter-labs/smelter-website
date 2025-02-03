@@ -1,4 +1,9 @@
-import { InputStream, Rescaler, Tiles, useInputStreams } from "@swmansion/smelter";
+import {
+  InputStream,
+  Rescaler,
+  Tiles,
+  useInputStreams,
+} from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
@@ -6,13 +11,11 @@ function ExampleApp() {
 
   return (
     <Tiles transition={{ durationMs: 200 }}>
-      {Object.values(inputs)
-        .filter((input) => input?.videoState === "playing")
-        .map((input) => (
-          <Rescaler style={{ rescaleMode: "fill" }}>
-            <InputStream inputId={input.inputId} />
-          </Rescaler>
-        ))}
+      {Object.values(inputs).map((input) => (
+        <Rescaler key={input.inputId} style={{ rescaleMode: "fill" }}>
+          <InputStream inputId={input.inputId} />
+        </Rescaler>
+      ))}
     </Tiles>
   );
 }
@@ -65,5 +68,4 @@ async function run() {
     serverPath: "./inputExample3.mp4",
   });
 }
-
 void run();
