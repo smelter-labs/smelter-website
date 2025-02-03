@@ -1,48 +1,48 @@
-import LiveCompositor from "@live-compositor/node";
-import { View, WebView } from "live-compositor";
+import Smelter from "@swmansion/smelter-node";
+import { View, WebView } from "@swmansion/smelter";
 import { ffplayStartPlayerAsync } from "./utils";
 
 function ExampleApp() {
-	return (
-		<View>
-			<WebView instanceId="web_renderer1" />
-		</View>
-	);
+  return (
+    <View>
+      <WebView instanceId="web_renderer1" />
+    </View>
+  );
 }
 
 async function run() {
-	const compositor = new LiveCompositor();
-	await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-	void ffplayStartPlayerAsync("127.0.0.1", 8001);
+  void ffplayStartPlayerAsync("127.0.0.1", 8001);
 
-	await compositor.registerOutput("output_1", {
-		type: "rtp_stream",
-		port: 8001,
-		ip: "127.0.0.1",
-		transportProtocol: "udp",
-		video: {
-			encoder: {
-				type: "ffmpeg_h264",
-				preset: "ultrafast",
-			},
-			resolution: {
-				width: 1920,
-				height: 1080,
-			},
-			root: <ExampleApp />,
-		},
-	});
+  await smelter.registerOutput("output_1", {
+    type: "rtp_stream",
+    port: 8001,
+    ip: "127.0.0.1",
+    transportProtocol: "udp",
+    video: {
+      encoder: {
+        type: "ffmpeg_h264",
+        preset: "ultrafast",
+      },
+      resolution: {
+        width: 1920,
+        height: 1080,
+      },
+      root: <ExampleApp />,
+    },
+  });
 
-	await compositor.registerWebRenderer("web_renderer1", {
-		url: "https://compositor.live",
-		resolution: {
-			width: 1920,
-			height: 1080,
-		},
-		embeddingMethod: "chromium_embedding",
-	});
-	await compositor.start();
+  await smelter.registerWebRenderer("web_renderer1", {
+    url: "https://compositor.live",
+    resolution: {
+      width: 1920,
+      height: 1080,
+    },
+    embeddingMethod: "chromium_embedding",
+  });
+  await smelter.start();
 }
 
 void run();

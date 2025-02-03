@@ -1,6 +1,6 @@
 import path from "node:path";
-import LiveCompositor from "@live-compositor/node";
-import { InputStream, Rescaler, Text, Tiles, View, useInputStreams } from "live-compositor";
+import Smelter from "@swmansion/smelter-node";
+import { InputStream, Rescaler, Text, Tiles, View, useInputStreams } from "@swmansion/smelter";
 import { ffplayStartPlayerAsync } from "./utils";
 
 function InputTile({ inputId }: { inputId: string }) {
@@ -49,7 +49,7 @@ function ExampleApp() {
 }
 
 async function run() {
-	const compositor = new LiveCompositor();
+	const compositor = new Smelter();
 	await compositor.init();
 
 	void ffplayStartPlayerAsync("127.0.0.1", 8001);

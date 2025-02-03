@@ -21,9 +21,9 @@ export default defineConfig({
 	},
 	integrations: [
 		starlight({
-			title: "Live compositor",
+			title: "Smelter",
 			social: {
-				github: "https://github.com/software-mansion/live-compositor",
+				github: "https://github.com/software-mansion/smelter",
 			},
 			customCss: ["./styles/headings.css"],
 			sidebar: [
@@ -55,7 +55,7 @@ export default defineConfig({
 					label: "TypeScript SDK",
 					items: [
 						{ label: "Overview", slug: "ts-sdk/overview" },
-						{ label: "LiveCompositor", slug: "ts-sdk/live-compositor" },
+						{ label: "Smelter", slug: "ts-sdk/smelter" },
 						{
 							label: "Components",
 							collapsed: true,

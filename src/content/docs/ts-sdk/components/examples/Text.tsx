@@ -1,5 +1,5 @@
-import LiveCompositor from "@live-compositor/node";
-import { Text, View } from "live-compositor";
+import Smelter from "@swmansion/smelter-node";
+import { Text, View } from "@swmansion/smelter";
 import { ffplayStartPlayerAsync } from "./utils";
 
 function ExampleApp() {
@@ -11,12 +11,12 @@ function ExampleApp() {
 }
 
 async function run() {
-	const compositor = new LiveCompositor();
-	await compositor.init();
+	const smelter = new Smelter();
+	await smelter.init();
 
 	void ffplayStartPlayerAsync("127.0.0.1", 8001);
 
-	await compositor.registerOutput("output_1", {
+	await smelter.registerOutput("output_1", {
 		type: "rtp_stream",
 		port: 8001,
 		ip: "127.0.0.1",
@@ -33,7 +33,7 @@ async function run() {
 			root: <ExampleApp />,
 		},
 	});
-	await compositor.start();
+	await smelter.start();
 }
 
 void run();

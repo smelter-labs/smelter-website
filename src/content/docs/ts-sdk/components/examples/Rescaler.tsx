@@ -1,6 +1,6 @@
 import path from "node:path";
-import LiveCompositor from "@live-compositor/node";
-import { InputStream, Rescaler, View } from "live-compositor";
+import Smelter from "@swmansion/smelter-node";
+import { InputStream, Rescaler, View } from "@swmansion/smelter";
 import { downloadAllAssets, gstReceiveTcpStream } from "./utils";
 
 function ExampleApp() {
@@ -15,10 +15,10 @@ function ExampleApp() {
 
 async function run() {
 	await downloadAllAssets();
-	const compositor = new LiveCompositor();
-	await compositor.init();
+	const smelter = new Smelter();
+	await smelter.init();
 
-	await compositor.registerOutput("output_1", {
+	await smelter.registerOutput("output_1", {
 		type: "rtp_stream",
 		port: 8001,
 		transportProtocol: "tcp_server",
@@ -43,11 +43,11 @@ async function run() {
 
 	void gstReceiveTcpStream("127.0.0.1", 8001);
 
-	await compositor.registerInput("test_input", {
+	await smelter.registerInput("test_input", {
 		type: "mp4",
 		serverPath: path.join(__dirname, "../.assets/BigBuckBunny.mp4"),
 	});
 
-	await compositor.start();
+	await smelter.start();
 }
 void run();

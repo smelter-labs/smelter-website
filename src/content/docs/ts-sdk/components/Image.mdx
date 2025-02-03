@@ -7,9 +7,9 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 A component for rendering images:
 - From external URLs
-- From the server hosting a Live Compositor instance
+- From the server hosting a Smelter instance
 
-<Aside>To use this component, you need to first register the image with a matching `imageId` using the [`LiveCompositor.registerImage`](/ts-sdk/live-compositor#registerimage) function.</Aside>
+<Aside>To use this component, you need to first register the image with a matching `imageId` using the [`Smelter.registerImage`](/ts-sdk/live-compositor#registerimage) function.</Aside>
 
 ## Reference
 
@@ -27,7 +27,7 @@ type ImageProps = {
 ## Props
 
 ### imageId
-ID of an image. It identifies an image registered using a [LiveCompositor.registerImage](/ts-sdk/live-compositor#registerimage) method.
+ID of an image. It identifies an image registered using a [Smelter.registerImage](/ts-sdk/live-compositor#registerimage) method.
 
 - **Type**: `string`
 
