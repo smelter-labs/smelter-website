@@ -1,0 +1,41 @@
+---
+title: Image
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import imageExample from './examples/Image.tsx?raw';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+A component for rendering images:
+- From external URLs
+- From the server hosting a Smelter instance
+
+<Aside>To use this component, you need to first register the image with a matching `imageId` using the [`Smelter.registerImage`](/ts-sdk/live-compositor#registerimage) function.</Aside>
+
+## Reference
+
+<Code code={imageExample} title='ImageExample.tsx' lang='tsx' collapse={["1-3", "24-48"]} mark='4-6' />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type ImageProps = {
+    id?: string;
+    imageId: string;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+## Props
+
+### imageId
+ID of an image. It identifies an image registered using a [Smelter.registerImage](/ts-sdk/live-compositor#registerimage) method.
+
+- **Type**: `string`
+
+---
+
+### id
+ID of a component.
+
+- **Type**: `string`
+- **Default value**: Value produced by `useId` hook
+

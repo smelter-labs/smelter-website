@@ -1,0 +1,26 @@
+---
+title: useInputStreams
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import useInputStreamsExample from './examples/useInputStreams.tsx?raw';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+`useInputStreams` returns an object representing connected streams and their current state.
+
+## Reference
+
+<Code code={useInputStreamsExample} title='useInputStreams.tsx' lang='tsx' collapse={['1-26', '52-75']} />
+
+## Returns
+
+`useInputStreams` returns an object representing connected streams and their current state.
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type AudioOptions = {
+    volume: number
+}
+
+function useAudioInput(inputId: Api.InputId, audioOptions: AudioOptions);
+`} lang='tsx' />
+</CollapsibleDetails>

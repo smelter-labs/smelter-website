@@ -1,0 +1,100 @@
+---
+title: Shader
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import shaderExample from './examples/Shader.tsx?raw';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Smelter, please visit [Shaders documentation](/fundamentals/concepts/shaders).
+
+<Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`Smelter.registerShader`](/ts-sdk/live-compositor#registershader) function.</Aside>
+
+## Reference
+
+<Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["1-58"]} mark='4-6' />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type ShaderProps = {
+    id?: string;
+    children?: ReactElement[];
+    shaderId: string;
+    shaderParam?: ShaderParam;
+    resolution: {
+      width: number;
+      height: number;
+    };
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+## Props
+
+### shaderId
+ID of a shader. It identifies a shader registered using a [Smelter.registerShader](/ts-sdk/live-compositor#registershader) method.
+
+- **Type**: `string`
+
+---
+
+### children
+A single child component to be transformed.
+
+- **Type**: `ReactNode`
+
+---
+
+### id
+ID of a component.
+
+- **Type**: `string`
+- **Default value**: Value produced by `useId` hook
+
+---
+
+### shaderParam
+Object that will be serialized into a struct and passed to the shader as `@group(1) @binding(0) var<uniform>`. ShaderParam object must match the structure defined in a shader source code.
+
+- **Type**: [`ShaderParam`](/reference/ts-sdk/props/rescaler-style-props)
+
+<Aside>Right now, we don't handle memory layout automatically. To get the correct memory alignment, you might need to add some extra fields as padding. Visit the <a href="https://www.w3.org/TR/WGSL/#alignment-and-size" target='_blank'>WGSL documentation</a> for more details.</Aside>
+
+---
+
+### resolution
+Resolution of the texture where shader will be executed.
+
+- **Type**: `{ width: number; height: number;}`
+
+## ShaderParam
+
+<Code code={`
+type ShaderParam = 
+  | { type: "f32"; value: f32; }
+  | { type: "u32"; value: u32; }
+  | { type: "i32"; value: i32; }
+  | { type: "list"; value: ShaderParam[]; }
+  | {
+      type: "struct";
+      value: ShaderParamStructField[];
+    }
+`} lang='tsx'/>
+
+## ShaderParamStructField
+
+<Code code={`
+type ShaderParamStructField = 
+  | { field_name: string; type: "f32"; value: f32; }
+  | { field_name: string; type: "u32"; value: u32; }
+  | { field_name: string; type: "i32"; value: i32; }
+  | {
+      field_name: string;
+      type: "list";
+      value: ShaderParam[];
+    }
+  | {
+      field_name: string;
+      type: "struct";
+      value: ShaderParamStructField[];
+    }
+`} lang='tsx'/>

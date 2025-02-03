@@ -1,0 +1,241 @@
+---
+title: Quick start
+---
+import { Steps, Code } from '@astrojs/starlight/components';
+
+In this guide, you'll learn how to create a basic smelter setup using Smelter TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
+
+<Steps>
+
+1. Create smelter configuration and initialize the smelter instance.
+    
+    <Code code={`
+    import Smelter from "@swmansion/smelter-node"
+
+    async function start() {
+      const smelter = new Smelter();
+      await smelter.init();
+    }
+    `} lang='tsx' />
+
+2. Register input streams.
+
+    <Code code={`
+    import Smelter from "@swmansion/smelter-node"
+
+    async function start() {
+        const smelter = new Smelter();
+        await smelter.init();
+
+        await smelter.registerInput("input_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9001,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+
+        await smelter.registerInput("input_2", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9002,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+    }
+    `} lang='tsx' collapse={["4-6"]} />
+    
+    After calling `registerInput` you'll be able to establish the connection and start sending the stream.
+
+    **more about this example - video type etc**
+
+3. Register an output stream.
+
+    <Code code={`
+    import Smelter from "@swmansion/smelter-node"
+
+    async function start() {
+        const smelter = new Smelter();
+        await smelter.init();
+
+        await smelter.registerInput("input_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9001,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+
+        await smelter.registerInput("input_2", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9002,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+
+        await smelter.registerOutput("output_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9003,
+          video: {
+            resolution: { width: 1280, height: 720 },
+            encoder": {
+              type: "ffmpeg_h264",
+              preset: "ultrafast"
+            },
+          },
+          audio: {
+            encoder: {
+              type: "opus",
+              channels: "stereo"
+            },
+          }
+        })
+    }
+    `} lang='tsx'  collapse={["4-30"]} />
+
+4. Render a single input stream and wire up the `App` component to the registered output.
+    The `App` component will serve as the root of our component tree.   
+
+    ```tsx ins={3-5, 45} collapse={8-34}
+    import Smelter from "@swmansion/smelter-node"
+
+    function App() {
+      return <InputStream inputId="input_1" volume={0.9} />
+    }
+
+    async function start() {
+        const smelter = new Smelter();
+        await smelter.init();
+
+        await smelter.registerInput("input_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9001,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+
+        await smelter.registerInput("input_2", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9002,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+        
+        await smelter.registerOutput("output_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9003,
+          video: {
+            resolution: { width: 1280, height: 720 },
+            encoder": {
+              type: "ffmpeg_h264",
+              preset: "ultrafast"
+            },
+            root: <App />
+          },
+          audio: {
+            encoder: {
+              type: "opus",
+              channels: "stereo"
+            },
+          }
+        })
+    }
+    ```
+
+5. Modify the components to display both inputs inside of [`Tiles`](/ts-sdk/components/tiles).
+    
+    [`Tiles`](/ts-sdk/components/tiles) will handle transitions and scaling of the inputs automatically. 
+
+    ```tsx collapse={11-59}
+    import Smelter from "@swmansion/smelter-node"
+
+    function App() {
+      return (
+        <Tiles backgroundColor="#4d4d4d">
+            <InputStream inputId="input_1" volume={0.9} />
+            <InputStream inputId="input_2" />
+        </Tiles>
+      )
+    }
+
+    async function start() {
+        const smelter = new Smelter();
+        await smelter.init();
+
+        await smelter.registerInput("input_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9001,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+
+        await smelter.registerInput("input_2", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9002,
+          video: {
+            decoder: "ffmpeg_h264"
+          },
+          audio: {
+            decoder: "opus"
+          }
+        })
+        
+        await smelter.registerOutput("output_1", {
+          type: "rtp_stream",
+          transportProtocol: "tcp_server",
+          port: 9003,
+          video: {
+            resolution: { width: 1280, height: 720 },
+            encoder": {
+              type: "ffmpeg_h264",
+              preset: "ultrafast"
+            },
+            root: <App />
+          },
+          audio: {
+            encoder: {
+              type: "opus",
+              channels: "stereo"
+            },
+          }
+        })
+    }
+    ```
+
+    <img src="/images/quick-start.webp" alt="Quick start result" />
+</Steps>

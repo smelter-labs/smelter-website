@@ -1,0 +1,49 @@
+---
+title: Layouts
+---
+Layout components define the size, position, and simple styling of other components.
+
+Currently, we support the following layout components:
+
+- `View` ([TypeScript](/ts-sdk/components/view), [HTTP](/http-api/components/view))
+- `Tiles` ([TypeScript](/ts-sdk/components/tiles), [HTTP](/http-api/components/tiles))
+- `Rescaler` ([TypeScript](/ts-sdk/components/rescaler), [HTTP](/http-api/components/rescaler))
+
+### Common properties
+Layout components share some of the properties, the main exception being `Tiles`, which assumes that the properties will be applied directly to its children.
+
+#### Sizing
+- `width` - Width of a component in pixels.
+- `height` - Height of a component in pixels.
+
+Sizing of the layout components varies depending on their parent and position in the component tree, as detailed in the table below:
+
+  <table>
+    <tr>
+      <th><strong>Layout component placement</strong></th>
+      <th><strong>Layout component size</strong></th>
+    </tr>
+    <tr>
+      <td>Root in a component tree</td>
+      <td>Size is based on the declared resolution of an output stream.</td>
+    </tr>
+    <tr>
+      <td>Child of a non-layout component</td>
+      <td>Defining size is required, usually via the `width`/`height` fields</td>
+    </tr>
+    <tr>
+      <td>Child of another layout component</td>
+      <td>Size will be based on the area defined by its parent unless explicitly defined.</td>
+    </tr>
+  </table>
+
+#### Absolute positioning
+- `top` - Distance in pixels from the top edge of a component to the top edge of its parent component.
+- `bottom` - Distance in pixels from the bottom edge of a component to the bottom edge of its parent component.
+- `left` - Distance in pixels from the left edge of a component to the left edge of its parent component.
+- `right` - Distance in pixels from the right edge of a component to the right edge of its parent component.
+- `rotation` - Rotation in degrees.
+
+All the properties above imply the absolute positioning of a component.
+
+When a component is positioned absolutely, it will ignore the normal layout of its parent. 

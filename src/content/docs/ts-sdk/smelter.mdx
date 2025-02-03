@@ -1,0 +1,131 @@
+---
+title: Smelter
+---
+import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../components/CollapsibleDetails.astro';
+
+<Code code={`import Smelter from "@swmansion/smelter-node"`} lang="tsx" />
+
+The primary element required to start using the Smelter TypeScript SDK is the `Smelter` class. This class is crucial for initializing and managing the Smelter server instance.
+
+## new Smelter()
+Creates new compositor configuration. You have to call init first before this object can be used.
+
+<Code code={`new Smelter(manager?: CompositorManager)`} lang="tsx" />
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+  type CompositorManager {
+    setupInstance(): Promise<void>;
+    sendRequest(request: ApiRequest): Promise<object>;
+    registerEventListener(cb: (event: unknown) => void): void;
+  }
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Parameters
+
+#### manager
+Configures how the client code will connect and manage `Smelter`. 
+
+- **Type**: [`CompositorManager`](/ts-sdk/smelter#new-smelter)
+<br/>
+You have two main configuration options:
+- **Default Configuration:** Use `LocallySpawnedInstance` from `@swmansion/smelter-node` to automatically download the necessary Smelter binaries and launch the server on your local machine.
+- **Existing Server Configuration:** Choose `ExistingInstance` from `@swmansion/smelter-node` if you need to connect to a compositor instance that is already running.
+
+## init()
+<Code code={`Smelter.init(): Promise<void>`} lang="tsx" />
+
+Initialize the Smelter instance. This might spawn a new instance or just establish a connection, depending on the `manager` used while creating Smelter instance.
+
+After `init()` you can start connecting inputs/outputs or register other elements. However, no output stream will be produced until `start()` method is called.
+
+## start()
+<Code code={`Smelter.start(): Promise<void>`} lang="tsx" />
+
+Starts the processing pipeline. Any previously registered output will start producing the video/audio stream.
+
+## registerOutput()
+<Code code={`
+import { Outputs } from "@swmansion/smelter"
+
+Smelter.registerOutput(
+  outputId: string,
+  output: Outputs.RegisterOutput,
+): Promise<object>`} lang="tsx" />
+
+Register external destination that can be used as a compositor output. Visit output documentation to learn more:
+- [RTP](/ts-sdk/outputs/rtp)
+- [MP4](/ts-sdk/outputs/mp4)
+
+## unregisterOutput()
+<Code code={`Smelter.unregisterOutput(outputId: string): Promise<void>`} lang="tsx" />
+
+Unregister previously registered output.
+
+## registerInput()
+<Code code={`
+import { Inputs } from "@swmasnion/smelter"
+
+Smelter.registerInput(
+  inputId: string,
+  input: Inputs.RegisterInput,
+): Promise<object>`} lang="tsx" />
+
+Register external source that can be used as a compositor input. Visit input documentation to learn more:
+- [RTP](/ts-sdk/inputs/rtp)
+- [MP4](/ts-sdk/inputs/mp4)
+
+## unregisterInput()
+<Code code={`Smelter.unregisterInput(inputId: string): Promise<void>`} lang="tsx" />
+
+Unregister previously registered input.
+
+## registerImage()
+<Code code={`
+import { Renderers } from "@swmansion/smelter"
+
+Smelter.registerImage(
+  imageId: string,
+  image: Renderers.RegisterImage,
+): Promise<void>`} lang="tsx" />
+
+Register an image asset. See [Renderers.RegisterImage](/ts-sdk/renderers/image/#renderersregisterimage) to learn more.
+
+## unregisterImage()
+<Code code={`Smelter.unregisterImage(imageId: string): Promise<void>`} lang="tsx" />
+
+Unregister a previously registered image asset.
+
+## registerShader()
+<Code code={`
+import { Renderers } from "@swmnasion/smelter"
+
+Smelter.registerShader(
+  shaderId: string,
+  shader: Renderers.RegisterShader,
+): Promise<void>`} lang="tsx" />
+
+Register a shader. See [Renderers.RegisterShader](/ts-sdk/renderers/shader#renderersregistershader) to learn more.
+
+## unregisterShader()
+<Code code={`Smelter.unregisterShader(shaderId: string): Promise<void>`} lang="tsx" />
+
+Unregister a previously registered shader.
+
+## registerWebRenderer()
+<Code code={`
+import { Renderers } from "@swmansion/smelter"
+
+Smelter.registerWebRenderer(
+  instanceId: string,
+  instance: Renderers.RegisterWebRenderer,
+): Promise<object>`} lang="tsx" />
+
+Register a web renderer instance. See [Renderers.RegisterWebRenderer](/ts-sdk/renderers/web-renderer#renderersregisterwebrenderer) to learn more.
+
+## unregisterWebRenderer()
+<Code code={`Smelter.unregisterWebRenderer(instanceId: string): Promise<void>`} lang="tsx" />
+
+Unregister a previously registered web renderer.

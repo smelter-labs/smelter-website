@@ -7,10 +7,10 @@ import type { LocalImageProps } from "astro:assets";
 import ArrowRight from "../../../assets/arrow-right.svg";
 
 interface Props {
-	label: string;
-	iconUrl: LocalImageProps["src"];
-	text: string;
-	buttons: Record<string, string>;
+  label: string;
+  iconUrl: LocalImageProps["src"];
+  text: string;
+  buttons: Record<string, string>;
 }
 
 const { label, iconUrl, text, buttons } = Astro.props;

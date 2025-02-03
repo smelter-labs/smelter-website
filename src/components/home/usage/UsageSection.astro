@@ -8,33 +8,32 @@ import react from "../../../assets/usage/react.svg";
 import usageBlur from "../../../assets/usage/usage-blur.svg";
 
 const USE_CASES = [
-	{
-		label: "React / TypeScript SDK",
-		iconUrl: react,
-		text: "React is a powerful library for building user interfaces, leverage its benefits and seamlessly compose scenes. Alternatively, you can manage your Smelter instance directly using TypeScript SDK.",
-		buttons: {
-			docs: "/docs/ts-sdk",
-		},
-	},
-	{
-		label: "Membrane plugin",
-		iconUrl: elixir,
-		text: "Membrane is a developer-friendly multimedia framework for Elixir. With its use, you can easily integrate video and audio mixing into your multimedia pipeline using the Membrane Smelter plugin.",
-		buttons: {
-			docs: "https://hexdocs.pm/membrane_live_compositor_plugin/0.9.0/Membrane.LiveCompositor.html",
-			repository: "https://github.com/membraneframework/membrane_live_compositor_plugin",
-		},
-	},
-	{
-		label: "Standalone server",
-		iconUrl: docker,
-		text: "Deploy Smelter as a standalone server. Its language-agnostic API integrates easily with your solutions. With Dockerfiles and comprehensive deployment guidelines in our documentation, setting up Smelter is effortless.",
-		buttons: {
-			docs: "",
-			dockerfiles:
-				"https://github.com/software-mansion/live-compositor/tree/master/build_tools/docker",
-		},
-	},
+  {
+    label: "React / TypeScript SDK",
+    iconUrl: react,
+    text: "React is a powerful library for building user interfaces, leverage its benefits and seamlessly compose scenes. Alternatively, you can manage your Smelter instance directly using TypeScript SDK.",
+    buttons: {
+      docs: "/docs/ts-sdk",
+    },
+  },
+  {
+    label: "Membrane plugin",
+    iconUrl: elixir,
+    text: "Membrane is a developer-friendly multimedia framework for Elixir. With its use, you can easily integrate video and audio mixing into your multimedia pipeline using the Membrane Smelter plugin.",
+    buttons: {
+      docs: "https://hexdocs.pm/membrane_live_compositor_plugin/0.9.0/Membrane.LiveCompositor.html",
+      repository: "https://github.com/membraneframework/membrane_live_compositor_plugin",
+    },
+  },
+  {
+    label: "Standalone server",
+    iconUrl: docker,
+    text: "Deploy Smelter as a standalone server. Its language-agnostic API integrates easily with your solutions. With Dockerfiles and comprehensive deployment guidelines in our documentation, setting up Smelter is effortless.",
+    buttons: {
+      docs: "",
+      dockerfiles: "https://github.com/software-mansion/smelter/tree/master/build_tools/docker",
+    },
+  },
 ] as const;
 ---
 
