@@ -7,7 +7,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 `WebView` renders a website using Chromium engine embedded inside the compositor.
 
-<Aside>To use this component, you need to first register the image with a matching `instanceId` using the `LiveCompositor.registerWebRenderer` function.</Aside>
+<Aside>To use this component, you need to first register the image with a matching `instanceId` using the `Smelter.registerWebRenderer` function.</Aside>
 
 <Aside type='caution'>Only one component can use specific `instanceId` at the time.</Aside>
 
@@ -28,7 +28,7 @@ type WebView = {
 ## Props
 
 ### instanceId
-ID of a web renderer instance. It identifies an instnace registered using a [LiveCompositor.registerWebRenderer](/ts-sdk/live-compositor#registerwebrenderer) method.
+ID of a web renderer instance. It identifies an instnace registered using a [Smelter.registerWebRenderer](/ts-sdk/live-compositor#registerwebrenderer) method.
 
 - **Type**: `string`
 

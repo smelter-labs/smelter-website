@@ -1,15 +1,10 @@
-import { View } from "@swmansion/smelter";
+import { Image, View } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
-import { ffplayStartPlayerAsync } from "./utils";
 
 function ExampleApp() {
   return (
-    <View>
-      <View style={{ direction: "column", backgroundColor: "#FFFFFF" }}>
-        <View style={{ backgroundColor: "#FF0000" }} />
-        <View style={{ backgroundColor: "#0000FF" }} />
-      </View>
-      <View style={{ backgroundColor: "#00FF00" }} />
+    <View style={{ direction: "column", backgroundColor: "rgb(255,255,255)" }}>
+      <Image imageId="test_image" />
     </View>
   );
 }
@@ -18,7 +13,14 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
 
-  void ffplayStartPlayerAsync("127.0.0.1", 8001);
+  await smelter.registerImage("test_image", {
+    assetType: "svg",
+    url: "https://compositor.live/img/logo.svg",
+    resolution: {
+      width: 960,
+      height: 540,
+    },
+  });
 
   await smelter.registerOutput("output_1", {
     type: "rtp_stream",

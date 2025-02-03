@@ -3,31 +3,31 @@ title: Quick start
 ---
 import { Steps, Code } from '@astrojs/starlight/components';
 
-In this guide, you'll learn how to create a basic compositor setup using Live Compositor TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
+In this guide, you'll learn how to create a basic smelter setup using Smelter TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
 
 <Steps>
 
-1. Create compositor configuration and initialize the compositor instance.
+1. Create smelter configuration and initialize the smelter instance.
     
     <Code code={`
-    import LiveCompositor from "@live-compositor/node"
+    import Smelter from "@swmansion/smelter-node"
 
     async function start() {
-      const compositor = new LiveCompositor();
-      await compositor.init();
+      const smelter = new Smelter();
+      await smelter.init();
     }
     `} lang='tsx' />
 
 2. Register input streams.
 
     <Code code={`
-    import LiveCompositor from "@live-compositor/node"
+    import Smelter from "@swmansion/smelter-node"
 
     async function start() {
-        const compositor = new LiveCompositor();
-        await compositor.init();
+        const smelter = new Smelter();
+        await smelter.init();
 
-        await compositor.registerInput("input_1", {
+        await smelter.registerInput("input_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9001,
@@ -39,7 +39,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
 
-        await compositor.registerInput("input_2", {
+        await smelter.registerInput("input_2", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9002,
@@ -60,13 +60,13 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
 3. Register an output stream.
 
     <Code code={`
-    import LiveCompositor from "@live-compositor/node"
+    import Smelter from "@swmansion/smelter-node"
 
     async function start() {
-        const compositor = new LiveCompositor();
-        await compositor.init();
+        const smelter = new Smelter();
+        await smelter.init();
 
-        await compositor.registerInput("input_1", {
+        await smelter.registerInput("input_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9001,
@@ -78,7 +78,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
 
-        await compositor.registerInput("input_2", {
+        await smelter.registerInput("input_2", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9002,
@@ -90,7 +90,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
 
-        await compositor.registerOutput("output_1", {
+        await smelter.registerOutput("output_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9003,
@@ -115,17 +115,17 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
     The `App` component will serve as the root of our component tree.   
 
     ```tsx ins={3-5, 45} collapse={8-34}
-    import LiveCompositor from "@live-compositor/node"
+    import Smelter from "@swmansion/smelter-node"
 
     function App() {
       return <InputStream inputId="input_1" volume={0.9} />
     }
 
     async function start() {
-        const compositor = new LiveCompositor();
-        await compositor.init();
+        const smelter = new Smelter();
+        await smelter.init();
 
-        await compositor.registerInput("input_1", {
+        await smelter.registerInput("input_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9001,
@@ -137,7 +137,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
 
-        await compositor.registerInput("input_2", {
+        await smelter.registerInput("input_2", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9002,
@@ -149,7 +149,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
         
-        await compositor.registerOutput("output_1", {
+        await smelter.registerOutput("output_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9003,
@@ -176,7 +176,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
     [`Tiles`](/ts-sdk/components/tiles) will handle transitions and scaling of the inputs automatically. 
 
     ```tsx collapse={11-59}
-    import LiveCompositor from "@live-compositor/node"
+    import Smelter from "@swmansion/smelter-node"
 
     function App() {
       return (
@@ -188,10 +188,10 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
     }
 
     async function start() {
-        const compositor = new LiveCompositor();
-        await compositor.init();
+        const smelter = new Smelter();
+        await smelter.init();
 
-        await compositor.registerInput("input_1", {
+        await smelter.registerInput("input_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9001,
@@ -203,7 +203,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
 
-        await compositor.registerInput("input_2", {
+        await smelter.registerInput("input_2", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9002,
@@ -215,7 +215,7 @@ In this guide, you'll learn how to create a basic compositor setup using Live Co
           }
         })
         
-        await compositor.registerOutput("output_1", {
+        await smelter.registerOutput("output_1", {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9003,

@@ -1,15 +1,17 @@
 import path from "node:path";
-import { InputStream, Rescaler, View } from "@swmansion/smelter";
+import { InputStream, Rescaler, Tiles, View } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
 import { downloadAllAssets, gstReceiveTcpStream } from "./utils";
 
 function ExampleApp() {
   return (
-    <View>
-      <Rescaler>
-        <InputStream inputId="test_input" />
-      </Rescaler>
-    </View>
+    <Tiles transition={{ durationMs: 200 }}>
+      <View>
+        <Rescaler>
+          <InputStream inputId="test_input" />
+        </Rescaler>
+      </View>
+    </Tiles>
   );
 }
 

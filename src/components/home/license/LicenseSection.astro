@@ -6,26 +6,26 @@ import online from "../../../assets/capabilities/online.svg";
 import trial from "../../../assets/capabilities/trial.svg";
 
 const LICENSE_TIERS = [
-	{
-		label: "Offline processing",
-		text: "Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.",
-		icon: offline,
-	},
-	{
-		label: "Online processing",
-		text: `<p>While Smelter offers free offline processing, certain use cases require a commercial license:</p>
+  {
+    label: "Offline processing",
+    text: "Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.",
+    icon: offline,
+  },
+  {
+    label: "Online processing",
+    text: `<p>While Smelter offers free offline processing, certain use cases require a commercial license:</p>
         <ul class="list-disc pl-4 flex flex-col gap-4 mt-2">
           <li><strong>SaaS Operations:</strong> If you operate a SaaS platform utilizing Smelter for programmatic video control.</li>
           <li><strong>Product Distribution:</strong> If you embed Smelter within software or hardware products intended for sale.</li>
           <li><strong>License Limits:</strong> If your usage exceeds the limits specified in the free license.</li>
         </ul>`,
-		icon: online,
-	},
-	{
-		label: "Trial",
-		text: "If you’re new to Smelter, you can explore it with a 90-day trial for all use-cases – no strings attached!",
-		icon: trial,
-	},
+    icon: online,
+  },
+  {
+    label: "Trial",
+    text: "If you’re new to Smelter, you can explore it with a 90-day trial for all use-cases – no strings attached!",
+    icon: trial,
+  },
 ] as const;
 ---
 
