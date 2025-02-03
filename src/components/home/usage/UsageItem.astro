@@ -31,7 +31,6 @@ const { label, iconUrl, text, buttons } = Astro.props;
           <a href={url} target="_blank" style="text-decoration: none; color: inherit;">
             <GhostButton id="usageGhostButton" class="hover:text-usage-hoverText" >
               <p class="par-xl capitalize">{label}</p>
-              {/* <Image src={arrowRight} class="hover:text-usage-hoverText" alt={`${label} redirect`} /> */}
               <ArrowRight  />
             </GhostButton>
           </a>
@@ -39,15 +38,3 @@ const { label, iconUrl, text, buttons } = Astro.props;
     }
   </div>
 </div>
-    <!-- <a href="/docs" style="text-decoration: none; color: inherit;">
-      <GhostButton>
-        <p class="par-xl">Docs</p>
-        <Image src={arrowRight} alt={`${label} docs`} />
-      </GhostButton>
-    </a>
-    <a href="/docs" style="text-decoration: none; color: inherit;">
-      <GhostButton>
-        <p class="par-xl">Dockerfiles</p>
-        <Image src={arrowRight} alt={`${label} dockerfiles`} />
-      </GhostButton>
-    </a> -->

@@ -10,14 +10,14 @@ import smelterLogo from "../../assets/navigation/smelter-logo.svg";
 <header id="pageHeader" class="fixed z-50 w-screen max-w-screen bg-transparent">
   <nav class="flex h-18 md:h-20">
     <div class="flex justify-between max-w-[1800px] w-full m-auto px-4 sm:px-8 lg:px-20">
-      <a href="/">
-        <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" />
-        <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" />
+      <a href="https://www.smelter.dev/">
+        <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" loading="eager" />
+        <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" loading="eager" />
       </a>
   
       <div class="flex gap-x-4 md:gap-x-6">
-        <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" />
-        <Image src={githubLogo} alt="Github logo" class="fill-nav-icon aspect-square w-5 md:w-6" />
+        <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
+        <Image src={githubLogo} alt="Github logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
       </div>
     </div>
   </nav>

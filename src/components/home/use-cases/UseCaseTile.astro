@@ -19,11 +19,6 @@ const { header, subHeader, image } = Astro.props;
     'w-full rounded-[calc(2rem-1px)] bg-useCases-tileBackgroundOpacity border-gradient overflow-clip 2xl:overflow-x-visible'
     }>
     <div class="-z-10 bg-useCases-tileBackground rounded-[calc(2rem-1px)] h-full w-full absolute">
-      <!-- <Image
-        src={flash}
-        alt={`Active use-case flash`}
-        class="absolute left-1/2 top-[-25px] -z-10 -translate-x-1/2"
-      /> -->
       <div id="gradient" class="w-[256px] h-[72px] absolute left-1/2 top-[-36px] -z-10 -translate-x-1/2 use-case-tile-gradient" />
     </div>
     <div class="flex flex-col justify-between p-6 sm:p-10 text-center">
@@ -32,7 +27,7 @@ const { header, subHeader, image } = Astro.props;
         <p class="par-l text-useCases-tileSubheader">{subHeader}</p>
       </div>
       <div class="mt-6">
-        <Image src={image} alt={`${header} image`} class="aspect-video w-full rounded-2xl" />
+        <Image src={image} alt={`${header}`} class="aspect-video w-full rounded-2xl" />
       </div>
     </div>
   </div>
