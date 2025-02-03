@@ -1,5 +1,5 @@
-import Smelter from "@swmansion/smelter-node";
 import { View } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 import { ffplayStartPlayerAsync } from "./utils";
 
 function ExampleApp() {

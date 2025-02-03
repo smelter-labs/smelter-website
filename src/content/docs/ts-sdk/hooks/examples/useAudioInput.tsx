@@ -1,6 +1,6 @@
 import path from "node:path";
-import Smelter from "@swmansion/smelter-node";
 import { InputStream, Rescaler, View, useAudioInput } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 import { downloadAllAssets, ffplayStartPlayerAsync } from "./utils";
 
 function ExampleApp() {
