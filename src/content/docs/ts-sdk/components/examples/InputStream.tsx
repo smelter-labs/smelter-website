@@ -1,29 +1,21 @@
-import path from "node:path";
-import { InputStream, Rescaler, Tiles, View } from "@swmansion/smelter";
+import { InputStream, Rescaler } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
-import { downloadAllAssets, gstReceiveTcpStream } from "./utils";
 
 function ExampleApp() {
   return (
-    <Tiles transition={{ durationMs: 200 }}>
-      <View>
-        <Rescaler>
-          <InputStream inputId="test_input" />
-        </Rescaler>
-      </View>
-    </Tiles>
+    <Rescaler>
+      <InputStream inputId="example_input" volume={0.5} />
+    </Rescaler>
   );
 }
 
 async function run() {
-  await downloadAllAssets();
   const smelter = new Smelter();
   await smelter.init();
 
-  await smelter.registerOutput("output_1", {
-    type: "rtp_stream",
-    port: 8001,
-    transportProtocol: "tcp_server",
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
         type: "ffmpeg_h264",
@@ -33,21 +25,18 @@ async function run() {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
     },
     audio: {
       encoder: {
-        type: "opus",
+        type: "aac",
         channels: "stereo",
       },
     },
   });
 
-  void gstReceiveTcpStream("127.0.0.1", 8001);
-
-  await smelter.registerInput("test_input", {
+  await smelter.registerInput("example_input", {
     type: "mp4",
-    serverPath: path.join(__dirname, "../.assets/BigBuckBunny.mp4"),
+    serverPath: "./inputExample.mp4",
   });
 
   await smelter.start();

@@ -1,7 +1,5 @@
-import path from "node:path";
 import { InputStream, Rescaler, Text, Tiles, View, useInputStreams } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
-import { ffplayStartPlayerAsync } from "./utils";
 
 function InputTile({ inputId }: { inputId: string }) {
   return (
@@ -49,16 +47,12 @@ function ExampleApp() {
 }
 
 async function run() {
-  const compositor = new Smelter();
-  await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-  void ffplayStartPlayerAsync("127.0.0.1", 8001);
-
-  await compositor.registerOutput("output_1", {
-    type: "rtp_stream",
-    port: 8001,
-    ip: "127.0.0.1",
-    transportProtocol: "udp",
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
         type: "ffmpeg_h264",
@@ -68,19 +62,25 @@ async function run() {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
+    },
+    audio: {
+      encoder: {
+        type: "aac",
+        channels: "stereo",
+      },
     },
   });
-  await compositor.start();
 
-  await compositor.registerInput("input_1", {
+  await smelter.registerInput("input_1", {
     type: "mp4",
-    serverPath: path.join(__dirname, "../.assets/BigBuckBunny.mp4"),
+    serverPath: "./inputExample1.mp4",
   });
 
-  await compositor.registerInput("input_2", {
+  await smelter.registerInput("input_2", {
     type: "mp4",
-    serverPath: path.join(__dirname, "../.assets/ElephantsDream.mp4"),
+    serverPath: "./inputExample2.mp4",
   });
+
+  await smelter.start();
 }
 void run();

@@ -1,6 +1,5 @@
-import LiveCompositor from "@live-compositor/node";
-import { Image, Shader } from "live-compositor";
-import { ffplayStartPlayerAsync } from "./utils";
+import { Image, Shader } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 
 const RED_BORDER_SHADER = `
 /// Adds red border to input
@@ -58,33 +57,21 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4<f32> {
 
 function ExampleApp() {
   return (
-    <Shader shaderId="test_shader" resolution={{ width: 1920, height: 1080 }}>
-      <Image imageId="test_image" />
+    <Shader shaderId="example_shader" resolution={{ width: 1920, height: 1080 }}>
+      <Image source="https://mywebsite.com/example.svg" />
     </Shader>
   );
 }
 
 async function run() {
-  const compositor = new LiveCompositor();
-  await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-  void ffplayStartPlayerAsync("127.0.0.1", 8001);
+  await smelter.registerShader("test_shader", { source: RED_BORDER_SHADER });
 
-  await compositor.registerImage("test_image", {
-    assetType: "svg",
-    url: "https://compositor.live/img/logo.svg",
-    resolution: {
-      width: 960,
-      height: 540,
-    },
-  });
-  await compositor.registerShader("test_shader", { source: RED_BORDER_SHADER });
-
-  await compositor.registerOutput("output_1", {
-    type: "rtp_stream",
-    port: 8001,
-    ip: "127.0.0.1",
-    transportProtocol: "udp",
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
         type: "ffmpeg_h264",
@@ -94,9 +81,15 @@ async function run() {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
+    },
+    audio: {
+      encoder: {
+        type: "aac",
+        channels: "stereo",
+      },
     },
   });
-  await compositor.start();
+
+  await smelter.start();
 }
 void run();
