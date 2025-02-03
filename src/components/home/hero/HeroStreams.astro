@@ -1,90 +1,112 @@
 ---
 import Image from "astro/components/Image.astro";
-
 import stream1 from "../../../assets/hero/stream1.svg";
 import stream2 from "../../../assets/hero/stream2.svg";
 import stream3 from "../../../assets/hero/stream3.svg";
-
 import "./heroStreams.scss";
 ---
 
 <div id="heroStreams" class="flex-1 w-full flex-col h-full relative hidden lg:flex">
-    <Image id="streamLayer1" src={stream1} alt="Hero" class="heroStreamLayer--1" />
-    <Image id="streamLayer2" src={stream2} alt="Hero" class="heroStreamLayer--2" />
-    <Image id="streamLayer3" src={stream3} alt="Hero" class="heroStreamLayer--3" />
+    <Image id="streamLayer1" src={stream1} alt="Hero" class="heroStreamLayer"/>
+    <Image id="streamLayer2" src={stream2} alt="Hero" class="heroStreamLayer--2"/>
+    <Image id="streamLayer3" src={stream3} alt="Hero" class="heroStreamLayer--3"/>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const streamLayers = document.querySelectorAll('#heroStreams > img');
+document.addEventListener('DOMContentLoaded', () => {
+    function remToPixels(rem: number) {
+        return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    }
 
-    let animationsCompleted = 0;
+    const proximityThreshold = 50; // Distance from bottom layer to start snapping
+    
+    let transitionCompletedCount = 0;
+    
+    const streamLayers = document.querySelectorAll<HTMLImageElement>('#heroStreams > img');
+      const container = document.querySelector('#heroStreams');
 
-    // Define constants for a fixed point of reference relative to the container
-    const containerRect = document.querySelectorAll('#heroStreams')[0].getBoundingClientRect();
-    console.log("CONTAINER RECT ", containerRect)
-    const fixedMidX = window.innerWidth / 2 + containerRect.width / 2;
-    const fixedMidY = containerRect.top + containerRect.height / 2;
-
-    function startFollowingMouse() {
-      function moveLayers(e: MouseEvent) {
-        const x = e.clientX;
-        const y = e.clientY;
-        
-        requestAnimationFrame(function() {
-          if(window.scrollY + y > window.innerHeight) return
-          const bottomLayer = streamLayers[0];
-          const rect = bottomLayer.getBoundingClientRect();
-          const midX = rect.left + rect.width / 2;
-          const midY = rect.top + rect.height / 2;
-          const proximityThreshold = 150; // Distance from bottom layer to start snapping
-          const topBound = fixedMidY - containerRect.height / 3 - proximityThreshold / 3;
-          const bottomBound = fixedMidY + containerRect.height / 3 + proximityThreshold / 3;
-          const leftBound = fixedMidX - containerRect.width / 2 - proximityThreshold / 2;
-          const rightBound = fixedMidX + containerRect.width / 2;
-           
-          console.log('TEST ', rect)
-          const shouldSnap = (y >= topBound && y <= bottomBound) && (x >= leftBound && x <= rightBound);
-
-          streamLayers.forEach((layer, index) => {
-            const factor = 0.3;
-            const htmlLayer = layer as HTMLElement;
-            
-            let dx, dy;
-            if(shouldSnap) {
-              dx = 0;
-              dy = 0; 
-              htmlLayer.style.opacity = '1';
-              htmlLayer.style.top = '50%';
-              htmlLayer.style.left = '0';
-              htmlLayer.style.right = '4rem'
-            } else {
-              dx = (x - midX) * factor * (index + 1) / 3;
-              dy = (y - midY) * factor * (index + 1) / 3;
-              htmlLayer.style.opacity = '1';
-              htmlLayer.style.top = '50%';
-              htmlLayer.style.left = '0';
-              htmlLayer.style.right = '5rem'
-              htmlLayer.style.animation = 'none'
-            }
-
-            htmlLayer.style.transition = 'top 1s ease, bottom 1s ease, left 1s ease, right 1s ease';
-            htmlLayer.style.transform = `translate(calc(-5rem + ${dx}px), calc(-50% + ${dy}px))`;
-          });
-        });
-      }
+      if(!container) return;
       
+      const positions = [
+          { left: '11rem', top: '50%', transform: 'translateY(-50%)' },
+          { left: '2rem', top: 'calc(50% + 2rem)', transform: 'translateY(-50%)' },
+          { left: '-7rem', top: 'calc(50% + 4rem)', transform: 'translateY(-50%)' }
+      ] as const;
+    function positionAndFadeInLayers() {
+        streamLayers.forEach((layer, index) => {
+            const {left, top, transform} = positions[index];
+            const entryAnimation = layer.animate([
+                { opacity: 0, left, top, transform },
+                { opacity: 1, left, top, transform }
+            ], {
+                duration: 500,
+                delay: 500 * (index + 1),
+                easing: 'ease-in-out',
+                fill: 'forwards'
+            });
+
+            entryAnimation.onfinish = () => {
+              transitionCompletedCount++;
+              if (transitionCompletedCount === streamLayers.length) {
+                  // Execute movement setup after all layers are visible
+                  setupLayersMovement();
+              }
+            }
+        });
+    }
+
+    positionAndFadeInLayers();
+    
+    function moveLayers(e: MouseEvent) {
+        const {clientX, clientY} = e;
+        if(window.scrollY + clientY > window.innerHeight) return
+
+        const bottomLayer = streamLayers[0];
+        const bottomLayerRect = bottomLayer.getBoundingClientRect();
+        const bottomLayerMidX = bottomLayerRect.left + bottomLayerRect.width / 2;
+        const bottomLayerMidY = bottomLayerRect.top + bottomLayerRect.height / 2;
+
+        // Calculate the deltas based on the difference between the cursor and the exact center of the container
+        let dx = clientX - bottomLayerMidX;
+        let dy = clientY - bottomLayerMidY;
+
+        const snapThreshold = 300;
+
+        // Calculate the distance from the cursor to the bottom layer's center.
+        const distanceToBottomLayerCenter = Math.sqrt(
+            Math.pow(clientX - bottomLayerMidX, 2) + Math.pow(clientY - bottomLayerMidY, 2)
+        );
+
+        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
+
+        streamLayers.forEach((layer, index) => {
+            const layerRect = layer.getBoundingClientRect();
+            const layerStyles = positions[index];
+            const factor = 0.45 * (index)/3;
+
+            console.log('should snap ' , shouldSnap)
+            if(shouldSnap && index !== 0) {
+              dx = bottomLayerRect.left - layerRect.left;
+              dy =  bottomLayerRect.top - layerRect.top;
+            } else {
+              dx = (clientX - bottomLayerMidX) * factor
+              dy = (clientY - bottomLayerMidY) * factor
+            }
+            
+            layer.animate([
+                { transform: `translate(calc(${dx}px - ${layerStyles.left}), calc(${dy}px - ${layerStyles.top}))` }
+            ], {
+                duration: 600,
+                fill: 'forwards',
+                easing: 'linear',
+                composite: 'replace'
+            });
+        });
+    }
+
+
+    function setupLayersMovement() {
       document.addEventListener('mousemove', moveLayers);
     }
-    
-
-    streamLayers.forEach(layer => {
-      layer.addEventListener('animationend', () => {
-        animationsCompleted++;
-        if (animationsCompleted === streamLayers.length) {
-          startFollowingMouse();
-        }
-      });
-    });
-  });
+});
 </script>
