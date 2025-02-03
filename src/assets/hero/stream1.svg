@@ -2,7 +2,7 @@
 <g clip-path="url(#clip0_107_482)">
 <path d="M549 0.837402H33C15.3269 0.837402 1 15.1643 1 32.8374V388.837C1 406.511 15.3269 420.837 33 420.837H549C566.673 420.837 581 406.511 581 388.837V32.8374C581 15.1643 566.673 0.837402 549 0.837402Z" fill="#161127" fill-opacity="0.75"/>
 <path d="M549 0.837402H33C15.3269 0.837402 1 15.1643 1 32.8374V388.837C1 406.511 15.3269 420.837 33 420.837H549C566.673 420.837 581 406.511 581 388.837V32.8374C581 15.1643 566.673 0.837402 549 0.837402Z" stroke="url(#paint0_linear_107_482)"/>
-<path d="M533 32.8374H49C40.1634 32.8374 33 40.0008 33 48.8374V372.837C33 381.674 40.1634 388.837 49 388.837H533C541.837 388.837 549 381.674 549 372.837V48.8374C549 40.0008 541.837 32.8374 533 32.8374Z" fill="white" fill-opacity="0.05"/>
+<path id="overlay_layer" d="M533 32.8374H49C40.1634 32.8374 33 40.0008 33 48.8374V372.837C33 381.674 40.1634 388.837 49 388.837H533C541.837 388.837 549 381.674 549 372.837V48.8374C549 40.0008 541.837 32.8374 533 32.8374Z" fill="url(#backgroundGradient)" fill-opacity="0.05"/>
 </g>
 <defs>
 <linearGradient id="paint0_linear_107_482" x1="1.00002" y1="-0.572949" x2="581" y2="420.837" gradientUnits="userSpaceOnUse">
@@ -12,5 +12,14 @@
 <clipPath id="clip0_107_482">
 <rect width="582" height="422" fill="white"/>
 </clipPath>
+<linearGradient id="defaultGradient" x1="291" y1="32.8374" x2="291" y2="388.837" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#white"/>
+    <stop offset="1" stop-color="#302555"/>
+</linearGradient>
+<linearGradient id="backgroundGradient" x1="291" y1="32.8374" x2="291" y2="388.837" gradientUnits="userSpaceOnUse">
+    <stop id="backgroundGradient_stop1" offset="0%" stop-color="#161127"/>
+    <stop id="backgroundGradient_stop2" offset="100%" stop-color="#161127"/>
+</linearGradient>
+</linearGradient>
 </defs>
 </svg>

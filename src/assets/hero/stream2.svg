@@ -1,6 +1,6 @@
 <svg width="582" height="422" viewBox="0 0 582 422" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_105_388)">
-<path d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z" fill="#161127" fill-opacity="0.75"/>
+<path id="opacity_layer" d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z" fill="#161127" fill-opacity="0"/>
 <path d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z" stroke="url(#paint0_linear_105_388)"/>
 <g clip-path="url(#clip1_105_388)">
 <rect x="33" y="134" width="128" height="255" rx="16" fill="white" fill-opacity="0.05"/>

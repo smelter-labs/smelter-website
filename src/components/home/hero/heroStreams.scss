@@ -1,33 +1,27 @@
 $animationDelay: 0.3s;
 
 .heroStreamLayer {
-    @apply w-full absolute left-0 top-1/2 -z-30 -translate-y-1/2;
+    position: absolute;
     opacity: 0;
-    transform: translate(20px, calc(-50% + 20px));
-    animation: fadeInMove 0.8s ease-out forwards;
-    
-    &--1 {
-        @extend .heroStreamLayer;
-        left: 11rem;
-        animation-delay: $animationDelay;
-    }
+    z-index: -10;
+    // left: 11rem;
+    // top: 50%;
+    // right: 0;
+    // transform: translateY(-50%);
+    align-self: center;
+    justify-self: center;
+    // transition: opacity $animationDelay ease-out $animationDelay;
+
     &--2 {
         @extend .heroStreamLayer;
-        top: calc(50% + 2rem);
-        left: 2rem;
-        animation-delay: calc($animationDelay * 2);
+        // top: calc(50% + 2rem);
+        // left: 2rem;
+        transition: opacity calc($animationDelay * 2) ease-out calc($animationDelay * 2);
     }
     &--3 {
         @extend .heroStreamLayer;
-        top: calc(50% + 4rem);
-        left: -7rem;
-        animation-delay: calc($animationDelay * 3);
-    }
-}
-
-@keyframes fadeInMove {
-    to {
-        opacity: 1;
-        transform: translate(0, -50%);
+        // top: calc(50% + 4rem);
+        // left: -7rem;
+        transition: opacity calc($animationDelay * 3) ease-out calc($animationDelay * 3);
     }
 }
