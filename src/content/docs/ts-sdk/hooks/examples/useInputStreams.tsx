@@ -1,7 +1,5 @@
-import LiveCompositor from '@live-compositor/node';
-import { useInputStreams, Text, InputStream, Tiles, Rescaler, View } from 'live-compositor';
-import { ffplayStartPlayerAsync } from './utils';
-import path from 'path';
+import { InputStream, Rescaler, Text, Tiles, View, useInputStreams } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 
 function InputTile({ inputId }: { inputId: string }) {
   return (
@@ -13,9 +11,9 @@ function InputTile({ inputId }: { inputId: string }) {
         <Text
           style={{
             fontSize: 40,
-            color: '#FF0000',
+            color: "#FF0000",
             lineHeight: 50,
-            backgroundColor: '#FFFFFF88',
+            backgroundColor: "#FFFFFF88",
           }}>
           Input ID: {inputId}
         </Text>
@@ -29,19 +27,19 @@ function ExampleApp() {
 
   return (
     <Tiles transition={{ durationMs: 200 }}>
-      {Object.values(inputs).map(input =>
+      {Object.values(inputs).map((input) =>
         !input.videoState ? (
           <Text key={input.inputId} style={{ fontSize: 40 }}>
             Waiting for stream {input.inputId} to connect
           </Text>
-        ) : input.videoState === 'playing' ? (
+        ) : input.videoState === "playing" ? (
           <InputTile key={input.inputId} inputId={input.inputId} />
-        ) : input.videoState === 'finished' ? (
+        ) : input.videoState === "finished" ? (
           <Text key={input.inputId} style={{ fontSize: 40 }}>
             Stream {input.inputId} finished
           </Text>
         ) : (
-          'Fallback'
+          "Fallback"
         )
       )}
     </Tiles>
@@ -49,38 +47,40 @@ function ExampleApp() {
 }
 
 async function run() {
-  const compositor = new LiveCompositor();
-  await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-  void ffplayStartPlayerAsync('127.0.0.1', 8001);
-
-  await compositor.registerOutput('output_1', {
-    type: 'rtp_stream',
-    port: 8001,
-    ip: '127.0.0.1',
-    transportProtocol: 'udp',
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
-        type: 'ffmpeg_h264',
-        preset: 'ultrafast',
+        type: "ffmpeg_h264",
+        preset: "ultrafast",
       },
       resolution: {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
+    },
+    audio: {
+      encoder: {
+        type: "aac",
+        channels: "stereo",
+      },
     },
   });
-  await compositor.start();
 
-  await compositor.registerInput('input_1', {
-    type: 'mp4',
-    serverPath: path.join(__dirname, '../.assets/BigBuckBunny.mp4'),
+  await smelter.registerInput("input_1", {
+    type: "mp4",
+    serverPath: "./inputExample1.mp4",
   });
 
-  await compositor.registerInput('input_2', {
-    type: 'mp4',
-    serverPath: path.join(__dirname, '../.assets/ElephantsDream.mp4'),
+  await smelter.registerInput("input_2", {
+    type: "mp4",
+    serverPath: "./inputExample2.mp4",
   });
+
+  await smelter.start();
 }
 void run();

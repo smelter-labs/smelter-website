@@ -6,7 +6,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 **add more details** An input type that allows streaming video and audio to the compositor over RTP.
 
-<Code code={`import { Inputs } from "live-compositor"`} lang='tsx' />
+<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
 
 ## Inputs.RegisterRtpInput
 Parameters for an input stream from RTP source. At least one of video and audio has to be defined.
@@ -39,7 +39,7 @@ UDP port or port range for the compositor to listen to incoming streams.
 - **Type**: `"udp" | "tcp_server"`
 - **Supported values**:
     - `udp` - UDP protocol.
-    -  `tcp_server` - TCP protocol where LiveCompositor is the server side of the connection.
+    -  `tcp_server` - TCP protocol where Smelter is the server side of the connection.
 
 ---
 
@@ -58,7 +58,7 @@ Parameters of an audio source included in the RTP stream.
 ---
 
 #### required
-Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, LiveCompositor will postpone output frames until the stream is received.
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
 - **Type**: `boolean`
 - **Default value**: `false`

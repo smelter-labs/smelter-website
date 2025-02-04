@@ -1,43 +1,38 @@
-import LiveCompositor from '@live-compositor/node';
-import { View } from 'live-compositor';
-import { ffplayStartPlayerAsync } from './utils';
+import { View } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
     <View>
-      <View style={{ direction: 'column', backgroundColor: '#FFFFFF' }}>
-        <View style={{ backgroundColor: '#FF0000' }} />
-        <View style={{ backgroundColor: '#0000FF' }} />
+      <View style={{ direction: "column", backgroundColor: "#FFFFFF" }}>
+        <View style={{ backgroundColor: "red", height: 200 }} />
+        <View style={{ backgroundColor: "blue" }} />
       </View>
-      <View style={{ backgroundColor: '#00FF00' }} />
+      <View style={{ backgroundColor: "green" }} />
     </View>
   );
 }
 
 async function run() {
-  const compositor = new LiveCompositor();
-  await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-  void ffplayStartPlayerAsync('127.0.0.1', 8001);
-
-  await compositor.registerOutput('output_1', {
-    type: 'rtp_stream',
-    port: 8001,
-    ip: '127.0.0.1',
-    transportProtocol: 'udp',
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
-        type: 'ffmpeg_h264',
-        preset: 'ultrafast',
+        type: "ffmpeg_h264",
+        preset: "ultrafast",
       },
       resolution: {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
     },
   });
-  await compositor.start();
+
+  await smelter.start();
 }
 
 void run();

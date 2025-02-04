@@ -1,39 +1,34 @@
-import LiveCompositor from '@live-compositor/node';
-import { Text, View } from 'live-compositor';
-import { ffplayStartPlayerAsync } from './utils';
+import { Text, View } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
-    <View style={{ direction: 'column' }}>
-      <Text style={{ fontSize: 64, color: '#a5baf0', fontWeight: 'bold' }}>Test text</Text>
+    <View>
+      <Text style={{ fontSize: 64, color: "#a5baf0", fontWeight: "bold" }}>Test text</Text>
     </View>
   );
 }
 
 async function run() {
-  const compositor = new LiveCompositor();
-  await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-  void ffplayStartPlayerAsync('127.0.0.1', 8001);
-
-  await compositor.registerOutput('output_1', {
-    type: 'rtp_stream',
-    port: 8001,
-    ip: '127.0.0.1',
-    transportProtocol: 'udp',
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
-        type: 'ffmpeg_h264',
-        preset: 'ultrafast',
+        type: "ffmpeg_h264",
+        preset: "ultrafast",
       },
       resolution: {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
     },
   });
-  await compositor.start();
+
+  await smelter.start();
 }
 
 void run();

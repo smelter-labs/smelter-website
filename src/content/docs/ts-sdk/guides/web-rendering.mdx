@@ -8,13 +8,13 @@ Web rendering is an experimental feature that lets you render websites. Furtherm
 ## Prerequisites
 There are a couple of requirements necessary for using this feature:
 - **A compositor version built with web renderer support** - The web renderer adds extra dependencies and significantly increases the size of the compositor binaries. To mitigate this impact, we offer two versions of the compositor: one with web renderer support and another without.
-- **`LIVE_COMPOSITOR_WEB_RENDERER_ENABLE`** - For deployment, this environment variable must be set to `true` to enable the web renderer functionality.
+- **`SMELTER_WEB_RENDERER_ENABLE`** - For deployment, this environment variable must be set to `true` to enable the web renderer functionality.
 
 ## Embedding components
 Embedding refers to the process of displaying child components within a website. You specify these child components in the `children` field of the web view. The IDs of the child components must match the IDs of the HTML elements where they are to be embedded. The web renderer then places the frames of the child components into the designated HTML elements.
 
 ### Embedding methods
-Live Compositor supports multiple ways of embedding components. You can define them while registering a renderer.
+Smelter supports multiple ways of embedding components. You can define them while registering a renderer.
 
 There are 3 embedding methods available:
 - `chromium_embedding` - Frames produced by child components are passed directly to a Chromium instance and displayed on an HTML canvas. This process involves an additional copy operation for each input frame, which may lead to performance issues when dealing with a large number of inputs. The HTML elements designated for embedding must be canvases.
@@ -44,7 +44,7 @@ There are 3 embedding methods available:
     The `WebView` component needs to use an `instanceId` that has already been registered.
 
     <Code code={`
-    import LiveCompositor from "@live-compositor/node"
+    import Smelter from "@swmansion/smelter-node"
 
     function App() {
       return (

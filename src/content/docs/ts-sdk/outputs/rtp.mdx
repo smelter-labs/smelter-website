@@ -6,7 +6,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 **add more details** An output type that allows streaming video and audio from the compositor over RTP.
 
-<Code code={`import { Outputs } from "live-compositor"`} lang='tsx' />
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 
 ## Outputs.RegisterRtpOutput
 Parameters for an RTP output stream from the compositor.
@@ -29,7 +29,7 @@ type RtpOutputStream = {
 Depends on the value of the `transportProtocol` field:
 
 - `udp` - Specifies a UDP port number to which RTP packets will be sent.
-- `tcp_server` - Specifies a local TCP port number or a range of ports that LiveCompositor will listen to for incoming connections.
+- `tcp_server` - Specifies a local TCP port number or a range of ports that Smelter will listen to for incoming connections.
 
 <br/>
 
@@ -44,7 +44,7 @@ Transport layer protocol that will be used to send RTP packets.
 - **Default value**: `udp`
 - **Supported values**:
     - `udp` - UDP protocol.
-    -  `tcp_server` - TCP protocol where LiveCompositor is the server side of the connection.
+    -  `tcp_server` - TCP protocol where Smelter is the server side of the connection.
 
 ---
 
@@ -307,7 +307,7 @@ type InputAudio = {
 ### Properties
 
 #### inputId
-ID of an input. It identifies a stream registered using a [LiveCompositor.registerInput](/ts-sdk/live-compositor#registerinput) method.
+ID of an input. It identifies a stream registered using a [Smelter.registerInput](/ts-sdk/live-compositor#registerinput) method.
 
 - **Type**: `string`
 

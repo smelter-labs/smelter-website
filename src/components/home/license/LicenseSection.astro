@@ -1,0 +1,56 @@
+---
+import LicenseTile from "./LicenseTile.astro";
+
+import offline from "../../../assets/capabilities/offline.svg";
+import online from "../../../assets/capabilities/online.svg";
+import trial from "../../../assets/capabilities/trial.svg";
+
+const LICENSE_TIERS = [
+  {
+    label: "Offline processing",
+    text: "Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.",
+    icon: offline,
+  },
+  {
+    label: "Online processing",
+    text: `<p>While Smelter offers free offline processing, certain use cases require a commercial license:</p>
+        <ul class="list-disc pl-4 flex flex-col gap-4 mt-2">
+          <li><strong>SaaS Operations:</strong> If you operate a SaaS platform utilizing Smelter for programmatic video control.</li>
+          <li><strong>Product Distribution:</strong> If you embed Smelter within software or hardware products intended for sale.</li>
+          <li><strong>License Limits:</strong> If your usage exceeds the limits specified in the free license.</li>
+        </ul>`,
+    icon: online,
+  },
+  {
+    label: "Trial",
+    text: "If you’re new to Smelter, you can explore it with a 90-day trial for all use-cases – no strings attached!",
+    icon: trial,
+  },
+] as const;
+---
+
+<section class="flex min-h-screen flex-col items-center justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:min-h-[unset] 2xl:py-40">
+    <div class="justify-center text-center">
+        <h2 class="mb-6 text-homeLicense-header">Try Smelter now!</h2>
+        <p class="text-homeLicense-subheader text-center">
+            Smelter is licensed under a <a href="/license" class="underline text-homeLicense-subheader">Custom License</a>, designed to keep it accessible for growing teams<br class="hidden sm:block" />
+            while supporting larger-scale use with fair licensing terms.
+        </p>
+    </div>
+    <div class="flex gap-6 relative flex-col sm:flex-row">
+        <div class="flex sm:flex-1 flex-col gap-y-6">
+          {
+            LICENSE_TIERS.filter((_, index) => !(index % 2)).map(tier => (
+              <LicenseTile {...tier} />
+            ))
+          }
+        </div>
+        <div class="flex sm:flex-1 gap-y-6 justify-center">
+          {
+            LICENSE_TIERS.filter((_, index) => index % 2).map(tier => (
+              <LicenseTile {...tier} />
+            ))
+          }
+        </div>
+    </div>
+</section>

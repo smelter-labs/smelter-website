@@ -5,10 +5,10 @@ import { Code } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
 import vertexShader from '../../../../assets/docs/vertex-shader.png';
 
-Shaders are small programs that we send to a GPU to perform computations. Shaders are extensively used in LiveCompositor, in fact all built-in transformations rely on them.
+Shaders are small programs that we send to a GPU to perform computations. Shaders are extensively used in Smelter, in fact all built-in transformations rely on them.
 
 ## General concepts
-The LiveCompositor utilizes two types of shaders: vertex shaders and fragment shaders.
+The Smelter utilizes two types of shaders: vertex shaders and fragment shaders.
 
 ### Vertex shaders
 Vertex shaders take data from a single vertex as input and manipulate it to create the desired output shape.
@@ -21,7 +21,7 @@ The rectangle created by these triangles spans the entire clip space (`[-1, 1] x
 
 `plane_id` in `base_params` `push_constant` represents number of currently rendered planes (textures). If there are no input textures, `plane_id` is equal to `-1` and a single rectangle is passed to the shader. It is only useful for shaders that generate something in the fragment shader.
 
-Since Live Compositor doesn't handle complex geometry, and layouts typically manage positioning, resizing, and cropping, we don't expect the users to create complex vertex shaders very often.
+Since Smelter doesn't handle complex geometry, and layouts typically manage positioning, resizing, and cropping, we don't expect the users to create complex vertex shaders very often.
 
 The following vertex shader should cover most needs for transformations that process a single video in the fragment shader:
 
@@ -47,7 +47,7 @@ Fragment shaders focus on processing pixel data to apply visual effects. A singl
 
 The output of a fragment shader must be a vector with four elements, each being a floating-point number (`f32`) between 0.0 and 1.0. These four numbers represent the red, green, blue, and alpha (transparency) values of a pixel.
 
-The children of the Live Compositor's `Shader` component are available as textures. You can sample them using the builtin `textureSample` function. To customize texture sampling, use the `sampler_` param.
+The children of the Smelter's `Shader` component are available as textures. You can sample them using the builtin `textureSample` function. To customize texture sampling, use the `sampler_` param.
 
 <Code code={`
 let color = textureSample(texture, sampler_, texture_coordinates)
@@ -69,7 +69,7 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4<f32> {
 `} lang='wgsl' />
 
 ## Synthax
-Since LiveCompositor is implemented using wgpu, the shaders have to be written in WGSL (WebGPU Shading Language). Shaders also have to fulfill some custom requirements to be used by the LiveCompositor. We will detail all necessary conditions in the following sections.
+Since Smelter is implemented using wgpu, the shaders have to be written in WGSL (WebGPU Shading Language). Shaders also have to fulfill some custom requirements to be used by the Smelter. We will detail all necessary conditions in the following sections.
 
 ### Header
 Every user-provided shader should include the code below.

@@ -1,0 +1,34 @@
+---
+import Image from "astro/components/Image.astro";
+import PrimaryButton from "../../../components/base/buttons/PrimaryButton.astro";
+import HeroStreams from "./HeroStreams.astro";
+
+import arrowRight from "../../../assets/arrow-right.svg";
+import heroGradient from "../../../assets/hero/gradient.png";
+import swmLogo from "../../../assets/swm-logo.svg";
+
+import "./heroSection.scss";
+---
+
+<section class="px-4 sm:px-12 xl:pl-40 flex h-screen flex-row justify-center sm:py-14 items-center relative  overflow-x-clip 2xl:overflow-x-visible 2xl:h-fit 2xl:py-80">
+  <div class="flex-1">
+    <div class="flex gap-x-2 py-2 sm:px-4 mb-4 xl:mb-8">
+      <p class="par-xs text-hero-authorLabel">Created by</p>
+      <Image src={swmLogo} alt="SoftwareMansion logo" class="fill-hero-authorLabel" loading="eager" />
+    </div>
+    <div class="mb-14 flex flex-col gap-y-4">
+      <h1 class="text-hero-title">Mix Video and Audio<br />with Low Latency.</h1>
+      <p class="par-l text-hero-subtitle">
+        Media server for real-time, low-latency, programmable video<br />and audio mixing.
+      </p>
+    </div>
+    <a href="/docs" style="text-decoration: none; color: inherit;">
+      <PrimaryButton>
+        <p class="par-xl">Visit the docs</p>
+        <Image src={arrowRight} alt="Visit docs" loading="eager" />
+      </PrimaryButton>
+    </a>
+  </div>
+  <HeroStreams />
+  <Image src={heroGradient} alt="Hero" class="hero-gradient" loading="eager" />
+</section>

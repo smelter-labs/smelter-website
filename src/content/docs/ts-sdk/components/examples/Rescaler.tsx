@@ -1,53 +1,44 @@
-import LiveCompositor from '@live-compositor/node';
-import { InputStream, Rescaler, View } from 'live-compositor';
-import { downloadAllAssets, gstReceiveTcpStream } from './utils';
-import path from 'path';
+import { InputStream, Rescaler } from "@swmansion/smelter";
+import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
-    <View>
-      <Rescaler>
-        <InputStream inputId="test_input" />
-      </Rescaler>
-    </View>
+    <Rescaler style={{ rescaleMode: "fit" }}>
+      <InputStream inputId="test_input" />
+    </Rescaler>
   );
 }
 
 async function run() {
-  await downloadAllAssets();
-  const compositor = new LiveCompositor();
-  await compositor.init();
+  const smelter = new Smelter();
+  await smelter.init();
 
-  await compositor.registerOutput('output_1', {
-    type: 'rtp_stream',
-    port: 8001,
-    transportProtocol: 'tcp_server',
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
-        type: 'ffmpeg_h264',
-        preset: 'ultrafast',
+        type: "ffmpeg_h264",
+        preset: "ultrafast",
       },
       resolution: {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
     },
     audio: {
       encoder: {
-        type: 'opus',
-        channels: 'stereo',
+        type: "aac",
+        channels: "stereo",
       },
     },
   });
 
-  void gstReceiveTcpStream('127.0.0.1', 8001);
-
-  await compositor.registerInput('test_input', {
-    type: 'mp4',
-    serverPath: path.join(__dirname, '../.assets/BigBuckBunny.mp4'),
+  await smelter.registerInput("example_input", {
+    type: "mp4",
+    serverPath: "./inputExample.mp4",
   });
 
-  await compositor.start();
+  await smelter.start();
 }
 void run();
