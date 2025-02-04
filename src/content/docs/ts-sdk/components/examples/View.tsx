@@ -1,15 +1,14 @@
 import { View } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
-import { ffplayStartPlayerAsync } from "./utils";
 
 function ExampleApp() {
   return (
     <View>
       <View style={{ direction: "column", backgroundColor: "#FFFFFF" }}>
-        <View style={{ backgroundColor: "#FF0000" }} />
-        <View style={{ backgroundColor: "#0000FF" }} />
+        <View style={{ backgroundColor: "red", height: 200 }} />
+        <View style={{ backgroundColor: "blue" }} />
       </View>
-      <View style={{ backgroundColor: "#00FF00" }} />
+      <View style={{ backgroundColor: "green" }} />
     </View>
   );
 }
@@ -18,13 +17,9 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
 
-  void ffplayStartPlayerAsync("127.0.0.1", 8001);
-
-  await smelter.registerOutput("output_1", {
-    type: "rtp_stream",
-    port: 8001,
-    ip: "127.0.0.1",
-    transportProtocol: "udp",
+  await smelter.registerOutput("output", <ExampleApp />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
     video: {
       encoder: {
         type: "ffmpeg_h264",
@@ -34,9 +29,9 @@ async function run() {
         width: 1920,
         height: 1080,
       },
-      root: <ExampleApp />,
     },
   });
+
   await smelter.start();
 }
 
