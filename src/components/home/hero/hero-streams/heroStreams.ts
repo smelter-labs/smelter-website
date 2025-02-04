@@ -35,10 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const graidentThreshold = 700;
 
   const streamLayers = document.querySelectorAll<HTMLImageElement>("#heroStreams > svg");
-  const streamLayerRects: Array<DOMRect> = []
+  const streamLayerRects: Array<DOMRect> = [];
 
-  for(const layer of streamLayers) {
-    streamLayerRects.push(layer.getBoundingClientRect())
+  for (const layer of streamLayers) {
+    streamLayerRects.push(layer.getBoundingClientRect());
   }
 
   const containerRect = document.querySelector("#heroStreams")?.getBoundingClientRect();
