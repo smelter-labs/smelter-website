@@ -7,7 +7,10 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
+import sitemap from "@astrojs/sitemap";
+
 export default defineConfig({
+  site: "https://smelter.dev",
   redirects: {
     "/fundamentals": "/fundamentals/getting-started",
     "/deployment": "/deployment/setup",
@@ -127,6 +130,7 @@ export default defineConfig({
     }),
     mdx(),
     tailwind(),
+    sitemap(),
   ],
 
   markdown: {

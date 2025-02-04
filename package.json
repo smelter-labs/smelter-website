@@ -16,6 +16,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/markdown-remark": "^6.1.0",
     "@astrojs/mdx": "^4.0.8",
+    "@astrojs/sitemap": "^3.2.1",
     "@astrojs/starlight": "^0.31.1",
     "@astrojs/starlight-docsearch": "^0.5.0",
     "@astrojs/tailwind": "^5.1.5",
