@@ -4,7 +4,7 @@ import Smelter from "@swmansion/smelter-node";
 function ExampleApp() {
   return (
     <View style={{ backgroundColor: "rgb(255,255,255)" }}>
-      <Image source="https://mywebsite.com/example.svg" />
+      <Image source="https://example.com/image.svg" />
     </View>
   );
 }
@@ -30,5 +30,4 @@ async function run() {
 
   await smelter.start();
 }
-
 void run();
