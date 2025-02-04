@@ -39,5 +39,4 @@ async function run() {
 
   await smelter.start();
 }
-
 void run();
