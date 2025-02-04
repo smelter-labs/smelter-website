@@ -4,20 +4,20 @@ title: WHIP
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-**add more details** An output type that allows streaming video and audio from the compositor over WHIP.
+An output type that allows streaming video and audio from the Smelter over WHIP.
 
-<Code code={`import { Outputs } from "live-compositor"`} lang='tsx' />
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 
 ## Outputs.RegisterWhipOutput
-Parameters for an WHIP output stream from the compositor.
+Parameters for an WHIP output stream from the Smelter.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type RegisterWhipOutput = {
-  endpointUrl: string;
-  bearerToken?: string;
-  video?: Outputs.WhipVideoOptions;
-  audio?: Outputs.WhipAudioOptions;
+    endpointUrl: string;
+    bearerToken?: string;
+    video?: Outputs.WhipVideoOptions;
+    audio?: Outputs.WhipAudioOptions;
 };
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -47,18 +47,18 @@ Parameters of an audio source included in the WHIP stream.
 
 - **Type**: [`OutputWhipAudioOptions`](/ts-sdk/outputs/whip#whipaudiooptions)
 
-## OutputWhipVideoOptions
+## Outputs.OutputWhipVideoOptions
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type WhipVideoOptions = {
-  resolution: {
-    width: number;
-    height: number;
-  };
-  sendEosWhen?: Outputs.OutputEndCondition;
-  encoder: Outputs.WhipVideoEncoderOptions;
+    resolution: {
+      width: number;
+      height: number;
+    };
+    sendEosWhen?: Outputs.OutputEndCondition;
+    encoder: Outputs.WhipVideoEncoderOptions;
 };
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -84,9 +84,8 @@ Video encoder options.
 
 - **Type**: [`WhipVideoEncoderOptions`](/ts-sdk/outputs/whip#whipvideoencoderoptions)
 
----
 
-## WhipVideoEncoderOptions
+## Outputs.WhipVideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -135,7 +134,7 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## WhipAudioOptions
+## Outputs.WhipAudioOptions
 Parameters of an audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -176,7 +175,7 @@ Audio encoder options.
 ---
 
 
-## WhipAudioEncoderOptions
+## Outputs.WhipAudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -213,10 +212,13 @@ Audio output encoder preset.
     - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
 #### sampleRate
-Sample rate. Allowed values: [8000, 16000, 24000, 48000].
+Sample rate for audio encoder.
+
+- **Type**: `number`
+- **Supported values**: `8000`, `16000`, `24000`, `48000`.
 
 
-## OutputEndCondition
+## Outputs.OutputEndCondition
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
 
 By default, the input stream is considered finished/ended when:

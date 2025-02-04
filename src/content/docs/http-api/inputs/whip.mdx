@@ -7,18 +7,41 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 An input type that allows streaming video and audio to the Smelter over WHIP.
 After the connection is interrupted, Smelter will try to reconnect you to the same input.
 
-<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
+### Usage
 
-## Inputs.RegisterWhipInput
+To use WHIP Input you must register it first. You can do it by sending a request like this:
+
+<details>
+    <summary>Example request</summary>
+
+    ```http
+    POST: /api/input/:input_id/register
+    Content-Type: application/json
+    ```
+
+    ```js
+    {
+      "type": "whip",
+      "video": {
+          "decoder": "ffmpeg_h264"
+      },
+      "audio": {
+          "decoder": "opus"
+      },
+    }
+    ```
+</details>
+
+## RegisterWhipInput
 Parameters for an input stream from WHIP source. At least one of video and audio has to be defined.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RegisterWhipInput = {
-    video?: Inputs.InputWhipVideoOptions;
-    audio?: Inputs.InputWhipAudioOptions;
-    required?: boolean;
-    offsetMs?: number;
+type WhipInput = {
+    video?: InputWhipVideoOptions;
+    audio?: InputWhipAudioOptions;
+    required?: bool;
+    offsetMs?: f64;
 };
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -28,21 +51,21 @@ type RegisterWhipInput = {
 #### video
 Parameters of a video source included in the WHIP stream.
 
-- **Type**: [`InputWhipVideoOptions`](/ts-sdk/inputs/whip#inputsinputwhipvideooptions)
+- **Type**: [`InputWhipVideoOptions`](/http-api/inputs/whip#inputwhipvideooptions)
 
 ---
 
 #### audio
 Parameters of an audio source included in the WHIP stream.
 
-- **Type**: [`InputWhipAudioOptions`](/ts-sdk/inputs/whip#inputsinputwhipaudiooptions)
+- **Type**: [`InputWhipAudioOptions`](/http-api/inputs/whip#inputwhipaudiooptions)
 
 ---
 
 #### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
-- **Type**: `boolean`
+- **Type**: `bool`
 - **Default value**: `false`
 
 ---
@@ -50,9 +73,9 @@ Determines if the input stream is essential for output frame production. If set 
 #### offsetMs
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
-- **Type**: `number`
+- **Type**: `f64`
 
-## Inputs.InputWhipVideoOptions
+## InputWhipVideoOptions
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -72,7 +95,7 @@ type InputWhipVideoOptions = {
     - `ffmpeg_h264` - uses FFmpeg’s H.264 software decoding.
     - `vulkan_video` - uses Vulkan Video for hardware-accelerated decoding.
 
-## Inputs.InputWhipAudioOptions
+## InputWhipAudioOptions
 Parameters of a audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -80,7 +103,7 @@ Parameters of a audio source included in the WHIP stream.
 type InputWhipAudioOptions = 
   {
     decoder: "opus";
-    forwardErrorCorrection?: boolean;
+    forwardErrorCorrection?: bool;
   }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -90,5 +113,5 @@ type InputWhipAudioOptions =
 #### forwardErrorCorrection
 Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
 
-- **Type**: `boolean`
+- **Type**: `bool`
 - **Default value**: `false`
