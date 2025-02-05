@@ -68,5 +68,12 @@ export const DARK_THEME = {
     license: {
       content: COLORS.white100,
     },
+    snackbar: {
+      background: COLORS.black90,
+      header: COLORS.white100,
+      border: COLORS.green60,
+      borderOpacity: COLORS.white25,
+      content: COLORS.white75,
+    },
   },
 } as const;

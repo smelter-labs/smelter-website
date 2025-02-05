@@ -9,8 +9,11 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import sitemap from "@astrojs/sitemap";
 
+import vercel from "@astrojs/vercel";
+
 export default defineConfig({
   site: "https://smelter.dev",
+
   redirects: {
     "/fundamentals": "/fundamentals/getting-started",
     "/deployment": "/deployment/setup",
@@ -22,6 +25,7 @@ export default defineConfig({
   experimental: {
     svg: true,
   },
+
   integrations: [
     starlight({
       title: "Smelter",
@@ -145,4 +149,6 @@ export default defineConfig({
       ],
     ],
   },
+
+  adapter: vercel(),
 });

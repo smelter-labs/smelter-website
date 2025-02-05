@@ -2,6 +2,7 @@ type Color = Record<number, string>;
 
 export const COLORS = {
   black100: "#161127",
+  black90: '#161127E6',
   black75: "#161127BF",
   black50: "#16112780",
   black25: "#16112740",
@@ -23,4 +24,9 @@ export const COLORS = {
   purple60: "#624BAA",
   purple40: "#8471C1",
   purple20: "#A99CD3",
+
+  gray50: '#424242',
+  green100: "#0C662F",
+  green60: "#3DA362",
+  green20: "#A4D7AF",
 } as const satisfies Record<string, Color>;

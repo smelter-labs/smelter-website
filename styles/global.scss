@@ -239,3 +239,12 @@ body {
 #usageGhostButton:hover svg path {
 	@apply stroke-usage-hoverText;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important; /* ensures text color is white */
+    background-color: #161127 !important; /* sets autofill background to black */
+}

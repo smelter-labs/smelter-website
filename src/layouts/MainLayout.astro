@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import Footer from "../components/base/Footer.astro";
+import Snackbar from "../components/base/Snackbar.astro";
 import NavBar from "../components/navigation/NavBar.astro";
 ---
 
@@ -33,6 +34,7 @@ import NavBar from "../components/navigation/NavBar.astro";
     <NavBar />
     <slot />
     <Footer />
+    <Snackbar header="Message sent" content="Thank you for your inquiry. We will contact you as soon as possible." />
   </body>
   <style is:global>
     @import '../../styles/global.scss';
