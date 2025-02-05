@@ -1,9 +1,9 @@
 type Color = {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-}
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const useCasesHeader = document.getElementById("useCasesHeader");
@@ -30,9 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const tiles = document.querySelectorAll("#useCaseTile");
   let tileBorderDivs: Array<HTMLDivElement> = [];
 
-  for(const tile of tiles) {
-      const children = Array.from(tile.querySelectorAll(":scope > div"));
-      tileBorderDivs = tileBorderDivs.concat(children as Array<HTMLDivElement>);
+  for (const tile of tiles) {
+    const children = Array.from(tile.querySelectorAll(":scope > div"));
+    tileBorderDivs = tileBorderDivs.concat(children as Array<HTMLDivElement>);
   }
 
   function interpolateColor(color1: Color, color2: Color, factor: number) {
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       el.style.setProperty("--end-b", endColor.b.toString());
       el.style.setProperty("--end-a", (endColor.a / 255).toString());
 
-      gradient?.style.setProperty("--start-ratio", '0');
+      gradient?.style.setProperty("--start-ratio", "0");
       gradient?.style.setProperty("--end-ratio", `${(gradientScrollPercentage * 100) / 2}%`);
     });
   }

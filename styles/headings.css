@@ -11,7 +11,9 @@
   position: relative; /* Required for absolute positioning of pseudo-elements */
 }
 
-.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:is([data-theme="light"] *) {
+.sl-markdown-content
+  :is(h1, h2, h3, h4, h5, h6)
+  > a:is([data-theme="light"] *) {
   color: #15181f;
   text-decoration: none;
   position: relative; /* Required for absolute positioning of pseudo-elements */
@@ -29,7 +31,9 @@
 }
 
 /* Hide the icon by default and show it on hover */
-.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:is([data-theme="light"] *)::after {
+.sl-markdown-content
+  :is(h1, h2, h3, h4, h5, h6)
+  > a:is([data-theme="light"] *)::after {
   content: "#"; /* Anchor Unicode */
   position: absolute;
   left: 100%; /* Position to the left of the link */
