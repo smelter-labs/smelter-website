@@ -32,7 +32,13 @@ export default defineConfig({
       social: {
         github: "https://github.com/software-mansion/smelter",
       },
-      customCss: ["./styles/headings.css"],
+      customCss: ['./styles/starlight.scss'],
+      logo: {
+        light: './src/assets/navigation/smelter-logo-docs.svg',
+        dark: './src/assets/navigation/smelter-logo-docs.svg',
+        alt: 'Smelter logo',
+        replacesTitle: true,
+      },
       sidebar: [
         {
           label: "Fundamentals",

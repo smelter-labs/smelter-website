@@ -1,0 +1,33 @@
+button, input {
+  font-family: inherit;
+}
+
+/* Dark mode colors. */
+:root {
+	--sl-color-accent-low: #241f3a;
+	--sl-color-accent: #6c56b6;
+	--sl-color-accent-high: #c8c4e7;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #eaedf6;
+	--sl-color-gray-2: #bec2cc;
+	--sl-color-gray-3: #848b9e;
+	--sl-color-gray-4: #525869;
+	--sl-color-gray-5: #323848;
+	--sl-color-gray-6: #212635;
+	--sl-color-black: #15181f;
+}
+/* Light mode colors. */
+:root[data-theme='light'] {
+	--sl-color-accent-low: #d6d3ee;
+	--sl-color-accent: #6e58b8;
+	--sl-color-accent-high: #332a54;
+	--sl-color-white: #15181f;
+	--sl-color-gray-1: #212635;
+	--sl-color-gray-2: #323848;
+	--sl-color-gray-3: #525869;
+	--sl-color-gray-4: #848b9e;
+	--sl-color-gray-5: #bec2cc;
+	--sl-color-gray-6: #eaedf6;
+	--sl-color-gray-7: #f5f6fa;
+	--sl-color-black: #ffffff;
+}
