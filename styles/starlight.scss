@@ -7,6 +7,7 @@ button, input {
 	--sl-color-accent-low: #241f3a;
 	--sl-color-accent: #6c56b6;
 	--sl-color-accent-high: #c8c4e7;
+  --sl-color-text-accent: #f24663db;
 	--sl-color-white: #ffffff;
 	--sl-color-gray-1: #eaedf6;
 	--sl-color-gray-2: #bec2cc;
@@ -21,6 +22,7 @@ button, input {
 	--sl-color-accent-low: #d6d3ee;
 	--sl-color-accent: #6e58b8;
 	--sl-color-accent-high: #332a54;
+  --sl-color-text-accent: #F24664;
 	--sl-color-white: #15181f;
 	--sl-color-gray-1: #212635;
 	--sl-color-gray-2: #323848;
@@ -30,4 +32,29 @@ button, input {
 	--sl-color-gray-6: #eaedf6;
 	--sl-color-gray-7: #f5f6fa;
 	--sl-color-black: #ffffff;
+}
+
+// @media (prefers-color-scheme: dark) {
+//   .sl-markdown-content > a  {
+//     color: #A99CD3;
+//   }
+// }
+
+// @media (prefers-color-scheme: light) {
+//   .sl-markdown-content > a  {
+//     color: #302555;
+//   }
+// }
+
+/* Show the icon on hover */
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:hover::after {
+  opacity: 1;
+}
+
+a > svg:is([data-theme="dark"] *){
+  color: white
+}
+
+a > svg:is([data-theme="light"] *){
+  color: #161127
 }
