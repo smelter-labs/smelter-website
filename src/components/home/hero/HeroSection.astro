@@ -4,7 +4,7 @@ import PrimaryButton from "../../../components/base/buttons/PrimaryButton.astro"
 import HeroStreams from "./hero-streams/HeroStreams.astro";
 
 import arrowRight from "../../../assets/arrow-right.svg";
-import heroGradient from "../../../assets/hero/gradient.png";
+import heroGradient from "../../../assets/hero/gradient.webp";
 import swmLogo from "../../../assets/swm-logo.svg";
 
 import "./heroSection.scss";
@@ -30,5 +30,5 @@ import "./heroSection.scss";
     </a>
   </div>
   <HeroStreams />
-  <Image src={heroGradient} alt="Hero" class="hero-gradient" loading="eager" />
+  <Image src={heroGradient} alt="Hero" class="hero-gradient fade-in" loading="eager" />
 </section>

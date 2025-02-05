@@ -68,16 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
       //   layer.style.left = `${left}`;
       //   layer.style.top = `${top}`;
 
+      const modifiedIndex = index + 0.3;
       const entryAnimation = layer.animate(
         [
-          { opacity: 0 },
-          { opacity: 0.4, transform: `translate(-${index * 5}rem, ${2 * index}rem)` },
-          { opacity: 1, transform: `translate(-${index * 5}rem, ${2 * index}rem)` },
+          // Start with a slightly more noticeable initial opacity to fade from
+          { opacity: 0.1 },
+          // Slowly increase opacity for most of the duration
+          { opacity: 1, offset: 0.7, transform: `translate(-${(modifiedIndex) * 5}rem, ${2 * (modifiedIndex)}rem)` },
+          // Keep fully opaque by end, use offset to control when the key changes start happening
+          { opacity: 1, transform: `translate(-${(modifiedIndex) * 5}rem, ${2 * (modifiedIndex)}rem)` },
         ],
         {
-          duration: 600,
-          delay: 500 * index, // Adjusted delay to start immediately for first
-          easing: "linear",
+          duration: 500,
+          delay: 750 + (500 * index), // Adjusted delay to start immediately for the first
+          easing: "ease-in-out", // Use 'ease-in-out' for a more natural transition
           fill: "forwards",
         }
       );
