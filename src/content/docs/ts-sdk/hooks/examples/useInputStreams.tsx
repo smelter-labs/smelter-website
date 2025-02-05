@@ -15,11 +15,9 @@ function InputTile({ inputId, state }: InputTileProps) {
   if (state === "finished") {
     return <Text style={{ fontSize: 40 }}>Stream {inputId} finished</Text>;
   }
-
   if (state === "playing") {
     return <InputStream inputId={inputId} />;
   }
-
   return (
     <Text style={{ fontSize: 40 }}>
       Waiting for stream {inputId} to connect
@@ -29,7 +27,6 @@ function InputTile({ inputId, state }: InputTileProps) {
 
 function ExampleApp() {
   const inputs = useInputStreams();
-
   return (
     <Tiles transition={{ durationMs: 200 }}>
       {Object.values(inputs).map((input) => (

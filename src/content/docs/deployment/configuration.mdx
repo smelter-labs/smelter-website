@@ -10,7 +10,7 @@ API port of the Smelter API.
 - **Defaults to**: `8081`
 
 ### `SMELTER_INSTANCE_ID`
-ID returned from `GET /status` request. Can be used to verify a connection to the correct compositor instance. 
+ID returned from `GET /status` request. Can be used to verify that a connection was established to the correct smelter instance. 
 - **Defaults to**: the random number
 
 ### `SMELTER_OUTPUT_FRAMERATE`
@@ -34,7 +34,7 @@ If enabled, GPU will be required for rendering. If only CPU based adapters will 
     - `false` or `0`, to disable
 
 ### `SMELTER_STREAM_FALLBACK_TIMEOUT_MS`
-Timeout duration (in ms) that specifies when the compositor should switch to a fallback option if the input stream ceases to send frames.
+Timeout duration (in ms) that specifies when the smelter should switch to a fallback option if the input stream ceases to send frames.
 - **Defaults to**: `500`
 
 ### `SMELTER_LOGGER_LEVEL`
@@ -71,7 +71,7 @@ See `-loglevel` option in <a href='https://ffmpeg.org/ffmpeg.html' target='_blan
 Path specifying where to store downloaded files.
 - **Defaults to**: the location provided by the OS
 
-<Aside>If the directory isn’t specified, the compositor instance will create a subdirectory named `live-compositor-<random number>` to store downloaded temporary files.</Aside>
+<Aside>If the directory isn’t specified, the smelter instance will create a subdirectory named `smelter-<random number>` to store downloaded temporary files.</Aside>
 
 ### `SMELTER_WEB_RENDERER_ENABLE`
 If enabled, Smelter will support web rendering capabilities.
@@ -113,7 +113,7 @@ If enabled, the Smelter server will not drop frames/samples from output stream e
     - `false` or `0`, to disable
 
 ### `SMELTER_RUN_LATE_SCHEDULED_EVENTS`
-Parts of the compositor API support a schedule_time_ms field to apply certain actions at a specific time. If enabled, the event will still be executed, even if it was scheduled too late.
+Parts of the smelter API support a schedule_time_ms field to apply certain actions at a specific time. If enabled, the event will still be executed, even if it was scheduled too late.
 - **Defaults to**: `false`
 - **Supported values**:
     - `true` or `1`, to enable

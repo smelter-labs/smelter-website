@@ -9,13 +9,13 @@ import CollapsibleDetails from '../../../components/CollapsibleDetails.astro';
 The primary element required to start using the Smelter TypeScript SDK is the `Smelter` class. This class is crucial for initializing and managing the Smelter server instance.
 
 ## new Smelter()
-Creates new compositor configuration. You have to call init first before this object can be used.
+Creates new a smelter configuration. You have to call init first before this object can be used.
 
-<Code code={`new Smelter(manager?: CompositorManager)`} lang="tsx" />
+<Code code={`new Smelter(manager?: SmelterManager)`} lang="tsx" />
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-  type CompositorManager {
+  type SmelterManager {
     setupInstance(): Promise<void>;
     sendRequest(request: ApiRequest): Promise<object>;
     registerEventListener(cb: (event: unknown) => void): void;
@@ -28,11 +28,11 @@ Creates new compositor configuration. You have to call init first before this ob
 #### manager
 Configures how the client code will connect and manage `Smelter`. 
 
-- **Type**: [`CompositorManager`](/ts-sdk/smelter#new-smelter)
+- **Type**: [`SmelterManager`](/ts-sdk/smelter#new-smelter)
 <br/>
 You have two main configuration options:
 - **Default Configuration:** Use `LocallySpawnedInstance` from `@swmansion/smelter-node` to automatically download the necessary Smelter binaries and launch the server on your local machine.
-- **Existing Server Configuration:** Choose `ExistingInstance` from `@swmansion/smelter-node` if you need to connect to a compositor instance that is already running.
+- **Existing Server Configuration:** Choose `ExistingInstance` from `@swmansion/smelter-node` if you need to connect to a smelter instance that is already running.
 
 ## init()
 <Code code={`Smelter.init(): Promise<void>`} lang="tsx" />
@@ -55,7 +55,7 @@ Smelter.registerOutput(
   output: Outputs.RegisterOutput,
 ): Promise<object>`} lang="tsx" />
 
-Register external destination that can be used as a compositor output. Visit output documentation to learn more:
+Register external destination that can be used as a smelter output. Visit output documentation to learn more:
 - [RTP](/ts-sdk/outputs/rtp)
 - [MP4](/ts-sdk/outputs/mp4)
 
@@ -73,7 +73,7 @@ Smelter.registerInput(
   input: Inputs.RegisterInput,
 ): Promise<object>`} lang="tsx" />
 
-Register external source that can be used as a compositor input. Visit input documentation to learn more:
+Register external source that can be used as a smelter input. Visit input documentation to learn more:
 - [RTP](/ts-sdk/inputs/rtp)
 - [MP4](/ts-sdk/inputs/mp4)
 
