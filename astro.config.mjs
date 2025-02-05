@@ -31,8 +31,16 @@ export default defineConfig({
       title: "Smelter",
       social: {
         github: "https://github.com/software-mansion/smelter",
+        discord: "https://discord.com/invite/Cxj3rzTTag",
+        "x.com": "https://x.com/swmansion",
       },
-      customCss: ["./styles/headings.css"],
+      customCss: ["./styles/font-face.scss", "./styles/headings.css", "./styles/starlight.scss"],
+      logo: {
+        light: "./src/assets/navigation/smelter-logo-docs-light.svg",
+        dark: "./src/assets/navigation/smelter-logo-docs.svg",
+        alt: "Smelter logo",
+        replacesTitle: true,
+      },
       sidebar: [
         {
           label: "Fundamentals",
