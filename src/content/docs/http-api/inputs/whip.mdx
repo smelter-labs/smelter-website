@@ -1,0 +1,117 @@
+---
+title: WHIP
+---
+import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+An input type that allows streaming video and audio to the Smelter over WHIP.
+After the connection is interrupted, Smelter will try to reconnect you to the same input.
+
+### Usage
+
+To use WHIP Input you must register it first. You can do it by sending a request like this:
+
+<details>
+    <summary>Example request</summary>
+
+    ```http
+    POST: /api/input/:input_id/register
+    Content-Type: application/json
+    ```
+
+    ```js
+    {
+      "type": "whip",
+      "video": {
+          "decoder": "ffmpeg_h264"
+      },
+      "audio": {
+          "decoder": "opus"
+      },
+    }
+    ```
+</details>
+
+## RegisterWhipInput
+Parameters for an input stream from WHIP source. At least one of video and audio has to be defined.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type WhipInput = {
+    video?: InputWhipVideoOptions;
+    audio?: InputWhipAudioOptions;
+    required?: bool;
+    offsetMs?: f64;
+};
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Parameters of a video source included in the WHIP stream.
+
+- **Type**: [`InputWhipVideoOptions`](/http-api/inputs/whip#inputwhipvideooptions)
+
+---
+
+#### audio
+Parameters of an audio source included in the WHIP stream.
+
+- **Type**: [`InputWhipAudioOptions`](/http-api/inputs/whip#inputwhipaudiooptions)
+
+---
+
+#### required
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+---
+
+#### offsetMs
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `f64`
+
+## InputWhipVideoOptions
+Parameters of a video source included in the WHIP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputWhipVideoOptions = {
+    decoder: "ffmpeg_h264" | "vulkan_video";
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### decoder
+
+- **Type**: `"ffmpeg_h264" | "vulkan_video"`
+- **Supported values**:
+    - `ffmpeg_h264` - uses FFmpeg’s H.264 software decoding.
+    - `vulkan_video` - uses Vulkan Video for hardware-accelerated decoding.
+
+## InputWhipAudioOptions
+Parameters of a audio source included in the WHIP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type InputWhipAudioOptions = 
+  {
+    decoder: "opus";
+    forwardErrorCorrection?: bool;
+  }
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties (decoder: "opus")
+
+#### forwardErrorCorrection
+Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
+
+- **Type**: `bool`
+- **Default value**: `false`
