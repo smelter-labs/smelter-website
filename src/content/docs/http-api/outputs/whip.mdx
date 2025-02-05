@@ -1,85 +1,113 @@
 ---
-title: RTP
+title: WHIP
+hide_table_of_contents: true
 ---
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-**add more details** An output type that allows streaming video and audio from the compositor over RTP.
+An output type that allows streaming video and audio from the Smelter over WHIP.
 
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+### Usage
+To use WHIP Output you must register it first. You can do it by sending a request like this:
 
-## Outputs.RegisterRtpOutput
-Parameters for an RTP output stream from the compositor.
+<details>
+    <summary>Example request</summary>
+
+    ```http
+    POST: /api/output/:output_id/register
+    Content-Type: application/json
+    ```
+
+    ```js
+    {
+        "type": "whip",
+        "endpoint_url": "", // The endpoint URL you want to stream to via WHIP.
+        "bearer_token": "", // Your WHIP bearer token
+        "video": {
+            "resolution": {
+                "width": 1280,
+                "height": 720,
+            },
+            "encoder": {
+                "type": "ffmpeg_h264",
+                "preset": "medium"
+            },
+            "initial": {
+                "root": {
+                    "id": "input_1",
+                    "type": "input_stream",
+                    "input_id": "input_1",
+                }
+            }
+        },
+        "audio": {
+            "encoder": {
+                "type": "opus",
+                "channels": "stereo",
+            },
+            "initial": {
+                "inputs": [
+                    {"input_id": "input_1"}
+                ]
+            }
+        }
+    }
+    ```
+</details>
+
+## WhipOutput
+Parameters for an WHIP output stream from the Smelter.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RtpOutputStream = {
-    port: string | number;
-    ip?: string;
-    transportProtocol?: "udp" | "tcp_server";
-    video?: Outputs.RtpVideoOptions;
-    audio?: Outputs.RtpAudioOptions;
-}
+type WhipOutput = {
+    endpointUrl: string;
+    bearerToken?: string;
+    video?: OutputVideoOptions;
+    audio?: WhipAudioOptions;
+};
 `} lang='tsx' />
 </CollapsibleDetails>
 
 ### Properties
 
-#### port
-Depends on the value of the `transportProtocol` field:
+#### endpointUrl
+The destination URL for sending media streams using the WHIP.
 
-- `udp` - Specifies a UDP port number to which RTP packets will be sent.
-- `tcp_server` - Specifies a local TCP port number or a range of ports that Smelter will listen to for incoming connections.
+ - **Type**: `string`
 
-<br/>
+#### bearerToken
+Token used for authentication when connecting to the WHIP endpoint.
 
-- **Type**: `string | number`
+ - **Type**: `string`
 
----
-
-#### transportProtocol
-Transport layer protocol that will be used to send RTP packets.
-
-- **Type**: `"udp" | "tcp_server"`
-- **Default value**: `udp`
-- **Supported values**:
-    - `udp` - UDP protocol.
-    -  `tcp_server` - TCP protocol where Smelter is the server side of the connection.
-
----
-
-#### ip
-IP address to which RTP packets should be sent. This field is only valid if `transportProtocol` field is set to `udp`.
-
-- **Type**: `string | number`
-
----
 
 #### video
-Parameters of a video source included in the RTP stream.
+Parameters of a video source included in the WHIP stream.
 
-- **Type**: [`OutputRtpVideoOptions`](/ts-sdk/outputs/rtp#outputrtpvideooptions)
+- **Type**: [`OutputVideoOptions`](/http-api/outputs/whip#outputvideooptions)
 
 ---
 
 #### audio
-Parameters of an audio source included in the RTP stream.
+Parameters of an audio source included in the WHIP stream.
 
-- **Type**: [`OutputRtpAudioOptions`](/ts-sdk/outputs/rtp#rtpaudiooptions)
+- **Type**: [`WhipAudioOptions`](/http-api/outputs/whip#whipaudiooptions)
 
-## Outputs.OutputRtpVideoOptions
-Parameters of a video source included in the RTP stream.
+## OutputVideoOptions
+Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RtpVideoOptions = {
+type OutputVideoOptions = {
     resolution: {
       width: number;
       height: number;
     };
-    sendEosWhen?: Outputs.OutputEndCondition;
-    encoder: Outputs.RtpVideoEncoderOptions;
-}
+    sendEosWhen?: OutputEndCondition;
+    encoder: VideoEncoderOptions;
+    initial: { root: Component; };
+};
 `} lang='tsx' />
 </CollapsibleDetails>
 
@@ -95,22 +123,26 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/whip#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#rtpvideoencoderoptions)
+- **Type**: [`WhipVideoEncoderOptions`](/ts-sdk/outputs/whip#videoencoderoptions)
 
+---
 
-## Outputs.RtpVideoEncoderOptions
+#### initial
+Root of a component tree/scene that should be rendered for the output.
+
+## VideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RtpVideoEncoderOptions = {
+type WhipVideoEncoderOptions = {
       type: "ffmpeg_h264";
       preset: 
         | "ultrafast"
@@ -154,18 +186,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Outputs.RtpAudioOptions
-Parameters of an audio source included in the RTP stream.
+## WhipAudioOptions
+Parameters of an audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RtpAudioOptions = {
+type WhipAudioOptions = {
     mixingStrategy?: "sum_clip" | "sum_scale";
     sendEosWhen?: Outputs.OutputEndCondition;
-    encoder: Outputs.RtpAudioEncoderOptions;
-    initial?: {
-      inputs: Outputs.InputAudio[];
-    };
+    encoder: Outputs.WhipAudioEncoderOptions;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -186,31 +215,28 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/whip#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#rtpaudioencoderoptions)
+- **Type**: [`WhipAudioEncoderOptions`](/ts-sdk/outputs/whip#whipaudioencoderoptions)
 
 ---
 
-#### initial
-Initial audio mixer configuration for the output.
 
-- **Type**: [`{inputs: InputAudio[]}`](/ts-sdk/outputs/rtp#inputaudio)
-
-## Outputs.RtpAudioEncoderOptions
+## WhipAudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RtpAudioEncoderOptions = {
+type WhipAudioEncoderOptions = {
       type: "opus";
       channels: "mono" | "stereo";
       preset?: "quality" | "voip" | "lowest_latency";
+      sampleRate?: u32
     }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -237,8 +263,13 @@ Audio output encoder preset.
     - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
     - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
+#### sampleRate
+Sample rate for audio encoder.
 
-## Outputs.OutputEndCondition
+- **Type**: `u32`
+- **Supported values**: `8000`, `16000`, `24000`, `48000`.
+
+## OutputEndCondition
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
 
 By default, the input stream is considered finished/ended when:
@@ -284,29 +315,3 @@ Terminate the output stream if any of the input streams end, including streams a
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `boolean`
-
-## Outputs.InputAudio
-Audio input information.
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type InputAudio = {
-    inputId: string;
-    volume?: number;
-}
-`} lang='tsx' />
-</CollapsibleDetails>
-
-### Properties
-
-#### inputId
-ID of an input. It identifies a stream registered using a [Smelter.registerInput](/ts-sdk/live-compositor#registerinput) method.
-
-- **Type**: `string`
-
----
-
-#### volume
-Number between 0 and 1 representing the audio volume
-
-- **Type**: `number`
