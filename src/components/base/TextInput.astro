@@ -11,7 +11,9 @@ const { label, class: inputClass, ...inputProps } = Astro.props;
 <label class="text-form-label">
   <p class="mb-2">{label}</p>
   <input
-    class:list={['w-full rounded-2xl border border-form-border bg-transparent p-4', inputClass]}
+    class="w-full rounded-2xl border border-form-border bg-mainBackground p-4"
+    class:list={[inputClass, 'bg-mainBackground']}
+    :class="{'bg-black': value}"
     {...inputProps}
   />
 </label>

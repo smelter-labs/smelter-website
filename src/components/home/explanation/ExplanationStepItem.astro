@@ -1,5 +1,11 @@
 ---
-import { Image } from "astro:assets";
+import { Image, type LocalImageProps } from "astro:assets";
+
+interface Props {
+  index: number;
+  text: string;
+  indexImage: LocalImageProps["src"];
+}
 
 const { index, text, indexImage } = Astro.props;
 ---

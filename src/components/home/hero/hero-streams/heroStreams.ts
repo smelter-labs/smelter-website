@@ -99,8 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const bottomLayerMidY = top + height / 2;
 
   function moveLayers({ clientX, clientY }: MouseEvent) {
-    console.log("CLIENT X ", clientX);
-
     if (window.scrollY + clientY > window.innerHeight) return;
 
     requestAnimationFrame(() => {
