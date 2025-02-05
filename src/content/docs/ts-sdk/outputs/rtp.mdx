@@ -1,14 +1,38 @@
 ---
 title: RTP
+sidebar:
+  order: 3
 ---
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-**add more details** An output type that allows streaming video and audio from the smelter over RTP.
+An output type that allows streaming video and audio from the smelter over RTP.
 
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+<Code title='rtpOutputExample.tsx' code={`
+import Smelter from "@swmansion/smelter-node";
+import { View } from "@swmansion/smelter";
 
-## Outputs.RegisterRtpOutput
+async function run() {
+    const smelter = new Smelter();
+    await smelter.init();
+    await smelter.registerOutput("example", <View />, {
+      type: "rtp_stream",
+      port: 8001,
+      transportProtocol: "tcp_server",
+      video: {
+        encoder: { type: "ffmpeg_h264" },
+        resolution: { width: 1920, height: 1080 },
+      }
+    });
+    // At this point you can connect to 8001 TCP port
+    // and start receiving RTP traffic.
+}
+void run();
+`} lang='tsx' />
+
+## RegisterRtpOutput
+<Code code={`import { Outputs, RegisterRtpOutput } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters for an RTP output stream from the smelter.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -56,18 +80,19 @@ IP address to which RTP packets should be sent. This field is only valid if `tra
 ---
 
 #### video
-Parameters of a video source included in the RTP stream.
+Parameters of a video included in the RTP stream.
 
-- **Type**: [`OutputRtpVideoOptions`](/ts-sdk/outputs/rtp#outputrtpvideooptions)
+- **Type**: [`OutputRtpVideoOptions`](/ts-sdk/outputs/rtp#outputsoutputrtpvideooptions)
 
 ---
 
 #### audio
-Parameters of an audio source included in the RTP stream.
+Parameters of an audio included in the RTP stream.
 
-- **Type**: [`OutputRtpAudioOptions`](/ts-sdk/outputs/rtp#rtpaudiooptions)
+- **Type**: [`OutputRtpAudioOptions`](/ts-sdk/outputs/rtp#outputsrtpaudiooptions)
 
 ## Outputs.OutputRtpVideoOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 Parameters of a video source included in the RTP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -95,17 +120,19 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputsoutputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#rtpvideoencoderoptions)
+- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#outputsrtpvideoencoderoptions)
 
 
 ## Outputs.RtpVideoEncoderOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -155,6 +182,8 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 - **Type**: `Map<string, string>`
 
 ## Outputs.RtpAudioOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters of an audio source included in the RTP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -163,9 +192,6 @@ type RtpAudioOptions = {
     mixingStrategy?: "sum_clip" | "sum_scale";
     sendEosWhen?: Outputs.OutputEndCondition;
     encoder: Outputs.RtpAudioEncoderOptions;
-    initial?: {
-      inputs: Outputs.InputAudio[];
-    };
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -186,23 +212,18 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputsoutputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#rtpaudioencoderoptions)
-
----
-
-#### initial
-Initial audio mixer configuration for the output.
-
-- **Type**: [`{inputs: InputAudio[]}`](/ts-sdk/outputs/rtp#inputaudio)
+- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#outputsrtpaudioencoderoptions)
 
 ## Outputs.RtpAudioEncoderOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Configuration for the audio encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -237,8 +258,9 @@ Audio output encoder preset.
     - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
     - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
-
 ## Outputs.OutputEndCondition
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
 
 By default, the input stream is considered finished/ended when:
@@ -284,29 +306,3 @@ Terminate the output stream if any of the input streams end, including streams a
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `boolean`
-
-## Outputs.InputAudio
-Audio input information.
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type InputAudio = {
-    inputId: string;
-    volume?: number;
-}
-`} lang='tsx' />
-</CollapsibleDetails>
-
-### Properties
-
-#### inputId
-ID of an input. It identifies a stream registered using a [Smelter.registerInput](/ts-sdk/smelter#registerinput) method.
-
-- **Type**: `string`
-
----
-
-#### volume
-Number between 0 and 1 representing the audio volume
-
-- **Type**: `number`

@@ -1,14 +1,35 @@
 ---
 title: MP4
+sidebar:
+  order: 2
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An output type that allows saving video and audio from the smelter to MP4 file.
 
-<Code code={`import type { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+<Code title='mp4OutputExample.tsx' code={`
+import Smelter from "@swmansion/smelter-node";
+import { View } from "@swmansion/smelter";
 
-## Outputs.RegisterMp4Output
+async function run() {
+    const smelter = new Smelter();
+    await smelter.init();
+    await smelter.registerOutput("example", <View />, {
+      type: "mp4",
+      serverPath: "./output.mp4",
+      video: {
+        encoder: { type: "ffmpeg_h264" },
+        resolution: { width: 1920, height: 1080 },
+      }
+    });
+}
+void run();
+`} lang='tsx' />
+
+## RegisterMp4Output
+<Code code={`import { Outputs, RegisterMp4Output } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters for an output stream to MP4 file.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -33,16 +54,17 @@ Path to the MP4 file, specifying its location on the server where the Smelter is
 #### video
 Video track configuration.
 
-- **Type**: `Mp4VideoOptions`
+- **Type**: [`Outputs.Mp4VideoOptions`](#outputsmp4videooptions)
 
 ---
 
 #### audio
 Audio track configuration.
 
-- **Type**: `Mp4AudioOptions`
+- **Type**: [`Outputs.Mp4AudioOptions`](#outputsmp4audiooptions)
 
-## Mp4VideoOptions
+## Outputs.Mp4VideoOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 Video track configuration options.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -71,14 +93,14 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
+- **Type**: [`Outputs.OutputEndCondition`](/ts-sdk/outputs/mp4#outputsoutputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`Mp4VideoEncoderOptions`](/ts-sdk/outputs/mp4#mp4videoencoderoptions)
+- **Type**: [`Outputs.Mp4VideoEncoderOptions`](/ts-sdk/outputs/mp4#outputsmp4videoencoderoptions)
 
 ---
 
@@ -87,7 +109,9 @@ Root of a component tree/scene that should be rendered for the output.
 
 - **Type**: `ReactNode`
 
-## Mp4VideoEncoderOptions
+## Outputs.Mp4VideoEncoderOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -136,7 +160,8 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Mp4AudioOptions
+## Outputs.Mp4AudioOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 Parameters of an audio source included in the stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -145,9 +170,6 @@ type Mp4AudioOptions = {
     mixingStrategy?: "sum_clip" | "sum_scale";
     sendEosWhen?: Outputs.OutputEndCondition;
     encoder: Outputs.Mp4AudioEncoderOptions;
-    initial: {
-      inputs: Outputs.InputAudio[];
-    };
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -168,23 +190,17 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
+- **Type**: [`Outputs.OutputEndCondition`](/ts-sdk/outputs/mp4#outputsoutputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`Mp4AudioEncoderOptions`](/ts-sdk/outputs/mp4#mp4audioencoderoptions)
+- **Type**: [`Outputs.Mp4AudioEncoderOptions`](/ts-sdk/outputs/mp4#outputsmp4audioencoderoptions)
 
----
-
-#### initial
-Initial audio mixer configuration for the output.
-
-- **Type**: [`{inputs: InputAudio[]}`](/ts-sdk/outputs/mp4#inputaudio)
-
-## Mp4AudioEncoderOptions
+## Outputs.Mp4AudioEncoderOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 Configuration for the audio encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -206,7 +222,8 @@ Channels configuration
     - `mono` - Mono audio (single channel).
     - `stereo` - Stereo audio (two channels).
 
-## OutputEndCondition
+## Outputs.OutputEndCondition
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
 
 By default, the input stream is considered finished/ended when:
@@ -253,28 +270,3 @@ Terminate the output stream only when all input streams have finished. Notably, 
 
 - **Type**: `boolean`
 
-## InputAudio
-Audio input information.
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type InputAudio = {
-    inputId: string;
-    volume?: number;
-}
-`} lang='tsx' />
-</CollapsibleDetails>
-
-### Properties
-
-#### inputId
-ID of an input. It identifies a stream registered using a [Smelter.registerInput](/ts-sdk/smelter#registerinput) method.
-
-- **Type**: `string`
-
----
-
-#### volume
-Number between 0 and 1 representing the audio volume
-
-- **Type**: `number`

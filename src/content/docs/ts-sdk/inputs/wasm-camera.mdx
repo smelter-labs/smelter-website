@@ -1,0 +1,20 @@
+---
+title: Screen capture (Web API)
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+An input that captures the camera and microphone output using Web API `getUserMedia()`.
+
+<Code title='cameraInputExample.tsx' code={`
+import Smelter from "@swmansion/smelter-web-wasm"
+
+async function run() {
+    const smelter = new Smelter();
+    await smelter.init();
+    await smelter.registerInput('example', { type: 'screen_capture' })
+}
+void run()
+`} lang='tsx' />
+
+

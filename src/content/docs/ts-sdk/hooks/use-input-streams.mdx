@@ -1,5 +1,7 @@
 ---
 title: useInputStreams
+sidebar:
+    order: 0
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import useInputStreamsExample from './examples/useInputStreams.tsx?raw';
@@ -40,7 +42,7 @@ Object that maps ids of registered input streams to info about their state.
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
   type InputStreamInfo = {
-    inputId: Id;
+    inputId: string;
     videoState?: "ready" | "playing" | "finished"; 
     audioState?: "ready" | "playing" | "finished";
     offsetMs?: number;

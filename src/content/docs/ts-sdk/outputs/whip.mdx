@@ -1,14 +1,37 @@
 ---
 title: WHIP
+sidebar:
+  order: 1
 ---
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from the Smelter over WHIP.
 
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+<Code title='whipOutputExample.tsx' code={`
+import Smelter from "@swmansion/smelter-node";
+import { View } from "@swmansion/smelter";
 
-## Outputs.RegisterWhipOutput
+async function run() {
+    const smelter = new Smelter();
+    await smelter.init();
+    await smelter.registerOutput("example", <View />, {
+      type: "rtp_stream",
+      port: 8001,
+      transportProtocol: "tcp_server",
+      video: {
+        encoder: { type: "ffmpeg_h264" },
+        resolution: { width: 1920, height: 1080 },
+      }
+    });
+    // At this point you can connect to 8001 TCP port
+    // and start receiving RTP traffic.
+}
+void run();
+`} lang='tsx' />
+
+## RegisterWhipOutput
+<Code code={`import { Outputs, RegisterWhipOutput } from "@swmansion/smelter"`} lang='tsx' />
 Parameters for an WHIP output stream from the Smelter.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -36,18 +59,20 @@ Token used for authentication when connecting to the WHIP endpoint.
 
 
 #### video
-Parameters of a video source included in the WHIP stream.
+Parameters of a video included in the WHIP stream.
 
-- **Type**: [`OutputWhipVideoOptions`](/ts-sdk/outputs/whip#outputwhipvideooptions)
+- **Type**: [`Outputs.OutputWhipVideoOptions`](/ts-sdk/outputs/whip#outputsoutputwhipvideooptions)
 
 ---
 
 #### audio
-Parameters of an audio source included in the WHIP stream.
+Parameters of an audio included in the WHIP stream.
 
-- **Type**: [`OutputWhipAudioOptions`](/ts-sdk/outputs/whip#whipaudiooptions)
+- **Type**: [`Outputs.OutputWhipAudioOptions`](/ts-sdk/outputs/whip#outputswhipaudiooptions)
 
 ## Outputs.OutputWhipVideoOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -75,17 +100,19 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/whip#outputendcondition)
+- **Type**: [`Outputs.OutputEndCondition`](/ts-sdk/outputs/whip#outputsoutputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`WhipVideoEncoderOptions`](/ts-sdk/outputs/whip#whipvideoencoderoptions)
+- **Type**: [`Outputs.WhipVideoEncoderOptions`](/ts-sdk/outputs/whip#outputswhipvideoencoderoptions)
 
 
 ## Outputs.WhipVideoEncoderOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -135,6 +162,8 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 - **Type**: `Map<string, string>`
 
 ## Outputs.WhipAudioOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters of an audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -163,19 +192,21 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/whip#outputendcondition)
+- **Type**: [`Outputs.OutputEndCondition`](/ts-sdk/outputs/whip#outputsoutputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`WhipAudioEncoderOptions`](/ts-sdk/outputs/whip#whipaudioencoderoptions)
+- **Type**: [`Outputs.WhipAudioEncoderOptions`](/ts-sdk/outputs/whip#outputswhipaudioencoderoptions)
 
 ---
 
 
 ## Outputs.WhipAudioEncoderOptions
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Configuration for the audio encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -219,6 +250,8 @@ Sample rate for audio encoder.
 
 
 ## Outputs.OutputEndCondition
+<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
 
 By default, the input stream is considered finished/ended when:
