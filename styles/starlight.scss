@@ -34,18 +34,6 @@ button, input {
 	--sl-color-black: #ffffff;
 }
 
-// @media (prefers-color-scheme: dark) {
-//   .sl-markdown-content > a  {
-//     color: #A99CD3;
-//   }
-// }
-
-// @media (prefers-color-scheme: light) {
-//   .sl-markdown-content > a  {
-//     color: #302555;
-//   }
-// }
-
 /* Show the icon on hover */
 .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:hover::after {
   opacity: 1;
