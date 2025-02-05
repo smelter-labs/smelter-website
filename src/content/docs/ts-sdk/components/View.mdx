@@ -5,7 +5,7 @@ import { Aside, Code } from '@astrojs/starlight/components';
 import viewExample from './examples/View.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-The `View` component serves as the core layout mechanism in the compositor, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
+The `View` component serves as the core layout mechanism in the smelter, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
 
 ## Reference
 
@@ -25,7 +25,7 @@ type ViewProps = {
 ## Positioning
 
 ### Absolute
-A component is absolutely positioned when it specifies style properties such as top, left, right, bottom, or rotation. These properties determine the component’s position relative to its parent. However, the parent component must support absolute positioning for these values to take effect.
+A component is absolutely positioned when it specifies style properties such as top, left, right, bottom, or rotation. These properties determine the component's position relative to its parent. However, the parent component must support absolute positioning for these values to take effect.
 - `View` supports absolute positioning for its child components. If the `width` and `height` are not explicitly provided, an absolutely positioned child will inherit `width` and `height` from its parent.
 - `View` can be absolutely positioned relative to its parent if the parent component supports it.
 

@@ -10,7 +10,7 @@ The primary element required to start using the Smelter TypeScript SDK is the `S
     - `@swmansion/smelter-node`
     - `@swmansion/smelter-web-wasm`
 
-Visit [Smelter class documentation](/ts-sdk/live-compositor) for more details
+Visit [Smelter class documentation](/ts-sdk/smelter) for more details
 
 ### Components
 Smelter TypeScript SDK draws heavy inspiration from React Native in terms of the synthax. It's important to note that standard DOM components, such as `<div/>`, are not supported. Instead, you should use Smelter-specific components, such as:
@@ -36,7 +36,7 @@ Our hooks are primarily designed for managing stream configurations and accessin
 You're free to use any standard React hooks such as `useState`, `useEffect`, and more.
 
 ### Inputs
-You can handle most of the stream composing by using React components. However, delivering multimedia to the compositor requires registering the input beforehand. You can register an input by using [Smelter.registerInput](/ts-sdk/live-compositor#registerinput), which accepts `inputId` and `inputType`. Right now, we support two input types:
+You can handle most of the stream composing by using React components. However, delivering multimedia to the smelter requires registering the input beforehand. You can register an input by using [Smelter.registerInput](/ts-sdk/smelter#registerinput), which accepts `inputId` and `inputType`. Right now, we support two input types:
 - [MP4](/ts-sdk/inputs/mp4)
 - [RTP](/ts-sdk/inputs/rtp)
 

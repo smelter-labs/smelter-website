@@ -4,7 +4,7 @@ title: RTP
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-**add more details** An input type that allows streaming video and audio to the compositor over RTP.
+**add more details** An input type that allows streaming video and audio to the smelter over RTP.
 
 <Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
 
@@ -27,14 +27,14 @@ type RegisterRtpInput = {
 ### Properties
 
 #### port
-UDP port or port range for the compositor to listen to incoming streams.
+UDP port or port range for the smelter to listen to incoming streams.
 
 - **Type**: `string | number`
 
 ---
 
 #### transportProtocol
-UDP port or port range for the compositor to listen to incoming streams.
+UDP port or port range for the smelter to listen to incoming streams.
 
 - **Type**: `"udp" | "tcp_server"`
 - **Supported values**:
@@ -84,7 +84,7 @@ type InputRtpVideoOptions = {
 ### Properties
 
 #### decoder
-UDP port or port range for the compositor to listen to incoming streams.
+UDP port or port range for the smelter to listen to incoming streams.
 
 - **Type**: `"ffmpeg_h264"`
 
@@ -134,7 +134,7 @@ For detailed instructions on obtaining this value, refer to the information prov
     <tr>
       <td><strong>FFmpeg Streaming</strong></td>
       <td>SDP file</td>
-      <td>Use the <code>-sdp_file FILENAME</code> option when streaming to a compositor to generate an SDP file containing the ASC.</td>
+      <td>Use the <code>-sdp_file FILENAME</code> option when streaming to a smelter to generate an SDP file containing the ASC.</td>
     </tr>
     <tr>
       <td><strong>MP4 Files</strong></td>
