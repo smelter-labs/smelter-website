@@ -12,21 +12,21 @@ export const server = {
       message: z.string(),
     }),
     handler: async ({ email, inquiry, message }) => {
-      sendGrid.setApiKey(getSecret('SENDGRID_API_KEY') ?? '');
+      sendGrid.setApiKey(getSecret("SENDGRID_API_KEY") ?? "");
 
       try {
-        const processedInquiry = inquiry.replace('-', ' ')
-        processedInquiry[0].toUpperCase()
+        const processedInquiry = inquiry.replace("-", " ");
+        processedInquiry[0].toUpperCase();
 
         const msg = {
           to: "contact@smelter.dev",
           from: "contact@smelter.dev",
           replyTo: { email: email },
-          subject: `${processedInquiry} from ${email.split('@')[0]}`,
+          subject: `${processedInquiry} from ${email.split("@")[0]}`,
           text: `${email}\n\n${message}`,
         };
 
-        await sendGrid.send(msg)
+        await sendGrid.send(msg);
       } catch (error) {
         console.error(error);
       }
