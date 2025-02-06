@@ -7,7 +7,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 A component for displaying registered media inputs.
 
-<Aside>To use this component, you need to first register the image with a matching `inputId` using the [`Smelter.registerInput`](/ts-sdk/smelter#registerinput) function.</Aside>
+<Aside>To use this component, you need to first register the input with a matching `inputId` using the [`Smelter.registerInput`](/ts-sdk/smelter#registerinput) function.</Aside>
 
 ## Reference
 
@@ -19,7 +19,7 @@ type InputStreamProps = {
     id?: string;
     inputId: string;
     volume?: number;
-    mute?: boolean;
+    muted?: boolean;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -49,7 +49,7 @@ Audio volume of the input stream. Accepts values between 0 and 1.
 
 ---
 
-### mute
+### muted
 Determines whether to mute audio of the input stream.
 
 - **Type**: `boolean`

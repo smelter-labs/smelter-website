@@ -1,0 +1,47 @@
+---
+title: Mp4
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import mp4Example from './examples/Mp4.tsx?raw';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+A component that renders content of Mp4 file. It is simpler alternative to the [`InputStream`](/ts-sdk/components/inputstream)
+component that does not require registration, but with more limited set of options.
+
+## Reference
+
+<Code code={mp4Example} title='Mp4Example.tsx' lang='tsx' collapse={["17-28"]} />
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type Mp4Props = {
+    source: string;
+    volume?: number;
+    muted?: boolean;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+## Props
+
+### source 
+Url or local path to the mp4 file. Note that the path has to be local to the machine where
+Smelter server runs.
+
+- **Type**: `string`
+
+---
+
+### volume
+Audio volume of the input stream. Accepts values between 0 and 1.
+
+- **Type**: `number`
+- **Default value**: 1
+
+---
+
+### muted
+Determines whether to mute audio of the input stream.
+
+- **Type**: `boolean`
+- **Default value**: `false`

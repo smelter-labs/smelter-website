@@ -38,12 +38,12 @@ button, input {
 .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:hover::after {
   opacity: 1;
 }
-
-.sl-markdown-content ul {
+ 
+.sl-markdown-content ul:not([role=tablist]) {
   padding-left: 1.5rem
 }
 
-.sl-markdown-content li {
+.sl-markdown-content li:not([role=presentation]) {
   list-style: disc;
 }
 
