@@ -114,36 +114,37 @@ export default defineConfig({
             },
           ],
         },
-        {
-          label: "HTTP API",
-          items: [
-            { label: "Overview", slug: "http-api/overview" },
-            {
-              label: "Events",
-              slug: "http-api/events",
-            },
-            {
-              label: "Components",
-              collapsed: true,
-              autogenerate: { directory: "http-api/components" },
-            },
-            {
-              label: "Inputs",
-              collapsed: true,
-              autogenerate: { directory: "http-api/inputs" },
-            },
-            {
-              label: "Outputs",
-              collapsed: true,
-              autogenerate: { directory: "http-api/outputs" },
-            },
-            {
-              label: "Renderers",
-              collapsed: true,
-              autogenerate: { directory: "http-api/renderers" },
-            },
-          ],
-        },
+        // TODO
+        //{
+        //  label: "HTTP API",
+        //  items: [
+        //    { label: "Overview", slug: "http-api/overview" },
+        //    {
+        //      label: "Events",
+        //      slug: "http-api/events",
+        //    },
+        //    {
+        //      label: "Components",
+        //      collapsed: true,
+        //      autogenerate: { directory: "http-api/components" },
+        //    },
+        //    {
+        //      label: "Inputs",
+        //      collapsed: true,
+        //      autogenerate: { directory: "http-api/inputs" },
+        //    },
+        //    {
+        //      label: "Outputs",
+        //      collapsed: true,
+        //      autogenerate: { directory: "http-api/outputs" },
+        //    },
+        //    {
+        //      label: "Renderers",
+        //      collapsed: true,
+        //      autogenerate: { directory: "http-api/renderers" },
+        //    },
+        //  ],
+        //},
       ],
     }),
     mdx(),
