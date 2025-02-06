@@ -61,6 +61,7 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
 
     <Code code={`
     import Smelter from "@swmansion/smelter-node"
+    import { View } from "@swmansion/smelter"
 
     async function start() {
         const smelter = new Smelter();
@@ -90,7 +91,7 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
           }
         })
 
-        await smelter.registerOutput("output_1", {
+        await smelter.registerOutput("output_1", <View /> {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9003,
@@ -114,7 +115,7 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
 4. Render a single input stream and wire up the `App` component to the registered output.
     The `App` component will serve as the root of our component tree.   
 
-    ```tsx ins={3-5, 45} collapse={8-34}
+    ```tsx ins={3-5, 35} collapse={8-34}
     import Smelter from "@swmansion/smelter-node"
 
     function App() {
@@ -149,7 +150,7 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
           }
         })
         
-        await smelter.registerOutput("output_1", {
+        await smelter.registerOutput("output_1", <App />, {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9003,
@@ -159,7 +160,6 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
               type: "ffmpeg_h264",
               preset: "ultrafast"
             },
-            root: <App />
           },
           audio: {
             encoder: {
@@ -215,7 +215,7 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
           }
         })
         
-        await smelter.registerOutput("output_1", {
+        await smelter.registerOutput("output_1", <App />, {
           type: "rtp_stream",
           transportProtocol: "tcp_server",
           port: 9003,
@@ -225,7 +225,6 @@ In this guide, you'll learn how to create a basic smelter setup using Smelter Ty
               type: "ffmpeg_h264",
               preset: "ultrafast"
             },
-            root: <App />
           },
           audio: {
             encoder: {
