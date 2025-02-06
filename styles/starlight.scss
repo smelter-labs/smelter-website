@@ -39,6 +39,14 @@ button, input {
   opacity: 1;
 }
 
+.sl-markdown-content ul {
+  padding-left: 1.5rem
+}
+
+.sl-markdown-content li {
+  list-style: disc;
+}
+
 a > svg:is([data-theme="dark"] *){
   color: white
 }

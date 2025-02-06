@@ -71,6 +71,12 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "ts-sdk/overview" },
             { label: "Smelter", slug: "ts-sdk/smelter" },
+            { label: "OfflineSmelter", slug: "ts-sdk/smelter-offline" },
+            {
+              label: "Smelter Managers",
+              collapsed: true,
+              autogenerate: { directory: "ts-sdk/managers" },
+            },
             {
               label: "Components",
               collapsed: true,

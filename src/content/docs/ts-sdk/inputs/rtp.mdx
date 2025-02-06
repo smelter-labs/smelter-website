@@ -1,20 +1,42 @@
 ---
 title: RTP
+sidebar:
+  order: 3
 ---
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-**add more details** An input type that allows streaming video and audio to the smelter over RTP.
+An input type that allows streaming video and audio to the Smelter server over RTP. It supports both 
+streaming over UDP and TCP (smelter works as a TCP server).
 
-<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
+<Code title='rtpInputExample.tsx' code={`
+import Smelter from "@swmansion/smelter-node";
 
-## Inputs.RegisterRtpInput
+async function run() {
+    const smelter = new Smelter();
+    await smelter.init();
+    await smelter.registerInput("example", {
+        type: "rtp_stream",
+        port: 8001,
+        transportProtocol: "tcp_server",
+        video: { decoder: "ffmpeg_h264" },
+        audio: { decoder: "opus" }
+    });
+    // At this point you can connect to 8001 TCP port
+    // and start sending RTP traffic
+}
+void run();
+`} lang='tsx' />
+
+## RegisterRtpInput
+<Code code={`import { RegisterRtpInput } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters for an input stream from RTP source. At least one of video and audio has to be defined.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type RegisterRtpInput = {
-    port: string | u16;
+    port: string | number;
     transportProtocol?: "udp" | "tcp_server";
     video?: Inputs.InputRtpVideoOptions;
     audio?: Inputs.InputRtpAudioOptions;
@@ -44,7 +66,7 @@ UDP port or port range for the smelter to listen to incoming streams.
 ---
 
 #### video
-Parameters of a video source included in the RTP stream.
+Parameters of a video included in the RTP stream.
 
 - **Type**: [`InputRtpVideoOptions`](/ts-sdk/inputs/rtp#inputsinputrtpvideooptions)
 
@@ -71,6 +93,8 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 - **Type**: `number`
 
 ## Inputs.InputRtpVideoOptions
+<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters of a video source included in the RTP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -89,6 +113,8 @@ UDP port or port range for the smelter to listen to incoming streams.
 - **Type**: `"ffmpeg_h264"`
 
 ## Inputs.InputRtpAudioOptions
+<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
+
 Parameters of a audio source included in the RTP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>

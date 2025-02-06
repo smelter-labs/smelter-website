@@ -1,0 +1,71 @@
+---
+title: MediaStream (Web API)
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+A generic browser outputs that returns [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream) object.
+Stream like this can be used by various browser APIs like rendering to canvas or sending it via WebRTC connection.
+
+<Code title='streamOutputExample.tsx' code={`
+import Smelter from "@swmansion/smelter-web-wasm";
+import { View } from "@swmansion/smelter";
+
+async function run() {
+    const smelter = new Smelter();
+    await smelter.init();
+    await smelter.registerOutput('example', <View />
+      type: 'stream',
+      video: {
+        resolution: { width: 1920, height: 1080 };
+      };
+      audio: true;
+    })
+}
+void run()
+`} lang='tsx' />
+
+## RegisterStreamOutput
+<Code code={`import { RegisterStreamOutput } from "@swmansion/smelter-web-wasm"`} lang='tsx' />
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterStreamOutput = {
+    video?: StreamOutputVideo;
+    audio?: boolean;
+};
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Parameters of a video track that will be part of `MediaStream`.
+
+- **Type**: [`StreamOutputVideo`](#streamoutputvideo)
+
+---
+
+#### audio
+
+If `true` `MediaStream` track returned from a register call will include audio track.
+
+- **Type**: boolean 
+
+## StreamOutputVideo
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type RegisterCanvasOutput = {
+    resolution: { width: number; height: number; }
+};
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### resolution
+
+Resolution of an output video
+
+- **Type**: `{ resolution: { width: number; height: number }}`
