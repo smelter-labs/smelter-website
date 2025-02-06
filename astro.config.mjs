@@ -85,6 +85,11 @@ export default defineConfig({
               autogenerate: { directory: "ts-sdk/components" },
             },
             {
+              label: "Props",
+              collapsed: true,
+              autogenerate: { directory: "ts-sdk/props" },
+            },
+            {
               label: "Hooks",
               collapsed: true,
               autogenerate: { directory: "ts-sdk/hooks" },
@@ -100,14 +105,9 @@ export default defineConfig({
               autogenerate: { directory: "ts-sdk/outputs" },
             },
             {
-              label: "Renderers",
+              label: "Resources",
               collapsed: true,
-              autogenerate: { directory: "ts-sdk/renderers" },
-            },
-            {
-              label: "Props",
-              collapsed: true,
-              autogenerate: { directory: "ts-sdk/props" },
+              autogenerate: { directory: "ts-sdk/resources" },
             },
             {
               label: "Guides",

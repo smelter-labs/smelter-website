@@ -15,7 +15,8 @@ You can use Smelter in a few ways, however we recommend the TypeScript SDK as th
 
 ### Typescript SDK
 
-TypeScript SDK is a library that provides a set of React components you can use to control how Smelter manipulates videos. Currently, we only support running TypeScript SDK in Node.js environment, but browser and React Native support will be added soon.
+TypeScript SDK is a library that provides a set of React components you can use to control how Smelter 
+manipulates videos. Currently, we support running TypeScript SDK in Node.js environment and browser.
 
 You can generate a new starter project using the following commands:
 <Tabs syncKey="package-manager">
@@ -45,11 +46,16 @@ To learn more, visit <a href="/ts-sdk">TypeScript SDK documentation</a> or explo
 
 ### Standalone
 
-**Some intro with multimedia server** You can use Smelter as a standalone multimedia server. The server can be started by:
+You can use Smelter as a standalone multimedia server. The server can be started by:
+- Building from sources [`github.com/software-mansion/smelter`](https://github.com/software-mansion/smelter).
+- Using binaries from [GitHub releases](https://github.com/software-mansion/smelter/releases).
+- Using Docker
+  - (recommended) Dockerfile with compositor without web rendering support [`[Dockerfile]`](https://github.com/software-mansion/smelter/blob/master/build_tools/docker/slim.Dockerfile)
+  - Dockerfile with compositor with web rendering support [`[Dockerfile]`](https://github.com/software-mansion/smelter/blob/master/build_tools/docker/full.Dockerfile)
 
 
 ### Membrane Framework plugin
 
-Membrane is a multimedia processing framework written in Elixir. **Why use it**, **Cases where it is recommended**, **Redirect to docs**
+Membrane is a multimedia processing framework written in Elixir. Smelter implements a plugin that allows injecting itself into Membrane pipeline. 
 
-<Aside>Membrane has its own way of handling multimedia, so there are some notable differences in comparison to the standalone Smelter. Visit <a href="">Membrane plugin section</a> for more details.</Aside>
+<Aside>Membrane has its own way of handling multimedia, so there are some notable differences in comparison to the standalone Smelter. Visit [the plugin documentation](https://hexdocs.pm/membrane_live_compositor_plugin/0.9.0/Membrane.LiveCompositor.html) to learn more.</Aside>

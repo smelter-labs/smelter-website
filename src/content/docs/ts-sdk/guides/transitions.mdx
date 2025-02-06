@@ -20,7 +20,7 @@ function App() {
   return (
     <View backgroundColor="#4d4d4d">
       <Rescaler
-        width={beforeTransition ? 480 : 1280}
+        style={{ width: beforeTransition ? 480 : 1280 }}
         transition={{ durationMs: 2000 }}>
         <InputStream inputId="input_1" />
       </Rescaler>
@@ -42,9 +42,7 @@ function App() {
 
   return (
     <View backgroundColor="#4d4d4d">
-      <Rescaler
-        width={beforeTransition ? 480 : 1280}
-        transition={{ durationMs: 2000 }}>
+      <Rescaler transition={{ durationMs: 2000 }}>
         <InputStream inputId="input_1" />
       </Rescaler>
       <Rescaler>
@@ -72,17 +70,17 @@ function App() {
   return (
     <View backgroundColor="#4d4d4d">
       <Rescaler
-        width={320} height={180} top={top} left={0}
+        style={{ width: 320, height: 180, top, left: 0 }}
         transition={{ durationMs: 2000 }}>
         <InputStream inputId="input_1" />
       </Rescaler>
       <Rescaler
-        width={320} height={180} top={top} left={320}
+        style={{ width: 320, height: 180, top, left: 320 }}
         transition={{ durationMs: 2000, easingFunction: 'bounce' }}>
         <InputStream inputId="input_2" />
       </Rescaler>
       <Rescaler
-        width={320} height={180} top={top} left={640}
+        style={{ width: 320, height: 180, top, left: 640 }}
         transition={{
           durationMs: 2000,
           easingFunction: {
@@ -93,7 +91,7 @@ function App() {
         <InputStream inputId="input_3" />
       </Rescaler>
       <Rescaler
-        width={320} height={180} top={top} left={960}
+        style={{ width: 320, height: 180, top, left: 960 }}
         transition={{
           durationMs: 2000,
           easingFunction: {

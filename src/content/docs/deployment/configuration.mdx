@@ -20,7 +20,7 @@ Output framerate for all output streams.
     - `number`
     - `string` in the `NUM/DEN` format, where both NUM and DEN are unsigned integers
 
-### `SMELTER_OUTPUT_SAMPLE_RATE`
+### `SMELTER_MIXING_SAMPLE_RATE`
 Output sample rate for all output streams.
 - **Defaults to**: `48000`
 - **Supported values**:
@@ -136,3 +136,33 @@ Duration (in ms) of an input buffer in milliseconds. New stream will not be proc
 - **Defaults to**: `80` (about 5 frames in 60 fps)
 
 <Aside type="caution">Increasing this value always increases the latency of the stream by the same amount.</Aside>
+
+### `SMELTER_LOAD_SYSTEM_FONTS`
+If enabled, the Smelter server will load all system fonts available in system. Disabling this option might improve startup time.
+
+- **Supported values**:
+    - `true` or `1`, to enable
+    - `false` or `0`, to disable
+- **Defaults to**: `true`
+
+### `SMELTER_WHIP_WHEP_SERVER_PORT`
+Specify port where API for WHIP and WHEP servers should be served.
+
+- **Defaults to**: `9000`
+
+### `SMELTER_START_WHIP_WHEP_SERVER`
+
+If enabled, the Smelter server will start HTTP server that implement WHIP and WHEP endpoints. If disabled it won't be
+possible to register WHIP inputs.
+
+- **Defaults to**: `true`
+
+### `SMELTER_LOG_FILE`
+
+Location of a file where all Smelter logs should be saved. Logging to file does not stop printing logs to standard output.
+
+### `SMELTER_STUN_SERVERS`
+
+List of comma separated URLs that specify STUN servers that should be used in connection negotiation for WHIP/WHEP.
+
+- **Defaults to**: `stun:stun.l.google.com:19302`

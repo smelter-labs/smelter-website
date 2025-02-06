@@ -47,6 +47,7 @@ type RegisterMp4Input = {
 URL of the MP4 file.
 
 - **Type**: `string`
+- **Option availability**: Node.js, Browser (WASM)
 
 ---
 
@@ -54,6 +55,7 @@ URL of the MP4 file.
 Path to the MP4 file, specifying its location on the server where the Smelter is deployed.
 
 - **Type**: `string`
+- **Option availability**: Node.js
 
 ---
 
@@ -62,6 +64,7 @@ Specifies whether the input should be played in a loop.
 
 - **Type**: `boolean`
 - **Default value**: `false`
+- **Option availability**: Node.js
 
 ---
 
@@ -70,6 +73,7 @@ Determines if the input stream is essential for output frame production. If set 
 
 - **Type**: `boolean`
 - **Default value**: `false`
+- **Option availability**: Node.js
 
 ---
 
@@ -77,3 +81,4 @@ Determines if the input stream is essential for output frame production. If set 
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `number`
+- **Option availability**: Node.js

@@ -251,3 +251,28 @@ Register a web renderer instance. See [Renderers.RegisterWebRenderer](/ts-sdk/re
 <Code code={`Smelter.unregisterWebRenderer(instanceId: string): Promise<void>`} lang="tsx" />
 
 Unregister a previously registered web renderer.
+
+## registerFont()
+<Code code={`Smelter.registerFont(source: FontSource): Promise<void>`} lang="tsx" />
+
+<CollapsibleDetails summaryTitle='Type definitions @swmnasion/smelter-node'>
+<Code code={`
+type FontSource =
+    | 'string' // URL
+    | ArrayBuffer
+`} lang='tsx' />
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Type definitions @swmansion/smelter-web-wasm'>
+<Code code={`
+type Source = 'string' // URL
+`} lang='tsx' />
+</CollapsibleDetails>
+
+Register new font.
+
+## terminate()
+<Code code={`Smelter.terminate(): Promise<void>`} lang="tsx" />
+
+Terminate the compositor instance. Depending on implementation it might just drop connection to
+the server, shutdown server itself, or in case of WASM build shutdown Web Worker responsible for running it.
