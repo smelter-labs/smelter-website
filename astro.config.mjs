@@ -15,6 +15,7 @@ export default defineConfig({
   site: "https://smelter.dev",
 
   redirects: {
+    "/docs": "/fundamentals/getting-started", // TODO: temporary to avoid empty page
     "/fundamentals": "/fundamentals/getting-started",
     "/deployment": "/deployment/setup",
     "/ts-sdk": "/ts-sdk/overview",
@@ -47,7 +48,7 @@ export default defineConfig({
           items: [
             // Each item here is one entry in the navigation menu.
             { label: "Getting started", slug: "fundamentals/getting-started" },
-            { label: "How it works", slug: "fundamentals/how-it-works" },
+            //{ label: "How it works", slug: "fundamentals/how-it-works" },
             { label: "Glossary of terms", slug: "fundamentals/glossary" },
             {
               label: "Concepts",
@@ -60,10 +61,11 @@ export default defineConfig({
           items: [
             { label: "Setup", slug: "deployment/setup" },
             { label: "Configuration", slug: "deployment/configuration" },
-            {
-              label: "Examples",
-              autogenerate: { directory: "deployment/examples" },
-            },
+            // TODO: temporary
+            //{
+            //  label: "Examples",
+            //  autogenerate: { directory: "deployment/examples" },
+            //},
           ],
         },
         {
