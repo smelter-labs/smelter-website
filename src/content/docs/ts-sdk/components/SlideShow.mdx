@@ -1,0 +1,55 @@
+---
+title: SlideShow
+---
+import { Aside, Code } from '@astrojs/starlight/components';
+import slideShowExample from './examples/SlideShow.tsx?raw';
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+The `SlideShow` component serves as utility to chain series of scene one after the other. It can only accept `Slide` components as children.
+After it is mounted it will start showing slides sequentially one after the other. How long single slide shows up is evaluated as follows:
+- If `durationMs` is specified it takes precedence.
+- If any of child components (not necessarily direct child) are `InputStream`, `Mp4`, or another `SlideShow` then it will stay on that slide for as long as they are running.
+- If there are not child components that can extend the Slide lifetime then after 1 second it will switch to the next slide.
+
+## Reference
+
+<Code code={slideShowExample} title='SlideShowExample.tsx' lang='tsx' collapse={["25-36"]} />
+
+---
+
+<Code code={`import { Slide, SlideShow } from "@swmansion/smelter"`} lang='tsx' />
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+type SlideShowProps = {
+    children?: ReactNode;
+}
+
+type SlideProps = {
+    children: ReactNode;
+    durationMs?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+## Props - `SlideShow`
+
+### children
+List of `<Slide />` components.
+
+- **Type**: `ReactNode`
+
+## Props - `Slide`
+
+### children
+Content of a single slide
+
+- **Type**: `ReactNode`
+- **Default value**: Value produced by `useId` hook
+
+---
+
+### durationMs 
+Duration in milliseconds, defines how long slide should be shown.
+
+- **Type**: [`ViewStyleProps`](/reference/ts-sdk/props/view-style-props)
+
