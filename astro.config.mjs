@@ -120,6 +120,7 @@ export default defineConfig({
         //  label: "HTTP API",
         //  items: [
         //    { label: "Overview", slug: "http-api/overview" },
+        //    { label: "Routes", slug: "http-api/routes" },
         //    {
         //      label: "Events",
         //      slug: "http-api/events",
@@ -140,9 +141,9 @@ export default defineConfig({
         //      autogenerate: { directory: "http-api/outputs" },
         //    },
         //    {
-        //      label: "Renderers",
+        //      label: "Resources",
         //      collapsed: true,
-        //      autogenerate: { directory: "http-api/renderers" },
+        //      autogenerate: { directory: "http-api/resources" },
         //    },
         //  ],
         //},
