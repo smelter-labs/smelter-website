@@ -3,25 +3,33 @@ import { ClientRouter } from "astro:transitions";
 import Footer from "../components/base/Footer.astro";
 import Snackbar from "../components/base/Snackbar.astro";
 import NavBar from "../components/navigation/NavBar.astro";
+
+interface Props {
+  canonicalUrl: string;
+}
+
+const { canonicalUrl } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Smelter" />
+    <link rel="manifest" href="/favicons/site.webmanifest" />
     <link rel="preload" href="/fonts/Aeonik-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/Aeonik-Light.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/Aeonik-Medium.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/Aeonik-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/Aeonik-Thin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/src/assets/swm-logo.svg" as="image" type="image/svg+xml" crossorigin>
-    <link rel="preload" href="/src/assets/arrow-right.svg" as="image" type="image/svg+xml" crossorigin>
-    <link rel="preload" href="/src/assets/navigation/smelter-logo.svg" as="image" type="image/svg+xml" crossorigin>
-    <link rel="preload" href="/src/assets/navigation/discord-logo.svg" as="image" type="image/svg+xml" crossorigin>
-    <link rel="preload" href="/src/assets/navigation/github-logo.svg" as="image" type="image/svg+xml" crossorigin>
-
+    <link rel="preload" href="/images/swm-logo.svg" as="image" type="image/svg+xml" crossorigin>
+    <link rel="preload" href="/images/arrow-right.svg" as="image" type="image/svg+xml" crossorigin>
+    <slot name="head" />
     <meta name="generator" content={Astro.generator} />
     
     <meta name="description" content="Media server for real-time, programmable video and audio mixing.">
@@ -37,6 +45,7 @@ import NavBar from "../components/navigation/NavBar.astro";
     <meta property="twitter:description" content="Media server for real-time, programmable video and audio mixing." />
     <meta name=”twitter:image” content=”/og-image.png” />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="canonical" href={canonicalUrl} />
 
     <title>Smelter – Live stream mixing simplified</title>
     <ClientRouter />
