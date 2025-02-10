@@ -1,15 +1,52 @@
 ---
 title: Deployment setup
 ---
+import { Aside } from '@astrojs/starlight/components';
 
 Smelter can be deployed in various ways, depending on your platform, used features and whether it is used standalone or via Membrane Framework plugin.
 
-Consider the following options for Smelter deployment:
-### Docker
-    - (recommended) <a href="https://github.com/software-mansion/smelter/blob/master/build_tools/docker/slim.Dockerfile" target="_blank">Dockerfile</a> with smelter without web rendering support
-    - <a href="https://github.com/software-mansion/smelter/blob/master/build_tools/docker/full.Dockerfile" target="_blank">Dockerfile</a> with smelter with web rendering support
-### Standalone binaries
-    - Building <a href="https://github.com/software-mansion/smelter" target="_blank">from source</a>.
-    - Using binaries from <a href="https://github.com/software-mansion/smelter/releases" target="_blank">GitHub releases</a>.
-### Element in a Membrane pipeline. 
-<a href="https://compositor.live/docs/deployment/overview#membrane-framework-plugin" target="_blank">Learn more</a>.
+### Standalone server 
+
+Standalone server can be deployed in various ways:
+- [Docker images from `ghcr.io/software-mansion/smelter`](/deployment/variants/docker/#image-registry)
+- [Building your own docker images](/deployment/variants/docker/#build-your-own-image)
+- [GitHub release binaries](/deployment/variants/binaries/#github-releases)
+- [Building from source](/deployment/variants/binaries/#building-from-source)
+
+Each of SDKs listed below implements a way to automatically provision a Smelter server. However, standalone guides
+above will still be useful even if you are using Smelter from TypeScript or Elixir (Membrane Framework). For example,
+you might want to build binaries or deploy the server yourself, and just use SDK to manage that instance.
+
+### TypeScript SDK - Node.js 
+
+When using TypeScript SDK, the Node.js process will execute only the React code, but actual
+rendering and media processing will happen in a separate process. By default, SDK downloads
+compositor binaries and starts new Smelter servers on its own. However, you can also connect
+to an existing instance that you start yourself.
+
+First, you need to decide:
+- Where will your React code run?
+- Where will your Smelter server run?
+
+The easiest and the most practical scenario would be to:
+- For production run both Node.js and Smelter server in the same Docker container.
+- For development run Node.js on your machine and Smelter server locally (either directly or in a Docker container).
+
+<Aside>
+It is possible to run your React code on the different machine than Smelter server. However,
+it is only useful in very limited circumstances, for example if you are running untrusted 
+JavaScript that controls the streams.
+</Aside>
+
+### TypeScript SDK - Browser (WASM)
+
+When running Smelter in browser everything is purely client-side, so there is no need
+to deploy anything, but there are some additional steps you need to take to configure
+your project.
+
+{/*
+### Membrane Framework plugin
+
+TODO: add membrane docs
+
+*/}

@@ -61,11 +61,10 @@ export default defineConfig({
           items: [
             { label: "Setup", slug: "deployment/setup" },
             { label: "Configuration", slug: "deployment/configuration" },
-            // TODO: temporary
-            //{
-            //  label: "Examples",
-            //  autogenerate: { directory: "deployment/examples" },
-            //},
+            {
+              label: "Variants",
+              autogenerate: { directory: "deployment/variants" },
+            },
           ],
         },
         {
