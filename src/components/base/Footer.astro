@@ -1,11 +1,19 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 
-import footerWave from "../../assets/footer2.svg";
-import swmLogo from "../../assets/swm-logo.svg";
+import swmLogo from "/public/images/swm-logo.svg";
+import footerWave from "../../assets/footer.svg";
+
+const footerWaveImage = await getImage({
+  src: footerWave,
+  format: "svg",
+});
 ---
 
 <footer class="relative h-[17.5rem] overflow-hidden">
+  <Fragment slot="head">
+    <link rel="preload" href={footerWaveImage.src} as="image" />
+  </Fragment>
   <Image src={footerWave} alt="Footer gradient" class="footer-wave" />
   <div class="absolute inset-0 m-auto flex flex-col items-center justify-center gap-y-6 text-center px-4">
     <a rel="noreferrer noopener" href="https://swmansion.com">

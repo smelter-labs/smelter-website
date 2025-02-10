@@ -1,13 +1,34 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 
 import discordLogo from "../../assets/navigation/discord-logo.svg";
 import githubLogo from "../../assets/navigation/github-logo.svg";
 import smelterLogoSmall from "../../assets/navigation/smelter-logo-small.svg";
 import smelterLogo from "../../assets/navigation/smelter-logo.svg";
+
+const discordLogoImage = await getImage({ src: discordLogo, format: "svg", width: 24, height: 24 });
+const githubLogoImage = await getImage({ src: githubLogo, format: "svg", width: 24, height: 24 });
+const smelterLogoImage = await getImage({
+  src: smelterLogo,
+  format: "svg",
+  width: 130,
+  height: 17,
+});
+const smelterLogoSmallImage = await getImage({
+  src: smelterLogoSmall,
+  format: "svg",
+  width: 31,
+  height: 17,
+});
 ---
 
 <header id="pageHeader" class="fixed z-50 w-screen max-w-screen bg-transparent">
+  <Fragment slot="head">
+    <link rel="preload" href={discordLogoImage.src} as="image" />
+    <link rel="preload" href={githubLogoImage.src} as="image" />
+    <link rel="preload" href={smelterLogoImage.src} as="image" />
+    <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
+  </Fragment>
   <nav class="flex h-18 md:h-20">
     <div class="flex justify-between max-w-[1800px] w-full m-auto px-4 sm:px-8 lg:px-20">
       <a href="https://www.smelter.dev/">
