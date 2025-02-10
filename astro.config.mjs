@@ -61,11 +61,10 @@ export default defineConfig({
           items: [
             { label: "Setup", slug: "deployment/setup" },
             { label: "Configuration", slug: "deployment/configuration" },
-            // TODO: temporary
-            //{
-            //  label: "Examples",
-            //  autogenerate: { directory: "deployment/examples" },
-            //},
+            {
+              label: "Variants",
+              autogenerate: { directory: "deployment/variants" },
+            },
           ],
         },
         {
@@ -121,6 +120,7 @@ export default defineConfig({
         //  label: "HTTP API",
         //  items: [
         //    { label: "Overview", slug: "http-api/overview" },
+        //    { label: "Routes", slug: "http-api/routes" },
         //    {
         //      label: "Events",
         //      slug: "http-api/events",
@@ -141,9 +141,9 @@ export default defineConfig({
         //      autogenerate: { directory: "http-api/outputs" },
         //    },
         //    {
-        //      label: "Renderers",
+        //      label: "Resources",
         //      collapsed: true,
-        //      autogenerate: { directory: "http-api/renderers" },
+        //      autogenerate: { directory: "http-api/resources" },
         //    },
         //  ],
         //},
