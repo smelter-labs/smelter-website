@@ -14,45 +14,7 @@ To use this component, you need to first register the image with matching `image
 
 ## Reference
 
-Register Image using this request:
-```http
-POST: /api/image/example_image/register
-Content-Type: application/json
-
-{
-  "asset_type": "png",
-  "url": "https://example.com/image.png",
-}
-```
-Then you can use it in Smelter output:
-```http
-POST: /api/output/example_output/register
-Content-Type: application/json
-
-{
-  "type": "rtp_stream",
-  "port": 8002,
-  "ip": "127.0.0.1",
-  "video": {
-      "resolution": {
-          "width": 1920,
-          "height": 1080,
-      },
-      "encoder": {
-          "type": "ffmpeg_h264",
-          "preset": "ultrafast"
-      },
-      "initial": {
-          "root": {
-              "type": "image",
-              "image_id": "example_image"
-          }
-      }
-  }
-}
-```
-At this point, you can connect to the 8002 TCP port to view your image.
-
+{/*TODO example*/}
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
@@ -64,6 +26,16 @@ type Image = {
 </CollapsibleDetails>
 
 
-#### Properties
-- `id` - Id of a component.
-- `image_id` - Id of an image. It identifies an image registered using a [`register image`](/http-api/routes#register-image) request.
+## Properties
+
+### id
+ID of a component.
+
+- **Type**: `string`
+
+---
+
+### image_id
+ID of an image. It identifies an image registered using a [register image](/http-api/routes#register-image) request.
+
+- **Type**: `string`

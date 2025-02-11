@@ -12,46 +12,7 @@ To use this component, you need to first register the stream with matching `inpu
 
 ## Reference
 
-Register Input using the following request:
-```http
-POST: /api/input/example_input/register
-Content-Type: application/json
-
-{
-    "type": "mp4",
-    "path": "examples/assets/BigBuckBunny.mp4",
-    "video_decoder": "vulkan_video",
-}
-```
-Then you can use it in Smelter output:
-```http
-POST: /api/output/example_output/register
-Content-Type: application/json
-
-{
-  "type": "rtp_stream",
-  "port": 8002,
-  "ip": "127.0.0.1",
-  "video": {
-      "resolution": {
-          "width": 1920,
-          "height": 1080,
-      },
-      "encoder": {
-          "type": "ffmpeg_h264",
-          "preset": "ultrafast"
-      },
-      "initial": {
-          "root": {
-              "id": "input_1",
-              "type": "input_stream",
-              "input_id": "example_input",
-          }
-      }
-  }
-}
-```
-At this point, you can connect to the 8002 TCP port to see your video.
+{/*TODO example*/}
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
@@ -62,6 +23,16 @@ At this point, you can connect to the 8002 TCP port to see your video.
 `} lang='tsx' />
 </CollapsibleDetails>
 
-#### Properties
-- `id` - Id of a component.
-- `input_id` - Id of an input. It identifies a stream registered using a [`RegisterInputStream`](/http-api/routes#register-input) request.
+## Properties
+
+### id
+ID of a component.
+
+- **Type**: `string`
+
+---
+
+### input_id
+ID of an input. It identifies a stream registered using a [register input](/http-api/routes#register-input) method.
+
+- **Type**: `string`
