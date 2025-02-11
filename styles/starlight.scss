@@ -39,11 +39,11 @@ button, input {
   opacity: 1;
 }
  
-.sl-markdown-content ul:not([role=tablist]) {
+.sl-markdown-content ul:not([role]) {
   padding-left: 1.5rem
 }
 
-.sl-markdown-content li:not([role=presentation]) {
+.sl-markdown-content ul:not([role]) li:not([role]) {
   list-style: disc;
 }
 
