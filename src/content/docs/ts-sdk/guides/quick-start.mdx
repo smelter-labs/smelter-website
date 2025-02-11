@@ -1,45 +1,49 @@
 ---
 title: Quick start
+sidebar:
+    order: 0
 ---
 import { Steps, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import QuickStartImage from '../../../../assets/guides/quick-start.webp';
 
 In this guide, you'll learn how to create a basic Smelter setup in Node.js using TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
 
 <Steps>
 
 1. Create Smelter object and initialize it.
-   ```tsx
-   import Smelter from "@swmansion/smelter-node"
+    ```tsx
+    import Smelter from "@swmansion/smelter-node"
 
-   async function start() {
-     const smelter = new Smelter();
-     await smelter.init();
-   }
-   ```
+    async function start() {
+      const smelter = new Smelter();
+      await smelter.init();
+    }
+    ```
 
-   Download appropriate binaries and start the Smelter server locally.
+    Download appropriate binaries and start the Smelter server locally.
 
-   <CollapsibleDetails summaryTitle='Alternatively, you can connect to an existing instance.'>
+    <CollapsibleDetails summaryTitle='Alternatively, you can connect to an existing instance.'>
 
-   ```tsx
-   import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
+    ```tsx
+    import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
 
-   async function start() {
-     const manager = new ExistingInstanceManager({
-       ip: "127.0.0.1",
-       port: 8000,
-       protocol: 'http',
-     });
-     const smelter = new Smelter(manager);
-     await smelter.init();
-   }
-   ```
-   </CollapsibleDetails>
+    async function start() {
+      const manager = new ExistingInstanceManager({
+        ip: "127.0.0.1",
+        port: 8000,
+        protocol: 'http',
+      });
+      const smelter = new Smelter(manager);
+      await smelter.init();
+    }
+    ```
+    </CollapsibleDetails>
 
 2. Register an output stream and call `Smelter.start()`.
 
     ```tsx
+    import { View } from "@swmansion/smelter"
     import Smelter from "@swmansion/smelter-node"
 
     async function start() {
@@ -108,6 +112,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     <CollapsibleDetails summaryTitle='Option 1: WHIP output'>
     With WHIP output you can send it e.g. to Twitch.
     ```tsx
+    import { View } from "@swmansion/smelter"
     import Smelter from "@swmansion/smelter-node"
 
     async function start() {
@@ -136,6 +141,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     With mp4 output you can record the output to file.
 
     ```tsx
+    import { View } from "@swmansion/smelter"
     import Smelter from "@swmansion/smelter-node"
 
     async function start() {
@@ -169,12 +175,12 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
 
 3. Register 2 input streams.
 
-   For simplicity, in this example that will be two mp4 files, but the same
-   logic would apply for any other [input type](/ts-sdk/overview#inputs).
+    For simplicity, in this example that will be two mp4 files, but the same
+    logic would apply for any other [input type](/ts-sdk/overview#inputs).
 
     ```tsx collapse={19-29}
-    import Smelter from "@swmansion/smelter-node"
     import { View } from "@swmansion/smelter"
+    import Smelter from "@swmansion/smelter-node"
 
     async function start() {
       const smelter = new Smelter();
@@ -189,6 +195,55 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
         type: "mp4",
         serverPath: "input2.mp4"
       });
+
+      await smelter.registerOutput("output", <View />, {
+        type: "rtp_stream",
+        transportProtocol: "udp",
+        port: 9004,
+        ip: "127.0.0.1",
+        video: {
+          resolution: { width: 1280, height: 720 },
+          encoder: { type: "ffmpeg_h264" },
+        },
+        audio: {
+          encoder: { type: "opus", channels: "stereo" },
+        }
+      });
+
+      await smelter.start();
+    }
+    ```
+
+    If you run this example now, you will see the same output as in the previous step. Input streams
+    are registered, but they are not used anywhere in the scene definition yet.
+
+4. Render one of the registered input streams on the output.
+
+    In the earlier steps we passed `<View />` to the `registerOutput` call. Now let's switch that to
+    something more complex. We are defining here new React component called `App`, and using it as
+    an output.
+
+    ```tsx ins={4-6, 22} collapse={10-20} collapse={24-33}
+    import { Tiles, InputStream } from "@swmansion/smelter"
+    import Smelter from "@swmansion/smelter-node"
+
+    function App() {
+      return <InputStream inputId="input_1" volume={0.9} />
+    }
+
+    async function start() {
+      const smelter = new Smelter();
+      await smelter.init();
+
+      await smelter.registerInput("input_1", {
+        type: "mp4",
+        serverPath: "input1.mp4"
+      });
+
+      await smelter.registerInput("input_2", {
+        type: "mp4",
+        serverPath: "input2.mp4"
+      })
 
       await smelter.registerOutput("output", <App />, {
         type: "rtp_stream",
@@ -208,54 +263,6 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     }
     ```
 
-   If you run this example now, you will see the same output as in the previous step. Input streams
-   are registered, but they are not used anywhere in the scene definition yet.
-
-4. Render one of the registered input streams on the output.
-
-    In the earlier steps we passed `<View />` to the `registerOutput` call. Now let's switch that to
-    something more complex. We are defining here new React component called `App`, and using it as
-    an output.
-
-    ```tsx ins={3-5, 21} collapse={9-19} collapse={23-32}
-    import Smelter from "@swmansion/smelter-node"
-
-    function App() {
-      return <InputStream inputId="input_1" volume={0.9} />
-    }
-
-    async function start() {
-        const smelter = new Smelter();
-        await smelter.init();
-
-        await smelter.registerInput("input_1", {
-          type: "mp4",
-          serverPath: "input1.mp4"
-        });
-
-        await smelter.registerInput("input_2", {
-          type: "mp4",
-          serverPath: "input2.mp4"
-        })
-
-        await smelter.registerOutput("output", <App />, {
-          type: "rtp_stream",
-          transportProtocol: "udp",
-          port: 9004,
-          ip: "127.0.0.1",
-          video: {
-            resolution: { width: 1280, height: 720 },
-            encoder: { type: "ffmpeg_h264" },
-          },
-          audio: {
-            encoder: { type: "opus", channels: "stereo" },
-          }
-        });
-
-        await smelter.start();
-    }
-    ```
-
     Resulting output stream will show `input_1` input stream and play the audio from that source
     with slightly lowered volume. (If input has a different resolution it won't be automatically rescaled).
 
@@ -263,12 +270,13 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     [`Tiles`](/ts-sdk/components/tiles) component is a simple way to display element in
     a layout that uses available space efficiently (similar to stream layout in most video call apps).
 
-    ```tsx collapse={12-59}
+    ```tsx collapse={13-60}
+    import { Tiles, InputStream } from "@swmansion/smelter"
     import Smelter from "@swmansion/smelter-node"
 
     function App() {
       return (
-        <Tiles backgroundColor="#4d4d4d">
+        <Tiles style={{ backgroundColor: "#4d4d4d" }}>
           <InputStream inputId="input_1" volume={0.9} />
           <InputStream inputId="input_2" />
         </Tiles>
@@ -310,5 +318,5 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     Resulting output stream will show both inputs side-by-side as shown below. Audio from both
     streams is mixed together, but `input_1` audio has slightly lowered volume.
 
-    <img src="/images/quick-start.webp" alt="Quick start result" />
+    <img src={QuickStartImage.src} alt="Quick start result" />
 </Steps>
