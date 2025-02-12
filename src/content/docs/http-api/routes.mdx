@@ -9,6 +9,7 @@ API is served by default on the port 8081. Different port can be configured usin
 
 ```http
 POST: /api/start
+Content-Type: application/json
 ```
 
 ```typescript
@@ -25,6 +26,7 @@ Starts the processing pipeline. If outputs are registered and defined in the sce
 
 ```http
 POST: /api/output/:output_id/register
+Content-Type: application/json
 ```
 
 ```typescript
@@ -44,6 +46,7 @@ Register external destination that can be used as a Smelter output. See outputs 
 
 ```http
 POST /api/output/:output_id/unregister
+Content-Type: application/json
 ```
 
 ```typescript
@@ -60,6 +63,7 @@ Unregister a previously registered output with an id `:output_id`.
 
 ```http
 POST: /api/output/:output_id/update
+Content-Type: application/json
 ```
 
 ```typescript
@@ -95,6 +99,7 @@ Update scene definition and audio mixer configuration for output with ID `:outpu
 
 ```http
 POST: /api/output/:output_id/request_keyframe
+Content-Type: application/json
 ```
 
 ```typescript
@@ -109,6 +114,7 @@ Requests additional keyframe (I frame) on the video output.
 
 ```http
 POST: /api/input/:input_id/register
+Content-Type: application/json
 ```
 
 ```typescript
@@ -129,6 +135,7 @@ Register external source that can be used as a Smelter input. See inputs documen
 
 ```http
 POST: /api/input/:input_id/unregister
+Content-Type: application/json
 ```
 
 ```typescript
@@ -149,6 +156,7 @@ Unregister a previously registered input with an id `:input_id`.
 
 ```http
 POST: /api/image/:image_id/register
+Content-Type: application/json
 ```
 
 Register an image asset. Request body is defined in the [image](./resources/image) docs.
@@ -157,6 +165,7 @@ Register an image asset. Request body is defined in the [image](./resources/imag
 
 ```http
 POST: /api/image/:image_id/unregister
+Content-Type: application/json
 ```
 
 ```typescript
@@ -169,6 +178,7 @@ Unregister a previously registered image asset with an id `:image_id`.
 
 ```http
 POST: /api/shader/:shader_id/register
+Content-Type: application/json
 ```
 
 Register a shader. Request body is defined in the [shader](./resources/shader) docs.
@@ -177,6 +187,7 @@ Register a shader. Request body is defined in the [shader](./resources/shader) d
 
 ```http
 POST: /api/shader/:shader_id/unregister
+Content-Type: application/json
 ```
 
 ```typescript
@@ -189,6 +200,7 @@ Unregister a previously registered shader with an id `:shader_id`.
 
 ```http
 POST: /api/web-renderer/:instance_id/register
+Content-Type: application/json
 ```
 
 Register a web renderer instance. Request body is defined in the [web renderer](./resources/web-renderer) docs.
@@ -197,6 +209,7 @@ Register a web renderer instance. Request body is defined in the [web renderer](
 
 ```http
 POST: /api/web-renderer/:instance_id/unregister
+Content-Type: application/json
 ```
 
 ```typescript
@@ -209,6 +222,7 @@ Unregister a previously registered web renderer instance with an id `:instance_i
 
 ```http
 POST: /api/font
+Content-Type: multipart/form-data
 ```
 
 Register a font. Request body is defined in the [font](./resources/font) docs.
@@ -217,6 +231,7 @@ Register a font. Request body is defined in the [font](./resources/font) docs.
 
 ```http
 GET: /status
+Content-Type: application/json
 ```
 
 ```typescript
@@ -232,7 +247,8 @@ Status/health check endpoint. Returns `200 OK`.
 ### WebSocket endpoint 
 
 ```http
-/ws
+GET: /ws
+Content-Type: application/json
 ```
 
 Establish WebSocket connection to listen for Smelter events. List of supported events and their descriptions can be found [here](./events).
