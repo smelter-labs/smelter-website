@@ -14,17 +14,17 @@ Visit [`Smelter` class documentation](/ts-sdk/smelter) for more details, or for 
 
 ### Components
 Smelter TypeScript SDK draws heavy inspiration from React Native in terms of the syntax. It's important to note that standard DOM components, such as `<div/>`, are not supported. Instead, you should use Smelter-specific components, such as:
-- [Image](/ts-sdk/components/Image)
-- [InputStream](/ts-sdk/components/InputStream)
-- [Mp4](ts-sdk/components/mp4)
-- [Rescaler](/ts-sdk/components/Rescaler)
-- [Shader](/ts-sdk/components/Shader)
+- [Image](/ts-sdk/components/image)
+- [InputStream](/ts-sdk/components/inputstream)
+- [Mp4](/ts-sdk/components/mp4)
+- [Rescaler](/ts-sdk/components/rescaler)
+- [Shader](/ts-sdk/components/shader)
 - [Show](/ts-sdk/components/show)
 - [SlideShow](/ts-sdk/components/slideshow)
-- [Text](/ts-sdk/components/Text)
-- [Tiles](/ts-sdk/components/Tiles)
-- [View](/ts-sdk/components/View)
-- [WebView](/ts-sdk/components/WebView)
+- [Text](/ts-sdk/components/text)
+- [Tiles](/ts-sdk/components/tiles)
+- [View](/ts-sdk/components/view)
+- [WebView](/ts-sdk/components/webview)
 
 #### Styling
 Smelter components can be customized in a way similar to React inline styling. Most of the components accept `style` prop - an object defining custom visual aspects. However, some of the animation-related customizations, such as `transition` are handled by specific dedicated props. 
@@ -34,7 +34,7 @@ Smelter components can be customized in a way similar to React inline styling. M
 ### Hooks
 Our hooks are primarily designed for managing stream configurations and accessing information about them. Smelter currently offers following hooks:
 - [useInputStreams](/ts-sdk/hooks/use-input-streams)
-- [useInputAudio](/ts-sdk/hooks/use-input-audio)
+- [useAudioInput](/ts-sdk/hooks/use-audio-input)
 - [useAfterTimestamp](/ts-sdk/hooks/use-after-timestamp)
 - [useBlockingTask](/ts-sdk/hooks/use-blocking-task)
 
@@ -73,6 +73,6 @@ Browser (WASM)
 
 ### Resources
 Other than inputs and outputs the smelter supports few other types of entity types that need to be registered.
-- [Shader](/ts-sdk/renderers/shader)
-- [Image](/ts-sdk/renderers/image)
-- [WebRenderer](/ts-sdk/renderers/web-renderer)
+- [Shader](/ts-sdk/resources/shader)
+- [Image](/ts-sdk/resources/image)
+- [WebRenderer](/ts-sdk/resources/web-renderer)
