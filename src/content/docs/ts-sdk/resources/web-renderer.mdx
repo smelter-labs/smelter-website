@@ -6,7 +6,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 <Code code={`import { Renderers } from "@swmansion/smelter"`} lang='tsx' />
 
-Represents an instance of a website rendered using Chromium embedded in the smelter. It is utilized by a WebView component. Ensure that the smelter supports web rendering before utilizing the web renderer.
+Represents an instance of a website rendered using Chromium embedded in the Smelter. It is utilized by a [WebView](/ts-sdk/components/webview) component. Ensure that the Smelter supports web rendering before utilizing the web renderer.
 
 <Aside>You need to enable `SMELTER_WEB_RENDERER_ENABLE` environment variable to use web rendering capabilities.</Aside>
 <Aside type='caution'>Only one component can use specific instance at the time.</Aside>
@@ -41,7 +41,7 @@ Url of a website that to render.
 #### resolution
 Resulution of the rendered website.
 
-- **Type**: `{ width: number; height: number;}`
+- **Type**: `{ width: number; height: number; }`
 
 ---
 
@@ -49,7 +49,6 @@ Resulution of the rendered website.
 Mechanism used to render input frames on the website.
 
 - **Type**: `"chromium_embedding" | "native_embedding_over_content" | "native_embedding_under_content"`
-- **Default value**: ???
 - **Supported values**:
     - `native_embedding_over_content` - Renders a website without any inputs, then overlays the inputs onto the website.
     - `native_embedding_under_content` - Renders a website without any inputs, then underlays the inputs beneath the website.
