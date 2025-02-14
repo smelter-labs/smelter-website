@@ -115,38 +115,37 @@ export default defineConfig({
             },
           ],
         },
-        // TODO
-        //{
-        //  label: "HTTP API",
-        //  items: [
-        //    { label: "Overview", slug: "http-api/overview" },
-        //    { label: "Routes", slug: "http-api/routes" },
-        //    {
-        //      label: "Events",
-        //      slug: "http-api/events",
-        //    },
-        //    {
-        //      label: "Components",
-        //      collapsed: true,
-        //      autogenerate: { directory: "http-api/components" },
-        //    },
-        //    {
-        //      label: "Inputs",
-        //      collapsed: true,
-        //      autogenerate: { directory: "http-api/inputs" },
-        //    },
-        //    {
-        //      label: "Outputs",
-        //      collapsed: true,
-        //      autogenerate: { directory: "http-api/outputs" },
-        //    },
-        //    {
-        //      label: "Resources",
-        //      collapsed: true,
-        //      autogenerate: { directory: "http-api/resources" },
-        //    },
-        //  ],
-        //},
+        {
+          label: "HTTP API",
+          items: [
+            { label: "Overview", slug: "http-api/overview" },
+            { label: "Routes", slug: "http-api/routes" },
+            {
+              label: "Events",
+              slug: "http-api/events",
+            },
+            {
+              label: "Components",
+              collapsed: true,
+              autogenerate: { directory: "http-api/components" },
+            },
+            {
+              label: "Inputs",
+              collapsed: true,
+              autogenerate: { directory: "http-api/inputs" },
+            },
+            {
+              label: "Outputs",
+              collapsed: true,
+              autogenerate: { directory: "http-api/outputs" },
+            },
+            {
+              label: "Resources",
+              collapsed: true,
+              autogenerate: { directory: "http-api/resources" },
+            },
+          ],
+        },
       ],
     }),
     mdx(),
