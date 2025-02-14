@@ -30,21 +30,21 @@ when:
 - updating a scene of existing output - [request](/http-api/routes#update-output)
 
 Smelter supports following components:
-- [Image](/ts-sdk/components/image)
-- [InputStream](/ts-sdk/components/inputstream)
-- [Rescaler](/ts-sdk/components/rescaler)
-- [Shader](/ts-sdk/components/shader)
-- [Text](/ts-sdk/components/text)
-- [Tiles](/ts-sdk/components/tiles)
-- [View](/ts-sdk/components/view)
-- [WebView](/ts-sdk/components/webview)
+- [Image](/http-api/components/image)
+- [InputStream](/http-api/components/inputstream)
+- [Rescaler](/http-api/components/rescaler)
+- [Shader](/http-api/components/shader)
+- [Text](/http-api/components/text)
+- [Tiles](/http-api/components/tiles)
+- [View](/http-api/components/view)
+- [WebView](/http-api/components/webview)
 
 ## Inputs
 
 Inputs are a way of connecting external video and audio sources. They can consume media from
 static files, streams or connected devices. To use an input you need to register it first with
 a [input register request](/http-api/routes#register-input). After registration, you can use
-[InputStream](/ts-sdk/components/inputstream) component in the scene definition to include
+[InputStream](/http-api/components/inputstream) component in the scene definition to include
 it in the composed output.
 
 - [MP4](/http-api/inputs/mp4)
@@ -62,9 +62,6 @@ Similar to inputs, outputs require registering them before they can be utilized.
 
 ### Resources
 Other than inputs and outputs the smelter supports few other types of entity types that need to be registered.
-- [Shader](/ts-sdk/resources/shader)
-- [Image](/ts-sdk/resources/image)
-- [WebRenderer](/ts-sdk/resources/web-renderer)
-
-
-
+- [Shader](/http-api/resources/shader)
+- [Image](/http-api/resources/image)
+- [WebRenderer](/http-api/resources/web-renderer)
