@@ -225,7 +225,14 @@ POST: /api/font
 Content-Type: multipart/form-data
 ```
 
-Register a font. Request body is defined in the [font](./resources/font) docs.
+```typescript
+type Font = Multipart
+```
+
+Used to dynamically load and register custom fonts to the Smelter.
+
+The field name in a Multipart can be arbitrary, but it must contain a binary font file.
+
 
 ### Status endpoint 
 
