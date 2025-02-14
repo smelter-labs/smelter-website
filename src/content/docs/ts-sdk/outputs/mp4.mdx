@@ -3,7 +3,7 @@ title: MP4
 sidebar:
   order: 2
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An output type that allows saving video and audio from the smelter to MP4 file.
@@ -208,6 +208,7 @@ Configuration for the audio encoder, based on the selected codec.
 type Mp4AudioEncoderOptions = {
     type: "aac";
     channels: "mono" | "stereo";
+    sampleRate?: number;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -221,6 +222,13 @@ Channels configuration
 - **Supported values**:
     - `mono` - Mono audio (single channel).
     - `stereo` - Stereo audio (two channels).
+
+#### sampleRate
+
+- **Type**: `number`
+- **Default value**: `44100`
+- **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`
+
 
 ## Outputs.OutputEndCondition
 <Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
