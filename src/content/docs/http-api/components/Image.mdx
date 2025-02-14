@@ -14,7 +14,50 @@ To use this component, you need to first register the image with matching `image
 
 ## Reference
 
-{/*TODO example*/}
+
+### Example
+
+<CollapsibleDetails summaryTitle='Register png image' open>
+<Code code={`
+POST: /api/image/example_png/register
+Content-Type: application/json
+
+{
+    "asset_type": "png",
+    "url": "https://example.com/image.png"
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+
+<CollapsibleDetails summaryTitle='Register RTP output with registered image "example_png"' open>
+<Code ins={[16, 17]} code={`
+POST: /api/output/example_output/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "port": 8002,
+    "ip": "127.0.0.1",
+    "video": {
+        "resolution": { "width": 1920, "height": 1080 },
+        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
+        "initial": {
+            "root": {
+                "type": "rescaler",
+                "mode": "fit",
+                "child": {
+                    "type": "image",
+                    "image_id": "example_png"
+                }
+            }
+        }
+    }
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+Now you can see your image streamed on port 8004.
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`

@@ -14,6 +14,49 @@ To use this component, you need to first register the stream with matching `inpu
 
 {/*TODO example*/}
 
+### Example
+
+<CollapsibleDetails summaryTitle='Register "example_input" input, Smelter will listen to port 8002 for RTP input stream' open>
+<Code code={`
+POST: /api/input/example_input/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "port": 8002,
+    "video": {
+        "decoder": "ffmpeg_h264"
+    }
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+
+<CollapsibleDetails summaryTitle='Register RTP output with registered input "example_input"' open>
+<Code ins={[13, 14]} code={`
+POST: /api/output/example_output/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "port": 8004,
+    "ip": "127.0.0.1",
+    "video": {
+        "resolution": { "width": 1920, "height": 1080 },
+        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
+        "initial": {
+            "root": {
+                "type": "input_stream",
+                "input_id": "example_input"
+            }
+        }
+    }
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+Now you can see your image streamed on port 8004.
+
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
   type InputStream = {

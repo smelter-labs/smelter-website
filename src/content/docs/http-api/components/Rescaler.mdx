@@ -31,6 +31,38 @@ On the scene update, a `Rescaler` component will animate between the original st
 
 {/*TODO example and perhaps move above positioning*/}
 
+### Example
+
+<CollapsibleDetails summaryTitle='Register RTP output with red box limited by Rescaler' open>
+<Code ins={(13,18)} code={`
+POST: /api/output/example_output/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "port": 8004,
+    "ip": "127.0.0.1",
+    "video": {
+        "resolution": { "width": 1920, "height": 1080 },
+        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
+        "initial": {
+            "root": {
+                "type": "rescaler",
+                "width": 1920,
+                "height": 1080,
+                "child": {
+                    "type": "view",
+                    "background_color": "#FF0000FF"
+                }
+            }
+        }
+    }
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+Now you can see your image streamed on port 8004.
+
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
   type Rescaler = {
