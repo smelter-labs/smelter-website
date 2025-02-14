@@ -5,7 +5,7 @@ import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 When running in-browser WASM build of Smelter there is only one possible SmelterManager, and it 
-does not have to be create explicitly
+does not have to be created explicitly
 
 <Code title='WebWasmExample.tsx' code={`
 import Smelter, { setWasmBundleUrl } from "@swmansion/smelter-web-wasm"
@@ -30,7 +30,7 @@ void run();
   };
   type WebWasmSmelterOptions = {
     framerate?: Framerate | number;
-    streamFallbackTimeoutMs: number;
+    streamFallbackTimeoutMs?: number;
   };
 `} lang='tsx' />
 </CollapsibleDetails>

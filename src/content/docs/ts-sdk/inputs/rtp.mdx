@@ -3,7 +3,7 @@ title: RTP
 sidebar:
   order: 3
 ---
-import { Code } from '@astrojs/starlight/components';
+import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An input type that allows streaming video and audio to the Smelter server over RTP. It supports both 
@@ -31,7 +31,8 @@ void run();
 ## RegisterRtpInput
 <Code code={`import { RegisterRtpInput } from "@swmansion/smelter"`} lang='tsx' />
 
-Parameters for an input stream from RTP source. At least one of video and audio has to be defined.
+Parameters for an input stream from RTP source.
+<Aside>At least one of `video` and `audio` has to be defined.</Aside>
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -56,7 +57,7 @@ UDP port or port range for the smelter to listen to incoming streams.
 ---
 
 #### transportProtocol
-UDP port or port range for the smelter to listen to incoming streams.
+Transport protocol.
 
 - **Type**: `"udp" | "tcp_server"`
 - **Supported values**:
@@ -108,7 +109,7 @@ type InputRtpVideoOptions = {
 ### Properties
 
 #### decoder
-UDP port or port range for the smelter to listen to incoming streams.
+Video decoder.
 
 - **Type**: `"ffmpeg_h264"`
 
@@ -137,15 +138,15 @@ type InputRtpAudioOptions =
 #### forwardErrorCorrection
 Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
 
-- **Type**: `string`
+- **Type**: `boolean`
+- **Default value**: `false`
 
 ### Properties (decoder: "aac")
 
 #### audioSpecificConfig
 Configuration encoded in the format described in <a href='https://datatracker.ietf.org/doc/html/rfc3640#section-4.1' target='_blank'>RFC 3640</a>.
 
-- **Type**: `boolean`
-- **Default value**: `false`
+- **Type**: `string`
 
 For detailed instructions on obtaining this value, refer to the information provided in the table below:
 <table>

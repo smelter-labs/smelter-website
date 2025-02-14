@@ -119,7 +119,7 @@ Configuration for the video encoder, based on the selected codec.
 <Code code={`
 type WhipVideoEncoderOptions = {
       type: "ffmpeg_h264";
-      preset: 
+      preset?: 
         | "ultrafast"
         | "superfast"
         | "veryfast"
@@ -202,7 +202,6 @@ Audio encoder options.
 - **Type**: [`Outputs.WhipAudioEncoderOptions`](/ts-sdk/outputs/whip#outputswhipaudioencoderoptions)
 
 ---
-
 
 ## Outputs.WhipAudioEncoderOptions
 <Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />

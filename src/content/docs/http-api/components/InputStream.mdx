@@ -1,3 +1,38 @@
 ---
 title: InputStream
 ---
+import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import { Code } from '@astrojs/starlight/components';
+
+A component for displaying registered media inputs.
+
+:::note
+To use this component, you need to first register the stream with matching `input_id` using [`register input`](/http-api/routes#register-input) request.
+:::
+
+## Reference
+
+{/*TODO example*/}
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+  type InputStream = {
+    id?: string;
+    input_id: string;
+  }
+`} lang='tsx' />
+</CollapsibleDetails>
+
+## Properties
+
+### id
+ID of a component.
+
+- **Type**: `string`
+
+---
+
+### input_id
+ID of an input. It identifies a stream registered using a [register input](/http-api/routes#register-input) method.
+
+- **Type**: `string`

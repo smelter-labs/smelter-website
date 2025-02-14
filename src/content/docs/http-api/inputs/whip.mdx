@@ -1,7 +1,7 @@
 ---
 title: WHIP
 ---
-import { Code } from '@astrojs/starlight/components';
+import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An input type that allows streaming video and audio to the Smelter over WHIP.
@@ -11,29 +11,27 @@ After the connection is interrupted, Smelter will try to reconnect you to the sa
 
 To use WHIP Input you must register it first. You can do it by sending a request like this:
 
-<details>
-    <summary>Example request</summary>
+<CollapsibleDetails summaryTitle='Example request' open>
+<Code code={`
+POST: /api/input/:input_id/register
+Content-Type: application/json
 
-    ```http
-    POST: /api/input/:input_id/register
-    Content-Type: application/json
-    ```
+{
+    "type": "whip",
+    "video": {
+        "decoder": "ffmpeg_h264"
+    },
+    "audio": {
+        "decoder": "opus"
+    },
+}
+`} lang='http' />
+</CollapsibleDetails>
 
-    ```js
-    {
-      "type": "whip",
-      "video": {
-          "decoder": "ffmpeg_h264"
-      },
-      "audio": {
-          "decoder": "opus"
-      },
-    }
-    ```
-</details>
 
 ## RegisterWhipInput
-Parameters for an input stream from WHIP source. At least one of video and audio has to be defined.
+Parameters for an input stream from WHIP source.
+<Aside>At least one of `video` and `audio` has to be defined.</Aside>
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -70,7 +68,7 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-#### offsetMs
+#### offset_ms
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `f64`
@@ -92,8 +90,15 @@ type InputWhipVideoOptions = {
 
 - **Type**: `"ffmpeg_h264" | "vulkan_video"`
 - **Supported values**:
-    - `ffmpeg_h264` - uses FFmpeg's H.264 software decoding.
-    - `vulkan_video` - uses Vulkan Video for hardware-accelerated decoding.
+  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
+  - `"vulkan_video"` - Use hardware decoder based on Vulkan Video.
+    
+    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
+    support it.
+    
+    This requires hardware that supports Vulkan Video. Another requirement is this program has
+    to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
+    support Vulkan, i.e. non-Apple operating systems and not the web).
 
 ## InputWhipAudioOptions
 Parameters of a audio source included in the WHIP stream.
@@ -103,14 +108,14 @@ Parameters of a audio source included in the WHIP stream.
 type InputWhipAudioOptions = 
   {
     decoder: "opus";
-    forwardErrorCorrection?: bool;
+    forward_error_correction?: bool;
   }
 `} lang='tsx' />
 </CollapsibleDetails>
 
 ### Properties (decoder: "opus")
 
-#### forwardErrorCorrection
+#### forward_error_correction
 Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
 
 - **Type**: `bool`
