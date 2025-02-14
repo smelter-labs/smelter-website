@@ -7,15 +7,20 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## What is Smelter?
 
-Smelter is an engine for real-time video processing built by <a rel="noreferrer noopener" href="https://swmansion.com/" target="_blank">Software Mansion</a>. It provides functionalities to apply custom effects, mix, and combine multiple videos together. By exposing an HTTP API, Smelter enables users to define video sources, specify modifications and composition settings.
+Smelter is a toolkit for real-time video processing built by <a rel="noreferrer noopener" href="https://swmansion.com/" target="_blank">Software Mansion</a>.
+
+With Smelter you can:
+- Combine multimedia from different sources into a single video or live stream.
+- Enrich your content with text, custom shaders, and embedded websites.
+- Do it all effortlessly with React components or directly via HTTP API.
 
 ## Quick start
 
-You can use Smelter in a few ways, however we recommend the TypeScript SDK as the best option right now.
+You can use Smelter in a few ways, however we recommend the TypeScript SDK as the best option to get started.
 
 ### Typescript SDK
 
-TypeScript SDK is a library that provides a set of React components you can use to control how Smelter 
+TypeScript SDK is a set of libraries that provide React components you can use to control how Smelter 
 manipulates videos. Currently, we support running TypeScript SDK in Node.js environment and browser.
 
 You can generate a new starter project using the following commands:
@@ -42,16 +47,14 @@ You can generate a new starter project using the following commands:
   </TabItem>
 </Tabs>
   
-To learn more, visit <a href="/ts-sdk">TypeScript SDK documentation</a> or explore <a href="/ts-sdk">TypeScript SDK examples</a>.
+To learn more, explore <a href="/ts-sdk">TypeScript SDK documentation</a> or check out [step-by-step guides](/ts-sdk/guides/quick-start).
 
 ### Standalone
 
 You can use Smelter as a standalone multimedia server. The server can be started by:
 - Building from sources [`github.com/software-mansion/smelter`](https://github.com/software-mansion/smelter).
 - Using binaries from [GitHub releases](https://github.com/software-mansion/smelter/releases).
-- Using Docker
-  - (recommended) Dockerfile with compositor without web rendering support [`[Dockerfile]`](https://github.com/software-mansion/smelter/blob/master/build_tools/docker/slim.Dockerfile)
-  - Dockerfile with compositor with web rendering support [`[Dockerfile]`](https://github.com/software-mansion/smelter/blob/master/build_tools/docker/full.Dockerfile)
+- Using Docker [`ghcr.io/software-mansion/smelter`](https://github.com/software-mansion/smelter/pkgs/container/smelter).
 
 
 ### Membrane Framework plugin

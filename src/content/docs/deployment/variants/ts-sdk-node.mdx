@@ -50,8 +50,8 @@ RUN sudo apt-get update -y -qq && \
   sudo rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" && \
-    sudo tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && \
-    rm "node-v$NODE_VERSION-linux-x64.tar.xz"
+  sudo tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && \
+  rm "node-v$NODE_VERSION-linux-x64.tar.xz"
 
 ENV SMELTER_PATH=/home/smelter/smelter/main_process
 
