@@ -12,7 +12,7 @@ Represents an image asset uploaded to the smelter. Used by an [Image component](
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type RegisterImage = {
+type RegisterImage =
     | { assetType: "png"; url?: string; serverPath?: string; }
     | { assetType: "jpeg"; url?: string; serverPath?: string; }
     | { assetType: "gif"; url?: string; serverPath?: string; }
