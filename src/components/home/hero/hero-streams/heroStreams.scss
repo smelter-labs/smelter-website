@@ -5,7 +5,7 @@ $animationDelay: 0.3s;
     opacity: 0;
     // top: 0;
     right: 0;
-    z-index: -10;
+    z-index: -30;
     // left: 11rem;
     // top: 50%;
     // right: 0;
@@ -14,14 +14,15 @@ $animationDelay: 0.3s;
 
     &--2 {
         @extend .heroStreamLayer;
-        // top: 2rem;
-        // right: 5rem;
-        // transition: opacity calc($animationDelay * 2) ease-out calc($animationDelay * 2);
+        z-index: -20;
     }
     &--3 {
         @extend .heroStreamLayer;
-        // top: 4rem;
-        // right: 10rem;
-        // transition: opacity calc($animationDelay * 3) ease-out calc($animationDelay * 3);
+        z-index: -10;
+    }
+
+    &--video {
+        @extend .heroStreamLayer;
+        z-index: -25;
     }
 }
