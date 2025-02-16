@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
           { opacity: 1, transform: `translate(-${modifiedIndex * 5}rem, ${2 * modifiedIndex}rem)` },
         ],
         {
-          duration: 500,
-          delay: 750 + 500 * index,
+          duration: 600,
+          delay: 200 + 400 * (index+1),
           easing: "ease-in-out",
           fill: "forwards",
         }
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dx = bottomLayerRect.left - layerRect.left;
         dy = bottomLayerRect.top - layerRect.top;
-        const newOpacity = Math.max(distanceToBottomLayerCenter / opacityThreshold - 0.2, 0);
+        const newOpacity = Math.max(Math.min(distanceToBottomLayerCenter / opacityThreshold - 0.2, 0.75), 0);
 
         layer.animate([{ fillOpacity: newOpacity }], {
           duration: 200,
