@@ -10,8 +10,8 @@ import heroGradient from "../../../assets/hero/gradient.webp";
 import "./heroSection.scss";
 ---
 
-<section class="px-4 sm:px-12 xl:pl-40 flex h-screen flex-row justify-center sm:py-14 items-center relative 2xl:h-fit 2xl:py-80">
-  <div class="flex-1">
+<section class="px-4 sm:px-12 xl:pl-40 flex h-screen flex-row justify-center sm:py-14 items-center relative overflow-x-clip 2xl:h-fit 2xl:py-80">
+  <div id="descriptionLayer" class="flex-1">
     <div class="flex gap-x-2 py-2 sm:px-4 mb-4 xl:mb-8">
       <p class="par-xs text-hero-authorLabel">Created by</p>
       <a rel="noreferrer noopener" href="https://swmansion.com/">
@@ -34,3 +34,5 @@ import "./heroSection.scss";
   <HeroStreams />
   <Image src={heroGradient} alt="Hero" class="hero-gradient fade-in" loading="eager" />
 </section>
+
+<script src="./hero-streams/heroStreams.ts" />

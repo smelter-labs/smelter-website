@@ -30,11 +30,37 @@ function interpolateColor(color1: string, color2: string, factor: number) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const snapThreshold = 400;
-  const opacityThreshold = 600;
-  const graidentThreshold = 700;
+  const snapThreshold = 250;
+  const opacityThreshold = 450;
 
-  const streamLayers = document.querySelectorAll<HTMLImageElement>("#heroStreams > svg");
+  const streamLayers = document.querySelectorAll<HTMLElement>("#heroStreams > svg");
+  const descriptionLayerRect = document.querySelectorAll<HTMLElement>("#descriptionLayer")[0].getBoundingClientRect();
+
+  const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
+
+  
+  const streamerOpacity = document.querySelectorAll<HTMLElement>("#streamer_opacity")[0];
+
+  const videoLayer = document.querySelectorAll<HTMLElement>("#videoLayer")[0];
+  const videoLayerRect = videoLayer.getBoundingClientRect();
+
+  const streamerLayer = document.querySelectorAll<HTMLElement>("#streamerLayer")[0];
+
+  videoLayer.animate(
+    [
+      {
+        transform: `translate(${left - videoLayerRect.left + 16}px, ${top - videoLayerRect.top + 16}px)`,
+      },
+    ],
+    {
+      duration: 100,
+      fill: "forwards",
+      easing: "linear",
+      composite: "replace",
+    }
+  );
+  
+
   const streamLayerRects: Array<DOMRect> = [];
 
   for (const layer of streamLayers) {
@@ -44,30 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const containerRect = document.querySelector("#heroStreams")?.getBoundingClientRect();
   const opacityLayers = document.querySelectorAll("#opacity_layer");
 
-  const transitionCompletedCount = 0;
-
   if (!containerRect) return;
-
-  const middle = {
-    x: containerRect.left + containerRect.width / 2,
-    y: containerRect.top + containerRect.height / 2,
-  };
-
-  const positions = [
-    { left: "11rem", top: "50%", transform: "translateY(-50%)" },
-    { left: "2rem", top: "calc(50% + 2rem)", transform: "translateY(-50%)" },
-    { left: "-7rem", top: "calc(50% + 4rem)", transform: "translateY(-50%)" },
-  ] as const;
 
   function positionAndFadeInLayers() {
     let transitionCompletedCount = 0;
 
     streamLayers.forEach((layer, index) => {
-      const { left, top } = positions[index];
-      // Setting initial positions before the animation starts
-      //   layer.style.left = `${left}`;
-      //   layer.style.top = `${top}`;
-
       const modifiedIndex = index + 0.3;
       const entryAnimation = layer.animate(
         [
@@ -102,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   positionAndFadeInLayers();
 
-  const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
   const bottomLayerMidX = left + width / 2;
   const bottomLayerMidY = top + height / 2;
 
@@ -120,8 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const distanceToBottomLayerCenter = Math.sqrt(
           (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
         );
-        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
-
+        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold || clientX < (descriptionLayerRect?.right || 0) * 0.6;
+        console.log('clientX' ,descriptionLayerRect?.right)
+        
         if (shouldSnap) {
           streamLayers[index].animate(
             [
@@ -136,6 +144,35 @@ document.addEventListener("DOMContentLoaded", () => {
               composite: "replace",
             }
           );
+
+          videoLayer.animate(
+            [
+              {
+                opacity: 1,
+              },
+            ],
+            {
+              delay: 200,
+              duration: 600,
+              fill: "forwards",
+              easing: "ease-in-out",
+              composite: "replace",
+            }
+          );
+
+          streamerLayer.animate(
+            [
+              {
+                opacity: 1,
+              },
+            ],
+            {
+              duration: 2000,
+              fill: "forwards",
+              easing: "linear",
+              composite: "replace",
+            }
+          );
         } else {
           streamLayers[index].animate(
             [{ transform: `translate(${layerOffset.x}px, ${layerOffset.y}px)` }],
@@ -143,6 +180,34 @@ document.addEventListener("DOMContentLoaded", () => {
               duration: 400,
               easing: "linear",
               fill: "forwards",
+            }
+          );
+
+          videoLayer.animate(
+            [
+              {
+                opacity: 0,
+              },
+            ],
+            {
+              duration: 600,
+              fill: "forwards",
+              easing: "ease-in",
+              composite: "replace",
+            }
+          );
+
+          streamerLayer.animate(
+            [
+              {
+                opacity: 0,
+              },
+            ],
+            {
+              duration: 100,
+              fill: "forwards",
+              easing: "ease-in",
+              composite: "replace",
             }
           );
         }
@@ -184,76 +249,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function handleGradientLayer(event: MouseEvent) {
-    if (window.scrollY + event.clientY > window.innerHeight) return;
-
-    requestAnimationFrame(() => {
-      const backgroundLayer = document.getElementById("overlay_layer");
-
-      const bottomLayerRect = streamLayers[0].getBoundingClientRect();
-      const bottomLayerMidX = bottomLayerRect.left + bottomLayerRect.width / 2;
-      const bottomLayerMidY = bottomLayerRect.top + bottomLayerRect.height / 2;
-
-      const distanceToBottomLayerCenter = Math.sqrt(
-        (event.clientX - bottomLayerMidX) ** 2 + (event.clientY - bottomLayerMidY) ** 2
-      );
-
-      const normalizeDistance = distanceToBottomLayerCenter / graidentThreshold;
-      const opacity = normalizeDistance < 1 ? (1 - normalizeDistance) ** 2 : 0;
-
-      backgroundLayer?.animate([{ fillOpacity: opacity }], {
-        duration: 200,
-        fill: "forwards",
-        easing: "ease-in-out",
-        composite: "replace",
-      });
-
-      document
-        .getElementById("backgroundGradient")
-        ?.children[0].animate([{ stopColor: interpolateColor("#161127", "#302555", opacity) }], {
-          duration: 200,
-          fill: "forwards",
-          easing: "ease-in-out",
-          composite: "replace",
-        });
-      document
-        .getElementById("backgroundGradient")
-        ?.children[1].animate([{ stopColor: interpolateColor("#161127", "#EE5E28", opacity) }], {
-          duration: 200,
-          fill: "forwards",
-          easing: "ease-in-out",
-          composite: "replace",
-        });
-    });
-  }
 
   function setupLayersMovement() {
-    const animations = [];
-
-    // for (const layer of streamLayers) {
-    //   const layerRect = layer.getBoundingClientRect();
-    //   const offsetX = middle.x - (layerRect.left + layerRect.width / 2);
-    //   const offsetY = middle.y - (layerRect.top + layerRect.height / 2);
-    //   const animation = layer.animate([{ transform: `translate(${offsetX}px, ${offsetY}px)` }], {
-    //     duration: 500,
-    //     easing: "ease-out",
-    //   });
-    //   animations.push(animation.finished); // Collect the promise of each animation's completion
-    // }
-
-    // // Execute the rest of the setup only after all animation promises have resolved
-    // Promise.all(animations)
-    //   .then(() => {
-    //     window.addEventListener("mousemove", moveLayers);
-    //     document.addEventListener("mousemove", handleOpacity);
-    //     document.addEventListener("mousemove", handleGradientLayer);
-    //   })
-    //   .catch((error) => {
-    //     console.error("An error occurred with the animations: ", error);
-    //   });
-
     window.addEventListener("mousemove", moveLayers);
     document.addEventListener("mousemove", handleOpacity);
-    document.addEventListener("mousemove", handleGradientLayer);
   }
 });
