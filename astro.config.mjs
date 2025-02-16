@@ -71,6 +71,7 @@ export default defineConfig({
           label: "TypeScript SDK",
           items: [
             { label: "Overview", slug: "ts-sdk/overview" },
+            { label: "Configuration", slug: "ts-sdk/configuration" },
             { label: "Smelter", slug: "ts-sdk/smelter" },
             { label: "OfflineSmelter", slug: "ts-sdk/smelter-offline" },
             {
