@@ -127,9 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const distanceToBottomLayerCenter = Math.sqrt(
           (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
         );
-        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold || clientX < (descriptionLayerRect?.right || 0) * 0.6;
-        console.log('clientX' ,descriptionLayerRect?.right)
+
+        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.8
+        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
         
+        if(isOutsideHero) return
         if (shouldSnap) {
           streamLayers[index].animate(
             [
@@ -138,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
               },
             ],
             {
-              duration: 600,
+              duration: 1000,
               fill: "forwards",
               easing: "linear",
               composite: "replace",
@@ -153,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
             {
               delay: 200,
-              duration: 600,
+              duration: 2000,
               fill: "forwards",
               easing: "ease-in-out",
               composite: "replace",
@@ -190,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
               },
             ],
             {
-              duration: 600,
+              duration: 100,
               fill: "forwards",
               easing: "ease-in",
               composite: "replace",
@@ -231,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const distanceToBottomLayerCenter = Math.sqrt(
         (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
       );
-
+      
       for (const layer of opacityLayers) {
         const layerRect = layer.getBoundingClientRect();
 
