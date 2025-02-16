@@ -38,9 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
 
-  
-  const streamerOpacity = document.querySelectorAll<HTMLElement>("#streamer_opacity")[0];
-
   const videoLayer = document.querySelectorAll<HTMLElement>("#videoLayer")[0];
   const videoLayerRect = videoLayer.getBoundingClientRect();
 
@@ -79,21 +76,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const modifiedIndex = index + 0.3;
       const entryAnimation = layer.animate(
         [
-          // Start with a slightly more noticeable initial opacity to fade from
           { opacity: 0.1 },
-          // Slowly increase opacity for most of the duration
           {
             opacity: 1,
             offset: 0.7,
             transform: `translate(-${modifiedIndex * 5}rem, ${2 * modifiedIndex}rem)`,
           },
-          // Keep fully opaque by end, use offset to control when the key changes start happening
           { opacity: 1, transform: `translate(-${modifiedIndex * 5}rem, ${2 * modifiedIndex}rem)` },
         ],
         {
           duration: 500,
-          delay: 750 + 500 * index, // Adjusted delay to start immediately for the first
-          easing: "ease-in-out", // Use 'ease-in-out' for a more natural transition
+          delay: 750 + 500 * index,
+          easing: "ease-in-out",
           fill: "forwards",
         }
       );
@@ -128,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
         );
 
-        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.8
+        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.9
         const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
         
         if(isOutsideHero) return
