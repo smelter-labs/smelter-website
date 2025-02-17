@@ -1,0 +1,85 @@
+---
+title: Configuration
+---
+
+Configuration instructions and compatibility table for TypeScript SDK
+on different runtimes.
+
+## Node.js
+
+**Package:** `@swmansion/smelter-node`
+
+React code runs in the Node.js process and controls Smelter server.
+Managed server does not have to be deployed on the same machine.
+
+### Compatibility
+
+Node.js SDK requires
+
+<table>
+  <thead>
+    <tr>
+      <th>SDK version</th>
+      <th>Smelter server version</th>
+      <th>React version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>`v0.2.0`</strong></td>
+      <td><strong>`v0.4.0`</strong></td>
+      <td>
+        Recommended: `18.3.1`
+
+        Should work with any react version that is compatible with
+        `react-reconciler@0.29.2`
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Browser (WASM)
+
+**Package:** `@swmansion/smelter-web-wasm`
+
+React code runs in the browser, potentially along the separate React
+code that runs to actually render the page. Actual video rendering
+is done fully in-browser by Smelter code compiled to WASM.
+
+### Compatibility
+
+<table>
+  <thead>
+    <tr>
+      <th>SDK version</th>
+      <th>Supported browsers</th>
+      <th>React version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>`v0.2.0`</strong></td>
+      <td>
+        Google Chrome and other Chromium based browsers
+      </td>
+      <td>
+        Recommended: `18.3.1`
+
+        Should work with any react version that is compatible with
+        `react-reconciler@0.29.2`
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+### Configuration
+
+In the Smelter repository you can find [few examples](https://github.com/software-mansion/smelter/tree/master/demos)
+of `vite` projects with Smelter configured.
+
+We are working on examples of other configurations, but here are steps you need to follow
+to configure that yourself:
+- `@swmansion/smelter-browser-render` includes `smelter.wasm` that needs to hosted on your site.
+- You need to call `setWasmBundleUrl` with URL to `smelter.wasm` before starting any smelter instances.
+
