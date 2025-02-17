@@ -48,8 +48,8 @@ const smelterLogoSmallImage = await getImage({
   </nav>
 </header>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
+<script is:inline data-astro-rerun>
+  document.addEventListener('astro:page-load', function () {
     const header = document.getElementById('pageHeader');
 
     function handleOpacity() {

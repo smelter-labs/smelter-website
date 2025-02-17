@@ -29,15 +29,16 @@ function interpolateColor(color1: string, color2: string, factor: number) {
   return `rgb(${red}, ${green}, ${blue})`;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const snapThreshold = 250;
+document.addEventListener("astro:page-load", () => {
+  const snapInThreshold = 220;
+  const snapOutThreshold = 220;
   const opacityThreshold = 450;
 
   const streamLayers = document.querySelectorAll<HTMLElement>("#heroStreams > svg");
-  const descriptionLayerRect = document
-    .querySelectorAll<HTMLElement>("#descriptionLayer")[0]
-    .getBoundingClientRect();
+  const descriptionLayer = document.querySelectorAll<HTMLElement>("#descriptionLayer")[0];
+  const descriptionLayerRect = descriptionLayer?.getBoundingClientRect();
 
+  if (!streamLayers[0]) return;
   const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
 
   const videoLayer = document.querySelectorAll<HTMLElement>("#videoLayer")[0];
@@ -124,10 +125,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.85;
-        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
+        const shouldSnapIn = distanceToBottomLayerCenter <= snapInThreshold;
+        const shouldSnapOut = distanceToBottomLayerCenter >= snapOutThreshold;
 
         if (isOutsideHero) return;
-        if (shouldSnap) {
+        if (shouldSnapIn) {
           streamLayers[index].animate(
             [
               {
@@ -170,13 +172,14 @@ document.addEventListener("DOMContentLoaded", () => {
               composite: "replace",
             }
           );
-        } else {
+        } else if (shouldSnapOut) {
           streamLayers[index].animate(
             [{ transform: `translate(${layerOffset.x}px, ${layerOffset.y}px)` }],
             {
               duration: 600,
               easing: "linear",
               fill: "forwards",
+              composite: "replace",
             }
           );
 
