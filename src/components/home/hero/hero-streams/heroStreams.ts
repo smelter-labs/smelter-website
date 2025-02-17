@@ -35,11 +35,10 @@ document.addEventListener("astro:page-load", () => {
   const opacityThreshold = 450;
 
   const streamLayers = document.querySelectorAll<HTMLElement>("#heroStreams > svg");
-  const descriptionLayer = document
-    .querySelectorAll<HTMLElement>("#descriptionLayer")[0]
+  const descriptionLayer = document.querySelectorAll<HTMLElement>("#descriptionLayer")[0];
   const descriptionLayerRect = descriptionLayer?.getBoundingClientRect();
-  
-  if(!streamLayers[0]) return;
+
+  if (!streamLayers[0]) return;
   const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
 
   const videoLayer = document.querySelectorAll<HTMLElement>("#videoLayer")[0];

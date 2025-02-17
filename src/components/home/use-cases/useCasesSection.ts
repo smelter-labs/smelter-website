@@ -5,7 +5,6 @@ type Color = {
   a: number;
 };
 
-
 document.addEventListener("astro:page-load", () => {
   const useCasesHeader = document.getElementById("useCasesHeader");
 
