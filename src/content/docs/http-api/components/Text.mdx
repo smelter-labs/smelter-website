@@ -6,9 +6,48 @@ import { Code } from '@astrojs/starlight/components';
 
 A component for rendering text.
 
-## Reference
+## Example
 
-{/*TODO example*/}
+Below is an example of how Text can be used in output stream. In this case, the output will display bold text on a green background.
+
+<CollapsibleDetails summaryTitle='Register RTP output with Text component' open>
+<Code code={`
+POST: /api/output/example_output/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "ip": "127.0.0.1",
+    "port": 8004,
+    "video": {
+        "resolution": {
+            "width": 1920,
+            "height": 1080
+        },
+        "encoder": {
+            "type": "ffmpeg_h264",
+            "preset": "ultrafast"
+        },
+        "initial": {
+            "root": {
+                "type": "text",
+                "text": "Example text",
+                "font_size": 100.0,
+                "font_family": "Comic Sans MS",
+                "align": "center",
+                "wrap": "word",
+                "background_color": "#00800000",
+                "weight": "bold",
+                "width": 1920,
+                "height": 1080
+            }
+        }
+    }
+}
+`} lang='http' ins={{range: '19-28'}} />
+</CollapsibleDetails>
+
+Once the registration is complete, send a [start request](/http-api/routes#start-request) to begin streaming. The output will be visible on port 8004.
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`

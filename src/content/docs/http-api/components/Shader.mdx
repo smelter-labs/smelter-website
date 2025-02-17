@@ -6,12 +6,77 @@ import { Aside, Code } from '@astrojs/starlight/components';
 
 Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Smelter, please visit [Shaders documentation.](/fundamentals/concepts/shaders)
 
-:::note
-To use this component, you need to first register the shader with matching `shader_id` using [`register shader`](/http-api/routes#register-shader) request.
-:::
 
-## Reference
-{/*TODO example*/}
+<Aside> To use this component, you need to first register the shader with matching `shader_id` using [`register shader`](/http-api/routes#register-shader) request. </Aside>
+
+## Example
+
+To use a shader, it must first be registered. To do this, send a request where the `source` field contains the shader WGSL code as a string.
+
+<CollapsibleDetails summaryTitle='Register shader' open>
+<Code code={`
+POST: /api/shader/example_shader/register
+Content-Type: application/json
+
+{
+    "source": "shader_code_as_string",
+}
+`} lang='http' />
+</CollapsibleDetails> 
+
+<CollapsibleDetails summaryTitle='Register MP4 input on which the shader will be applied' open>
+<Code code={`
+POST: /api/input/example_input/register
+Content-Type: application/json
+
+{
+    "type": "mp4",
+    "url":"https://example.com/video.mp4"
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+Now, configure an output stream where the shader-processed video will be streamed.
+
+<CollapsibleDetails summaryTitle='Register RTP output' open>
+<Code code={`
+POST: /api/output/example_output/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "port": 8004,
+    "ip": "127.0.0.1",
+    "video": {
+        "resolution": {
+            "width": 1920,
+            "height": 1080,
+        },
+        "encoder": {
+            "type": "ffmpeg_h264",
+            "preset": "ultrafast"
+        },
+        "initial": {
+            "root": {
+                "type": "shader",
+                "id": "shader_node_1",
+                "shader_id": "example_shader",
+                "children": [
+                    {
+                        "id": "input_1",
+                        "type": "input_stream",
+                        "input_id": "example_input",
+                    }
+                ],
+                "resolution": { "width": 1920, "height": 1080 },
+            }
+        }
+    }
+}
+`} lang='http' ins={{range: '19-29'}}/>
+</CollapsibleDetails>
+
+Once all components are registered, send a [start request](/http-api/routes#start-request) to initiate the stream. The processed output will be streamed via RTP on port 8004.
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`

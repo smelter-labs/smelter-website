@@ -10,9 +10,57 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 <Aside type='caution'>Only one component can use specific `instance_id` at the time.</Aside>
 
-## Reference
+## Example
 
-{/*TODO example*/}
+To begin displaying a webpage in the WebView component, you need to register the web renderer.
+
+<CollapsibleDetails summaryTitle='Register web renderer' open>
+<Code code={`
+POST: /api/web-renderer/example_website/register
+Content-Type: application/json
+
+{
+    "url": "https://example.com/website.html",
+    "resolution": { "width": 1920, "height": 1080 }
+}
+`} lang='http' />
+</CollapsibleDetails>
+
+After registering the web renderer, you can set up the output stream with WebView component included.
+
+<CollapsibleDetails summaryTitle='Register RTP output' open>
+<Code code={`
+POST: /api/output/example_output/register
+Content-Type: application/json
+
+{
+    "type": "rtp_stream",
+    "port": 8004,
+    "ip": "127.0.0.1",
+    "video": {
+        "resolution": { "width": 1920, "height": 1080 },
+        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
+        "initial": {
+            "root": {
+                "id": "embed_view_on_website",
+                "type": "web_view",
+                "instance_id": "example_website",
+                "children": [
+                    {
+                        "type": "view",
+                        "background_color": "#008000FF",
+                        "width": 1920,
+                        "height": 1080
+                    }
+                ]
+            }
+        }
+    }
+}
+`} lang='http' ins={{range: '13-23'}} />
+</CollapsibleDetails>
+
+Once the registration is complete, send a [start request](/http-api/routes#start-request) to begin streaming. The output will be visible on port 8004.
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
@@ -24,7 +72,6 @@ type WebView = {
 `} lang='tsx' />
 </CollapsibleDetails>
 
-WebView component renders a website using Chromium.
 ## Properties
 
 ### id

@@ -6,35 +6,12 @@ import { Aside, Code } from '@astrojs/starlight/components';
 
 `Rescaler` is a layout component responsible for rescaling other components.
 
-## Positioning
-### Absolute
+## Example
 
-A component is absolutely positioned if it defines fields like top, left, right, bottom, or rotation.
-Those fields define the component's position relative to its parent. However, to respect those values,
-the parent component has to be a layout component that supports absolute positioning.
+Below is an example of how Rescaler can be used to wrap a View component. In this case, Rescaler sets the width and height of the View component and adds a white border around it.
 
-- `Rescaler` **does not** support absolute positioning for its child components. A child component will still be rendered, but all fields like `top`, `left`, `right`, `bottom`, and `rotation` will be ignored.
-- `Rescaler` can be absolutely positioned relative to its parent, if the parent component supports it.
-
-### Static
-
-`Rescaler` always have exactly one child that will be proportionally rescaled to match the parent.
-
-## Transitions
-
-On the scene update, a `Rescaler` component will animate between the original state and the new one if the `transition` field is defined. Both the original and the new scene need to define a component with the same `id`. Currently, only some of the fields support animated transitions:
-
-- `width` / `height` - Only supported within the same positioning mode. If the positioning mode changes between the old scene and the new one, the transition will not work.
-- `bottom` / `top` / `left` / `right` / `rotation` - Only supports transition when changing a value of the same field. If the old scene defines a `left` field and the new one does not, the transition will not work.
-
-## Reference
-
-{/*TODO example and perhaps move above positioning*/}
-
-### Example
-
-<CollapsibleDetails summaryTitle='Register RTP output with red box limited by Rescaler' open>
-<Code ins={(13,18)} code={`
+<CollapsibleDetails summaryTitle='Register RTP output' open>
+<Code code={`
 POST: /api/output/example_output/register
 Content-Type: application/json
 
@@ -50,6 +27,9 @@ Content-Type: application/json
                 "type": "rescaler",
                 "width": 1920,
                 "height": 1080,
+                "border_radius": 50,
+                "border_width": 20,
+                "border_color": "#FFFFFFFF",
                 "child": {
                     "type": "view",
                     "background_color": "#FF0000FF"
@@ -58,10 +38,10 @@ Content-Type: application/json
         }
     }
 }
-`} lang='http' />
+`} lang='http' ins={{range: '13-22'}} />
 </CollapsibleDetails>
 
-Now you can see your image streamed on port 8004.
+After sending [start request](/http-api/routes#start-request), the output will be a red window with white rounded borders, streamed on port 8004.
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
@@ -86,6 +66,27 @@ Now you can see your image streamed on port 8004.
   }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+## Positioning
+### Absolute
+
+A component is absolutely positioned if it defines fields like top, left, right, bottom, or rotation.
+Those fields define the component's position relative to its parent. However, to respect those values,
+the parent component has to be a layout component that supports absolute positioning.
+
+- `Rescaler` **does not** support absolute positioning for its child components. A child component will still be rendered, but all fields like `top`, `left`, `right`, `bottom`, and `rotation` will be ignored.
+- `Rescaler` can be absolutely positioned relative to its parent, if the parent component supports it.
+
+### Static
+
+`Rescaler` always have exactly one child that will be proportionally rescaled to match the parent.
+
+## Transitions
+
+On the scene update, a `Rescaler` component will animate between the original state and the new one if the `transition` field is defined. Both the original and the new scene need to define a component with the same `id`. Currently, only some of the fields support animated transitions:
+
+- `width` / `height` - Only supported within the same positioning mode. If the positioning mode changes between the old scene and the new one, the transition will not work.
+- `bottom` / `top` / `left` / `right` / `rotation` - Only supports transition when changing a value of the same field. If the old scene defines a `left` field and the new one does not, the transition will not work.
 
 ## Properties
 

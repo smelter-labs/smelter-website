@@ -41,9 +41,9 @@ type RequestBody = {
 
 Register external destination that can be used as a Smelter output. See outputs documentation to learn more.
 
-- [RTP](./outputs/rtp)
-- [MP4](./outputs/mp4)
-- [WHIP](./outputs/whip)
+- [RTP](/http-api/outputs/rtp)
+- [MP4](/http-api/outputs/mp4)
+- [WHIP](/http-api/outputs/whip)
 
 ### Unregister output
 
@@ -129,10 +129,10 @@ type RequestBody = {
 
 Register external source that can be used as a Smelter input. See inputs documentation to learn more.
 
-- [RTP](./inputs/rtp)
-- [MP4](./inputs/mp4)
-- [DeckLink](./inputs/decklink)
-- [WHIP](./inputs/whip)
+- [RTP](/http-api/inputs/rtp)
+- [MP4](/http-api/inputs/mp4)
+- [DeckLink](/http-api/inputs/decklink)
+- [WHIP](/http-api/inputs/whip)
 
 ### Unregister input
 
@@ -162,7 +162,7 @@ POST: /api/image/:image_id/register
 Content-Type: application/json
 ```
 
-Register an image asset. Request body is defined in the [image](./resources/image) docs.
+Register an image asset. Request body is defined in the [image](/http-api/resources/image) docs.
 
 ### Unregister image
 
@@ -184,7 +184,7 @@ POST: /api/shader/:shader_id/register
 Content-Type: application/json
 ```
 
-Register a shader. Request body is defined in the [shader](./resources/shader) docs.
+Register a shader. Request body is defined in the [shader](/http-api/resources/shader) docs.
 
 ### Unregister shader
 
@@ -206,7 +206,7 @@ POST: /api/web-renderer/:instance_id/register
 Content-Type: application/json
 ```
 
-Register a web renderer instance. Request body is defined in the [web renderer](./resources/web-renderer) docs.
+Register a web renderer instance. Request body is defined in the [web renderer](/http-api/resources/web-renderer) docs.
 
 ### Unregister web renderer instance
 
