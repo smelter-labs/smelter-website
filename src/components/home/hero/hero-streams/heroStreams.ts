@@ -29,16 +29,17 @@ function interpolateColor(color1: string, color2: string, factor: number) {
   return `rgb(${red}, ${green}, ${blue})`;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("astro:page-load", () => {
   const snapInThreshold = 220;
   const snapOutThreshold = 220;
   const opacityThreshold = 450;
 
   const streamLayers = document.querySelectorAll<HTMLElement>("#heroStreams > svg");
-  const descriptionLayerRect = document
+  const descriptionLayer = document
     .querySelectorAll<HTMLElement>("#descriptionLayer")[0]
-    .getBoundingClientRect();
-
+  const descriptionLayerRect = descriptionLayer?.getBoundingClientRect();
+  
+  if(!streamLayers[0]) return;
   const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
 
   const videoLayer = document.querySelectorAll<HTMLElement>("#videoLayer")[0];
@@ -172,13 +173,14 @@ document.addEventListener("DOMContentLoaded", () => {
               composite: "replace",
             }
           );
-        } else if(shouldSnapOut) {
+        } else if (shouldSnapOut) {
           streamLayers[index].animate(
             [{ transform: `translate(${layerOffset.x}px, ${layerOffset.y}px)` }],
             {
               duration: 600,
               easing: "linear",
               fill: "forwards",
+              composite: "replace",
             }
           );
 

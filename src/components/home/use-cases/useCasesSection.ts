@@ -5,7 +5,8 @@ type Color = {
   a: number;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("astro:page-load", () => {
   const useCasesHeader = document.getElementById("useCasesHeader");
 
   function adjustHeaderMargin() {
