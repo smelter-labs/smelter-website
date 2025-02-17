@@ -64,6 +64,7 @@ export const DARK_THEME = {
     footer: {
       logo: COLORS.white100,
       copyright: COLORS.white100,
+      link: COLORS.white100
     },
     license: {
       content: COLORS.white100,

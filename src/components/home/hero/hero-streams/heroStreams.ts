@@ -30,7 +30,8 @@ function interpolateColor(color1: string, color2: string, factor: number) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const snapThreshold = 250;
+  const snapInThreshold = 220;
+  const snapOutThreshold = 220;
   const opacityThreshold = 450;
 
   const streamLayers = document.querySelectorAll<HTMLElement>("#heroStreams > svg");
@@ -124,10 +125,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.85;
-        const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
+        const shouldSnapIn = distanceToBottomLayerCenter <= snapInThreshold;
+        const shouldSnapOut = distanceToBottomLayerCenter >= snapOutThreshold;
 
         if (isOutsideHero) return;
-        if (shouldSnap) {
+        if (shouldSnapIn) {
           streamLayers[index].animate(
             [
               {
@@ -170,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
               composite: "replace",
             }
           );
-        } else {
+        } else if(shouldSnapOut) {
           streamLayers[index].animate(
             [{ transform: `translate(${layerOffset.x}px, ${layerOffset.y}px)` }],
             {
