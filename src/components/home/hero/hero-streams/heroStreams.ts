@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
         );
 
-        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.9
+        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.85
         const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
         
         if(isOutsideHero) return
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
           streamLayers[index].animate(
             [{ transform: `translate(${layerOffset.x}px, ${layerOffset.y}px)` }],
             {
-              duration: 400,
+              duration: 600,
               easing: "linear",
               fill: "forwards",
             }
@@ -251,3 +251,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("mousemove", handleOpacity);
   }
 });
+
