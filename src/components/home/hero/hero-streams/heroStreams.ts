@@ -34,7 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const opacityThreshold = 450;
 
   const streamLayers = document.querySelectorAll<HTMLElement>("#heroStreams > svg");
-  const descriptionLayerRect = document.querySelectorAll<HTMLElement>("#descriptionLayer")[0].getBoundingClientRect();
+  const descriptionLayerRect = document
+    .querySelectorAll<HTMLElement>("#descriptionLayer")[0]
+    .getBoundingClientRect();
 
   const { left, top, width, height } = streamLayers[0].getBoundingClientRect();
 
@@ -56,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
       composite: "replace",
     }
   );
-  
 
   const streamLayerRects: Array<DOMRect> = [];
 
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ],
         {
           duration: 600,
-          delay: 200 + 400 * (index+1),
+          delay: 200 + 400 * (index + 1),
           easing: "ease-in-out",
           fill: "forwards",
         }
@@ -122,10 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
           (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
         );
 
-        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.85
+        const isOutsideHero = clientX < (descriptionLayerRect?.right || 0) * 0.85;
         const shouldSnap = distanceToBottomLayerCenter <= snapThreshold;
-        
-        if(isOutsideHero) return
+
+        if (isOutsideHero) return;
         if (shouldSnap) {
           streamLayers[index].animate(
             [
@@ -227,13 +228,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const distanceToBottomLayerCenter = Math.sqrt(
         (clientX - bottomLayerMidX) ** 2 + (clientY - bottomLayerMidY) ** 2
       );
-      
+
       for (const layer of opacityLayers) {
         const layerRect = layer.getBoundingClientRect();
 
         dx = bottomLayerRect.left - layerRect.left;
         dy = bottomLayerRect.top - layerRect.top;
-        const newOpacity = Math.max(Math.min(distanceToBottomLayerCenter / opacityThreshold - 0.2, 0.75), 0);
+        const newOpacity = Math.max(
+          Math.min(distanceToBottomLayerCenter / opacityThreshold - 0.2, 0.75),
+          0
+        );
 
         layer.animate([{ fillOpacity: newOpacity }], {
           duration: 200,
@@ -245,10 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   function setupLayersMovement() {
     window.addEventListener("mousemove", moveLayers);
     document.addEventListener("mousemove", handleOpacity);
   }
 });
-
