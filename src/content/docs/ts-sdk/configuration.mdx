@@ -1,5 +1,5 @@
 ---
-title: Configuration
+title: Project configuration
 ---
 
 Configuration instructions and compatibility table for TypeScript SDK
@@ -37,6 +37,11 @@ Node.js SDK requires
     </tr>
   </tbody>
 </table>
+
+And of course you need to remember about requirements of the actual Smelter server too. See 
+Smelter server deployment options:
+- [Docker](/deployment/variants/docker/)
+- [Binaries](/deployment/variants/binaries/)
 
 ## Browser (WASM)
 
@@ -82,4 +87,10 @@ We are working on examples of other configurations, but here are steps you need 
 to configure that yourself:
 - `@swmansion/smelter-browser-render` includes `smelter.wasm` that needs to hosted on your site.
 - You need to call `setWasmBundleUrl` with URL to `smelter.wasm` before starting any smelter instances.
-
+- Smelter code will be started in a Web Worker. Your project bundler needs to be able to handle following
+syntax in a library code.
+  ```js
+  new Worker(new URL('../esm/runWorker.mjs', import.meta.url), {
+    type: 'module'
+  });
+  ```
