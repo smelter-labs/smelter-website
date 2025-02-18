@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   return (
-    <View backgroundColor="#4d4d4d">
+    <View style={{ backgroundColor: "#4d4d4d" }}>
       <Rescaler
         style={{ width: beforeTransition ? 480 : 1280 }}
         transition={{ durationMs: 2000 }}>
@@ -41,9 +41,11 @@ function App() {
   }, []);
 
   return (
-    <View backgroundColor="#4d4d4d">
-      <Rescaler transition={{ durationMs: 2000 }}>
-        <InputStream inputId="input_1" />
+    <View style={{ backgroundColor: "#4d4d4d" }}>
+      <Rescaler
+        style={{ width: beforeTransition ? 480 : 1280 }}
+        transition={{ durationMs: 2000 }}>
+        <InputStream inputId="video" />
       </Rescaler>
       <Rescaler>
         <InputStream inputId="input_2" />
@@ -68,7 +70,7 @@ function App() {
   const top = beforeTransition ? 0 : 540;
 
   return (
-    <View backgroundColor="#4d4d4d">
+    <View style={{ backgroundColor: "#4d4d4d" }}>
       <Rescaler
         style={{ width: 320, height: 180, top, left: 0 }}
         transition={{ durationMs: 2000 }}>
