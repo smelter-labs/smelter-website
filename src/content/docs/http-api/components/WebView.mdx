@@ -1,7 +1,7 @@
 ---
 title: WebView
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 `WebView` renders a website using Chromium engine embedded inside the Smelter.
@@ -12,64 +12,55 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 ## Example
 
-To begin displaying a webpage in the WebView component, you need to register the web renderer.
+To begin displaying a webpage using the WebView component, you need to register  web renderer first.
 
 <CollapsibleDetails summaryTitle='Register web renderer' open>
-<Code code={`
+```http
 POST: /api/web-renderer/example_website/register
 Content-Type: application/json
 
 {
-    "url": "https://example.com/website.html",
-    "resolution": { "width": 1920, "height": 1080 }
+  "url": "https://example.com/website.html",
+  "resolution": { "width": 1920, "height": 1080 }
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
-After registering the web renderer, you can set up the output stream with WebView component included.
+After registering the web renderer, you can use WebView component in output stream.
 
-<CollapsibleDetails summaryTitle='Register RTP output' open>
-<Code code={`
-POST: /api/output/example_output/register
+<CollapsibleDetails summaryTitle='Update output' open>
+```http ins={7-9}
+POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "port": 8004,
-    "ip": "127.0.0.1",
-    "video": {
-        "resolution": { "width": 1920, "height": 1080 },
-        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
-        "initial": {
-            "root": {
-                "id": "embed_view_on_website",
-                "type": "web_view",
-                "instance_id": "example_website",
-                "children": [
-                    {
-                        "type": "view",
-                        "background_color": "#008000FF",
-                        "width": 1920,
-                        "height": 1080
-                    }
-                ]
-            }
+  "video": {
+    "root": {
+      "id": "embed_view_on_website",
+      "type": "web_view",
+      "instance_id": "example_website",
+      "children": [
+        {
+          "type": "view",
+          "background_color": "#008000FF",
+          "width": 1920,
+          "height": 1080
         }
+      ]
     }
+  }
 }
-`} lang='http' ins={{range: '13-15'}} />
+```
 </CollapsibleDetails>
 
-Once the registration is complete, send a [start request](/http-api/routes#start-request) to begin streaming. The output will be visible on port 8004.
-
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 type WebView = {
-    id?: string;
-    children?: Component[];
-    instance_id: string;
+  id?: string;
+  children?: Component[];
+  instance_id: string;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties

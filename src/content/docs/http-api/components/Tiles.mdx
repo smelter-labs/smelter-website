@@ -1,7 +1,7 @@
 ---
 title: Tiles
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 Tiles is a layout component that arranges all child components side by side, optimizing the use of available space. It divides its area into multiple rectangles or tiles, assigning one to each child component. Each of these rectangles is of equal size and they do not overlap.
@@ -10,67 +10,52 @@ Tiles is a layout component that arranges all child components side by side, opt
 
 Below is an example of how Tiles component can be used in the output stream. In this case, three View components (green, red and blue) are positioned by the Tiles component.
 
-<CollapsibleDetails summaryTitle='Register RTP output with Tiles component' open>
-<Code code={`
-POST: /api/output/example_output/register
+<CollapsibleDetails summaryTitle='Update output' open>
+```http ins={7}
+POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "port": 8004,
-    "ip": "127.0.0.1",
-    "video": {
-        "resolution": {
-            "width": 1920,
-            "height": 1080
+  "video": {
+    "root": {
+      "type": "tiles",
+      "children": [
+        {
+          "type": "view",
+          "background_color": "#008000FF"
         },
-        "encoder": {
-            "type": "ffmpeg_h264",
-            "preset": "ultrafast"
+        {
+          "type": "view",
+          "background_color": "#800000FF"
         },
-        "initial": {
-            "root": {
-                "type": "tiles",
-                "children": [
-                    {
-                        "type": "view",
-                        "background_color": "#008000FF"
-                    },
-                    {
-                        "type": "view",
-                        "background_color": "#800000FF"
-                    },
-                    {
-                        "type": "view",
-                        "background_color": "#000080FF"
-                    }
-                ],
-                "background_color": "#333333FF"
-            }
+        {
+          "type": "view",
+          "background_color": "#000080FF"
         }
+      ],
+      "background_color": "#333333FF"
     }
+  }
 }
-`} lang='http' ins={19} />
+```
 </CollapsibleDetails>
 
-After sending [start request](/http-api/routes#start-request) you will see output displaying three rectangles(green, red and blue) arranged by a Tiles component, streamed on port 8004.
-
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 type Tiles = {
-    id?: string;
-    children?: Component[];
-    width?: f32;
-    height?: f32;
-    background_color?: string;
-    tile_aspect_ratio?: string;
-    margin?: f32;
-    padding?: f32;
-    horizontal_align?: "left" | "right" | "justified" | "center";
-    vertical_align?: "top" | "center" | "bottom" | "justified";
-    transition?: Transition;
+  id?: string;
+  children?: Component[];
+  width?: f32;
+  height?: f32;
+  background_color?: string;
+  tile_aspect_ratio?: string;
+  margin?: f32;
+  padding?: f32;
+  horizontal_align?: "left" | "right" | "justified" | "center";
+  vertical_align?: "top" | "center" | "bottom" | "justified";
+  transition?: Transition;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Positioning

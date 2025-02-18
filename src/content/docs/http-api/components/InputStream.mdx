@@ -2,7 +2,7 @@
 title: InputStream
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 
 A component for displaying registered media inputs.
 
@@ -13,54 +13,46 @@ A component for displaying registered media inputs.
 To begin, you need to register an input stream. The example below shows how to register an RTP input stream on port `8002` using `ffmpeg_h264` as the decoder.
 
 <CollapsibleDetails summaryTitle='Register RTP input' open>
-<Code code={`
+```http
 POST: /api/input/example_input/register
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "port": 8002,
-    "video": {
-        "decoder": "ffmpeg_h264"
-    }
+  "type": "rtp_stream",
+  "port": 8002,
+  "video": {
+    "decoder": "ffmpeg_h264"
+  }
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
-Once this request is sent, Smelter will start listening for an RTP stream on port 8002. Now when the input stream is registered, we can use it as a source for an output stream. The following example demonstrates how to create an RTP output stream on port 8004, referencing the registered input `example_input`
+Once this request is sent, Smelter will start listening for an RTP stream on port 8002. Now when the input stream is registered, we can use it as a source for an output stream.
 
-<CollapsibleDetails summaryTitle='Register RTP output with registered input' open>
-<Code code={`
-POST: /api/output/example_output/register
+<CollapsibleDetails summaryTitle='Update output' open>
+```http ins={7-8}
+POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "port": 8004,
-    "ip": "127.0.0.1",
-    "video": {
-        "resolution": { "width": 1920, "height": 1080 },
-        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
-        "initial": {
-            "root": {
-                "type": "input_stream",
-                "input_id": "example_input"
-            }
-        }
+  "video": {
+    "root": {
+      "type": "input_stream",
+      "input_id": "example_input"
     }
+  }
 }
-`} lang='http' ins={{range: '13-14'}} />
+```
 </CollapsibleDetails>
 
-After registering both input and output, you need to send a [start request](/http-api/routes#start-request) to begin streaming. Once started, your output stream will be available on port 8004.
 
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
-  type InputStream = {
-    id?: string;
-    input_id: string;
-  }
-`} lang='tsx' />
+```tsx
+type InputStream = {
+  id?: string;
+  input_id: string;
+}
+```
 </CollapsibleDetails>
 
 ## Properties

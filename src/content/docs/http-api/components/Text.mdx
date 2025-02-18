@@ -2,7 +2,6 @@
 title: Text
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Code } from '@astrojs/starlight/components';
 
 A component for rendering text.
 
@@ -10,74 +9,59 @@ A component for rendering text.
 
 Below is an example of how Text can be used in output stream. In this case, the output will display bold text on a green background.
 
-<CollapsibleDetails summaryTitle='Register RTP output with Text component' open>
-<Code code={`
-POST: /api/output/example_output/register
+<CollapsibleDetails summaryTitle='Update output' open>
+```http ins={7}
+POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "ip": "127.0.0.1",
-    "port": 8004,
-    "video": {
-        "resolution": {
-            "width": 1920,
-            "height": 1080
-        },
-        "encoder": {
-            "type": "ffmpeg_h264",
-            "preset": "ultrafast"
-        },
-        "initial": {
-            "root": {
-                "type": "text",
-                "text": "Example text",
-                "font_size": 100.0,
-                "font_family": "Comic Sans MS",
-                "align": "center",
-                "wrap": "word",
-                "background_color": "#00800000",
-                "weight": "bold",
-                "width": 1920,
-                "height": 1080
-            }
-        }
+  "video": {
+    "root": {
+      "type": "text",
+      "text": "Example text",
+      "font_size": 100.0,
+      "font_family": "Comic Sans MS",
+      "align": "center",
+      "wrap": "word",
+      "background_color": "#00800000",
+      "weight": "bold",
+      "width": 1920,
+      "height": 1080
     }
+  }
 }
-`} lang='http' ins={19} />
+```
 </CollapsibleDetails>
 
-Once the registration is complete, send a [start request](/http-api/routes#start-request) to begin streaming. The output will be visible on port 8004.
-
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 type Text = {
-    id?: string;
-    text: string;
-    width?: f32;
-    height?: f32;
-    max_width?: f32;
-    max_height?: f32;
-    font_size: f32;
-    line_height?: f32;
-    color?: string;
-    background_color?: string;
-    font_family?: string;
-    style?: "normal" | "italic" | "oblique";
-    align?: "left" | "right" | "justified" | "center";
-    wrap?: "none" | "glyph" | "word";
-    weight?: 
-      | "thin"
-      | "extra_light"
-      | "light"
-      | "normal"
-      | "medium"
-      | "semi_bold"
-      | "bold"
-      | "extra_bold"
-      | "black";
+  id?: string;
+  text: string;
+  width?: f32;
+  height?: f32;
+  max_width?: f32;
+  max_height?: f32;
+  font_size: f32;
+  line_height?: f32;
+  color?: string;
+  background_color?: string;
+  font_family?: string;
+  style?: "normal" | "italic" | "oblique";
+  align?: "left" | "right" | "justified" | "center";
+  wrap?: "none" | "glyph" | "word";
+  weight?: 
+    | "thin"
+    | "extra_light"
+    | "light"
+    | "normal"
+    | "medium"
+    | "semi_bold"
+    | "bold"
+    | "extra_bold"
+    | "black";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties

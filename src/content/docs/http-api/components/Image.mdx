@@ -2,7 +2,7 @@
 title: Image
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 
 A component for rendering images:
 - From external URLs
@@ -15,55 +15,46 @@ A component for rendering images:
 Before using an Image in a stream, it must first be registered via an HTTP request. Use the following request to register a PNG image:
 
 <CollapsibleDetails summaryTitle='Register PNG image' open>
-<Code code={`
+```http
 POST: /api/image/example_png/register
 Content-Type: application/json
 
 {
-    "asset_type": "png",
-    "url": "https://example.com/image.png"
+  "asset_type": "png",
+  "url": "https://example.com/image.png"
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
 Once this request is successfully processed, the Image will be available for use in the output stream. You can reference a specific Image by its unique `image_id` (in this example `example_png`)
 
-<CollapsibleDetails summaryTitle='Register RTP output with Image component' open>
-<Code code={`
-POST: /api/output/example_output/register
+<CollapsibleDetails summaryTitle='Update output' open>
+```http ins={10-11}
+POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "port": 8004,
-    "ip": "127.0.0.1",
-    "video": {
-        "resolution": { "width": 1920, "height": 1080 },
-        "encoder": { "type": "ffmpeg_h264", "preset": "ultrafast" },
-        "initial": {
-            "root": {
-                "type": "rescaler",
-                "mode": "fit",
-                "child": {
-                    "type": "image",
-                    "image_id": "example_png"
-                }
-            }
-        }
+  "video": {
+    "root": {
+      "type": "rescaler",
+      "mode": "fit",
+      "child": {
+        "type": "image",
+        "image_id": "example_png"
+      }
     }
+  }
 }
-`} lang='http' ins={{range: '16-17'}} />
+```
 </CollapsibleDetails>
 
-Once the RTP output is registered, start the stream by sending a [start request](/http-api/routes#start-request). After that, the output stream will be available on port 8004, displaying the registered image.
-
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 type Image = {
-    id?: string;
-    image_id: string;
+  id?: string;
+  image_id: string;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 
