@@ -30,8 +30,8 @@ const USE_CASES = [
     iconUrl: docker,
     text: "Deploy Smelter as a standalone server. Its language-agnostic API integrates easily with your solutions. With Dockerfiles and comprehensive deployment guidelines in our documentation, setting up Smelter is effortless.",
     buttons: {
-      docs: "https://www.smelter.dev/deployment/examples/binaries/",
-      dockerfiles: "https://github.com/software-mansion/smelter/tree/master/build_tools/docker",
+      docs: "https://www.smelter.dev/http-api",
+      "docker registry": "https://github.com/software-mansion/smelter/pkgs/container/smelter",
     },
   },
 ] as const;
@@ -46,12 +46,13 @@ const USE_CASES = [
   <Image id="usageBlur" src={usageBlur} alt="gradient" class="absolute -right-32 top-8 sm:-right-72 sm:-top-40 -z-10" />
 </section>
 
-<script type="module">
-  document.addEventListener('DOMContentLoaded', function () {
+<script is:inline data-astro-rerun>
+  document.addEventListener('astro:page-load', function () {
     const parallaxImage = document.getElementById('usageBlur');
-    const parentSection = parallaxImage.closest('section');
+    const parentSection = parallaxImage?.closest('section');
 
     const handleScroll = () => {
+        if(!parentSection) return;
         const sectionTop = parentSection.getBoundingClientRect().top;
         const scrollY = window.screenY;
         const sectionTopToPageTop = scrollY + sectionTop;

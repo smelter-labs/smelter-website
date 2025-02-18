@@ -35,7 +35,7 @@ const { header, content } = Astro.props;
       snackbar?.classList.add('translate-y-full', 'opacity-0');
     }
     // Initially hide the snackbar
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('astro:page-load', () => {
         const snackbar = document.getElementById('successSnackbar');
         const closeSnackbarButton = document.getElementById('closeSnackbarButton');
         closeSnackbarButton?.addEventListener("click", () => closeSnackbar())

@@ -1,9 +1,13 @@
 ---
 title: WebRenderer
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside, Code, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
+<Badge text="Required feature:web_renderer" variant="note" size="large" />
+
+<br />
+<br />
 
 Represents an instance of a website rendered using Chromium embedded in the Smelter. It is utilized by a [WebView](/http-api/components/webview) component. Ensure that the Smelter supports web rendering before utilizing the web renderer.
 
