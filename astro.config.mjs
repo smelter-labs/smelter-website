@@ -30,11 +30,13 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
+      description: 'Toolkit for real-time, programmable video and audio mixing.',
       social: {
         github: "https://github.com/software-mansion/smelter",
         discord: "https://discord.com/invite/Cxj3rzTTag",
         "x.com": "https://x.com/swmansion",
       },
+      favicon: 'favicons/favicon.ico',
       customCss: ["./styles/font-face.scss", "./styles/headings.css", "./styles/starlight.scss"],
       logo: {
         light: "./src/assets/navigation/smelter-logo-docs-light.svg",
