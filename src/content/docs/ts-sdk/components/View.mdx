@@ -4,22 +4,15 @@ title: View
 import { Aside, Code } from '@astrojs/starlight/components';
 import viewExample from './examples/View.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-view-example.webp';
 
 The `View` component serves as the core layout mechanism in the smelter, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
 
-## Reference
+## Example
 
 <Code code={viewExample} title='ViewExample.tsx' lang='tsx' collapse={["21-32"]} />
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
-type ViewProps = {
-    id?: string;
-    children?: ReactNode;
-    style?: ViewStyleProps;
-    transition?: Transition;
-}
-`} lang='tsx' />
+<CollapsibleDetails summaryTitle='Output'>
+  <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
 ## Positioning
@@ -39,6 +32,19 @@ During a scene update, a `View` component will animate transitions between the o
 
 - `width` / `height` - Transitions for these dimensions are only supported within the same positioning mode. If the positioning mode changes from the old scene to the new one, the transition will fail.
 - `bottom` / `top` / `left` / `right` / `rotation` - Transitions are supported only when changing the value of the same field. For example, if the `left` field is defined in the old scene but not in the new one, the transition will not be executed. If the positioning type of the `View` changes, the transition will not be applied either.
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type ViewProps = {
+    id?: string;
+    children?: ReactNode;
+    style?: ViewStyleProps;
+    transition?: Transition;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ## Props
 
