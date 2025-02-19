@@ -1,5 +1,7 @@
 ---
 title: Web rendering
+sidebar:
+    order: 2
 ---
 import { Aside, Code, Steps } from '@astrojs/starlight/components';
 
@@ -27,53 +29,68 @@ There are 3 embedding methods available:
 <Steps>
 
 1. Register `WebRenderer` instance. Otherwise, it will not be possible to include a fully functioning `WebView` in the output scene.
-    
-    <Code code={`
-    await smelter.registerWebRenderer("example_website", {
-      url: "https://example.com",
-      resolution: {
-        width: 1920,
-        height: 1080
+
+    ```http
+    POST: /api/web-renderer/example_website/register
+    Content-Type: application/json
+
+    {
+      "url": "https://example.com",
+      "resolution": {
+        "width": 1920,
+        "height": 1080
       },
-      embeddingMethod: "native_embedding_over_content"
-    })
-    `} lang='tsx' />
+      "embedding_method": "native_embedding_over_content"
+    }
+    ```
 
 2. Create an output scene with a `WebView` component.
 
-    The `WebView` component needs to use an `instanceId` that has already been registered.
+    The `WebView` component needs to use an `instance_id` that has already been registered.
 
-    <Code code={`
-    import Smelter from "@swmansion/smelter-node"
+    ```http
+    POST: /api/output/output_1/update
+    Content-Type: application/json
 
-    function App() {
-      return (
-        <WebView instanceId="example_website"></WebView>
-      )
+    {
+      "video": [
+        "type": "web_view",
+        "instance_id": "example_website",
+      ]
     }
-    `} lang='tsx' />
+    ```
     
     <Aside type='caution'>Only one `WebView` component can use a specific web renderer instance at a time.</Aside>
 
 3. Embed a registered InputStream into the website.
 
-    ```tsx ins={4}
-    function App() {
-      return (
-        <WebView instanceId="example_website">
-          <InputStream id="my_video" inputId="input_1" />
-        </WebView>
-      )
+
+    ```http
+    POST: /api/output/output_1/update
+    Content-Type: application/json
+
+    {
+      "video": {
+        "type": "web_view",
+        "instance_id": "example_website",
+        "children": [
+          {
+            "id": "my_video",
+            "type": "input_stream",
+            "input_id": "input_1",
+          }
+        ]
+      }
     }
     ```
 </Steps>
 
 The above steps should result in a website structure presented below:
 
-  <Code code={`
+  ```html
   <html>
     <body>
       <canvas id="my_video"></canvas>
     </body>
   </html>
-  `} lang='tsx' />
+  ```
