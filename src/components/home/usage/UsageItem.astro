@@ -25,11 +25,11 @@ const { label, iconUrl, text, buttons } = Astro.props;
     </div>
     <p class="par-l text-usage-tileText hidden md:block">{text}</p>
   </div>
-  <div class="flex gap-x-4 flex-row lg:flex-col gap-y-4 justify-between lg:w-[200px] md:self-start lg:self-center">
+  <div class="flex gap-x-4 gap-y-3 flex-row lg:flex-col justify-between lg:w-[200px] md:self-start lg:self-center">
     {
         Object.entries(buttons).map(([label, url]) => (
           <a href={url} target="_blank" style="text-decoration: none; color: inherit;" class="cursor-default">
-            <GhostButton id="usageGhostButton" class="hover:text-usage-hoverText" >
+            <GhostButton id="usageGhostButton" class="hover:text-usage-hoverText h-12 px-2" >
               <p class="par-xl capitalize">{label}</p>
               <ArrowRight  />
             </GhostButton>
