@@ -8,10 +8,22 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## Example
 
-Below is an example of how Rescaler can be used to wrap a View component. In this case, Rescaler sets the width and height of the View component and adds a white border around it.
+Below is an example of how Rescaler can be used to wrap a Image component.
+
+<CollapsibleDetails summaryTitle='Register image' open>
+```http
+POST: /api/image/example_image/register
+Content-Type: application/json
+
+{
+  "asset_type": "png",
+  "url": "https://example.com/image.png"
+}
+```
+</CollapsibleDetails>
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7}
+```http
 POST: /api/output/example_output/update
 Content-Type: application/json
 
@@ -19,41 +31,13 @@ Content-Type: application/json
   "video": {
     "root": {
       "type": "rescaler",
-      "width": 1920,
-      "height": 1080,
-      "border_radius": 50,
-      "border_width": 20,
-      "border_color": "#FFFFFFFF",
+      "mode": "fill",
       "child": {
-        "type": "view", 
-        "background_color": "#FF0000FF"
+        "type": "image", 
+        "image_id": "example_image"
       }
     }
   }
-}
-```
-</CollapsibleDetails>
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-```tsx
-type Rescaler = {
-  id?: string;
-  child: Component;
-  mode?: "fit" | "fill";
-  horizontal_align?: "left" | "right" | "justified" | "center";
-  vertical_align?: "top" | "center" | "bottom" | "justified";
-  width?: f32;
-  height?: f32;
-  top?: f32;
-  left?: f32;
-  bottom?: f32;
-  right?: f32;
-  rotation?: f32;
-  transition?: Transition;
-  border_radius?: f32;
-  border_width?: f32;
-  border_color?: string;
-  box_shadow?: BoxShadow[];
 }
 ```
 </CollapsibleDetails>
@@ -78,6 +62,32 @@ On the scene update, a `Rescaler` component will animate between the original st
 
 - `width` / `height` - Only supported within the same positioning mode. If the positioning mode changes between the old scene and the new one, the transition will not work.
 - `bottom` / `top` / `left` / `right` / `rotation` - Only supports transition when changing a value of the same field. If the old scene defines a `left` field and the new one does not, the transition will not work.
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type Rescaler = {
+  id?: string;
+  child: Component;
+  mode?: "fit" | "fill";
+  horizontal_align?: "left" | "right" | "justified" | "center";
+  vertical_align?: "top" | "center" | "bottom" | "justified";
+  width?: f32;
+  height?: f32;
+  top?: f32;
+  left?: f32;
+  bottom?: f32;
+  right?: f32;
+  rotation?: f32;
+  transition?: Transition;
+  border_radius?: f32;
+  border_width?: f32;
+  border_color?: string;
+  box_shadow?: BoxShadow[];
+}
+```
+</CollapsibleDetails>
 
 ## Properties
 

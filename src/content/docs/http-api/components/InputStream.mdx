@@ -10,43 +10,48 @@ A component for displaying registered media inputs.
 
 ## Example
 
-To begin, you need to register an input stream. The example below shows how to register an RTP input stream on port `8002` using `ffmpeg_h264` as the decoder.
+To begin, you need to register an input stream. The example below shows how to register an mp4 input stream.
 
-<CollapsibleDetails summaryTitle='Register RTP input' open>
+<CollapsibleDetails summaryTitle='Register mp4 input' open>
 ```http
 POST: /api/input/example_input/register
 Content-Type: application/json
 
 {
-  "type": "rtp_stream",
-  "port": 8002,
-  "video": {
-    "decoder": "ffmpeg_h264"
-  }
+  "type": "mp4",
+  "path": "https://example.com/video.mp4"
 }
 ```
 </CollapsibleDetails>
 
-Once this request is sent, Smelter will start listening for an RTP stream on port 8002. Now when the input stream is registered, we can use it as a source for an output stream.
+Now when the input stream is registered, we can use it as a source for an output stream.
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7-8}
+```http
 POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
   "video": {
     "root": {
-      "type": "input_stream",
-      "input_id": "example_input"
+      "type": "rescaler",
+      "child": {
+        "type": "input_stream",
+        "input_id": "example_input"
+      }
     }
+  },
+  "audio": {
+    "input_id": "example_input",
+    "volume": 0.5
   }
 }
 ```
 </CollapsibleDetails>
 
+## Reference
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type InputStream = {
   id?: string;

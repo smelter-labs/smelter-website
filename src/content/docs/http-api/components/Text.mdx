@@ -7,33 +7,35 @@ A component for rendering text.
 
 ## Example
 
-Below is an example of how Text can be used in output stream. In this case, the output will display bold text on a green background.
+Below is an example of how Text can be used in output stream. In this case, the output will display bold text in top-left corner.
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7}
+```http 
 POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
   "video": {
     "root": {
-      "type": "text",
-      "text": "Example text",
-      "font_size": 100.0,
-      "font_family": "Comic Sans MS",
-      "align": "center",
-      "wrap": "word",
-      "background_color": "#00800000",
-      "weight": "bold",
-      "width": 1920,
-      "height": 1080
+      "type": "view",
+      "children": [
+        {
+          "type": "text",
+          "text": "Test text",
+          "font_size": 64,
+          "color": "#a5baf0",
+          "weight": "bold"
+        }
+      ]
     }
   }
 }
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type Text = {
   id?: string;

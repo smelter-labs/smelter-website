@@ -21,12 +21,13 @@ To begin displaying a webpage using the WebView component, you need to register 
 
 <CollapsibleDetails summaryTitle='Register web renderer' open>
 ```http
-POST: /api/web-renderer/example_website/register
+POST: /api/web-renderer/example_web_renderer/register
 Content-Type: application/json
 
 {
-  "url": "https://example.com/website.html",
-  "resolution": { "width": 1920, "height": 1080 }
+  "url": "https://smelter.dev",
+  "resolution": { "width": 1920, "height": 1080 },
+  "embedding_method": "chromium_embedding"
 }
 ```
 </CollapsibleDetails>
@@ -34,22 +35,18 @@ Content-Type: application/json
 After registering the web renderer, you can use WebView component in output stream.
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7-9}
+```http
 POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
   "video": {
     "root": {
-      "id": "embed_view_on_website",
-      "type": "web_view",
-      "instance_id": "example_website",
+      "type": "view",
       "children": [
         {
-          "type": "view",
-          "background_color": "#008000FF",
-          "width": 1920,
-          "height": 1080
+          "type": "web_view",
+          "instance_id": "example_web_renderer"
         }
       ]
     }
@@ -58,7 +55,9 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type WebView = {
   id?: string;

@@ -16,39 +16,42 @@ Before using an Image in a stream, it must first be registered via an HTTP reque
 
 <CollapsibleDetails summaryTitle='Register PNG image' open>
 ```http
-POST: /api/image/example_png/register
+POST: /api/image/example_image/register
 Content-Type: application/json
 
 {
-  "asset_type": "png",
-  "url": "https://example.com/image.png"
+  "asset_type": "svg",
+  "url": "https://example.com/image.svg"
 }
 ```
 </CollapsibleDetails>
 
-Once this request is successfully processed, the Image will be available for use in the output stream. You can reference a specific Image by its unique `image_id` (in this example `example_png`)
+Once this request is successfully processed, the Image will be available for use in the output stream. You can reference a specific Image by its unique `image_id` (in this example `example_image`)
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {10-11}
+```http
 POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
   "video": {
     "root": {
-      "type": "rescaler",
-      "mode": "fit",
-      "child": {
-        "type": "image",
-        "image_id": "example_png"
-      }
+      "type": "view",
+      "children": [
+        {
+          "type": "image",
+          "image_id": "example_image"
+        }
+      ]
     }
   }
 }
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type Image = {
   id?: string;

@@ -8,10 +8,10 @@ The `View` component serves as the core layout mechanism in the Smelter, similar
 
 ## Example
 
-Below is an example of how View can be used in output stream. In this case, output is solid green window.
+Below is an example of how View can be used in output stream.
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7}
+```http 
 POST: /api/output/example_output/update
 Content-Type: application/json
 
@@ -19,16 +19,36 @@ Content-Type: application/json
   "video": {
     "root": {
       "type": "view",
-      "background_color": "#008000FF",
-      "width": 1920,
-      "height": 1080
+      "children": [
+        {
+          "type": "view",
+          "direction": "column",
+          "children": [
+            {
+              "type": "view",
+              "background_color": "red",
+              "height": 200 
+            },
+            {
+              "type": "view",
+              "background_color": "blue" 
+            }
+          ]
+        },
+        {
+          "type": "view",
+          "background_color": "green"
+        }
+      ]
     }
   }
 }
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type View = {
   id?: string;

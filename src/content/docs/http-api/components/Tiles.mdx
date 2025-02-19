@@ -8,10 +8,10 @@ Tiles is a layout component that arranges all child components side by side, opt
 
 ## Example
 
-Below is an example of how Tiles component can be used in the output stream. In this case, three View components (green, red and blue) are positioned by the Tiles component.
+Below is an example demonstrating how the Tiles component arranges three input streams in the output stream. Note that all inputs had been previously registered.
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7}
+```http 
 POST: /api/output/example_output/update
 Content-Type: application/json
 
@@ -19,28 +19,42 @@ Content-Type: application/json
   "video": {
     "root": {
       "type": "tiles",
+      "transition": { "duration_ms": 200 },
       "children": [
         {
-          "type": "view",
-          "background_color": "#008000FF"
+          "type": "rescaler",
+          "mode": "fill",
+          "child": {
+            "type": "input_stream",
+            "input_id": "input_1"
+          }
         },
         {
-          "type": "view",
-          "background_color": "#800000FF"
+          "type": "rescaler",
+          "mode": "fill",
+          "child": {
+            "type": "input_stream",
+            "input_id": "input_2"
+          }
         },
         {
-          "type": "view",
-          "background_color": "#000080FF"
+          "type": "rescaler",
+          "mode": "fill",
+          "child": {
+            "type": "input_stream",
+            "input_id": "input_3"
+          }
         }
-      ],
-      "background_color": "#333333FF"
+      ]
     }
   }
 }
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type Tiles = {
   id?: string;
@@ -109,6 +123,26 @@ Adding/removing/changing the order of components can only be properly defined if
 - If a child component does not have an `"id"` defined, then it's identified by order inside the `children` list, while only counting components without an `"id"`. For example:
   - A component without an `"id"` is 1st child in the old scene. After an update, the 1st component has an `"id"`, but the 2nd does not. In this situation, 1st component in the old scene and 2nd in the new one are considered to be the same component. It's the same because 2nd component in a new scene is still 1st if you only count components without an id.
   - There are two components without any `"id"` in the old scene. After an update, they switched places (still without any `"id"`). In that case, there would be no transition. Identification is based on the child components order, so from the `Tiles` component perspective only the content of those children has changed.
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type Tiles = {
+  id?: string;
+  children?: Component[];
+  width?: f32;
+  height?: f32;
+  background_color?: string;
+  tile_aspect_ratio?: string;
+  margin?: f32;
+  padding?: f32;
+  horizontal_align?: "left" | "right" | "justified" | "center";
+  vertical_align?: "top" | "center" | "bottom" | "justified";
+  transition?: Transition;
+}
+```
+</CollapsibleDetails>
 
 ## Properties
 

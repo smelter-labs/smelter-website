@@ -77,22 +77,22 @@ Content-Type: application/json
 ```
 </CollapsibleDetails> 
 
-<CollapsibleDetails summaryTitle='Register MP4 input on which the shader will be applied' open>
+<CollapsibleDetails summaryTitle='Register image on which the shader will be applied' open>
 ```http
-POST: /api/input/example_input/register
+POST: /api/image/example_image/register
 Content-Type: application/json
 
 {
-  "type": "mp4",
-  "url": "https://example.com/video.mp4"
+  "asset_type": "svg",
+  "url": "https://mywebsite.com/example.svg"
 }
 ```
 </CollapsibleDetails>
 
-Now, update an output stream where the shader-processed video will be streamed.
+Now, update an output stream where the shader-processed image will be streamed.
 
 <CollapsibleDetails summaryTitle='Update output' open>
-```http {7-9}
+```http
 POST: /api/output/example_output/update
 Content-Type: application/json
 
@@ -100,23 +100,23 @@ Content-Type: application/json
   "video": {
     "root": {
       "type": "shader",
-      "id": "shader_node_1",
       "shader_id": "example_shader",
       "children": [
         {
-          "id": "input_1",
-          "type": "input_stream",
-          "input_id": "example_input",
+          "type": "image",
+          "image_id": "example_image"
         }
       ],
-      "resolution": { "width": 1920, "height": 1080 },
+      "resolution": { "width": 1920, "height": 1080 }
     }
   }
 }
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type Shader = {
   id?: string;
