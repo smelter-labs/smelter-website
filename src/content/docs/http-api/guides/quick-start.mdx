@@ -27,13 +27,12 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "video": {
         "resolution": { "width": 1280, "height": 720 },
         "encoder": {
-          "type": "ffmpeg_h264",
-          "preset": "ultrafast"
+          "type": "ffmpeg_h264"
         },
         "initial": {
           "root": {
             "type": "view",
-            "background_color": "#4d4d4dff"
+            "background_color": "#4d4d4d"
           }
         }
       },
@@ -49,7 +48,7 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
     }
     ```
 
-    This step creates an output that renders just an empty View component with a background color set to `#4d4d4dff` (gray) and produces silent audio. Resulting
+    This step creates an output that renders just an empty View component with a background color set to `#4d4d4d` (gray) and produces silent audio. Resulting
     blank image with silent sound is encoded and sent over UDP to local port 9004 via RTP protocol.
 
     Sending [start request](/http-api/routes#start-request) will cause all registered outputs to start producing frames. All user-facing
@@ -105,13 +104,12 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "video": {
         "resolution": { "width": 1280, "height": 720 },
         "encoder": {
-          "type": "ffmpeg_h264",
-          "preset": "ultrafast"
+          "type": "ffmpeg_h264"
         },
         "initial": {
           "root": {
             "type": "view",
-            "background_color": "#4d4d4dff"
+            "background_color": "#4d4d4d"
           }
         }
       },
@@ -141,13 +139,12 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "video": {
         "resolution": { "width": 1280, "height": 720 },
         "encoder": {
-          "type": "ffmpeg_h264",
-          "preset": "ultrafast"
+          "type": "ffmpeg_h264"
         },
         "initial": {
           "root": {
             "type": "view",
-            "background_color": "#4d4d4dff"
+            "background_color": "#4d4d4d"
           }
         }
       },
@@ -233,7 +230,7 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "video": {
         "root": {
           "type": "tiles",
-          "background_color": "#4d4d4dff",
+          "background_color": "#4d4d4d",
           "children": [
             { "type": "input_stream", "input_id": "input_1" },
             { "type": "input_stream", "input_id": "input_2" }
