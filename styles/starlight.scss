@@ -16,6 +16,9 @@ button, input {
 	--sl-color-gray-5: #323848;
 	--sl-color-gray-6: #212635;
 	--sl-color-black: #15181f;
+
+  --ec-tm-markBg: #1e571599 !important;
+  --ec-tm-markBrdCol: #487f3bd0 !important;
 }
 /* Light mode colors. */
 :root[data-theme='light'] {
@@ -32,6 +35,11 @@ button, input {
 	--sl-color-gray-6: #eaedf6;
 	--sl-color-gray-7: #f5f6fa;
 	--sl-color-black: #ffffff;
+}
+
+:root[data-theme='light'] .expressive-code:not([data-theme='dark']), .expressive-code[data-theme='light'] {
+  --ec-tm-markBg: #8ec77d99 !important;
+  --ec-tm-markBrdCol: #336a28d0 !important;
 }
 
 /* Show the icon on hover */
