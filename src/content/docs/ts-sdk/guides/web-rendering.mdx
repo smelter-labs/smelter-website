@@ -1,7 +1,9 @@
 ---
 title: Web rendering
 ---
-import { Aside, Code, Steps } from '@astrojs/starlight/components';
+import { Aside, Badge, Code, Steps } from '@astrojs/starlight/components';
+
+<Badge text="Node.js" variant="tip" size="large" />
 
 Web rendering is an experimental feature that lets you render websites. Furthermore, apart from the standard output stream, you can also place other components on the website; we refer to this process as embedding.
 
@@ -28,7 +30,7 @@ There are 3 embedding methods available:
 
 1. Register `WebRenderer` instance. Otherwise, it will not be possible to include a fully functioning `WebView` in the output scene.
     
-    <Code code={`
+    ```tsx
     await smelterr.registerWebRenderer("example_website", {
       url: "https://example.com",
       resolution: {
@@ -37,13 +39,13 @@ There are 3 embedding methods available:
       },
       embeddingMethod: "native_embedding_over_content"
     })
-    `} lang='tsx' />
+    ```
 
 2. Create an output scene with a `WebView` component.
 
     The `WebView` component needs to use an `instanceId` that has already been registered.
 
-    <Code code={`
+    ```tsx
     import Smelter from "@swmansion/smelter-node"
 
     function App() {
@@ -51,13 +53,13 @@ There are 3 embedding methods available:
         <WebView instanceId="example_website"></WebView>
       )
     }
-    `} lang='tsx' />
+    ```
     
     <Aside type='caution'>Only one `WebView` component can use a specific web renderer instance at a time.</Aside>
 
 3. Embed a registered InputStream into the website.
 
-    ```tsx ins={4}
+    ```tsx {4}
     function App() {
       return (
         <WebView instanceId="example_website">
@@ -68,12 +70,6 @@ There are 3 embedding methods available:
     ```
 </Steps>
 
-The above steps should result in a website structure presented below:
-
-  <Code code={`
-  <html>
-    <body>
-      <canvas id="my_video"></canvas>
-    </body>
-  </html>
-  `} lang='tsx' />
+The above steps should result in an output video that renders site `https://example.com`.
+If the page includes tag with ID `my_video` then the content of input stream `input_1` will
+be rendered on top.

@@ -7,10 +7,10 @@ Smelter can be deployed in various ways, depending on your platform, used featur
 
 ### Standalone server 
 
-Standalone server can be deployed in various ways:
-- [Docker images from `ghcr.io/software-mansion/smelter`](/deployment/variants/docker/#image-registry)
+Standalone server can be deployed by:
+- [Using docker images from `ghcr.io/software-mansion/smelter`](/deployment/variants/docker/#image-registry)
 - [Building your own docker images](/deployment/variants/docker/#build-your-own-image)
-- [GitHub release binaries](/deployment/variants/binaries/#github-releases)
+- [Using binaries from GitHub release](/deployment/variants/binaries/#github-releases)
 - [Building from source](/deployment/variants/binaries/#building-from-source)
 
 Each of SDKs listed below implements a way to automatically provision a Smelter server. However, standalone guides
@@ -21,7 +21,7 @@ you might want to build binaries or deploy the server yourself, and just use SDK
 
 When using TypeScript SDK, the Node.js process will execute only the React code, but actual
 rendering and media processing will happen in a separate process. By default, SDK downloads
-compositor binaries and starts new Smelter servers on its own. However, you can also connect
+compositor binaries and starts a new Smelter servers on its own. However, you can also connect
 to an existing instance that you start yourself.
 
 First, you need to decide:
@@ -44,9 +44,16 @@ When running Smelter in browser everything is purely client-side, so there is no
 to deploy anything, but there are some additional steps you need to take to configure
 your project.
 
-{/*
 ### Membrane Framework plugin
 
-TODO: add membrane docs
+To use Smelter in a Membrane pipeline you can use [`membrane_live_compositor_plugin`](https://hexdocs.pm/membrane_live_compositor_plugin/readme.html)
+that wraps our server. For instructions how to deploy Membrane based applications check out [their documentation](https://membrane.stream/learn).
 
-*/}
+The plugin serves as a bridge between Membrane and the Smelter server, which must still be deployed. By default, the plugin will
+download the necessary binaries and launch the server locally, but you must ensure that all software and hardware requirements are met.
+
+Refer to standalone guides for more information:
+- [Binaries](/deployment/variants/binaries)
+- [Docker](/deployment/variants/docker)
+
+
