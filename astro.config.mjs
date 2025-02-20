@@ -45,11 +45,32 @@ export default defineConfig({
         replacesTitle: true,
       },
       head: [
-        {tag: 'meta', attrs: {property: 'og:image', content:'https://smelter.dev/og-image.png' }},
-        {tag: 'meta', attrs: {property: 'og:image:alt', content:'Toolkit for real-time, programmable video and audio mixing.' }},
-        {tag: 'meta', attrs: {property: 'twitter:title', content:'Smelter – Live stream mixing simplified' }},
-        {tag: 'meta', attrs: {property: 'twitter:description', content:'Toolkit for real-time, programmable video and audio mixing.' }},
-        {tag: 'meta', attrs: {property: 'twitter:image”', content:'https://smelter.dev/og-image.png' }},
+        {
+          tag: "meta",
+          attrs: { property: "og:image", content: "https://smelter.dev/og-image.png" },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:alt",
+            content: "Toolkit for real-time, programmable video and audio mixing.",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: { property: "twitter:title", content: "Smelter – Live stream mixing simplified" },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "twitter:description",
+            content: "Toolkit for real-time, programmable video and audio mixing.",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: { property: "twitter:image”", content: "https://smelter.dev/og-image.png" },
+        },
       ],
       sidebar: [
         {
