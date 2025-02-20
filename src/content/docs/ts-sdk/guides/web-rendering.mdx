@@ -1,7 +1,7 @@
 ---
 title: Web rendering
 ---
-import { Aside, Badge, Code, Steps } from '@astrojs/starlight/components';
+import { Aside, Badge, Steps } from '@astrojs/starlight/components';
 
 <Badge text="Node.js" variant="tip" size="large" />
 
@@ -31,7 +31,7 @@ There are 3 embedding methods available:
 1. Register `WebRenderer` instance. Otherwise, it will not be possible to include a fully functioning `WebView` in the output scene.
     
     ```tsx
-    await smelterr.registerWebRenderer("example_website", {
+    await smelter.registerWebRenderer("example_website", {
       url: "https://example.com",
       resolution: {
         width: 1920,
