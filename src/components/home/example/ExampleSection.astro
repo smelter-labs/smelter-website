@@ -1,0 +1,25 @@
+---
+import { Image } from "astro:assets";
+
+import usageBlur from "../../../assets/usage/usage-blur.svg";
+---
+
+<section class="relative mb-28 flex flex-col items-center min-h-screen text-center 2xl:mb-0">
+    <div class="mt-12 flex flex-1 flex-row py-16 gap-16 sm:mt-20 text-start w-full">
+        <div class="gradient-light-1 h-[500px] flex flex-1.5 rounded-r-4xl p-px pl-0">
+          <div class="h-[500px] w-full rounded-r-[calc(2rem-1px)] bg-explanation-background">
+            <div class="relative z-0 flex h-full flex-col p-6 pt-12 text-center">
+
+            </div>
+          </div>
+        </div>
+        <!-- <div class="flex flex-1.5 rounded-r-4xl border border-l-0 border-solid eborder-example-border"></div> -->
+        <div class="flex flex-1 h-[500px] rounded-l-4xl border border-r-0 border-solid border-example-border overflow-hidden">
+            <div class="w-full h-[500px] self-center rounded-2xl overflow-hidden">
+                <video autoplay loop muted class="w-full h-full">
+                    <source src="output2.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+</section>
