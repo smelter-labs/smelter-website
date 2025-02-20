@@ -3,7 +3,7 @@ import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
-    <View style={{ backgroundColor: "rgb(255,255,255)" }}>
+    <View style={{ backgroundColor: "#52505b" }}>
       <Image source="https://example.com/image.svg" />
     </View>
   );
