@@ -3,6 +3,7 @@ title: InputStream
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import { Aside } from '@astrojs/starlight/components';
+import ExampleImage from '../../../../assets/guides/component-input-stream-example.mp4';
 
 A component for displaying registered media inputs.
 
@@ -47,6 +48,10 @@ Content-Type: application/json
   }
 }
 ```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Output'>
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
 ## Reference

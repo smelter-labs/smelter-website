@@ -3,6 +3,7 @@ title: Rescaler
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import { Aside } from '@astrojs/starlight/components';
+import ExampleImage from '../../../../assets/guides/component-rescaler-example.webp';
 
 `Rescaler` is a layout component responsible for rescaling other components.
 
@@ -30,16 +31,33 @@ Content-Type: application/json
 {
   "video": {
     "root": {
-      "type": "rescaler",
-      "mode": "fill",
-      "child": {
-        "type": "image", 
-        "image_id": "example_image"
-      }
+      "type": "view",
+      "background_color": "#52505b",
+      "children": [
+        {
+          "type": "rescaler",
+          "child": {
+            "type": "image", 
+            "image_id": "example_image"
+          }
+        },
+        {
+          "type": "rescaler",
+          "mode": "fill",
+          "child": {
+            "type": "image", 
+            "image_id": "example_image"
+          }
+        }
+      ]
     }
   }
 }
 ```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Output'>
+  <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
 ## Positioning

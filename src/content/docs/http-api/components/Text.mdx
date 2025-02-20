@@ -2,6 +2,7 @@
 title: Text
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-text-example.webp';
 
 A component for rendering text.
 
@@ -18,19 +19,39 @@ Content-Type: application/json
   "video": {
     "root": {
       "type": "view",
+      "background_color": "#52505b",
+      "padding": 100,
+      "direction": "column",
       "children": [
         {
           "type": "text",
-          "text": "Test text",
-          "font_size": 64,
+          "font_size": 72,
           "color": "#a5baf0",
-          "weight": "bold"
+          "weight": "bold",
+          "text": "Example text"
+        },
+        {
+          "type": "view",
+          "height": 30
+        },
+        {
+          "type": "text",
+          "font_size": 30,
+          "line_height": 44,
+          "color": "#a5baf0",
+          "wrap": "word",
+          "width": 1000,
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat lorem a quam bibendum, non gravida tortor ornare. Cras blandit facilisis erat. Integer porta ullamcorper mauris ac maximus. Donec sapien diam, porttitor nec interdum sit amet, eleifend at lectus."
         }
       ]
     }
   }
 }
 ```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Output'>
+  <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
 ## Reference
