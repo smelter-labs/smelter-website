@@ -4,14 +4,21 @@ title: Rescaler
 import { Code } from '@astrojs/starlight/components';
 import rescalerExample from './examples/Rescaler.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-rescaler-example.webp';
 
-A layout component responsible for rescaling other components. **compatible components**
+A layout component responsible for rescaling other components.
+
+## Example
+
+<Code code={rescalerExample} title='RescalerExample.tsx' lang='tsx' collapse={["22-39"]} />
+
+<CollapsibleDetails summaryTitle='Output'>
+  <img src={ExampleImage.src} />
+</CollapsibleDetails>
 
 ## Reference
 
-<Code code={rescalerExample} title='RescalerExample.tsx' lang='tsx' collapse={["17-34"]} />
-
-<CollapsibleDetails summaryTitle='Type definitions'>
+<CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type RescalerProps = {
     id?: string;

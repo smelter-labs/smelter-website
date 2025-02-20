@@ -2,9 +2,9 @@
 title: Transitions
 ---
 import { Steps } from '@astrojs/starlight/components';
-import WidthTransitionImage from '../../../../assets/guides/transitions-width.webp'
-import SiblingTransitionImage from '../../../../assets/guides/transitions-sibling-width.webp'
-import InterpolationFunctionsTransitionImage from '../../../../assets/guides/transitions-interpolation-functions.webp'
+import WidthTransitionImage from '../../../../assets/guides/transition-width.mp4'
+import SiblingTransitionImage from '../../../../assets/guides/transition-sibling-width.mp4'
+import InterpolationFunctionsTransitionImage from '../../../../assets/guides/transition-interpolation-functions.mp4'
 
 In this guide, you will learn how to implement basic animated transitions to the [`View`](/ts-sdk/components/view) and [`Rescaler`](/ts-sdk/components/rescaler) components.
 
@@ -31,7 +31,7 @@ function App() {
 }
 ```
 
-<img src={WidthTransitionImage.src} alt="Rescaler transition result" />
+<video autoplay loop muted src={WidthTransitionImage} alt="Rescaler transition result" />
 
 ### Sibling component transitions
 If there are two sibling `Rescaler` components and only one of them has a width transition applied, the layout of the other will be adjusted automatically.
@@ -58,7 +58,7 @@ function App() {
 }
 ```
 
-<img src={SiblingTransitionImage.src} alt="Rescaler transition result" />
+<video autoplay loop muted src={SiblingTransitionImage} alt="Rescaler transition result" />
 
 ### Customizing interpolation functions
 All the examples above utilize the default `linear` interpolation; however, you can also choose from other available modes.
@@ -111,4 +111,4 @@ function App() {
 }
 ```
 
-<img src={InterpolationFunctionsTransitionImage.src} alt="Rescaler transition result" />
+<video autoplay loop muted src={InterpolationFunctionsTransitionImage} alt="Rescaler transition result" />
