@@ -5,7 +5,7 @@ sidebar:
 ---
 import { Steps, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import QuickStartImage from '../../../../assets/guides/quick-start.webp';
+import QuickStartImage from '../../../../assets/guides/quick-start.mp4';
 
 In this guide, you'll learn how to create a basic Smelter setup in Node.js using TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
 
@@ -223,7 +223,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     something more complex. We are defining here new React component called `App`, and using it as
     an output.
 
-    ```tsx ins={4-6, 22} collapse={10-20} collapse={24-33}
+    ```tsx {4-6, 22} collapse={10-20} collapse={24-33}
     import { Tiles, InputStream } from "@swmansion/smelter"
     import Smelter from "@swmansion/smelter-node"
 
@@ -318,5 +318,5 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     Resulting output stream will show both inputs side-by-side as shown below. Audio from both
     streams is mixed together, but `input_1` audio has slightly lowered volume.
 
-    <img src={QuickStartImage.src} alt="Quick start result" />
+    <video autoplay loop muted src={QuickStartImage} alt="Quick start result" />
 </Steps>
