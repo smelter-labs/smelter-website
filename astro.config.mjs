@@ -44,11 +44,17 @@ export default defineConfig({
         alt: "Smelter logo",
         replacesTitle: true,
       },
+      head: [
+        {tag: 'meta', attrs: {property: 'og:image', content:'https://smelter.dev/og-image.png' }},
+        {tag: 'meta', attrs: {property: 'og:image:alt', content:'Toolkit for real-time, programmable video and audio mixing.' }},
+        {tag: 'meta', attrs: {property: 'twitter:title', content:'Smelter – Live stream mixing simplified' }},
+        {tag: 'meta', attrs: {property: 'twitter:description', content:'Toolkit for real-time, programmable video and audio mixing.' }},
+        {tag: 'meta', attrs: {property: 'twitter:image”', content:'https://smelter.dev/og-image.png' }},
+      ],
       sidebar: [
         {
           label: "Fundamentals",
           items: [
-            // Each item here is one entry in the navigation menu.
             { label: "Getting started", slug: "fundamentals/getting-started" },
             //{ label: "How it works", slug: "fundamentals/how-it-works" },
             { label: "Glossary of terms", slug: "fundamentals/glossary" },
@@ -162,7 +168,6 @@ export default defineConfig({
       [
         rehypeAutolinkHeadings,
         {
-          // Wrap the heading text in a link.
           behavior: "wrap",
         },
       ],
