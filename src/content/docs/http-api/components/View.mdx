@@ -1,10 +1,43 @@
 ---
 title: View
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-view-example.webp';
 
 The `View` component serves as the core layout mechanism in the Smelter, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
+
+## Example
+
+<CollapsibleDetails summaryTitle='Update request' open>
+```http 
+POST: /api/output/example_output/update
+Content-Type: application/json
+
+{
+  "video": {
+    "root": {
+      "type": "view",
+      "children": [
+        {
+          "type": "view",
+          "direction": "column",
+          "children": [
+            { "type": "view", "background_color": "red", "height": 200 },
+            { "type": "view", "background_color": "blue" }
+          ]
+        },
+        { "type": "view", "background_color": "green" }
+      ]
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Output'>
+  <img src={ExampleImage.src} />
+</CollapsibleDetails>
 
 ## Positioning
 
@@ -37,39 +70,38 @@ On the scene update, a `View` component will animate between the original state 
 - `width` / `height` - Only supported within the same positioning mode. If the positioning mode changes between the old scene and the new one, the transition will not work.
 - `bottom` / `top` / `left` / `right` / `rotation` - Only supports transition when changing a value of the same field. If the old scene defines a `left` field and the new one does not, the transition will not work.
 
+
 ## Reference
-{/*TODO example*/}
 
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type View = {
-    id?: string;
-    children?: Component[];
-    width?: f32;
-    height?: f32;
-    direction?: "row" | "column";
-    top?: f32;
-    left?: f32;
-    bottom?: f32;
-    right?: f32;
-    rotation?: f32;
-    transition?: Transition;
-    overflow?: "visible" | "hidden" | "fit";
-    background_color?: string;
-    border_radius?: f32;
-    border_width?: f32;
-    border_color?: string;
-    box_shadow?: BoxShadow[];
-    padding?: f32;
-    padding_vertical?: f32;
-    padding_horizontal?: f32;
-    padding_top?: f32;
-    padding_right?: f32;
-    padding_bottom?: f32;
-    padding_left?: f32;
+  id?: string;
+  children?: Component[];
+  width?: f32;
+  height?: f32;
+  direction?: "row" | "column";
+  top?: f32;
+  left?: f32;
+  bottom?: f32;
+  right?: f32;
+  rotation?: f32;
+  transition?: Transition;
+  overflow?: "visible" | "hidden" | "fit";
+  background_color?: string;
+  border_radius?: f32;
+  border_width?: f32;
+  border_color?: string;
+  box_shadow?: BoxShadow[];
+  padding?: f32;
+  padding_vertical?: f32;
+  padding_horizontal?: f32;
+  padding_top?: f32;
+  padding_right?: f32;
+  padding_bottom?: f32;
+  padding_left?: f32;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties

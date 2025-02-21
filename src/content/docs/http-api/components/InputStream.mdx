@@ -2,25 +2,65 @@
 title: InputStream
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import ExampleImage from '../../../../assets/guides/component-input-stream-example.mp4';
 
 A component for displaying registered media inputs.
 
-:::note
-To use this component, you need to first register the stream with matching `input_id` using [`register input`](/http-api/routes#register-input) request.
-:::
+<Aside> To use this component, you need to first register the stream with matching `input_id` using [`register input`](/http-api/routes#register-input) request. </Aside>
+
+## Example
+
+Register an input from MP4 file with an id `example_input`:
+
+<CollapsibleDetails summaryTitle='Register input request' open>
+
+```http
+POST: /api/input/example_input/register
+Content-Type: application/json
+
+{
+  "type": "mp4",
+  "path": "https://example.com/video.mp4"
+}
+```
+</CollapsibleDetails>
+
+Update output with a new scene that is using input `example_input`:
+
+<CollapsibleDetails summaryTitle='Update request' open>
+
+```http
+POST: /api/output/example_output/update
+Content-Type: application/json
+
+{
+  "video": {
+    "root": {
+      "type": "rescaler",
+      "child": {
+        "type": "input_stream",
+        "input_id": "example_input"
+      }
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Output'>
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
+</CollapsibleDetails>
 
 ## Reference
 
-{/*TODO example*/}
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
-  type InputStream = {
-    id?: string;
-    input_id: string;
-  }
-`} lang='tsx' />
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type InputStream = {
+  id?: string;
+  input_id: string;
+}
+```
 </CollapsibleDetails>
 
 ## Properties

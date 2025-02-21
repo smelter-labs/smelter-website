@@ -1,10 +1,43 @@
 ---
 title: Tiles
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-tiles-example.mp4';
 
 Tiles is a layout component that arranges all child components side by side, optimizing the use of available space. It divides its area into multiple rectangles or tiles, assigning one to each child component. Each of these rectangles is of equal size and they do not overlap.
+
+## Example
+
+<CollapsibleDetails summaryTitle='Update request' open>
+
+```http 
+POST: /api/output/example_output/update
+Content-Type: application/json
+
+{
+  "video": {
+    "root": {
+      "type": "tiles",
+      "id": "example_tiles",
+      "transition": { "duration_ms": 200 },
+      "children": [
+        { "type": "input_stream", "input_id": "input_1" },
+        { "type": "input_stream", "input_id": "input_2" },
+        { "type": "input_stream", "input_id": "input_3" },
+        { "type": "input_stream", "input_id": "input_4" },
+        { "type": "input_stream", "input_id": "input_5" }
+      ]
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Output'>
+  This output can be achieved by sending above request multiple times with different number of input streams.
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
+</CollapsibleDetails>
 
 ## Positioning
 
@@ -59,24 +92,23 @@ Adding/removing/changing the order of components can only be properly defined if
   - There are two components without any `"id"` in the old scene. After an update, they switched places (still without any `"id"`). In that case, there would be no transition. Identification is based on the child components order, so from the `Tiles` component perspective only the content of those children has changed.
 
 ## Reference
-{/*TODO example*/}
 
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type Tiles = {
-    id?: string;
-    children?: Component[];
-    width?: f32;
-    height?: f32;
-    background_color?: string;
-    tile_aspect_ratio?: string;
-    margin?: f32;
-    padding?: f32;
-    horizontal_align?: "left" | "right" | "justified" | "center";
-    vertical_align?: "top" | "center" | "bottom" | "justified";
-    transition?: Transition;
+  id?: string;
+  children?: Component[];
+  width?: f32;
+  height?: f32;
+  background_color?: string;
+  tile_aspect_ratio?: string;
+  margin?: f32;
+  padding?: f32;
+  horizontal_align?: "left" | "right" | "justified" | "center";
+  vertical_align?: "top" | "center" | "bottom" | "justified";
+  transition?: Transition;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties
