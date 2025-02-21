@@ -52,20 +52,39 @@ async function run() {
     serverPath: "./inputExample1.mp4",
   });
 
-  await new Promise<void>((res) => {
-    setTimeout(() => res(), 5000);
-  });
   await smelter.registerInput("input_2", {
     type: "mp4",
     serverPath: "./inputExample2.mp4",
   });
 
   await new Promise<void>((res) => {
-    setTimeout(() => res(), 5000);
+    setTimeout(() => res(), 3000);
   });
   await smelter.registerInput("input_3", {
     type: "mp4",
     serverPath: "./inputExample3.mp4",
   });
+
+  await new Promise<void>((res) => {
+    setTimeout(() => res(), 3000);
+  });
+  await smelter.registerInput("input_4", {
+    type: "mp4",
+    serverPath: "./inputExample4.mp4",
+  });
+  await smelter.registerInput("input_5", {
+    type: "mp4",
+    serverPath: "./inputExample5.mp4",
+  });
+
+  await new Promise<void>((res) => {
+    setTimeout(() => res(), 3000);
+  });
+  await smelter.unregisterInput("input_2");
+
+  await new Promise<void>((res) => {
+    setTimeout(() => res(), 3000);
+  });
+  await smelter.unregisterInput("input_3");
 }
 void run();

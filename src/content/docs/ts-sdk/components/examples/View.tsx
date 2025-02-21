@@ -4,7 +4,7 @@ import Smelter from "@swmansion/smelter-node";
 function ExampleApp() {
   return (
     <View>
-      <View style={{ direction: "column", backgroundColor: "#FFFFFF" }}>
+      <View style={{ direction: "column" }}>
         <View style={{ backgroundColor: "red", height: 200 }} />
         <View style={{ backgroundColor: "blue" }} />
       </View>

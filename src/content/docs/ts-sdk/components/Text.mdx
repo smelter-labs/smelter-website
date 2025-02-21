@@ -4,14 +4,21 @@ title: Text
 import { Code } from '@astrojs/starlight/components';
 import textExample from './examples/Text.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-text-example.webp';
 
 A component for rendering text.
 
+## Example
+
+<Code code={textExample} title='TextExample.tsx' lang='tsx' collapse={["39-50"]} />
+
+<CollapsibleDetails summaryTitle='Output'>
+  <img src={ExampleImage.src} />
+</CollapsibleDetails>
+
 ## Reference
 
-<Code code={textExample} title='TextExample.tsx' lang='tsx' collapse={["19-30"]} />
-
-<CollapsibleDetails summaryTitle='Type definitions'>
+<CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type TextProps = {
     id?: string;

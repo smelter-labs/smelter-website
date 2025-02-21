@@ -1,7 +1,3 @@
-import { Mp4, Shader } from "@swmansion/smelter";
-import Smelter from "@swmansion/smelter-node";
-
-const EXAMPLE_SHADER = `
 struct VertexInput {
     @location(0) position: vec3<f32>,
     @location(1) tex_coords: vec2<f32>,
@@ -54,47 +50,3 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4<f32> {
 
   return textureSample(textures[0], sampler_, coords);
 }
-`;
-
-function ExampleApp() {
-  return (
-    <Shader
-      shaderId="example_shader"
-      resolution={{ width: 1280, height: 720 }}>
-      <Mp4 source="https://example.com/video.mp4" />
-    </Shader>
-  );
-}
-
-async function run() {
-  const smelter = new Smelter();
-  await smelter.init();
-
-  await smelter.registerShader("example_shader", {
-    source: EXAMPLE_SHADER,
-  });
-
-  await smelter.registerOutput("output", <ExampleApp />, {
-    type: "mp4",
-    serverPath: "./output.mp4",
-    video: {
-      encoder: {
-        type: "ffmpeg_h264",
-        preset: "ultrafast",
-      },
-      resolution: {
-        width: 1920,
-        height: 1080,
-      },
-    },
-    audio: {
-      encoder: {
-        type: "aac",
-        channels: "stereo",
-      },
-    },
-  });
-
-  await smelter.start();
-}
-void run();

@@ -1,7 +1,7 @@
 ---
 title: WebView
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
+import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 <Badge text="Required feature:web_renderer" variant="note" size="large" />
@@ -15,21 +15,58 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 <Aside type='caution'>Only one component can use specific `instance_id` at the time.</Aside>
 
-## Reference
+## Example
 
-{/*TODO example*/}
+To begin displaying a webpage using the WebView component, you need to register  web renderer first.
 
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
-type WebView = {
-    id?: string;
-    children?: Component[];
-    instance_id: string;
+<CollapsibleDetails summaryTitle='Register web renderer' open>
+```http
+POST: /api/web-renderer/example_web_renderer/register
+Content-Type: application/json
+
+{
+  "url": "https://smelter.dev",
+  "resolution": { "width": 1920, "height": 1080 },
+  "embedding_method": "chromium_embedding"
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-WebView component renders a website using Chromium.
+After registering the web renderer, you can use WebView component in output stream.
+
+<CollapsibleDetails summaryTitle='Update output' open>
+```http
+POST: /api/output/example_output/update
+Content-Type: application/json
+
+{
+  "video": {
+    "root": {
+      "type": "view",
+      "children": [
+        {
+          "type": "web_view",
+          "instance_id": "example_web_renderer"
+        }
+      ]
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type WebView = {
+  id?: string;
+  children?: Component[];
+  instance_id: string;
+}
+```
+</CollapsibleDetails>
+
 ## Properties
 
 ### id
