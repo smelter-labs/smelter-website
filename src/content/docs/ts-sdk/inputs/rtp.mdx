@@ -11,7 +11,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-An input type that allows streaming video and audio to the Smelter server over RTP. It supports both 
+An input type that allows streaming video and audio to the Smelter server over RTP. It supports both
 streaming over UDP and TCP (smelter works as a TCP server).
 
 <Code title='rtpInputExample.tsx' code={`
@@ -106,7 +106,7 @@ Parameters of a video source included in the RTP stream.
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type InputRtpVideoOptions = {
-    decoder: "ffmpeg_h264";
+    decoder: "ffmpeg_h264" | "vulkan_video";
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -114,9 +114,20 @@ type InputRtpVideoOptions = {
 ### Properties
 
 #### decoder
+
 Video decoder.
 
-- **Type**: `"ffmpeg_h264"`
+- **Type**: `"ffmpeg_h264" | "vulkan_video"`
+- **Supported values**:
+  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
+  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
+
+    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
+    support it.
+
+    This requires hardware that supports Vulkan Video. Another requirement is this program has
+    to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
+    support Vulkan, i.e. non-Apple operating systems and not the web).
 
 ## Inputs.InputRtpAudioOptions
 <Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
@@ -125,7 +136,7 @@ Parameters of a audio source included in the RTP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type InputRtpAudioOptions = 
+type InputRtpAudioOptions =
   | {
       decoder: "opus";
       forwardErrorCorrection?: bool;

@@ -46,7 +46,8 @@ type RegisterMp4Input = {
     serverPath?: string;
     loop?: bool;
     required?: bool;
-    offsetMs?: f64;
+    offsetMs?: number;
+    videoDecoder: "ffmpeg_h264" | "vulkan_video";
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -64,7 +65,7 @@ URL of the MP4 file.
 Path to the MP4 file, specifying its location on the server where the Smelter is deployed.
 
 - **Type**: `string`
-- **Option availability**: <Badge text="Node.js" variant="tip" /> 
+- **Option availability**: <Badge text="Node.js" variant="tip" />
 
 ---
 
@@ -73,7 +74,7 @@ Specifies whether the input should be played in a loop.
 
 - **Type**: `boolean`
 - **Default value**: `false`
-- **Option availability**: <Badge text="Node.js" variant="tip" /> 
+- **Option availability**: <Badge text="Node.js" variant="tip" />
 
 ---
 
@@ -82,7 +83,7 @@ Determines if the input stream is essential for output frame production. If set 
 
 - **Type**: `boolean`
 - **Default value**: `false`
-- **Option availability**: <Badge text="Node.js" variant="tip" /> 
+- **Option availability**: <Badge text="Node.js" variant="tip" />
 
 ---
 
@@ -90,4 +91,22 @@ Determines if the input stream is essential for output frame production. If set 
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `number`
-- **Option availability**: <Badge text="Node.js" variant="tip" /> 
+- **Option availability**: <Badge text="Node.js" variant="tip" />
+
+### videoDecoder
+The decoder to use for decoding video.
+
+- **Type**: `"ffmpeg_h264" | "vulkan_video"`
+- **Option availability**: <Badge text="Node.js" variant="tip" />
+- **Default value**: `ffmpeg_h264`
+- **Supported values**:
+  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
+  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
+
+    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
+    support it.
+
+    This requires hardware that supports Vulkan Video. Another requirement is this program has
+    to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
+    support Vulkan, i.e. non-Apple operating systems and not the web).
+

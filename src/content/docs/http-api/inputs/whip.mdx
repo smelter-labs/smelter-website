@@ -1,7 +1,7 @@
 ---
 title: WHIP
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An input type that allows streaming video and audio to the Smelter over WHIP.
@@ -91,7 +91,7 @@ type InputWhipVideoOptions = {
 - **Type**: `"ffmpeg_h264" | "vulkan_video"`
 - **Supported values**:
   - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
-  - `"vulkan_video"` - Use hardware decoder based on Vulkan Video.
+  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
     
     This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
     support it.
