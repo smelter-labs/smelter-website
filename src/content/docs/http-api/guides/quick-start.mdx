@@ -26,21 +26,13 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "ip": "127.0.0.1", 
       "video": {
         "resolution": { "width": 1280, "height": 720 },
-        "encoder": {
-          "type": "ffmpeg_h264"
-        },
+        "encoder": { "type": "ffmpeg_h264" },
         "initial": {
-          "root": {
-            "type": "view",
-            "background_color": "#4d4d4d"
-          }
+          "root": { "type": "view" }
         }
       },
       "audio": {
-        "encoder": {
-          "type": "opus",
-          "channels": "stereo"
-        },
+        "encoder": { "type": "opus", "channels": "stereo" },
         "initial": {
           "inputs": []
         }
@@ -48,8 +40,15 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
     }
     ```
 
-    This step creates an output that renders just an empty View component with a background color set to `#4d4d4d` (gray) and produces silent audio. Resulting
-    blank image with silent sound is encoded and sent over UDP to local port 9004 via RTP protocol.
+    ```http
+    POST: /api/start
+    Content-Type: application/json
+
+    {}
+    ```
+
+    This step creates an output that renders just an empty `View` component. Resulting
+    blank image is encoded and sent over UDP to local port 9004 via RTP protocol.
 
     Sending [start request](/http-api/routes#start-request) will cause all registered outputs to start producing frames. All user-facing
     timestamp or offset are relative to this start call.
@@ -103,21 +102,13 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "bearer_token": "<YOUR STREAM TOKEN>",
       "video": {
         "resolution": { "width": 1280, "height": 720 },
-        "encoder": {
-          "type": "ffmpeg_h264"
-        },
+        "encoder": { "type": "ffmpeg_h264" },
         "initial": {
-          "root": {
-            "type": "view",
-            "background_color": "#4d4d4d"
-          }
+          "root": { "type": "view" }
         }
       },
       "audio": {
-        "encoder": {
-          "type": "opus",
-          "channels": "stereo"
-        },
+        "encoder": { "type": "opus", "channels": "stereo" },
         "initial": {
           "inputs": []
         }
@@ -138,21 +129,13 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
       "path": "output.mp4",
       "video": {
         "resolution": { "width": 1280, "height": 720 },
-        "encoder": {
-          "type": "ffmpeg_h264"
-        },
+        "encoder": { "type": "ffmpeg_h264" },
         "initial": {
-          "root": {
-            "type": "view",
-            "background_color": "#4d4d4d"
-          }
+          "root": { "type": "view" }
         }
       },
       "audio": {
-        "encoder": {
-          "type": "aac",
-          "channels": "stereo"
-        },
+        "encoder": { "type": "aac", "channels": "stereo" },
         "initial": {
           "inputs": []
         }
@@ -195,9 +178,10 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
     }
     ```
 
-    Input streams are registered, but they are not used anywhere in output. So, at this moment, you will see the same output as in the previous step.
+    Those 2 request will register input streams `input_1` and `input2`. However, new streams are not used anywhere
+    in the scene definition yet, so it will not change the image produced on an output stream from the previous step.
 
-4. Render one of the registered input streams on the output.
+4. Update output to show one of the input streams.
 
     ```http
     POST: /api/output/output_1/update
@@ -221,7 +205,8 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
     Resulting output stream will show `input_1` input stream and play the audio from that source
     with slightly lowered volume. (If input has a different resolution it won't be automatically rescaled).
 
-5. Modify the components to display both inputs.
+5. Update output to show both of the input streams. 
+
     [`Tiles`](/http-api/components/tiles) component is a simple way to display element in
     a layout that uses available space efficiently (similar to stream layout in most video call apps).
 
