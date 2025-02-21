@@ -174,6 +174,11 @@ export default defineConfig({
               collapsed: true,
               autogenerate: { directory: "http-api/resources" },
             },
+            {
+              label: "Guides",
+              collapsed: true,
+              autogenerate: { directory: "http-api/guides" },
+            },
           ],
         },
       ],
