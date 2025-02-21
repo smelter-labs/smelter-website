@@ -9,21 +9,8 @@ import ExampleImage from '../../../../assets/guides/component-rescaler-example.w
 
 ## Example
 
-Below is an example of how Rescaler can be used to wrap a Image component.
+<CollapsibleDetails summaryTitle='Update request' open>
 
-<CollapsibleDetails summaryTitle='Register image' open>
-```http
-POST: /api/image/example_image/register
-Content-Type: application/json
-
-{
-  "asset_type": "png",
-  "url": "https://example.com/image.png"
-}
-```
-</CollapsibleDetails>
-
-<CollapsibleDetails summaryTitle='Update output' open>
 ```http
 POST: /api/output/example_output/update
 Content-Type: application/json
@@ -36,18 +23,12 @@ Content-Type: application/json
       "children": [
         {
           "type": "rescaler",
-          "child": {
-            "type": "image", 
-            "image_id": "example_image"
-          }
+          "child": { "type": "image", "image_id": "example_image" }
         },
         {
           "type": "rescaler",
           "mode": "fill",
-          "child": {
-            "type": "image", 
-            "image_id": "example_image"
-          }
+          "child": { "type": "image", "image_id": "example_image" }
         }
       ]
     }

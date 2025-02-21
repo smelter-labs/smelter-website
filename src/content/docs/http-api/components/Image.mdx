@@ -14,9 +14,10 @@ A component for rendering images:
 
 ## Example
 
-Before using an Image in a stream, it must first be registered via an HTTP request. Use the following request to register a PNG image:
+Register an image with an id `example_image`:
 
-<CollapsibleDetails summaryTitle='Register PNG image' open>
+<CollapsibleDetails summaryTitle='Register image request' open>
+
 ```http
 POST: /api/image/example_image/register
 Content-Type: application/json
@@ -26,11 +27,13 @@ Content-Type: application/json
   "url": "https://example.com/image.svg"
 }
 ```
+
 </CollapsibleDetails>
 
-Once this request is successfully processed, the Image will be available for use in the output stream. You can reference a specific Image by its unique `image_id` (in this example `example_image`)
+Update output with a new scene that is using image `example_image`:
 
-<CollapsibleDetails summaryTitle='Update output' open>
+<CollapsibleDetails summaryTitle='Update request' open>
+
 ```http
 POST: /api/output/example_output/update
 Content-Type: application/json

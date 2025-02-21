@@ -11,9 +11,10 @@ A component for displaying registered media inputs.
 
 ## Example
 
-To begin, you need to register an input stream. The example below shows how to register an mp4 input stream.
+Register an input from MP4 file with an id `example_input`:
 
-<CollapsibleDetails summaryTitle='Register mp4 input' open>
+<CollapsibleDetails summaryTitle='Register input request' open>
+
 ```http
 POST: /api/input/example_input/register
 Content-Type: application/json
@@ -25,9 +26,10 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-Now when the input stream is registered, we can use it as a source for an output stream.
+Update output with a new scene that is using input `example_input`:
 
-<CollapsibleDetails summaryTitle='Update output' open>
+<CollapsibleDetails summaryTitle='Update request' open>
+
 ```http
 POST: /api/output/example_output/update
 Content-Type: application/json
@@ -41,10 +43,6 @@ Content-Type: application/json
         "input_id": "example_input"
       }
     }
-  },
-  "audio": {
-    "input_id": "example_input",
-    "volume": 0.5
   }
 }
 ```

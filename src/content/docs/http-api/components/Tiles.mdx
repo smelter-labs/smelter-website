@@ -9,9 +9,8 @@ Tiles is a layout component that arranges all child components side by side, opt
 
 ## Example
 
-Below is an example demonstrating how the Tiles component arranges input streams in the output stream. Note that all inputs had been previously registered.
+<CollapsibleDetails summaryTitle='Update request' open>
 
-<CollapsibleDetails summaryTitle='Update output 1' open>
 ```http 
 POST: /api/output/example_output/update
 Content-Type: application/json
@@ -20,25 +19,14 @@ Content-Type: application/json
   "video": {
     "root": {
       "type": "tiles",
-      "id": "tile",
+      "id": "example_tiles",
       "transition": { "duration_ms": 200 },
       "children": [
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_1"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_2"
-          }
-        }
+        { "type": "input_stream", "input_id": "input_1" },
+        { "type": "input_stream", "input_id": "input_2" },
+        { "type": "input_stream", "input_id": "input_3" },
+        { "type": "input_stream", "input_id": "input_4" },
+        { "type": "input_stream", "input_id": "input_5" }
       ]
     }
   }
@@ -46,209 +34,8 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Update output 2'>
-```http
-POST: /api/output/example_output/update
-Content-Type: application/json
-
-{
-  "video": {
-    "root": {
-      "type": "tiles",
-      "id": "tile",
-      "transition": { "duration_ms": 200 },
-      "children": [
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_1"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_2"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_3"
-          }
-        }
-      ]
-    }
-  },
-  "schedule_time_ms": 3000
-}
-```
-</CollapsibleDetails>
-
-<CollapsibleDetails summaryTitle='Update output 3'>
-```http
-POST: /api/output/example_output/update
-Content-Type: application/json
-
-{
-  "video": {
-    "root": {
-      "type": "tiles",
-      "id": "tile",
-      "transition": { "duration_ms": 200 },
-      "children": [
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_1"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_2"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_3"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_4"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_5"
-          }
-        }
-      ]
-    }
-  },
-  "schedule_time_ms": 6000
-}
-```
-</CollapsibleDetails>
-
-
-<CollapsibleDetails summaryTitle='Update output 4'>
-```http
-POST: /api/output/example_output/update
-Content-Type: application/json
-
-{
-  "video": {
-    "root": {
-      "type": "tiles",
-      "id": "tile",
-      "transition": { "duration_ms": 200 },
-      "children": [
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_1"
-          }
-        },
-
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_3"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_4"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_5"
-          }
-        }
-      ]
-    }
-  },
-  "schedule_time_ms": 9000
-}
-```
-</CollapsibleDetails>
-
-<CollapsibleDetails summaryTitle='Update output 5'>
-```http 
-POST: /api/output/example_output/update
-Content-Type: application/json
-
-{
-  "video": {
-    "root": {
-      "type": "tiles",
-      "id": "tile",
-      "transition": { "duration_ms": 200 },
-      "children": [
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_1"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_4"
-          }
-        },
-        {
-          "type": "rescaler",
-          "mode": "fill",
-          "child": {
-            "type": "input_stream",
-            "input_id": "input_5"
-          }
-        }
-      ]
-    }
-  },
-  "schedule_time_ms": 12000
-}
-```
-</CollapsibleDetails>
-
 <CollapsibleDetails summaryTitle='Output'>
+  This output can be achieved by sending above request multiple times with different number of input streams.
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 

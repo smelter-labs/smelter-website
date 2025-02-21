@@ -8,9 +8,8 @@ A component for rendering text.
 
 ## Example
 
-Below is an example of how Text can be used in output stream. In this case, the output will display bold text in top-left corner.
+<CollapsibleDetails summaryTitle='Update request' open>
 
-<CollapsibleDetails summaryTitle='Update output' open>
 ```http 
 POST: /api/output/example_output/update
 Content-Type: application/json
@@ -30,10 +29,7 @@ Content-Type: application/json
           "weight": "bold",
           "text": "Example text"
         },
-        {
-          "type": "view",
-          "height": 30
-        },
+        { "type": "view", "height": 30 },
         {
           "type": "text",
           "font_size": 30,
@@ -41,7 +37,7 @@ Content-Type: application/json
           "color": "#a5baf0",
           "wrap": "word",
           "width": 1000,
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat lorem a quam bibendum, non gravida tortor ornare. Cras blandit facilisis erat. Integer porta ullamcorper mauris ac maximus. Donec sapien diam, porttitor nec interdum sit amet, eleifend at lectus."
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing (...)"
         }
       ]
     }
