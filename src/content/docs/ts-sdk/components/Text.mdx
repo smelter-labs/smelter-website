@@ -8,24 +8,25 @@ import ExampleImage from '../../../../assets/guides/component-text-example.webp'
 
 A component for rendering text.
 
-## Example
+## Usage
 
-<Code code={textExample} title='TextExample.tsx' lang='tsx' collapse={["39-50"]} />
+<Code code={textExample} title='TextExample.tsx' lang='tsx' collapse={["34-55"]} />
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type TextProps = {
-    id?: string;
-    children?: (string | number)[] | string | number;
-    style?: TextStyleProps;
+  id?: string;
+  children?: (string | number)[] | string | number;
+  style?: TextStyleProps;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

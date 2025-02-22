@@ -4,28 +4,27 @@ title: Image
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-Represents an image asset uploaded to the smelter. Used by an [Image component](/ts-sdk/components/image).
+Represents an image asset. It can be used via an [Image component](/ts-sdk/components/image).
 
-<Code code={`import { Renderers } from "@swmansion/smelter"`} lang='tsx' />
-
-## Renderers.RegisterImage
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterImage =
-    | { assetType: "png"; url?: string; serverPath?: string; }
-    | { assetType: "jpeg"; url?: string; serverPath?: string; }
-    | { assetType: "gif"; url?: string; serverPath?: string; }
-    | { 
-        assetType: "svg";
-        url?: string;
-        serverPath?: string;
-        resolution?: {
-          width: u32,
-          height: u32,
-        };
-      }
-`} lang='tsx' />
+  | { assetType: "png"; url?: string; serverPath?: string; }
+  | { assetType: "jpeg"; url?: string; serverPath?: string; }
+  | { assetType: "gif"; url?: string; serverPath?: string; }
+  | { 
+      assetType: "svg";
+      url?: string;
+      serverPath?: string;
+      resolution?: {
+        width: u32,
+        height: u32,
+      };
+    }
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -45,7 +44,7 @@ URL for downloading an image. This field cannot be used together with the path f
 ---
 
 #### serverPath
-Path to an image, specifying its location on the server where the Smelter is deployed.
+Path to an image, specifying its location on the server where Smelter is deployed.
 
 - **Type**: `string`
 

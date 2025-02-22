@@ -4,8 +4,9 @@ title: Image
 import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-Represents an image asset uploaded to the compositor. Used by a [`Image`](/http-api/components/image) component.
+Represents an image asset. It can be used via an [Image component](/http-api/components/image).
 
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definition' open>
 <Code code={`
@@ -48,7 +49,7 @@ Path to an image. This field is mutually exclusive with the `url` field.
 
 ---
 
-#### resolution
+### resolution
 The resolution to use when rendering an SVG image.
 
 - **Type**: `{ width: u32; height: u32; }`

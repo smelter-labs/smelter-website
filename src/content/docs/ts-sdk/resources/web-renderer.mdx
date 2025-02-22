@@ -9,48 +9,50 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-<Code code={`import { Renderers } from "@swmansion/smelter"`} lang='tsx' />
+Represents an instance of a website rendered using Chromium embedded in the Smelter instance. It is utilized by a [WebView](/ts-sdk/components/webview) component. 
 
-Represents an instance of a website rendered using Chromium embedded in the Smelter. It is utilized by a [WebView](/ts-sdk/components/webview) component. Ensure that the Smelter supports web rendering before utilizing the web renderer.
-
-<Aside>You need to enable `SMELTER_WEB_RENDERER_ENABLE` environment variable to use web rendering capabilities.</Aside>
+<Aside>
+You need to enable `SMELTER_WEB_RENDERER_ENABLE` environment variable to use web rendering
+capabilities and Smelter binary needs to be build with web rendering support.
+</Aside>
 <Aside type='caution'>Only one component can use specific instance at the time.</Aside>
 
-## Renderers.RegisterWebRenderer
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterWebRenderer = {
-    url: string;
-    resolution: {
-      width: number;
-      height: number;
-    };
-    embeddingMethod?: 
-      | "chromium_embedding"
-      | "native_embedding_over_content"
-      | "native_embedding_under_content";
+  url: string;
+  resolution: {
+    width: number;
+    height: number;
+  };
+  embeddingMethod?: 
+    | "chromium_embedding"
+    | "native_embedding_over_content"
+    | "native_embedding_under_content";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### url
+### url
 Url of a website that to render.
 
 - **Type**: `string`
 
 ---
 
-#### resolution
-Resulution of the rendered website.
+### resolution
+Resolution of the rendered website.
 
 - **Type**: `{ width: number; height: number; }`
 
 ---
 
-#### embeddingMethod
+### embeddingMethod
 Mechanism used to render input frames on the website.
 
 - **Type**: `"chromium_embedding" | "native_embedding_over_content" | "native_embedding_under_content"`

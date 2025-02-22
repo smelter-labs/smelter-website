@@ -6,13 +6,15 @@ import tilesExample from './examples/Tiles.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import ExampleImage from '../../../../assets/guides/component-tiles-example.mp4';
 
-Tiles is a layout component that arranges all child components side by side, optimizing the use of available space. It divides its area into multiple rectangles or tiles, assigning one to each child component. Each of these rectangles is of equal size and they do not overlap.
+Tiles is a layout component that arranges all child components side by side, optimizing the use of
+available space. It divides its area into multiple rectangles or tiles, assigning one to each child
+component. Each of these rectangles is of equal size, and they do not overlap.
 
-## Example
+## Usage
 
 <Code code={tilesExample} title='TilesExample.tsx' lang='tsx' collapse={["28-45", "50-88"]} />
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
@@ -61,27 +63,24 @@ The placement and sizing behavior of child components varies depending on their 
 
 <Aside>To further customize animations, consider wrapping the `Tiles` component within a `View` and apply your desired transition to the wrapper.</Aside>
 
-Adding, removing, or reordering `Tiles` content requires a method to identify child components. This is essential to determine whether a specific child in a scene update should be treated as the same item from a previous scene.
-
-**Description of the identifying logic** 
-
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type TilesProps = {
-    id?: string;
-    children: ReactNode;
-    style?: TilesStyleProps;
-    transition?: Transition;
+  id?: string;
+  children: ReactNode;
+  style?: TilesStyleProps;
+  transition?: Transition;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props
 
 ### children
-Content to be displayed within the `Tile`.
+Each individual child will be displayed within single tile of a `Tiles` component.
 
 - **Type**: `ReactNode`
 

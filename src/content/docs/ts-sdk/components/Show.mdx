@@ -12,24 +12,25 @@ timestamp or delay after mount.
 This functionality is primarily useful for [offline processing](/fundamentals/glossary#offline-processing).
 For live cases the same functionality can be easily reproduced with `useEffect`+`setTimeout`.
 
-## Example
+## Usage
 
-<Code code={showExample} title='ShowExample.tsx' lang='tsx' collapse={["25-36"]} />
+<Code code={showExample} title='ShowExample.tsx' lang='tsx' collapse={["20-39"]} />
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type ShowProps = {
-    children: ReactNode;
-    timeRangeMs?: { start?: number; end?: number };
-    delayMs?: number
+  children: ReactNode;
+  timeRangeMs?: { start?: number; end?: number };
+  delayMs?: number
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

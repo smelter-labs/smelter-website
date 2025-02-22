@@ -6,12 +6,13 @@ import { Aside, Code } from '@astrojs/starlight/components';
 import ExampleImage from '../../../../assets/guides/component-shader-example.mp4';
 import ShaderExample from './shader.wgsl?raw';
 
-Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Smelter, please visit [Shaders documentation.](/fundamentals/concepts/shaders)
+Component that represents output of a user provided WGSL shader. All children components are available as textures inside the shader code.
+For more information on using shaders in Smelter, please visit [Shaders documentation](/fundamentals/concepts/shaders).
 
 
 <Aside> To use this component, you need to first register the shader with matching `shader_id` using [`register shader`](/http-api/routes#register-shader) request. </Aside>
 
-## Example
+## Usage
 
 Register a shader with an id `example_shader`:
 
@@ -55,7 +56,7 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 

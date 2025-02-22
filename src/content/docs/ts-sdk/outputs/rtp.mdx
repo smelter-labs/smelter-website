@@ -11,50 +11,53 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-An output type that allows streaming video and audio from the smelter over RTP.
+An output type that allows streaming video and audio from Smelter over RTP.
 
-<Code title='rtpOutputExample.tsx' code={`
+## Usage
+
+```tsx title=rtpOutputExample.tsx
 import Smelter from "@swmansion/smelter-node";
 import { View } from "@swmansion/smelter";
 
 async function run() {
-    const smelter = new Smelter();
-    await smelter.init();
-    await smelter.registerOutput("example", <View />, {
-      type: "rtp_stream",
-      port: 8001,
-      transportProtocol: "tcp_server",
-      video: {
-        encoder: { type: "ffmpeg_h264" },
-        resolution: { width: 1920, height: 1080 },
-      }
-    });
-    // At this point you can connect to 8001 TCP port
-    // and start receiving RTP traffic.
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerOutput("example", <View />, {
+    type: "rtp_stream",
+    port: 8001,
+    transportProtocol: "tcp_server",
+    video: {
+      encoder: { type: "ffmpeg_h264" },
+      resolution: { width: 1920, height: 1080 },
+    }
+  });
+  // At this point you can connect to 8001 TCP port
+  // and start receiving RTP traffic.
 }
 void run();
-`} lang='tsx' />
+```
 
-## RegisterRtpOutput
-<Code code={`import { Outputs, RegisterRtpOutput } from "@swmansion/smelter"`} lang='tsx' />
-
-Parameters for an RTP output stream from the smelter.
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterRtpOutput = {
-    port: string | number;
-    ip?: string;
-    transportProtocol?: "udp" | "tcp_server";
-    video?: Outputs.RtpVideoOptions;
-    audio?: Outputs.RtpAudioOptions;
+  type: "rtp_stream";
+  port: string | number;
+  ip?: string;
+  transportProtocol?: "udp" | "tcp_server";
+  video?: RtpVideoOptions;
+  audio?: RtpAudioOptions;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+Parameters for registering an output that sends composed video/audio as an RTP stream.
 
-#### port
+## Properties
+
+### port
 Depends on the value of the `transportProtocol` field:
 
 - `udp` - Specifies a UDP port number to which RTP packets will be sent.
@@ -66,7 +69,7 @@ Depends on the value of the `transportProtocol` field:
 
 ---
 
-#### transportProtocol
+### transportProtocol
 Transport layer protocol that will be used to send RTP packets.
 
 - **Type**: `"udp" | "tcp_server"`
@@ -77,28 +80,26 @@ Transport layer protocol that will be used to send RTP packets.
 
 ---
 
-#### ip
+### ip
 IP address to which RTP packets should be sent. This field is only valid if `transportProtocol` field is set to `udp`.
 
 - **Type**: `string | number`
 
 ---
 
-#### video
+### video
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`OutputRtpVideoOptions`](/ts-sdk/outputs/rtp#outputsoutputrtpvideooptions)
+- **Type**: [`RtpVideoOptions`](/ts-sdk/outputs/rtp#rtpvideooptions)
 
 ---
 
-#### audio
+### audio
 Parameters of an audio included in the RTP stream.
 
-- **Type**: [`OutputRtpAudioOptions`](/ts-sdk/outputs/rtp#outputsrtpaudiooptions)
+- **Type**: [`RtpAudioOptions`](/ts-sdk/outputs/rtp#rtpaudiooptions)
 
-## Outputs.OutputRtpVideoOptions
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
-Parameters of a video source included in the RTP stream.
+## RtpVideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -107,11 +108,13 @@ type RtpVideoOptions = {
       width: number;
       height: number;
     };
-    sendEosWhen?: Outputs.OutputEndCondition;
-    encoder: Outputs.RtpVideoEncoderOptions;
+    sendEosWhen?: OutputEndCondition;
+    encoder: RtpVideoEncoderOptions;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Parameters of a video source included in the RTP stream.
 
 ### Properties
 
@@ -125,20 +128,17 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputsoutputendcondition)
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#outputsrtpvideoencoderoptions)
+- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#rtpvideoencoderoptions)
 
 
-## Outputs.RtpVideoEncoderOptions
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
-
-Configuration for the video encoder, based on the selected codec.
+## RtpVideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -159,6 +159,8 @@ type RtpVideoEncoderOptions = {
     }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Configuration for the video encoder, based on the selected codec.
 
 ### Properties (type: “ffmpeg_h264”)
 
@@ -186,20 +188,19 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Outputs.RtpAudioOptions
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
-
-Parameters of an audio source included in the RTP stream.
+## RtpAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type RtpAudioOptions = {
     mixingStrategy?: "sum_clip" | "sum_scale";
-    sendEosWhen?: Outputs.OutputEndCondition;
-    encoder: Outputs.RtpAudioEncoderOptions;
+    sendEosWhen?: OutputEndCondition;
+    encoder: RtpAudioEncoderOptions;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Parameters of an audio source included in the RTP stream.
 
 ### Properties
 
@@ -217,19 +218,16 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputsoutputendcondition)
+- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#outputsrtpaudioencoderoptions)
+- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#rtpaudioencoderoptions)
 
-## Outputs.RtpAudioEncoderOptions
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
-
-Configuration for the audio encoder, based on the selected codec.
+## RtpAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -240,6 +238,8 @@ type RtpAudioEncoderOptions = {
     }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Configuration for the audio encoder, based on the selected codec.
 
 ### Properties(type: "opus")
 
@@ -263,16 +263,7 @@ Audio output encoder preset.
     - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
     - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
-## Outputs.OutputEndCondition
-<Code code={`import { Outputs } from "@swmansion/smelter"`} lang='tsx' />
-
-Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
-
-By default, the input stream is considered finished/ended when:
-- TCP connection was dropped/closed.
-- RTCP Goodbye packet (BYE) was received.
-- MP4 track has ended.
-- Input was unregistered already (or never registered).
+## OutputEndCondition
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -283,6 +274,14 @@ type OutputEndCondition =
     | { allInputs: boolean; };
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
+
+By default, the input stream is considered finished/ended when:
+- TCP connection was dropped/closed.
+- RTCP Goodbye packet (BYE) was received.
+- MP4 track has ended.
+- Input was unregistered already (or never registered).
 
 ### Properties
 

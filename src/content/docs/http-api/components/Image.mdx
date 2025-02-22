@@ -5,14 +5,13 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 import { Aside } from '@astrojs/starlight/components';
 import ExampleImage from '../../../../assets/guides/component-image-example.webp';
 
-
 A component for rendering images:
 - From external URLs
-- From the server hosting a Smelter instance
+- From a local path
 
 <Aside> To use this component, you need to first register the image with matching `image_id` using [`register image`](/http-api/routes#register-image) request. </Aside>
 
-## Example
+## Usage
 
 Register an image with an id `example_image`:
 
@@ -55,7 +54,7 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 

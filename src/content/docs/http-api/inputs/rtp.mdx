@@ -11,47 +11,53 @@ An input type that allows streaming video and audio to the Smelter server over R
 To use RTP Input you must register it first. You can do it by sending a request like this:
 
 <CollapsibleDetails summaryTitle='Example request' open>
-<Code code={`
+
+```http
 POST: /api/input/:input_id/register
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "transport_protocol": "tcp_server",
-    "port": 9001,
-    "video": {
-      "decoder": "ffmpeg_h264"
-    },
-    "audio": {
-      "decoder": "opus"
-    }
+  "type": "rtp_stream",
+  "transport_protocol": "tcp_server",
+  "port": 9001,
+  "video": {
+    "decoder": "ffmpeg_h264"
+  },
+  "audio": {
+    "decoder": "opus"
+  }
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
-
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
 
+## Reference
+
 <CollapsibleDetails summaryTitle='Type definition' open>
-<Code code={`
+
+```tsx
 type RtpInput = {
-    port: string | u16;
-    transport_protocol?: "udp" | "tcp_server";
-    video?: InputRtpVideoOptions;
-    audio?: InputRtpAudioOptions;
-    required?: bool;
-    offset_ms?: f64;
+  type: "rtp_stream"
+  port: string | u16;
+  transport_protocol?: "udp" | "tcp_server";
+  video?: InputRtpVideoOptions;
+  audio?: InputRtpAudioOptions;
+  required?: bool;
+  offset_ms?: f64;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-Parameters for an input stream from RTP source.
+Parameters for registering an RTP stream as an input.
+
 <Aside>At least one of `video` and `audio` has to be defined.</Aside>
 
 ## Properties
 
 ### port
-UDP port or port range for the Smelter to listen to incoming streams.
+A port number or a port range in format `START:END`. If range is specified, a port from that
+range will be returned from [`register-input` request](/http-api/routes#register-input).
 
 - **Type**: `string | u16`
 

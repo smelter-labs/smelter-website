@@ -12,21 +12,25 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <Aside type='caution'>Adding this hook or `<InputStream />` component more than once or for
 the specific input will sum the configured volume.</Aside>
 
+## Usage
+
+<Code code={useAudioInput} title='useAudioInputExample.tsx' lang='tsx' collapse={['10-42']} />
+
 ## Reference
 
-<Code code={useAudioInput} title='useAudioInputExample.tsx' lang='tsx' collapse={['15-32']} />
-
-<Code code={`
+```tsx
 function useAudioInput(inputId: string, audioOptions: AudioOptions);
-`} lang='tsx' />
+```
+
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+
+```tsx
 type AudioOptions = {
     volume: number
 }
 
 function useAudioInput(inputId: string, audioOptions: AudioOptions);
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Arguments

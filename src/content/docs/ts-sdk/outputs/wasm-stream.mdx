@@ -12,50 +12,54 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 A generic browser outputs that returns [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream) object.
 Stream like this can be used by various browser APIs like rendering to canvas or sending it via WebRTC connection.
 
-<Code title='streamOutputExample.tsx' code={`
+## Usage
+
+```tsx title=streamOutputExample.tsx
 import Smelter from "@swmansion/smelter-web-wasm";
 import { View } from "@swmansion/smelter";
 
 async function run() {
-    const smelter = new Smelter();
-    await smelter.init();
-    await smelter.registerOutput('example', <View />
-      type: 'stream',
-      video: {
-        resolution: { width: 1920, height: 1080 };
-      };
-      audio: true;
-    })
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerOutput('example', <View />, {
+    type: 'stream',
+    video: {
+      resolution: { width: 1920, height: 1080 },
+    },
+    audio: true;
+  })
 }
 void run()
-`} lang='tsx' />
+```
 
-## RegisterStreamOutput
-<Code code={`import { RegisterStreamOutput } from "@swmansion/smelter-web-wasm"`} lang='tsx' />
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterStreamOutput = {
-    video?: StreamOutputVideo;
-    audio?: boolean;
+  type: "stream";
+  video?: StreamOutputVideo;
+  audio?: boolean;
 };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### video
+### video
 Parameters of a video track that will be part of `MediaStream`.
 
 - **Type**: [`StreamOutputVideo`](#streamoutputvideo)
 
 ---
 
-#### audio
+### audio
 
-If `true` `MediaStream` track returned from a register call will include audio track.
+If `true` `MediaStream` returned from a register call will include audio track.
 
-- **Type**: boolean 
+- **Type**: `boolean` 
+- **Defaults to**: `false`
 
 ## StreamOutputVideo
 

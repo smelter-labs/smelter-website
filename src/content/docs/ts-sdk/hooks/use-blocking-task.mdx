@@ -15,13 +15,15 @@ This hook works both for live and offline processing, but it is primarily intend
 offline processing.
 </Aside>
 
-## Reference
+## Usage
 
 <Code code={useBlockingTaskExample} title='useBlockingTaskExample.tsx' lang='tsx' collapse={['1-8', '27-44']} />
 
-<Code code={`
+## Reference
+
+```tsx
 function useBlockingTask<T>(fn: () => Promise<T>): T | undefined
-`} lang='tsx' />
+```
 
 ## Arguments
 
