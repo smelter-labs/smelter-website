@@ -2,6 +2,7 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
+import starlightLinksValidator from "starlight-links-validator";
 
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -30,6 +31,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
+      plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
       description: "Toolkit for real-time, programmable video and audio mixing.",
       social: {
         github: "https://github.com/software-mansion/smelter",

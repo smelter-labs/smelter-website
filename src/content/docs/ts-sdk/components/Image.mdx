@@ -8,33 +8,42 @@ import ExampleImage from '../../../../assets/guides/component-image-example.webp
 
 A component for rendering images:
 - From external URLs
-- From the server hosting a Smelter instance
+- From a local path on the server hosting a Smelter instance
 
-<Aside>To use this component, you need to first register the image with a matching `imageId` using the [`Smelter.registerImage`](/ts-sdk/smelter#registerimage) function.</Aside>
+## Usage
 
-## Example
+<Code code={imageExample} title='ImageExample.tsx' lang='tsx' collapse={["12-33"]} />
 
-<Code code={imageExample} title='ImageExample.tsx' lang='tsx' collapse={["17-28"]} />
-
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type ImageProps = {
     id?: string;
-    imageId: string;
+    imageId?: string;
+    source?: string;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
+
+<Aside>Exactly one of `imageId` and `source` has to be defined.</Aside>
 
 ## Props
 
 ### imageId
 ID of an image. It identifies an image registered using a [Smelter.registerImage](/ts-sdk/smelter#registerimage) method.
+
+- **Type**: `string`
+
+---
+
+### source
+Url or local path to the mp4 file. Note that the path has to be local to the machine where
+Smelter server runs.
 
 - **Type**: `string`
 

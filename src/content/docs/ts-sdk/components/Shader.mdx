@@ -11,33 +11,35 @@ import ExampleImage from '../../../../assets/guides/component-shader-example.mp4
 <br />
 <br />
 
-Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Smelter, please visit [Shaders documentation](/fundamentals/concepts/shaders).
+Component that represents output of a user provided WGSL shader. All children components are available as textures inside the shader code.
+For more information on using shaders in Smelter, please visit [Shaders documentation](/fundamentals/concepts/shaders).
 
 <Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`Smelter.registerShader`](/ts-sdk/smelter#registershader) function.</Aside>
 
-## Example
+## Usage
 
-<Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["7-54", "78-95"]} />
+<Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["7-54", "77-98"]} />
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type ShaderProps = {
-    id?: string;
-    children?: ReactElement[];
-    shaderId: string;
-    shaderParam?: ShaderParam;
-    resolution: {
-      width: number;
-      height: number;
-    };
+  id?: string;
+  children?: ReactElement[];
+  shaderId: string;
+  shaderParam?: ShaderParam;
+  resolution: {
+    width: number;
+    height: number;
+  };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

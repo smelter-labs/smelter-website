@@ -9,15 +9,18 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 `useInputStreams` returns an object representing registered streams and their current state.
 
+## Usage
+
+<Code code={useInputStreamsExample} title='useInputStreams.tsx' lang='tsx' collapse={['1-12', '43-80']} />
+
 ## Reference
 
-<Code code={useInputStreamsExample} title='useInputStreams.tsx' lang='tsx' collapse={['1-12', '48-65', '68-78']} />
-
-<Code code={`
+```tsx
   function useInputStreams(): Record<string, InputStreamInfo>;
-`} lang='tsx' />
+```
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+
+```tsx
   type InputStreamInfo = {
     inputId: Id;
     videoState?: "ready" | "playing" | "finished"; 
@@ -28,7 +31,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
   }
   
   function useInputStreams(): Record<string, InputStreamInfo>;
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Returns 

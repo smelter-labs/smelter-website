@@ -5,103 +5,94 @@ hide_table_of_contents: true
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-An output type that allows streaming video and audio from the Smelter over WHIP.
+An output type that allows streaming video and audio from Smelter over WHIP.
 
 ## Usage
 To use WHIP Output you must register it first. You can do it by sending a request like this:
 
 <CollapsibleDetails summaryTitle='Example request' open>
-<Code code={`
+
+```http
 POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-    "type": "whip",
-    "endpoint_url": "https://your_server.com/your_endpoint",
-    "bearer_token": "your_bearer_token",
-    "video": {
-        "resolution": {
-            "width": 1280,
-            "height": 720,
-        },
-        "encoder": {
-            "type": "ffmpeg_h264",
-            "preset": "medium"
-        },
-        "initial": {
-            "root": {
-                "id": "input_1",
-                "type": "input_stream",
-                "input_id": "input_1",
-            }
-        }
-    },
-    "audio": {
-        "encoder": {
-            "type": "opus",
-            "channels": "stereo",
-        },
-        "initial": {
-            "inputs": [
-                {"input_id": "input_1"}
-            ]
-        }
+  "type": "whip",
+  "endpoint_url": "https://example.com/whip",
+  "bearer_token": "<TOKEN>",
+  "video": {
+    "resolution": { "width": 1280, "height": 720 },
+    "encoder": { "type": "ffmpeg_h264" },
+    "initial": {
+      "root": {
+        "type": "view",
+      }
     }
+  },
+  "audio": {
+    "encoder": { "type": "opus", "channels": "stereo" },
+    "initial": {
+      "inputs": [{ "input_id": "input_1", "volume": 1 }]
+    }
+  }
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
-## WhipOutput
-Parameters for an WHIP output stream from the Smelter.
+## Reference 
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type WhipOutput = {
-    endpoint_url: string;
-    bearer_token?: string;
-    video?: OutputVideoOptions;
-    audio?: WhipAudioOptions;
+  type: "whip";
+  endpoint_url: string;
+  bearer_token?: string;
+  video?: WhipVideoOptions;
+  audio?: WhipAudioOptions;
 };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+Parameters for an WHIP output stream from Smelter.
 
-#### endpoint_url
+## Properties
+
+### endpoint_url
 The destination URL for sending media streams using the WHIP.
 
  - **Type**: `string`
 
-#### bearer_token
+### bearer_token
 Token used for authentication when connecting to the WHIP endpoint.
 
  - **Type**: `string`
 
 
-#### video
+### video
 Parameters of a video included in the WHIP stream.
 
-- **Type**: [`OutputVideoOptions`](#outputvideooptions)
+- **Type**: [`VideoOptions`](#whipvideooptions)
 
 ---
 
-#### audio
+### audio
 Parameters of an audio included in the WHIP stream.
 
 - **Type**: [`WhipAudioOptions`](#whipaudiooptions)
 
-## OutputVideoOptions
+## WhipVideoOptions
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type OutputVideoOptions = {
+type WhipVideoOptions = {
     resolution: {
       width: u32;
       height: u32;
     };
     send_eos_when?: OutputEndCondition;
-    encoder: VideoEncoderOptions;
+    encoder: WhipVideoEncoderOptions;
     initial: { root: Component; };
 };
 `} lang='tsx' />
@@ -126,7 +117,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`WhipVideoEncoderOptions`](#videoencoderoptions)
+- **Type**: [`WhipVideoEncoderOptions`](#whipvideoencoderoptions)
 
 ---
 
@@ -134,6 +125,58 @@ Video encoder options.
 Root of a component tree/scene that should be rendered for the output.
 
 - **Type**: `{ root: Component; }`
+
+
+## WhipVideoEncoderOptions
+Configuration for the video encoder, based on the selected codec.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type WhipVideoEncoderOptions = {
+    type: "ffmpeg_h264";
+    preset: 
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+    ffmpeg_options?: Map<string, string>;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties (type: “ffmpeg_h264”)
+
+#### preset
+Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
+- **Default value**: `fast`
+- **Supported values**:
+    - `ultrafast`
+    - `superfast`
+    - `veryfast`
+    - `faster`
+    - `fast`
+    - `medium`
+    - `slow`
+    - `slower`
+    - `veryslow`
+    - `placebo`
+
+---
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+
 
 ## WhipAudioOptions
 Parameters of an audio source included in the WHIP stream.
@@ -180,104 +223,6 @@ Audio encoder options.
 Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
-
-## OutputEndCondition
-Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
-
-By default, the input stream is considered finished/ended when:
-- TCP connection was dropped/closed.
-- RTCP Goodbye packet (BYE) was received.
-- MP4 track has ended.
-- Input was unregistered already (or never registered).
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type OutputEndCondition = 
-    | { any_of: string[]; }
-    | { all_of: string[]; }
-    | { any_input: bool; }
-    | { all_inputs: bool; };
-`} lang='tsx' />
-</CollapsibleDetails>
-
-### Properties
-
-#### any_of
-List of the input streams. The output stream will terminate if any stream in the list finishes.
-
-- **Type**: `string[]`
-
----
-
-#### all_of
-List of the input streams. The output stream will terminate when all streams in the list finish.
-
-- **Type**: `string[]`
-
----
-
-#### any_input
-Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
-
-- **Type**: `bool`
-
----
-
-#### all_inputs
-Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
-
-- **Type**: `bool`
-
-
-## VideoEncoderOptions
-Configuration for the video encoder, based on the selected codec.
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type VideoEncoderOptions = {
-    type: "ffmpeg_h264";
-    preset: 
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
-    ffmpeg_options?: Map<string, string>;
-}
-`} lang='tsx' />
-</CollapsibleDetails>
-
-### Properties (type: “ffmpeg_h264”)
-
-#### preset
-Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
-- **Default value**: `fast`
-- **Supported values**:
-    - `ultrafast`
-    - `superfast`
-    - `veryfast`
-    - `faster`
-    - `fast`
-    - `medium`
-    - `slow`
-    - `slower`
-    - `veryslow`
-    - `placebo`
-
----
-
-#### ffmpeg_options
-Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `Map<string, string>`
-
 
 ## WhipAudioEncoderOptions
 Configuration for the audio encoder, based on the selected codec.
@@ -345,3 +290,51 @@ Input volume in range `[0, 1]`
 - **Type**: `f32`
 - **Default value**: `1.0`
 - **Supported values**: `[0, 1]`
+
+## OutputEndCondition
+Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
+
+By default, the input stream is considered finished/ended when:
+- TCP connection was dropped/closed.
+- RTCP Goodbye packet (BYE) was received.
+- MP4 track has ended.
+- Input was unregistered already (or never registered).
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type OutputEndCondition = 
+    | { any_of: string[]; }
+    | { all_of: string[]; }
+    | { any_input: bool; }
+    | { all_inputs: bool; };
+`} lang='tsx' />
+</CollapsibleDetails>
+
+### Properties
+
+#### any_of
+List of the input streams. The output stream will terminate if any stream in the list finishes.
+
+- **Type**: `string[]`
+
+---
+
+#### all_of
+List of the input streams. The output stream will terminate when all streams in the list finish.
+
+- **Type**: `string[]`
+
+---
+
+#### any_input
+Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
+
+- **Type**: `bool`
+
+---
+
+#### all_inputs
+Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
+
+- **Type**: `bool`
+

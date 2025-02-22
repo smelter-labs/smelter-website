@@ -12,7 +12,7 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-An input type that allows the smelter to read static MP4 files.
+An input type that allows Smelter to read static MP4 files.
 
 <Aside>
 MP4 files can contain video and audio tracks encoded with various codecs. This input type supports MP4 video tracks encoded with `h264` and audio tracks encoded with `AAC`.
@@ -21,55 +21,61 @@ If the file contains multiple audio or video tracks, only the first audio track 
 </Aside>
 <Aside type='caution'> <Badge text="Browser (WASM)" variant="tip" /> runtime (via package `@swmansion/smelter-web-wasm`) currently does not support audio from mp4 files.</Aside>
 
-<Code title='mp4InputExample.tsx' code={`
+
+## Usage
+```tsx title=mp4InputExample.tsx
 import Smelter from "@swmansion/smelter-node";
 
 async function run() {
-    const smelter = new Smelter();
-    await smelter.init();
-    await smelter.registerInput("example", {
-        type: "mp4",
-        serverPath: "./input.mp4"
-    });
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "mp4",
+      serverPath: "./input.mp4"
+  });
 }
 void run();
-`} lang='tsx' />
+```
 
-## RegisterMp4Input
-<Code code={`import { RegisterMp4Input } from "@swmansion/smelter"`} lang='tsx' />
-Parameters for an input stream from MP4 file. You need to specify either a `url` or a `serverPath`.
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterMp4Input = {
-    url?: string;
-    serverPath?: string;
-    loop?: bool;
-    required?: bool;
-    offsetMs?: number;
-    videoDecoder: "ffmpeg_h264" | "vulkan_video";
+  type: "mp4";
+  url?: string;
+  serverPath?: string;
+  loop?: bool;
+  required?: bool;
+  offsetMs?: number;
+  videoDecoder?: "ffmpeg_h264" | "vulkan_video";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+Parameters for registering an MP4 file as an input.
 
-#### url
+<Aside>Exactly one of `url` or `serverPath` has to be defined.</Aside>
+
+## Properties
+
+### url
 URL of the MP4 file.
 
 - **Type**: `string`
 - **Option availability**: <Badge text="Node.js" variant="tip" />, <Badge text="Browser (WASM)" variant="tip" />
 ---
 
-#### serverPath
-Path to the MP4 file, specifying its location on the server where the Smelter is deployed.
+### serverPath
+Path to the MP4 file, specifying its location on the server where the Smelter instance is deployed.
 
 - **Type**: `string`
 - **Option availability**: <Badge text="Node.js" variant="tip" />
 
 ---
 
-#### loop
+### loop
 Specifies whether the input should be played in a loop.
 
 - **Type**: `boolean`
@@ -78,7 +84,7 @@ Specifies whether the input should be played in a loop.
 
 ---
 
-#### required
+### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
 - **Type**: `boolean`
@@ -87,7 +93,7 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-#### offsetMs
+### offsetMs
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `number`

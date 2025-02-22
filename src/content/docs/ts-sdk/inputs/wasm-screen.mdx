@@ -11,7 +11,9 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 An input that captures the screen output and audio using Web API `getDisplayMedia()`.
 
-<Code title='screenCaptureInputExample.tsx' code={`
+## Usage
+
+```tsx title=screenCaptureInputExample.tsx
 import Smelter from "@swmansion/smelter-web-wasm"
 
 async function run() {
@@ -20,6 +22,4 @@ async function run() {
     await smelter.registerInput('example', { type: 'screen_capture' })
 }
 void run()
-`} lang='tsx' />
-
-
+```

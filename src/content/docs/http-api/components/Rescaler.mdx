@@ -5,9 +5,10 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 import { Aside } from '@astrojs/starlight/components';
 import ExampleImage from '../../../../assets/guides/component-rescaler-example.webp';
 
-`Rescaler` is a layout component responsible for rescaling other components.
+A layout component that will resize its children to match its own size. It will always preserve
+aspect ratio while resizing.
 
-## Example
+## Usage
 
 <CollapsibleDetails summaryTitle='Update request' open>
 
@@ -37,7 +38,7 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
@@ -98,7 +99,7 @@ ID of a component.
 ---
 
 ### child
-List of component's children.
+Exactly one child component.
 
 - **Type**: `Component`
 

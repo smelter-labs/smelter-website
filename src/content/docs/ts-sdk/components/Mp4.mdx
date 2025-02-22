@@ -11,24 +11,25 @@ component that does not require registration, but with more limited set of optio
 
 <Aside type='caution'>`@swmansion/smelter-web-wasm` currently does not support audio from mp4 files.</Aside>
 
-## Example
+## Usage
 
-<Code code={mp4Example} title='Mp4Example.tsx' lang='tsx' collapse={["17-28"]} />
+<Code code={mp4Example} title='Mp4Example.tsx' lang='tsx' collapse={["12-33"]} />
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type Mp4Props = {
-    source: string;
-    volume?: number;
-    muted?: boolean;
+  source: string;
+  volume?: number;
+  muted?: boolean;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

@@ -33,16 +33,16 @@ type TextStyleProps = {
 `} lang='tsx' />
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### width
+### width
 Specifies the width of the texture for rendering text. If undefined, the texture size adjusts to the text while not exceeding the `max_width`.
 
 - **Type**: `number`
 
 ---
 
-#### height
+### height
 Sets the height of the texture for rendering text. If undefined, the texture size adjusts to the text up to the `max_height`.
 
 - **Type**: `number`
@@ -51,7 +51,7 @@ Sets the height of the texture for rendering text. If undefined, the texture siz
 
 ---
 
-#### maxWidth
+### maxWidth
 Limits the width of the texture that the text will be rendered on.
 
 - **Type**: `number`
@@ -61,7 +61,7 @@ Limits the width of the texture that the text will be rendered on.
 
 ---
 
-#### maxHeight
+### maxHeight
 Limits the height of the texture that the text will be rendered on.
 
 - **Type**: `number`
@@ -71,14 +71,14 @@ Limits the height of the texture that the text will be rendered on.
 
 ---
 
-#### fontSize
+### fontSize
 Font size in pixels.
 
 - **Type**: `number`
 
 ---
 
-#### lineHeight
+### lineHeight
 Distance between lines in pixels.
 
 - **Type**: `number`
@@ -86,7 +86,7 @@ Distance between lines in pixels.
 
 ---
 
-#### color
+### color
 Font color in `#RRGGBBAA` or `#RRGGBB` format.
 
 - **Type**: `string`
@@ -94,7 +94,7 @@ Font color in `#RRGGBBAA` or `#RRGGBB` format.
 
 ---
 
-#### backgroundColor
+### backgroundColor
 Background color in `#RRGGBBAA` or `#RRGGBB` format.
 
 - **Type**: `string`
@@ -102,7 +102,7 @@ Background color in `#RRGGBBAA` or `#RRGGBB` format.
 
 ---
 
-#### fontFamily
+### fontFamily
 Font family. Specifies the family name of the font. Note that "generic-family" values such as "sans-serif" are not supported.
 
 - **Type**: `string`
@@ -110,7 +110,7 @@ Font family. Specifies the family name of the font. Note that "generic-family" v
 
 ---
 
-#### style
+### style
 Font style. The selected font needs to support the specified style.
 
 - **Type**: `"normal" | "italic" | "oblique";`
@@ -118,7 +118,7 @@ Font style. The selected font needs to support the specified style.
 
 ---
 
-#### align
+### align
 Text align.
 
 - **Type**: `"left" | "right" | "justified" | "center"`
@@ -126,7 +126,7 @@ Text align.
 
 ---
 
-#### wrap
+### wrap
 Defines the options for handling text that exceeds the available space.
 
 - **Type**: `"none" | "glyph" | "word"`
@@ -138,7 +138,7 @@ Defines the options for handling text that exceeds the available space.
 
 ---
 
-#### fontWeight
+### fontWeight
 Specifies the weight of the font, as defined in the <a href="https://learn.microsoft.com/en-gb/typography/opentype/spec/os2#usweightclass" target='_blank'>OpenType specification</a>. Ensure the selected font supports this weight.
 
 - **Type**: `"thin" | "extra_light" | "light" | "normal" | "medium" | "semi_bold" | "bold" | "extra_bold" | "black"`

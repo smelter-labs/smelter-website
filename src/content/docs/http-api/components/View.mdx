@@ -5,9 +5,9 @@ import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import ExampleImage from '../../../../assets/guides/component-view-example.webp';
 
-The `View` component serves as the core layout mechanism in the Smelter, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
+The `View` component serves as the core layout mechanism in the Smelter API, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
 
-## Example
+## Usage
 
 <CollapsibleDetails summaryTitle='Update request' open>
 ```http 
@@ -35,7 +35,7 @@ Content-Type: application/json
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 

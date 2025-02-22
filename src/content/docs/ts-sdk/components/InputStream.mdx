@@ -10,25 +10,25 @@ A component for displaying registered media inputs.
 
 <Aside>To use this component, you need to first register the input with a matching `inputId` using the [`Smelter.registerInput`](/ts-sdk/smelter#registerinput) function.</Aside>
 
-## Example
+## Usage
 
-<Code code={inputStreamExample} title='InputStreamExample.tsx' lang='tsx' collapse={["17-34"]} />
+<Code code={inputStreamExample} title='InputStreamExample.tsx' lang='tsx' collapse={["21-42"]} />
 
-<CollapsibleDetails summaryTitle='Output'>
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputStreamProps = {
-    id?: string;
-    inputId: string;
-    volume?: number;
-    muted?: boolean;
+  id?: string;
+  inputId: string;
+  volume?: number;
+  muted?: boolean;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

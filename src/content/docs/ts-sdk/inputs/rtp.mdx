@@ -14,78 +14,83 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 An input type that allows streaming video and audio to the Smelter server over RTP. It supports both
 streaming over UDP and TCP (smelter works as a TCP server).
 
-<Code title='rtpInputExample.tsx' code={`
+## Usage
+
+```tsx title=rtpInputExample.tsx
 import Smelter from "@swmansion/smelter-node";
 
 async function run() {
-    const smelter = new Smelter();
-    await smelter.init();
-    await smelter.registerInput("example", {
-        type: "rtp_stream",
-        port: 8001,
-        transportProtocol: "tcp_server",
-        video: { decoder: "ffmpeg_h264" },
-        audio: { decoder: "opus" }
-    });
-    // At this point you can connect to 8001 TCP port
-    // and start sending RTP traffic
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "rtp_stream",
+      port: 8001,
+      transportProtocol: "tcp_server",
+      video: { decoder: "ffmpeg_h264" },
+      audio: { decoder: "opus" }
+  });
+  // At this point you can connect to 8001 TCP port
+  // and start sending RTP traffic
 }
 void run();
-`} lang='tsx' />
+```
 
-## RegisterRtpInput
-<Code code={`import { RegisterRtpInput } from "@swmansion/smelter"`} lang='tsx' />
-
-Parameters for an input stream from RTP source.
-<Aside>At least one of `video` and `audio` has to be defined.</Aside>
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterRtpInput = {
-    port: string | number;
-    transportProtocol?: "udp" | "tcp_server";
-    video?: Inputs.InputRtpVideoOptions;
-    audio?: Inputs.InputRtpAudioOptions;
-    required?: bool;
-    offsetMs?: number;
+  type: "rtp_stream";
+  port: string | number;
+  transportProtocol?: "udp" | "tcp_server";
+  video?: InputRtpVideoOptions;
+  audio?: InputRtpAudioOptions;
+  required?: bool;
+  offsetMs?: number;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+Parameters for registering an RTP stream as an input.
 
-#### port
-UDP port or port range for the smelter to listen to incoming streams.
+<Aside>At least one of `video` and `audio` has to be defined.</Aside>
+
+## Properties
+
+### port
+A port number or a port range in format `START:END`. If range is specified, a port from that
+range will be returned from [`registerInput`](/ts-sdk/smelter#registerinput).
 
 - **Type**: `string | number`
 
 ---
 
-#### transportProtocol
+### transportProtocol
 Transport protocol.
 
 - **Type**: `"udp" | "tcp_server"`
 - **Supported values**:
     - `udp` - UDP protocol.
-    -  `tcp_server` - TCP protocol where Smelter is the server side of the connection.
+    - `tcp_server` - TCP protocol where Smelter is the server side of the connection.
 
 ---
 
-#### video
+### video
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`InputRtpVideoOptions`](/ts-sdk/inputs/rtp#inputsinputrtpvideooptions)
+- **Type**: [`InputRtpVideoOptions`](/ts-sdk/inputs/rtp#inputrtpvideooptions)
 
 ---
 
-#### audio
+### audio
 Parameters of an audio source included in the RTP stream.
 
-- **Type**: [`InputRtpAudioOptions`](/ts-sdk/inputs/rtp#inputsinputrtpaudiooptions)
+- **Type**: [`InputRtpAudioOptions`](/ts-sdk/inputs/rtp#inputrtpaudiooptions)
 
 ---
 
-#### required
+### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
 - **Type**: `boolean`
@@ -93,15 +98,12 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-#### offsetMs
+### offsetMs
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `number`
 
-## Inputs.InputRtpVideoOptions
-<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
-
-Parameters of a video source included in the RTP stream.
+## InputRtpVideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -110,6 +112,8 @@ type InputRtpVideoOptions = {
 }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Parameters of a video source included in the RTP stream.
 
 ### Properties
 
@@ -129,10 +133,7 @@ Video decoder.
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
 
-## Inputs.InputRtpAudioOptions
-<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
-
-Parameters of a audio source included in the RTP stream.
+## InputRtpAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -148,6 +149,8 @@ type InputRtpAudioOptions =
     }
 `} lang='tsx' />
 </CollapsibleDetails>
+
+Parameters of an audio source included in the RTP stream.
 
 ### Properties (decoder: "opus")
 
