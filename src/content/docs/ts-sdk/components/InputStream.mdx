@@ -4,24 +4,31 @@ title: InputStream
 import { Aside, Code } from '@astrojs/starlight/components';
 import inputStreamExample from './examples/InputStream.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-input-stream-example.mp4';
 
 A component for displaying registered media inputs.
 
 <Aside>To use this component, you need to first register the input with a matching `inputId` using the [`Smelter.registerInput`](/ts-sdk/smelter#registerinput) function.</Aside>
 
+## Usage
+
+<Code code={inputStreamExample} title='InputStreamExample.tsx' lang='tsx' collapse={["21-42"]} />
+
+<CollapsibleDetails summaryTitle='Example output'>
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
+</CollapsibleDetails>
+
 ## Reference
 
-<Code code={inputStreamExample} title='InputStreamExample.tsx' lang='tsx' collapse={["17-34"]} />
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type InputStreamProps = {
-    id?: string;
-    inputId: string;
-    volume?: number;
-    muted?: boolean;
+  id?: string;
+  inputId: string;
+  volume?: number;
+  muted?: boolean;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

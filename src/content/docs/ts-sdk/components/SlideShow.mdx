@@ -4,6 +4,7 @@ title: SlideShow
 import { Aside, Code } from '@astrojs/starlight/components';
 import slideShowExample from './examples/SlideShow.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-slide-show-example.mp4';
 
 The `SlideShow` component serves as utility to chain series of scene one after the other. It can only accept `Slide` components as children.
 After it is mounted it will start showing slides sequentially one after the other. How long single slide shows up is evaluated as follows:
@@ -11,27 +12,24 @@ After it is mounted it will start showing slides sequentially one after the othe
 - If any of child components (not necessarily direct child) are `InputStream`, `Mp4`, or another `SlideShow` then it will stay on that slide for as long as they are running.
 - If there are not child components that can extend the Slide lifetime then after 1 second it will switch to the next slide.
 
-## Reference
+## Usage
 
-<Code code={slideShowExample} title='SlideShowExample.tsx' lang='tsx' collapse={["25-36"]} />
+<Code code={slideShowExample} title='SlideShowExample.tsx' lang='tsx' collapse={["33-54"]} />
 
----
-
-<Code code={`import { Slide, SlideShow } from "@swmansion/smelter"`} lang='tsx' />
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
-type SlideShowProps = {
-    children?: ReactNode;
-}
-
-type SlideProps = {
-    children: ReactNode;
-    durationMs?: number;
-}
-`} lang='tsx' />
+<CollapsibleDetails summaryTitle='Example output'>
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
 ## Props - `SlideShow`
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type SlideShowProps = {
+    children?: ReactNode;
+}
+```
+</CollapsibleDetails>
 
 ### children
 List of `<Slide />` components.
@@ -39,6 +37,15 @@ List of `<Slide />` components.
 - **Type**: `ReactNode`
 
 ## Props - `Slide`
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+type SlideProps = {
+    children: ReactNode;
+    durationMs?: number;
+}
+`} lang='tsx' />
+</CollapsibleDetails>
 
 ### children
 Content of a single slide

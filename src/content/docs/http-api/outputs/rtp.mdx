@@ -4,66 +4,62 @@ title: RTP
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-An output type that allows streaming video and audio from the compositor over RTP.
+An output type that allows streaming video and audio from Smelter over RTP.
 
 ## Usage
 
 To use RTP Output you must register it first. You can do it by sending a request like this:
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle='Example request' open>
+
+```http
 POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-    "type": "rtp_stream",
-    "transport_protocol": "tcp_server",
-    "port": 9003,
-    "video": {
-      "resolution": { "width": 1280, "height": 720 },
-      "encoder": {
-        "type": "ffmpeg_h264",
-        "preset": "ultrafast",
-      },
-      "initial": {
-        "root": {
-          "type": "view",
-          "background_color": "#4d4d4dff"
-        }
-      }
-    },
-    "audio": {
-      "encoder": {
-        "type": "opus",
-        "channels": "mono",
-      },
-      "initial": {
-        "inputs": [{ "input_id": "input_1" }]
+  "type": "rtp_stream",
+  "transport_protocol": "tcp_server",
+  "port": 9003,
+  "video": {
+    "resolution": { "width": 1280, "height": 720 },
+    "encoder": { "type": "ffmpeg_h264" },
+    "initial": {
+      "root": {
+        "type": "view",
       }
     }
+  },
+  "audio": {
+    "encoder": { "type": "opus", "channels": "stereo" },
+    "initial": {
+      "inputs": [{ "input_id": "input_1", "volume": 1 }]
+    }
+  }
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn more about managing outputs.
 
-## RtpOutput
+## References
+
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RtpOutput = {
-    port: string | u16;
-    ip?: string;
-    transport_protocol?: "udp" | "tcp_server";
-    video?: OutputVideoOptions;
-    audio?: OutputRtpAudioOptions;
+  type: "rtp_stream";
+  port: string | u16;
+  ip?: string;
+  transport_protocol?: "udp" | "tcp_server";
+  video?: RtpVideoOptions;
+  audio?: RtpAudioOptions;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-
-#### port
+### port
 Depends on the value of the `transport_protocol` field:
   - `udp` - An UDP port number that RTP packets will be sent to.
   - `tcp_server` - A local TCP port number or a port range that Smelter will listen for incoming connections.l TCP port number or a range of ports that Smelter will listen to for incoming connections.
@@ -72,14 +68,14 @@ Depends on the value of the `transport_protocol` field:
 
 ---
 
-#### ip
+### ip
 IP address to which RTP packets should be sent. This field is only valid if `transport_protocol` field is set to `udp`.
 
 - **Type**: `string`
 
 ---
 
-#### transport_protocol
+### transport_protocol
 Transport layer protocol that will be used to send RTP packets.
 
 - **Type**: `"udp" | "tcp_server"`
@@ -90,28 +86,28 @@ Transport layer protocol that will be used to send RTP packets.
 
 ---
 
-#### video
+### video
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`OutputVideoOptions`](#outputvideooptions)
+- **Type**: [`RtpVideoOptions`](#rtpvideooptions)
 
 ---
 
-#### audio
+### audio
 Parameters of an audio included in the RTP stream.
 
-- **Type**: [`OutputRtpAudioOptions`](#outputrtpaudiooptions)
+- **Type**: [`RtpAudioOptions`](#rtpaudiooptions)
 
-## OutputVideoOptions
+## RtpVideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type OutputVideoOptions = {
+type RtpVideoOptions = {
     resolution: {
       width: u32;
       height: u32;
     };
     send_eos_when?: OutputEndCondition;
-    encoder: VideoEncoderOptions;
+    encoder: RtpVideoEncoderOptions;
     initial: { root: Component; };
 }
 `} lang='tsx' />
@@ -136,7 +132,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
+- **Type**: [`RtpVideoEncoderOptions`](#rtpvideoencoderoptions)
 
 #### initial
 Root of a component tree/scene that should be rendered for the output. Use [`update_output`](/http-api/routes#update-output) request to update this value after registration.
@@ -144,10 +140,10 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 - **Type**: `{ root: Component; }`
 
 
-## VideoEncoderOptions
+## RtpVideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type VideoEncoderOptions = {
+type RtpVideoEncoderOptions = {
     type: "ffmpeg_h264";
     preset?: 
       | "ultrafast"
@@ -191,11 +187,11 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## OutputRtpAudioOptions
+## RtpAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type OutputRtpAudioOptions = {
+type RtpAudioOptions = {
     mixing_strategy?: "sum_clip" | "sum_scale";
     send_eos_when?: OutputEndCondition;
     encoder: RtpAudioEncoderOptions;
@@ -227,7 +223,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](#mp4audioencoderoptions)
+- **Type**: [`RtpAudioEncoderOptions`](#rtpaudioencoderoptions)
 
 #### initial
 Initial audio mixer configuration for output.

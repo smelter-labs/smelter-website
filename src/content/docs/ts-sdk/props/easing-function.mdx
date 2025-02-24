@@ -7,7 +7,8 @@ import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type EasingFunction = 
   | "linear"
   | "bounce"
@@ -15,12 +16,12 @@ type EasingFunction =
       functionName: "cubic_bezier";
       points: [number, number, number, number];
     }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### functionName
+### functionName
 Duration of a transition in milliseconds.
 
 - **Type**: `linear | bounce | cubic_bezier`
@@ -31,7 +32,7 @@ Duration of a transition in milliseconds.
     - `cubic_bezier`
 ---
 
-#### points
+### points
 Four numerical values in `[0; 1]` range used for cubic Bézier. The result is clamped to the range `[0; 1]`.
 
 - **Type**: `[number, number, number, number]`

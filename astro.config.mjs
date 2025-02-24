@@ -2,6 +2,7 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
+import starlightLinksValidator from "starlight-links-validator";
 
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -30,6 +31,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
+      plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
       description: "Toolkit for real-time, programmable video and audio mixing.",
       social: {
         github: "https://github.com/software-mansion/smelter",
@@ -44,11 +46,38 @@ export default defineConfig({
         alt: "Smelter logo",
         replacesTitle: true,
       },
+      head: [
+        {
+          tag: "meta",
+          attrs: { property: "og:image", content: "https://smelter.dev/og-image.png" },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:alt",
+            content: "Toolkit for real-time, programmable video and audio mixing.",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: { property: "twitter:title", content: "Smelter – Live stream mixing simplified" },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "twitter:description",
+            content: "Toolkit for real-time, programmable video and audio mixing.",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: { property: "twitter:image”", content: "https://smelter.dev/og-image.png" },
+        },
+      ],
       sidebar: [
         {
           label: "Fundamentals",
           items: [
-            // Each item here is one entry in the navigation menu.
             { label: "Getting started", slug: "fundamentals/getting-started" },
             //{ label: "How it works", slug: "fundamentals/how-it-works" },
             { label: "Glossary of terms", slug: "fundamentals/glossary" },
@@ -147,6 +176,11 @@ export default defineConfig({
               collapsed: true,
               autogenerate: { directory: "http-api/resources" },
             },
+            {
+              label: "Guides",
+              collapsed: true,
+              autogenerate: { directory: "http-api/guides" },
+            },
           ],
         },
       ],
@@ -162,7 +196,6 @@ export default defineConfig({
       [
         rehypeAutolinkHeadings,
         {
-          // Wrap the heading text in a link.
           behavior: "wrap",
         },
       ],

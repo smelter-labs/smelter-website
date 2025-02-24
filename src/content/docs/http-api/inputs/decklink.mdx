@@ -17,30 +17,34 @@ To use DeckLink input you must register it first. You can do it by sending a req
 
 
 <CollapsibleDetails summaryTitle='Example request' open>
-<Code code={`
+
+```http
 POST: /api/input/:input_id/register
 Content-Type: application/json
 
 {
-    "type": "decklink",
-    "display_name": "DeckLink Quad HDMI Recorder (3)"
+  "type": "decklink",
+  "display_name": "DeckLink Quad HDMI Recorder (3)"
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
-
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
 
+## Reference
+
 <CollapsibleDetails summaryTitle='Type definition' open>
-<Code code={`
-type DeckLink = {
-    subdevice_index?: u32;
-    display_name?: string;
-    persistent_id?: string;
-    enable_audio?: bool;
-    required?: bool;
+
+```tsx
+type DeckLinkInput = {
+  type: "decklink";
+  subdevice_index?: u32;
+  display_name?: string;
+  persistent_id?: string;
+  enable_audio?: bool;
+  required?: bool;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 Capture streams from devices connected to Blackmagic DeckLink card.

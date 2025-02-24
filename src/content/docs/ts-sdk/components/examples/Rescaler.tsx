@@ -1,11 +1,16 @@
-import { Image, Rescaler } from "@swmansion/smelter";
+import { Image, Rescaler, View } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
-    <Rescaler style={{ rescaleMode: "fill" }}>
-      <Image source="https://example.com/image.png" />
-    </Rescaler>
+    <View style={{ backgroundColor: "#52505b" }}>
+      <Rescaler>
+        <Image source="https://example.com/image.png" />
+      </Rescaler>
+      <Rescaler style={{ rescaleMode: "fill" }}>
+        <Image source="https://example.com/image.png" />
+      </Rescaler>
+    </View>
   );
 }
 

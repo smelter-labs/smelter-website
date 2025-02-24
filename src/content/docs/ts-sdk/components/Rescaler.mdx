@@ -4,22 +4,31 @@ title: Rescaler
 import { Code } from '@astrojs/starlight/components';
 import rescalerExample from './examples/Rescaler.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-rescaler-example.webp';
 
-A layout component responsible for rescaling other components. **compatible components**
+A layout component that will resize its children to match its own size. It will always preserve
+aspect ratio while resizing.
+
+## Usage
+
+<Code code={rescalerExample} title='RescalerExample.tsx' lang='tsx' collapse={["17-44"]} />
+
+<CollapsibleDetails summaryTitle='Example output'>
+  <img src={ExampleImage.src} />
+</CollapsibleDetails>
 
 ## Reference
 
-<Code code={rescalerExample} title='RescalerExample.tsx' lang='tsx' collapse={["17-34"]} />
+<CollapsibleDetails summaryTitle='Type definitions' open>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 type RescalerProps = {
-    id?: string;
-    children: ReactElement;
-    style?: RescalerStyleProps;
-    transition?: Transition;
+  id?: string;
+  children: ReactElement;
+  style?: RescalerStyleProps;
+  transition?: Transition;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Transitions
@@ -32,7 +41,7 @@ During a scene update, a `Rescaler` component will animate transitions between t
 ## Props
 
 ### children
-A single child component to be rescaled.
+Exactly one child component.
 
 - **Type**: `ReactNode`
 

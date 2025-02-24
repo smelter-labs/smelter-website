@@ -10,17 +10,19 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-`WebView` renders a website using Chromium engine embedded inside the smelter.
+`WebView` renders a website using Chromium engine embedded inside the Smelter instance.
 
 <Aside>To use this component, you need to first register the image with a matching `instanceId` using the `Smelter.registerWebRenderer` function.</Aside>
 
 <Aside type='caution'>Only one component can use specific `instanceId` at the time.</Aside>
 
-## Reference
+## Usage
 
 <Code code={viewExample} title='WebViewExample.tsx' lang='tsx' collapse={["26-37"]} />
 
-<CollapsibleDetails summaryTitle='Type definitions'>
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type WebView = {
     id?: string;

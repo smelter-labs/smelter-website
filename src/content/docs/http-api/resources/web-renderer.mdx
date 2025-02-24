@@ -9,12 +9,12 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-Represents an instance of a website rendered using Chromium embedded in the Smelter. It is utilized by a [WebView](/http-api/components/webview) component. Ensure that the Smelter supports web rendering before utilizing the web renderer.
+Represents an instance of a website rendered using Chromium embedded in the Smelter instance. It is utilized by a [WebView](/http-api/components/webview) component. Ensure that the Smelter supports web rendering before utilizing the web renderer.
 
 <Aside>You need to enable [`SMELTER_WEB_RENDERER_ENABLE`](/deployment/configuration#smelter_web_renderer_enable) environment variable to use web rendering capabilities.</Aside>
 <Aside type='caution'>Only one component can use specific instance at the time.</Aside>
 
-## WebRenderer
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
@@ -32,23 +32,23 @@ type WebRenderer = {
 `} lang='tsx' />
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### url
+### url
 Url of a website that to render.
 
 - **Type**: `string`
 
 ---
 
-#### resolution
+### resolution
 Resulution of the rendered website.
 
 - **Type**: `{ width: u32; height: u32; }`
 
 ---
 
-#### embedding_method
+### embedding_method
 Mechanism used to render input frames on the website.
 
 - **Type**: `"chromium_embedding" | "native_embedding_over_content" | "native_embedding_under_content"`

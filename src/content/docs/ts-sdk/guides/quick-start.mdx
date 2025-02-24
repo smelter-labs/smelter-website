@@ -156,7 +156,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
           encoder: { type: "ffmpeg_h264" },
         },
         audio: {
-          encoder: { type: "opus", channels: "stereo" },
+          encoder: { type: "aac", channels: "stereo" },
         }
       });
 
@@ -267,6 +267,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     with slightly lowered volume. (If input has a different resolution it won't be automatically rescaled).
 
 5. Modify the components to display both inputs.
+
     [`Tiles`](/ts-sdk/components/tiles) component is a simple way to display element in
     a layout that uses available space efficiently (similar to stream layout in most video call apps).
 

@@ -13,6 +13,11 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
 
+  await smelter.registerInput("example_input", {
+    type: "mp4",
+    serverPath: "./inputExample.mp4",
+  });
+
   await smelter.registerOutput("output", <ExampleApp />, {
     type: "mp4",
     serverPath: "./output.mp4",
@@ -32,11 +37,6 @@ async function run() {
         channels: "stereo",
       },
     },
-  });
-
-  await smelter.registerInput("example_input", {
-    type: "mp4",
-    serverPath: "./inputExample.mp4",
   });
 
   await smelter.start();

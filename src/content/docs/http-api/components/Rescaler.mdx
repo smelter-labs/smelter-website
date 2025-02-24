@@ -2,9 +2,45 @@
 title: Rescaler
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import ExampleImage from '../../../../assets/guides/component-rescaler-example.webp';
 
-`Rescaler` is a layout component responsible for rescaling other components.
+A layout component that will resize its children to match its own size. It will always preserve
+aspect ratio while resizing.
+
+## Usage
+
+<CollapsibleDetails summaryTitle='Update request' open>
+
+```http
+POST: /api/output/example_output/update
+Content-Type: application/json
+
+{
+  "video": {
+    "root": {
+      "type": "view",
+      "background_color": "#52505b",
+      "children": [
+        {
+          "type": "rescaler",
+          "child": { "type": "image", "image_id": "example_image" }
+        },
+        {
+          "type": "rescaler",
+          "mode": "fill",
+          "child": { "type": "image", "image_id": "example_image" }
+        }
+      ]
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Example output'>
+  <img src={ExampleImage.src} />
+</CollapsibleDetails>
 
 ## Positioning
 ### Absolute
@@ -29,30 +65,28 @@ On the scene update, a `Rescaler` component will animate between the original st
 
 ## Reference
 
-{/*TODO example and perhaps move above positioning*/}
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
-  type Rescaler = {
-    id?: string;
-    child: Component;
-    mode?: "fit" | "fill";
-    horizontal_align?: "left" | "right" | "justified" | "center";
-    vertical_align?: "top" | "center" | "bottom" | "justified";
-    width?: f32;
-    height?: f32;
-    top?: f32;
-    left?: f32;
-    bottom?: f32;
-    right?: f32;
-    rotation?: f32;
-    transition?: Transition;
-    border_radius?: f32;
-    border_width?: f32;
-    border_color?: string;
-    box_shadow?: BoxShadow[];
-  }
-`} lang='tsx' />
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type Rescaler = {
+  id?: string;
+  child: Component;
+  mode?: "fit" | "fill";
+  horizontal_align?: "left" | "right" | "justified" | "center";
+  vertical_align?: "top" | "center" | "bottom" | "justified";
+  width?: f32;
+  height?: f32;
+  top?: f32;
+  left?: f32;
+  bottom?: f32;
+  right?: f32;
+  rotation?: f32;
+  transition?: Transition;
+  border_radius?: f32;
+  border_width?: f32;
+  border_color?: string;
+  box_shadow?: BoxShadow[];
+}
+```
 </CollapsibleDetails>
 
 ## Properties
@@ -65,7 +99,7 @@ ID of a component.
 ---
 
 ### child
-List of component's children.
+Exactly one child component.
 
 - **Type**: `Component`
 

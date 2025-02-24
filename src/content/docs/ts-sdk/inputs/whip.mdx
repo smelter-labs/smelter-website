@@ -11,62 +11,69 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 <br />
 <br />
 
-An input type that allows streaming video and audio to the Smelter over WHIP. Smelter exposes
-WHIP server on port defined by [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smelterwhipwhepserverport).
+An input type that allows streaming video and audio to Smelter over WHIP. 
 
-To connect new input, register it with `Smelter.registerInput` and establish WHIP connection to `/whip/:input_id` endpoint.
+Smelter exposes WHIP endpoint on port 9000 under `/whip/:input_id` route. A different port can be
+configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smelter_whip_whep_server_port).
 
-<Code title='whipInputExample.tsx' code={`
+To connect new input, register it first with [`Smelter.registerInput`](/ts-sdk/smelter#registerinput) and
+then establish a WHIP connection.
+
+## Usage
+
+```tsx title=whipInputExample.tsx
 import Smelter from "@swmansion/smelter-node";
 
 async function run() {
-    const smelter = new Smelter();
-    await smelter.init();
-    await smelter.registerInput("example", {
-        type: "whip",
-        video: { decoder: "ffmpeg_h264" },
-        audio: { decoder: "opus" }
-    });
-    // At this point you can establish WHIP connection to
-    // http://localhost/whip/example
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "whip",
+      video: { decoder: "ffmpeg_h264" },
+      audio: { decoder: "opus" }
+  });
+  // At this point you can establish WHIP connection to
+  // http://localhost:9000/whip/example
 }
 void run();
-`} lang='tsx' />
+```
 
-## RegisterWhipInput
-<Code code={`import { RegisterWhipInput } from "@swmansion/smelter"`} lang='tsx' />
-
-Parameters for an input stream from WHIP source.
-<Aside>At least one of `video` and `audio` has to be defined.</Aside>
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type RegisterWhipInput = {
-    video?: Inputs.InputWhipVideoOptions;
-    audio?: Inputs.InputWhipAudioOptions;
-    required?: boolean;
-    offsetMs?: number;
+  type: "whip";
+  video?: InputWhipVideoOptions;
+  audio?: InputWhipAudioOptions;
+  required?: boolean;
+  offsetMs?: number;
 };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+Parameters for registering an WHIP endpoint as an input.
 
-#### video
+<Aside>At least one of `video` and `audio` has to be defined.</Aside>
+
+## Properties
+
+### video
 Parameters of a video included in the WHIP stream.
 
-- **Type**: [`InputWhipVideoOptions`](/ts-sdk/inputs/whip#inputsinputwhipvideooptions)
+- **Type**: [`InputWhipVideoOptions`](/ts-sdk/inputs/whip#inputwhipvideooptions)
 
 ---
 
-#### audio
+### audio
 Parameters of an audio included in the WHIP stream.
 
-- **Type**: [`InputWhipAudioOptions`](/ts-sdk/inputs/whip#inputsinputwhipaudiooptions)
+- **Type**: [`InputWhipAudioOptions`](/ts-sdk/inputs/whip#inputwhipaudiooptions)
 
 ---
 
-#### required
+### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
 - **Type**: `boolean`
@@ -74,22 +81,22 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-#### offsetMs
+### offsetMs
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `number`
 
-## Inputs.InputWhipVideoOptions
-<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
+## InputWhipVideoOptions
 
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type InputWhipVideoOptions = {
-    decoder: "ffmpeg_h264" | "vulkan_video";
+  decoder: "ffmpeg_h264" | "vulkan_video";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -99,7 +106,7 @@ type InputWhipVideoOptions = {
 - **Type**: `"ffmpeg_h264" | "vulkan_video"`
 - **Supported values**:
   - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
-  - `"vulkan_video"` - Use hardware decoder based on Vulkan Video.
+  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
     
     This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
     support it.
@@ -108,18 +115,18 @@ type InputWhipVideoOptions = {
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
 
-## Inputs.InputWhipAudioOptions
-<Code code={`import { Inputs } from "@swmansion/smelter"`} lang='tsx' />
+## InputWhipAudioOptions
 
-Parameters of a audio source included in the WHIP stream.
+Parameters of an audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type InputWhipAudioOptions = {
-    decoder: "opus";
-    forwardErrorCorrection?: boolean;
+  decoder: "opus";
+  forwardErrorCorrection?: boolean;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties (decoder: "opus")

@@ -3,29 +3,78 @@ title: Shader
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import { Aside, Code } from '@astrojs/starlight/components';
+import ExampleImage from '../../../../assets/guides/component-shader-example.mp4';
+import ShaderExample from './shader.wgsl?raw';
 
-Applies shader transformations to its children using a WGSL shader. For more information on using shaders in Smelter, please visit [Shaders documentation.](/fundamentals/concepts/shaders)
+Component that represents output of a user provided WGSL shader. All children components are available as textures inside the shader code.
+For more information on using shaders in Smelter, please visit [Shaders documentation](/fundamentals/concepts/shaders).
 
-:::note
-To use this component, you need to first register the shader with matching `shader_id` using [`register shader`](/http-api/routes#register-shader) request.
-:::
+
+<Aside> To use this component, you need to first register the shader with matching `shader_id` using [`register shader`](/http-api/routes#register-shader) request. </Aside>
+
+## Usage
+
+Register a shader with an id `example_shader`:
+
+<CollapsibleDetails summaryTitle='Register shader' open>
+
+<Code code={ShaderExample} title='example_shader.wgsl' lang='wgsl' collapse={["1-100"]} />
+
+```http
+POST: /api/shader/example_shader/register
+Content-Type: application/json
+
+{
+  "source": "<SHADER CODE FROM ./example_shader.wgsl>"
+}
+```
+</CollapsibleDetails> 
+
+Update output with a new scene that is using a shader `example_shader`:
+
+<CollapsibleDetails summaryTitle='Update request' open>
+
+```http
+POST: /api/output/example_output/update
+Content-Type: application/json
+
+{
+  "video": {
+    "root": {
+      "type": "shader",
+      "shader_id": "example_shader",
+      "children": [
+        {
+          "type": "input_stream",
+          "input_id": "example_input"
+        }
+      ],
+      "resolution": { "width": 1920, "height": 1080 }
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Example output'>
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
+</CollapsibleDetails>
 
 ## Reference
-{/*TODO example*/}
 
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type Shader = {
-    id?: string;
-    children?: Component[];
-    shader_id: string;
-    shader_param?: ShaderParam;
-    resolution: {
-      width: u32;
-      height: u32;
-    };
+  id?: string;
+  children?: Component[];
+  shader_id: string;
+  shader_param?: ShaderParam;
+  resolution: {
+    width: u32;
+    height: u32;
+  };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 

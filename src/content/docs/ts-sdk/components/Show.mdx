@@ -4,6 +4,7 @@ title: Show
 import { Aside, Code } from '@astrojs/starlight/components';
 import showExample from './examples/Show.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-show-example.mp4';
 
 A simple component that allows scheduling when element should be added. It allows specifying
 timestamp or delay after mount.
@@ -11,18 +12,25 @@ timestamp or delay after mount.
 This functionality is primarily useful for [offline processing](/fundamentals/glossary#offline-processing).
 For live cases the same functionality can be easily reproduced with `useEffect`+`setTimeout`.
 
+## Usage
+
+<Code code={showExample} title='ShowExample.tsx' lang='tsx' collapse={["20-39"]} />
+
+<CollapsibleDetails summaryTitle='Example output'>
+  <video autoplay loop muted src={ExampleImage} alt="example output" />
+</CollapsibleDetails>
+
 ## Reference
 
-<Code code={showExample} title='ShowExample.tsx' lang='tsx' collapse={["22-33"]} />
+<CollapsibleDetails summaryTitle='Type definitions' open>
 
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 type ShowProps = {
-    children: ReactNode;
-    timeRangeMs?: { start?: number; end?: number };
-    delayMs?: number
+  children: ReactNode;
+  timeRangeMs?: { start?: number; end?: number };
+  delayMs?: number
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Props

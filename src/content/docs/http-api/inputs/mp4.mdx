@@ -1,10 +1,10 @@
 ---
 title: MP4
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-An input type that allows the Smelter to read static MP4 files.
+An input type that allows Smelter to read static MP4 files.
 
 <Aside>MP4 files can contain video and audio tracks encoded with various codecs. This input type supports MP4 video tracks encoded with `h264` and audio tracks encoded with `AAC`.</Aside>
 <Aside type='caution'>If the file contains multiple audio or video tracks, only the first audio track and the first video track will be processed; all additional tracks will be ignored.</Aside>
@@ -14,34 +14,40 @@ An input type that allows the Smelter to read static MP4 files.
 To use MP4 Input you must register it first. You can do it by sending a request like this:
 
 <CollapsibleDetails summaryTitle='Example request' open>
-<Code code={`
+
+```http
 POST: /api/input/:input_id/register
 Content-Type: application/json
 
 {
-    "type": "mp4",
-    "url": "https://url.to.file.mp4"
+  "type": "mp4",
+  "url": "https://example.com/video.mp4"
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
 
+## Reference
+
 <CollapsibleDetails summaryTitle='Type definition' open>
-<Code code={`
+
+```tsx
 type Mp4Input = {
-    url?: string;
-    path?: string;
-    loop?: bool;
-    required?: bool;
-    offset_ms?: f64;
-    video_decoder?: "ffmpeg_h264" | "vulkan_video";
+  type: "mp4";
+  url?: string;
+  path?: string;
+  loop?: bool;
+  required?: bool;
+  offset_ms?: f64;
+  video_decoder?: "ffmpeg_h264" | "vulkan_video";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-Input stream from MP4 file.
-<Aside>Exactly one of `url` and `path` has to be defined.</Aside>
+Parameters for registering an MP4 file as an input.
+
+<Aside>Exactly one of `url` or `path` has to be defined.</Aside>
 
 ## Properties
 
@@ -88,8 +94,8 @@ The decoder to use for decoding video.
 - **Default value**: `ffmpeg_h264`
 - **Supported values**:
   - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
-  - `"vulkan_video"` - Use hardware decoder based on Vulkan Video.
-    
+  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
+
     This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
     support it.
 

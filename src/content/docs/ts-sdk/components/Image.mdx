@@ -4,30 +4,46 @@ title: Image
 import { Aside, Code } from '@astrojs/starlight/components';
 import imageExample from './examples/Image.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import ExampleImage from '../../../../assets/guides/component-image-example.webp';
 
 A component for rendering images:
 - From external URLs
-- From the server hosting a Smelter instance
+- From a local path on the server hosting a Smelter instance
 
-<Aside>To use this component, you need to first register the image with a matching `imageId` using the [`Smelter.registerImage`](/ts-sdk/smelter#registerimage) function.</Aside>
+## Usage
+
+<Code code={imageExample} title='ImageExample.tsx' lang='tsx' collapse={["12-33"]} />
+
+<CollapsibleDetails summaryTitle='Example output'>
+  <img src={ExampleImage.src} />
+</CollapsibleDetails>
 
 ## Reference
 
-<Code code={imageExample} title='ImageExample.tsx' lang='tsx' collapse={["17-28"]} />
-
-<CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type ImageProps = {
     id?: string;
-    imageId: string;
+    imageId?: string;
+    source?: string;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
+
+<Aside>Exactly one of `imageId` and `source` has to be defined.</Aside>
 
 ## Props
 
 ### imageId
 ID of an image. It identifies an image registered using a [Smelter.registerImage](/ts-sdk/smelter#registerimage) method.
+
+- **Type**: `string`
+
+---
+
+### source
+Url or local path to the mp4 file. Note that the path has to be local to the machine where
+Smelter server runs.
 
 - **Type**: `string`
 

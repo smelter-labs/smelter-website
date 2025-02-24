@@ -11,43 +11,46 @@ import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro'
 
 An output that sends the output stream via WHIP protocol.
 
-<Code title='whipOutputExample.tsx' code={`
+## Usage
+
+```tsx title=whipOutputExample.tsx
 import Smelter from "@swmansion/smelter-web-wasm";
 import { View } from "@swmansion/smelter";
 
 async function run() {
-    const smelter = new Smelter();
-    await smelter.init();
-    await smelter.registerOutput('example', <View />
-      type: 'whip',
-      endpointUrl: 'https://example.com/whip',
-      video: {
-        resolution: { width: 1920, height: 1080 };
-      };
-      audio: true;
-    });
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerOutput('example', <View />, {
+    type: 'whip',
+    endpointUrl: 'https://example.com/whip',
+    video: {
+      resolution: { width: 1920, height: 1080 },
+    },
+    audio: true;
+  });
 }
 void run()
-`} lang='tsx' />
+```
 
-## RegisterCanvasOutput
-<Code code={`import { RegisterWhipOutput } from "@swmansion/smelter-web-wasm"`} lang='tsx' />
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type RegisterCanvasOutput = {
-    endpointUrl: string;
-    bearerToken?: string;
-    iceServers?: RTCConfiguration['iceServers'];
-    video: WhipOutputVideo;
-    audio?: boolean;
+
+```tsx
+type RegisterWhipOutput = {
+  type: "whip";
+  endpointUrl: string;
+  bearerToken?: string;
+  iceServers?: RTCConfiguration['iceServers'];
+  video: WhipOutputVideo;
+  audio?: boolean;
 };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### endpointUrl
+### endpointUrl
 
 Url of a WHIP endpoint.
 
@@ -55,7 +58,7 @@ Url of a WHIP endpoint.
 
 ---
 
-#### bearerToken
+### bearerToken
 
 Bearer token for a WHIP connection.
 
@@ -63,7 +66,7 @@ Bearer token for a WHIP connection.
 
 ---
 
-#### iceServers
+### iceServers
 
 List of ICE servers that should be added to `RTCPeerConnection`
 
@@ -72,16 +75,16 @@ List of ICE servers that should be added to `RTCPeerConnection`
 
 ---
 
-#### video
+### video
 Parameters of an output video.
 
 - **Type**: [`WhipOutputVideo`](#whipoutputvideo)
 
 ---
 
-#### audio
+### audio
 
-If `true` WHIP stream will include an audio track.
+If `true` `MediaStream` returned from a register call will include audio track.
 
 - **Type**: `boolean` 
 - **Defaults to**: `false`
@@ -109,4 +112,4 @@ Max bitrate of a stream.
 
 Resolution of an output video
 
-- **Type**: `{ resolution: { width: number; height: number }}`
+- **Type**: `{ width: number; height: number }`

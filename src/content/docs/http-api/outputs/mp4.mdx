@@ -4,91 +4,87 @@ title: MP4
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-An output type that allows saving video and audio from the compositor to MP4 file.
+An output type that allows saving video and audio from Smelter to MP4 file.
 
-### Usage
+## Usage
 
 To use MP4 Output you need to register it first.
 <CollapsibleDetails summaryTitle='Example request' open>
-<Code code={`
+
+```http
 POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-    "type": "mp4",
-    "path": "/path/to/file.mp4",
-    "video": {
-      "resolution": { "width": 1280, "height": 720 },
-      "encoder": {
-        "type": "ffmpeg_h264",
-        "preset": "ultrafast"
-      },
-      "initial": {
-        "root": {
-          "type": "view",
-          "background_color": "#4d4d4dff"
-        }
-      }
-    },
-    "audio": {
-      "encoder": {
-        "type": "aac",
-        "channels": "stereo"
-      },
-      "initial": {
-        "inputs": [{ "input_id": "input_1", "volume": 0.64 }]
+  "type": "mp4",
+  "path": "/path/to/file.mp4",
+  "video": {
+    "resolution": { "width": 1280, "height": 720 },
+    "encoder": { "type": "ffmpeg_h264" },
+    "initial": {
+      "root": {
+        "type": "view"
       }
     }
+  },
+  "audio": {
+    "encoder": { "type": "aac", "channels": "stereo" },
+    "initial": {
+      "inputs": [{ "input_id": "input_1", "volume": 1 }]
+    }
+  }
 }
-`} lang='http' />
+```
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn more about managing outputs.
 
-## Mp4Output
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type Mp4Output = {
-    path: string;
-    video?: OutputVideoOptions;
-    audio?: OutputMp4AudioOptions;
+  type: "mp4";
+  path: string;
+  video?: Mp4VideoOptions;
+  audio?: Mp4AudioOptions;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
-### Properties
+## Properties
 
-#### path
+### path
 Path to output MP4 file.
 
 - **Type**: `string`
 
 ---
 
-#### video
+### video
 Video track configuration.
 
-- **Type**: [`OutputVideoOptions`](#outputvideooptions)
+- **Type**: [`Mp4VideoOptions`](#mp4videooptions)
 
 ---
 
-#### audio
+### audio
 Audio track configuration.
 
-- **Type**: [`OutputMp4AudioOptions`](#outputmp4audiooptions)
+- **Type**: [`Mp4AudioOptions`](#mp4audiooptions)
 
-## OutputVideoOptions
+## Mp4VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type OutputVideoOptions = {
+type Mp4VideoOptions = {
     resolution: {
       width: u32;
       height: u32;
     };
     send_eos_when?: OutputEndCondition;
-    encoder: VideoEncoderOptions;
+    encoder: Mp4VideoEncoderOptions;
     initial: { root: Component; };
 }
 `} lang='tsx' />
@@ -122,13 +118,13 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 - **Type**: `{ root: Component; }`
 
-## VideoEncoderOptions
+## Mp4VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
 type VideoEncoderOptions = {
     type: "ffmpeg_h264";
-    preset?: 
+    preset?:
       | "ultrafast"
       | "superfast"
       | "veryfast"
@@ -170,10 +166,10 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## OutputMp4AudioOptions
+## Mp4AudioOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-type OutputMp4AudioOptions = {
+type Mp4AudioOptions = {
     mixing_strategy?: "sum_clip" | "sum_scale";
     send_eos_when?: OutputEndCondition;
     encoder: Mp4AudioEncoderOptions;

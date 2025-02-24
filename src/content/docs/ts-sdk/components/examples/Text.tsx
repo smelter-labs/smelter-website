@@ -3,9 +3,29 @@ import Smelter from "@swmansion/smelter-node";
 
 function ExampleApp() {
   return (
-    <View>
-      <Text style={{ fontSize: 64, color: "#a5baf0", fontWeight: "bold" }}>
-        Test text
+    <View
+      style={{
+        backgroundColor: "#52505b",
+        padding: 100,
+        direction: "column",
+      }}>
+      <Text style={{ fontSize: 72, color: "#a5baf0", fontWeight: "bold" }}>
+        Example text
+      </Text>
+      <View style={{ height: 30 }} />
+      <Text
+        style={{
+          fontSize: 30,
+          lineHeight: 44,
+          color: "#a5baf0",
+          wrap: "word",
+          width: 1000,
+        }}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+        consequat lorem a quam bibendum, non gravida tortor ornare. Cras
+        blandit facilisis erat. Integer porta ullamcorper mauris ac
+        maximus. Donec sapien diam, porttitor nec interdum sit amet,
+        eleifend at lectus.
       </Text>
     </View>
   );

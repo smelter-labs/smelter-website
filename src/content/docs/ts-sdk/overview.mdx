@@ -41,7 +41,7 @@ Our hooks are primarily designed for managing stream configurations and accessin
 You're free to use any standard React hooks such as `useState`, `useEffect`, and more.
 
 ### Inputs
-You can handle most of the stream composing by using React components. However, delivering multimedia to the smelter requires registering the input beforehand. You can register an input by using [Smelter.registerInput](/ts-sdk/smelter#registerinput), which accepts `inputId` and object representing input configurations. Supported inputs depend on the runtime.
+You can handle most of the stream composing by using React components. However, delivering multimedia to Smelter requires registering the input beforehand. You can register an input by using [Smelter.registerInput](/ts-sdk/smelter#registerinput), which accepts `inputId` and object representing input configurations. Supported inputs depend on the runtime.
 
 Node.js:
 - [MP4](/ts-sdk/inputs/mp4)
@@ -72,7 +72,7 @@ Browser (WASM)
 - [WHIP (Web API)](/ts-sdk/outputs/wasm-whip)
 
 ### Resources
-Other than inputs and outputs the smelter supports few other types of entity types that need to be registered.
+Other than inputs and outputs Smelter supports a few other entity types that need to be registered.
 - [Shader](/ts-sdk/resources/shader)
 - [Image](/ts-sdk/resources/image)
 - [WebRenderer](/ts-sdk/resources/web-renderer)
