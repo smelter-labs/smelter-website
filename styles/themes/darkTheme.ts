@@ -46,7 +46,7 @@ export const DARK_THEME = {
       hoverText: COLORS.red40,
     },
     example: {
-      border: COLORS.white25
+      border: COLORS.white25,
     },
     capabilities: {
       header: COLORS.white100,
