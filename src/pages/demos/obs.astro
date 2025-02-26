@@ -1,0 +1,14 @@
+---
+import SmelterSection from "../../components/demos/obs/SmelterSection";
+import Stream from "../../components/demos/obs/io/Stream";
+import DemosLayout from "../../layouts/DemosLayout.astro";
+---
+
+<DemosLayout canonicalUrl="https://www.smelter.dev">
+    <main class="flex justify-center min-h-screen w-full overflow-clip pt-24 px-16">
+        <div class="w-full max-w-[1536px] relative self-center">
+            <SmelterSection client:load />
+        </div>
+    </main>
+</DemosLayout>
+
