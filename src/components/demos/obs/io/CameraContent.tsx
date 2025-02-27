@@ -20,7 +20,7 @@ export default function CameraContent() {
               borderWidth: 1.5,
               rescaleMode: "fill",
             }}>
-            <InputStream id={`camera${index}`} inputId="camera" />
+            <InputStream id={`camera${index}`} inputId="camera-input" />
           </Rescaler>
         ))}
       </Tiles>
