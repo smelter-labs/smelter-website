@@ -1,6 +1,7 @@
 ---
 title: Project configuration
 ---
+import CollapsibleDetails from '../../../components/CollapsibleDetails.astro';
 
 Configuration instructions and compatibility table for TypeScript SDK
 on different runtimes.
@@ -80,13 +81,12 @@ is done fully in-browser by Smelter code compiled to WASM.
 
 ### Configuration
 
-In the Smelter repository you can find [few examples](https://github.com/software-mansion/smelter/tree/master/demos)
-of `vite` projects with Smelter configured.
+In the Smelter repository you can find [few example projects](https://github.com/software-mansion/smelter/tree/master/demos) with Smelter configured.
 
 We are working on examples of other configurations, but here are steps you need to follow
 to configure that yourself:
 - `@swmansion/smelter-browser-render` includes `smelter.wasm` that needs to hosted on your site.
-- You need to call `setWasmBundleUrl` with URL to `smelter.wasm` before starting any smelter instances.
+- You need to call `setWasmBundleUrl` with URL to `smelter.wasm` before starting any Smelter instances.
 - Smelter code will be started in a Web Worker. Your project bundler needs to be able to handle following
 syntax in a library code.
   ```js
@@ -94,3 +94,86 @@ syntax in a library code.
     type: 'module'
   });
   ```
+
+{/* TODO vite examples */}
+
+<CollapsibleDetails summaryTitle='Next.js'>
+
+**Required dependencies**
+
+```json title="package.json" ins={12-13, 15-16, 22} collapse={2-10, 24-27}
+{
+  "name": "nextjs-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@swmansion/smelter": "0.2.0",
+    "@swmansion/smelter-web-wasm": "0.2.0",
+    "next": "14.2.24",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "copy-webpack-plugin": "12.0.2" ,
+    "eslint": "^8",
+    "eslint-config-next": "14.2.24",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
+
+```
+
+**Update Next.js config**
+
+For configuration shown below, URL to `smelter.wasm` used in `setWasmBundleUrl` should be `'/smelter.wasm'`
+```js title="next.config.mjs"
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import CopyPlugin from 'copy-webpack-plugin';
+
+const require = createRequire(import.meta.url);
+
+const nextConfig =  {
+  webpack: (config, { isServer }) => {
+    config.plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(
+              path.dirname(require.resolve('@swmansion/smelter-browser-render')),
+              'smelter.wasm'
+            ),
+            to: path.join(import.meta.dirname, "public"),
+          },
+        ],
+      })
+    );
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      "compositor_web_bg.wasm": false,
+    };
+
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('@swmansion/smelter-web-wasm');
+    }
+
+    return config;
+  },
+};
+
+export default nextConfig;
+```
+</CollapsibleDetails>
+
