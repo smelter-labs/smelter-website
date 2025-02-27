@@ -1,6 +1,6 @@
-import { InputStream, Mp4, Rescaler, View } from "@swmansion/smelter";
+import { InputStream, Rescaler } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
-import { type Ref, forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { type Ref, forwardRef, useCallback, useState } from "react";
 
 import { create } from "zustand";
 import SmelterCanvas from "../SmelterCanvas";
@@ -46,13 +46,11 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
     try {
       const permissionStatus = await navigator.permissions.query({ name: "camera" });
 
-      // If the permission is already granted
       if (permissionStatus.state === "granted") {
         setIsCameraReady(true);
         setCameraInputsCount(1)
         await smelter?.registerInput("camera-input", { type: "camera" });
       } else if (permissionStatus.state === "prompt") {
-        // This will trigger the browser's permission request pop-up
         setIsCameraReady(true);
         setCameraInputsCount(1)
         await smelter?.registerInput("camera-input", { type: "camera" });
@@ -71,7 +69,7 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
   }
 
   return (
-    <div className="bg-demos-background relative">
+    <div className="relative bg-demos-background">
       {isCameraReady ? (
         <SmelterCanvas
           id="camera"

@@ -1,4 +1,5 @@
 import { Mp4, Rescaler, Text, View } from "@swmansion/smelter";
+import { COLORS } from "../../../../../styles/colors";
 import CommercialMp4 from "../../../../assets/demos/game.mp4";
 import CameraContent from "./CameraContent";
 import { OUTPUT_SIZE } from "./Output";
@@ -11,7 +12,7 @@ export default function OutputConent() {
     <View
       style={{
         borderRadius: 16,
-        borderColor: "white",
+        borderColor: COLORS.white100,
         borderWidth: 1.5,
       }}>
       <Rescaler>

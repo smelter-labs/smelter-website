@@ -29,13 +29,7 @@ function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
   }
 
   return (
-    <div className="bg-demos-background">
-      <SmelterCanvas
-        id="stream"
-        smelter={smelter}
-        onCanvasCreate={onCanvasCreate}
-        width={INPUT_SIZE.width}
-        height={INPUT_SIZE.height}>
+
         <View style={{ backgroundColor: COLORS.black100 }}>
           <Rescaler
             style={{
@@ -46,8 +40,7 @@ function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
             <InputStream inputId="stream" />
           </Rescaler>
         </View>
-      </SmelterCanvas>
-    </div>
+
   );
 }
 

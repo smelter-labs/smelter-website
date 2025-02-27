@@ -1,6 +1,5 @@
-import { useInputStreams } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
-import { type Ref, forwardRef, useCallback, useEffect, useRef } from "react";
+import { type Ref, forwardRef, useCallback } from "react";
 import SmelterCanvas from "../SmelterCanvas";
 import OutputConent from "./OutputContent";
 
@@ -19,7 +18,7 @@ function Output({ smelter }: OutputProps, ref: Ref<Smelter>) {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
       <SmelterCanvas
         smelter={smelter}
         id="output"
@@ -28,6 +27,7 @@ function Output({ smelter }: OutputProps, ref: Ref<Smelter>) {
         height={OUTPUT_SIZE.height}>
         <OutputConent />
       </SmelterCanvas>
+      <h3 className="text-demos-subheader">Composed live stream or video</h3>
     </div>
   );
 }

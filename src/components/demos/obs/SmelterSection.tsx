@@ -1,7 +1,6 @@
 import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { create } from "zustand";
+import { useEffect, useRef, useState } from "react";
 import Arrow from "../../../assets/demos/arrow.svg";
 import Arrows from "../../../assets/demos/arrows.svg";
 import SmelterLogo from "../../../assets/navigation/smelter-logo-small.svg";

@@ -223,3 +223,10 @@ input:-webkit-autofill:active {
     opacity: 0;
     animation: fadeIn 0.7s ease-in-out forwards;
 }
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}

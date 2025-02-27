@@ -1,5 +1,5 @@
 import { InputStream, Rescaler, Tiles, View } from "@swmansion/smelter";
-
+import { COLORS } from "../../../../../styles/colors";
 import { useCameraStore } from "./Camera";
 import { OUTPUT_SIZE } from "./Output";
 
@@ -16,7 +16,7 @@ export default function CameraContent() {
             key={item?.toString()}
             style={{
               borderRadius: 12,
-              borderColor: "white",
+              borderColor: COLORS.white100,
               borderWidth: 1.5,
               rescaleMode: "fill",
             }}>
