@@ -1,8 +1,8 @@
 import { InputStream, Rescaler, View } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
 import { type Ref, forwardRef, useCallback } from "react";
+import CommercialMp4 from "../../../../../public/game.mp4";
 import { COLORS } from "../../../../../styles/colors";
-import CommercialMp4 from "../../../../assets/demos/game.mp4";
 import SmelterCanvas from "../SmelterCanvas";
 
 export const INPUT_SIZE = { width: 320, height: 180 };

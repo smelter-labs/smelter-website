@@ -1,6 +1,5 @@
-import { Mp4, Rescaler, Text, View } from "@swmansion/smelter";
+import { InputStream, Mp4, Rescaler, Text, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../../styles/colors";
-import CommercialMp4 from "../../../../assets/demos/game.mp4";
 import CameraContent from "./CameraContent";
 import { OUTPUT_SIZE } from "./Output";
 import { useLabelStore } from "./TextInput";
@@ -16,7 +15,7 @@ export default function OutputConent() {
         borderWidth: 1.5,
       }}>
       <Rescaler>
-        <Mp4 source={new URL(CommercialMp4, import.meta.url).toString()} />
+        <InputStream id="stream" inputId="stream" />
       </Rescaler>
       <CameraContent />
       <View
