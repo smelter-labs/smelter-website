@@ -37,7 +37,7 @@ export default function SmelterCanvas(props: SmelterCanvasProps) {
             height: Number(canvasProps.height ?? canvas.height),
           },
         },
-        audio: true,
+        audio: false,
       });
     },
     [onCanvasCreate, canvasProps.width, canvasProps.height, children, smelter, props.id]
