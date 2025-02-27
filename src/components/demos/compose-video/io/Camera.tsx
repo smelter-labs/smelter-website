@@ -48,11 +48,11 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
 
       if (permissionStatus.state === "granted") {
         setIsCameraReady(true);
-        setCameraInputsCount(1)
+        setCameraInputsCount(1);
         await smelter?.registerInput("camera-input", { type: "camera" });
       } else if (permissionStatus.state === "prompt") {
         setIsCameraReady(true);
-        setCameraInputsCount(1)
+        setCameraInputsCount(1);
         await smelter?.registerInput("camera-input", { type: "camera" });
       } else {
         alert(
@@ -88,7 +88,9 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
           </Rescaler>
         </SmelterCanvas>
       ) : (
-        <div style={{ ...INPUT_SIZE }} className="flex items-center justify-center rounded-2xl border border-demos-border border-solid">
+        <div
+          style={{ ...INPUT_SIZE }}
+          className="flex items-center justify-center rounded-2xl border border-demos-border border-solid">
           <button
             type="button"
             className="rounded bg-demos-button px-4 py-2 text-demos-buttonText shadow"

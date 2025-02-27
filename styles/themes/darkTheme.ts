@@ -85,7 +85,7 @@ export const DARK_THEME = {
       border: COLORS.white100,
       background: COLORS.black100,
       button: COLORS.red40,
-      buttonText: COLORS.white100
+      buttonText: COLORS.white100,
     },
   },
 } as const;
