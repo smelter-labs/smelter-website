@@ -44,7 +44,7 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
 
   const handleCameraPermissionRequest = async () => {
     try {
-      const permissionStatus = await navigator.permissions.query({ name: "camera" });
+      const permissionStatus = await navigator.permissions.query({ name: "camera" as PermissionName });
 
       if (permissionStatus.state === "granted") {
         setIsCameraReady(true);
