@@ -1,4 +1,4 @@
-import { InputStream, Mp4, Rescaler, Text, View } from "@swmansion/smelter";
+import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../../styles/colors";
 import CameraContent from "./CameraContent";
 import { OUTPUT_SIZE } from "./Output";
