@@ -39,7 +39,7 @@ export default function SmelterSection() {
   return (
     <div className="relative flex items-center">
       <div className="flex flex-col gap-y-4">
-         <Camera ref={smelterCameraRef} smelter={smelter} />
+        <Camera ref={smelterCameraRef} smelter={smelter} />
         <Stream ref={smelterInputRef} smelter={smelter} />
         <TextInput />
       </div>

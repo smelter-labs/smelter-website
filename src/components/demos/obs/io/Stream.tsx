@@ -37,7 +37,6 @@ function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
         width={INPUT_SIZE.width}
         height={INPUT_SIZE.height}>
         <View style={{ backgroundColor: COLORS.black100 }}>
-
           <Rescaler
             style={{
               borderRadius: 16,

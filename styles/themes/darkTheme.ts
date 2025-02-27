@@ -82,6 +82,5 @@ export const DARK_THEME = {
     demos: {
       background: COLORS.black100,
     },
-
   },
 } as const;

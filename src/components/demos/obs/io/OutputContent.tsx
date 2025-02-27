@@ -1,6 +1,7 @@
 import { InputStream, Mp4, Rescaler, Text, View, useInputStreams } from "@swmansion/smelter";
 import { useEffect } from "react";
 import CommercialMp4 from "../../../../assets/demos/game.mp4";
+import CameraContent from "./CameraContent";
 import { OUTPUT_SIZE } from "./Output";
 import { useLabelStore } from "./TextInput";
 
@@ -23,7 +24,7 @@ export default function OutputConent() {
       <Rescaler>
         <Mp4 source={new URL(CommercialMp4, import.meta.url).toString()} />
       </Rescaler>
-      <Rescaler
+      {/* <Rescaler
         style={{
           top: 12,
           left: 12,
@@ -33,9 +34,9 @@ export default function OutputConent() {
           borderColor: "white",
           borderWidth: 1.5,
           rescaleMode: "fill",
-        }}>
-        <InputStream inputId="camera" />
-      </Rescaler>
+        }}> */}
+        <CameraContent />
+      {/* </Rescaler> */}
       <View style={{ top: 0, left: OUTPUT_SIZE.width / 2, paddingTop: 16, paddingRight: 20 }}>
         <Text
           style={{
