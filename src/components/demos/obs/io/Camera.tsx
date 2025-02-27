@@ -46,7 +46,7 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
   }
 
   return (
-    <div className="bg-demos-background">
+    <div className="bg-demos-background relative">
       <SmelterCanvas
         id="camera"
         onCanvasCreate={onCanvasCreate}
@@ -63,19 +63,19 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
           <InputStream inputId="camera" />
         </Rescaler>
       </SmelterCanvas>
-      <div className="flex items-center justify-center mb-4">
+      <div className="flex flex-col items-center justify-center mb-4 absolute top-0 -right-12">
         <button
           type="button"
-          className="px-4 py-2 bg-blue-500 text-white rounded shadow mr-2"
-          onClick={handleDecrease}>
-          -
-        </button>
-        <span className="text-white">{cameraInputsCount}</span>
-        <button
-          type="button"
-          className="px-4 py-2 bg-blue-500 text-white rounded shadow ml-2"
+          className="px-4 py-2 bg-demos-button text-demos-buttonText rounded shadow"
           onClick={handleIncrease}>
           +
+        </button>
+        <span className="text-white py-2">{cameraInputsCount}</span>
+        <button
+          type="button"
+          className="px-4 py-2 bg-demos-button text-demos-buttonText rounded shadow"
+          onClick={handleDecrease}>
+          -
         </button>
       </div>
     </div>

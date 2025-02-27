@@ -1,5 +1,4 @@
-import { InputStream, Mp4, Rescaler, Text, View, useInputStreams } from "@swmansion/smelter";
-import { useEffect } from "react";
+import { Mp4, Rescaler, Text, View } from "@swmansion/smelter";
 import CommercialMp4 from "../../../../assets/demos/game.mp4";
 import CameraContent from "./CameraContent";
 import { OUTPUT_SIZE } from "./Output";
@@ -7,12 +6,6 @@ import { useLabelStore } from "./TextInput";
 
 export default function OutputConent() {
   const { labelTextContent, backgroundColor, labelColor } = useLabelStore();
-
-  const inputs = useInputStreams();
-
-  useEffect(() => {
-    console.log("INPUTS ", JSON.stringify(inputs));
-  }, [inputs]);
 
   return (
     <View
@@ -24,23 +17,20 @@ export default function OutputConent() {
       <Rescaler>
         <Mp4 source={new URL(CommercialMp4, import.meta.url).toString()} />
       </Rescaler>
-      {/* <Rescaler
+      <CameraContent />
+      <View
         style={{
-          top: 12,
-          left: 12,
-          width: OUTPUT_SIZE.width / 4,
-          height: OUTPUT_SIZE.height / 3,
-          borderRadius: 12,
-          borderColor: "white",
-          borderWidth: 1.5,
-          rescaleMode: "fill",
-        }}> */}
-        <CameraContent />
-      {/* </Rescaler> */}
-      <View style={{ top: 0, left: OUTPUT_SIZE.width / 2, paddingTop: 16, paddingRight: 20 }}>
+          top: 0,
+          width: OUTPUT_SIZE.width / 2,
+          right: 0,
+          paddingTop: 16,
+          paddingRight: 20,
+        }}>
+        <View />
         <Text
           style={{
             fontSize: 18,
+            lineHeight: 21,
             color: labelColor,
             backgroundColor: backgroundColor,
             fontWeight: "bold",
