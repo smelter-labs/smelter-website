@@ -6,7 +6,7 @@ import SmelterCanvas from "../SmelterCanvas";
 import { INPUT_SIZE } from "./Stream";
 
 type CameraProps = {
-  smelter: Smelter;
+  smelter?: Smelter;
 };
 function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -14,11 +14,16 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
     if (ref && "current" in ref) {
       (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = canvasRef;
     }
-    await smelter.registerInput("camera", { type: "camera" });
-  }, []);
+    await smelter?.registerInput("camera", { type: "camera" });
+  }, [smelter]);
+
+
+  if (!smelter) {
+    return <div className="bg-demos-background" style={{ ...INPUT_SIZE }} />;
+  }
 
   return (
-    <div>
+    <div className="bg-demos-background">
       <SmelterCanvas
         id="camera"
         onCanvasCreate={onCanvasCreate}
@@ -27,9 +32,9 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
         height={INPUT_SIZE.height}>
         <Rescaler
           style={{
-            borderRadius: 24,
+            borderRadius: 16,
             borderColor: "white",
-            borderWidth: 1,
+            borderWidth: 1.5,
             rescaleMode: "fill",
           }}>
           <InputStream inputId="camera" />

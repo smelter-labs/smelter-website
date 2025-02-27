@@ -5,7 +5,7 @@ import { OUTPUT_SIZE } from "./Output";
 import { useLabelStore } from "./TextInput";
 
 export default function OutputConent() {
-  const { labelTextContent, labelColor } = useLabelStore();
+  const { labelTextContent, backgroundColor, labelColor } = useLabelStore();
 
   const inputs = useInputStreams();
 
@@ -18,7 +18,7 @@ export default function OutputConent() {
       style={{
         borderRadius: 16,
         borderColor: "white",
-        borderWidth: 1,
+        borderWidth: 1.5,
       }}>
       <Rescaler>
         <Mp4 source={new URL(CommercialMp4, import.meta.url).toString()} />
@@ -31,7 +31,7 @@ export default function OutputConent() {
           height: OUTPUT_SIZE.height / 3,
           borderRadius: 12,
           borderColor: "white",
-          borderWidth: 1,
+          borderWidth: 1.5,
           rescaleMode: "fill",
         }}>
         <InputStream inputId="camera" />
@@ -41,12 +41,13 @@ export default function OutputConent() {
           style={{
             fontSize: 18,
             color: labelColor,
+            backgroundColor: backgroundColor,
             fontWeight: "bold",
             wrap: "word",
             maxWidth: OUTPUT_SIZE.width / 2,
             maxHeight: OUTPUT_SIZE.height,
           }}>
-          {labelTextContent || "User john123 donated 5$!"}
+          {labelTextContent}
         </Text>
       </View>
     </View>
