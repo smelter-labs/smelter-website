@@ -176,6 +176,21 @@ body {
 	);
 }
 
+.gradient-light-3 {
+	background: linear-gradient(
+		180deg,
+		#C2B1E0 20%,
+		#493880 100%
+	);
+}
+.gradient-light-4 {
+	background: linear-gradient(
+		117.75deg,
+		#C2B1E0 -0.12%,
+		#493880 100%
+	);
+}
+
 .border-gradient::before {
 	position: absolute;
 	content: "";

@@ -32,7 +32,7 @@ export default defineConfig({
     starlight({
       title: "Smelter",
       plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
-      description: "Toolkit for real-time, programmable video and audio mixing.",
+      description: "Toolkit for real-time, programmable multimedia mixing.",
       social: {
         github: "https://github.com/software-mansion/smelter",
         discord: "https://discord.com/invite/Cxj3rzTTag",
@@ -55,7 +55,7 @@ export default defineConfig({
           tag: "meta",
           attrs: {
             property: "og:image:alt",
-            content: "Toolkit for real-time, programmable video and audio mixing.",
+            content: "Toolkit for real-time, programmable multimedia mixing.",
           },
         },
         {
@@ -66,7 +66,7 @@ export default defineConfig({
           tag: "meta",
           attrs: {
             property: "twitter:description",
-            content: "Toolkit for real-time, programmable video and audio mixing.",
+            content: "Toolkit for real-time, programmable multimedia mixing.",
           },
         },
         {
@@ -79,7 +79,6 @@ export default defineConfig({
           label: "Fundamentals",
           items: [
             { label: "Getting started", slug: "fundamentals/getting-started" },
-            //{ label: "How it works", slug: "fundamentals/how-it-works" },
             { label: "Glossary of terms", slug: "fundamentals/glossary" },
             {
               label: "Concepts",

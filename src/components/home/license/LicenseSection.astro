@@ -1,9 +1,11 @@
 ---
+import { Image, type LocalImageProps } from "astro:assets";
 import LicenseTile from "./LicenseTile.astro";
 
 import offline from "../../../assets/capabilities/offline.svg";
 import online from "../../../assets/capabilities/online.svg";
 import trial from "../../../assets/capabilities/trial.svg";
+import LicenseTile2 from "./LicenseTile2.astro";
 
 const LICENSE_TIERS = [
   {
@@ -31,13 +33,70 @@ const LICENSE_TIERS = [
 
 <section class="flex min-h-screen flex-col items-center justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:min-h-[unset] 2xl:py-40">
     <div class="justify-center text-center">
-        <h2 class="mb-6 text-homeLicense-header">Try Smelter now!</h2>
+        <h2 class="mb-6 text-homeLicense-header">Pricing</h2>
         <p class="text-homeLicense-subheader text-center">
-            Smelter is licensed under a <a href="/license" class="underline text-homeLicense-subheader">Custom License</a>, designed to keep it accessible for growing teams<br class="hidden sm:block" />
-            while supporting larger-scale use with fair licensing terms.
+            Smelter is free to use excluding some enterprise-scale business applications.
         </p>
     </div>
-    <div class="flex gap-6 relative flex-col sm:flex-row">
+
+    <div class="flex flex-col gap-y-6 w-full">
+      <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+            <div class="gradient-light-3 w-full h-full aspect-square">
+              <div class="flex items-center justify-center p-3 md:p-4">
+                <Image src={offline} alt="capability icon" class="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
+          <div class="flex">
+            <h2 class="text-capabilities-header text-start">Free</h2>
+          </div>
+        </div>
+        <div class="flex flex-row">
+          <div class="text-capabilities-text flex flex-col flex-1 pr-10 pl-4">
+            <h3>Offline processing</h3>
+            <p class="mt-4">Combine mp4 files using React components. Enrich everything with styling and effects.</p>
+          </div>
+          <div class="text-capabilities-text flex flex-col flex-1 px-10">
+            <h3>Live processing</h3>
+            <ul class="list-disc pl-4 flex flex-col gap-2 mt-4">
+              <li>Compose mp4 files.</li>
+              <li>Add some water.</li>
+              <li>Mix everything together.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+            <div class="gradient-light-3 w-full h-full aspect-square">
+              <div class="flex items-center justify-center p-3 md:p-4">
+                <Image src={offline} alt="capability icon" class="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
+          <div class="flex">
+            <h2 class="text-capabilities-header text-start">Enterprise</h2>
+          </div>
+        </div>
+        <div class="flex flex-row">
+          <div class="text-capabilities-text flex flex-col flex-1 pr-10">
+            <ul class="list-disc pl-4 flex flex-col gap-4">
+              <p><strong>SaaS Operations:</strong> If you operate a SaaS platform utilizing Smelter for programmatic video control.</p>
+              <p><strong>Product Distribution:</strong> If you embed Smelter within software or hardware products intended for sale.</p>
+              <p><strong>License Limits:</strong> If your usage exceeds the limits specified in the free license.</p>
+            </ul>
+          </div>
+          <div class="text-capabilities-text flex flex-col flex-1 px-10">
+            <h3>Trial</h3>
+          </div>
+        </div>
+      </div>
+  </div>
+    <!-- <div class="flex gap-6 relative flex-col sm:flex-row">
         <div class="flex sm:flex-1 flex-col gap-y-6">
           {
             LICENSE_TIERS.filter((_, index) => !(index % 2)).map(tier => (
@@ -52,5 +111,5 @@ const LICENSE_TIERS = [
             ))
           }
         </div>
-    </div>
+    </div> -->
 </section>

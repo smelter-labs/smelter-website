@@ -9,9 +9,9 @@ import useCasesWave from "../../../assets/use-cases/use-cases-wave.svg";
 
 const USE_CASES = [
   {
-    header: "Video conferencing",
-    subHeader: "Stream or record video conferences seamlessly",
-    image: useCase1Image,
+    header: "Live-streaming",
+    subHeader: "Create awesome, interactive live streams",
+    image: useCase3Image,
   },
   {
     header: "Broadcasting",
@@ -19,9 +19,9 @@ const USE_CASES = [
     image: useCase2Image,
   },
   {
-    header: "Live-streaming",
-    subHeader: "Create awesome, interactive live streams",
-    image: useCase3Image,
+    header: "Video conferencing",
+    subHeader: "Stream or record video conferences seamlessly",
+    image: useCase1Image,
   },
 ] as const;
 ---
@@ -34,8 +34,8 @@ const USE_CASES = [
 					<div id="useCasesHeader" class="self-start sm:sticky sm:top-28">
 						<h2 class="mb-6 text-useCases-header">Use cases</h2>
 						<p class="par-l text-useCases-subheader">
-							Use Smelter for video conferencing, live-streaming, <br class="hidden xl:block"/>
-							broadcasting, and more.
+							Use Smelter for live-streaming, broadcasting<br class="hidden xl:block"/>
+							video conferencing, and more.
 						</p>
 						<Image src={useCasesWave} alt="wave pattern" class="absolute -left-40 top-6 opacity-45 sm:opacity-1 sm:top-56 -z-10" />
 					</div>
