@@ -14,21 +14,39 @@ import suitcase from "../../../assets/license/suitcase.svg";
         </p>
     </div>
 
-    <div class="flex flex-col gap-y-6 w-full">
-      <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
-        <div class="flex items-center gap-4 mb-8">
-          <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
-            <div class="gradient-light-3 w-full h-full aspect-square">
-              <div class="flex items-center justify-center p-3 md:p-4">
-                <Image src={star} alt="capability icon" class="w-full h-full object-cover" />
+
+    <div class="gradient-light-4 flex h-full flex-1 rounded-4xl p-px">
+      <div class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10">
+        <div class="relative z-0 flex h-full flex-col">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+              <div class="gradient-light-3 w-full h-full aspect-square">
+                <div class="flex items-center justify-center p-3 md:p-4">
+                  <Image src={star} alt="capability icon" class="w-full h-full object-cover" />
+                </div>
               </div>
             </div>
+            <div class="flex">
+              <h2 class="text-capabilities-header text-start">Free</h2>
+            </div>
           </div>
-          <div class="flex">
-            <h2 class="text-capabilities-header text-start">Free</h2>
+          <div class="flex flex-row">
+            <div class="text-capabilities-text flex flex-col flex-1 pl-4">
+              <h3>Offline processing</h3>
+              <p class="mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
+            </div>
+            <div class="text-capabilities-text flex flex-col flex-1 px-10">
+              <h3>Live processing</h3>
+              <p class="mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
+            </div>
           </div>
         </div>
-        <div class="flex flex-row">
+      </div>
+    </div>
+
+                <!-- <Image src={star} alt="capability icon" class="w-full h-full object-cover" /> -->
+
+        <!-- <div class="flex flex-row">
           <div class="text-capabilities-text flex flex-col flex-1 pr-10 pl-4">
             <h3>Offline processing</h3>
             <p class="mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
@@ -37,8 +55,8 @@ import suitcase from "../../../assets/license/suitcase.svg";
             <h3>Live processing</h3>
             <p class="mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
           </div>
-        </div>
-      </div>
+        </div> -->
+
 
       <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
         <div class="flex items-center gap-4 mb-8">
