@@ -95,8 +95,6 @@ syntax in a library code.
   });
   ```
 
-{/* TODO vite examples */}
-
 <CollapsibleDetails summaryTitle='Next.js'>
 
 **Required dependencies**
@@ -177,3 +175,78 @@ export default nextConfig;
 ```
 </CollapsibleDetails>
 
+<CollapsibleDetails summaryTitle='Vite'>
+
+**Required dependencies**
+
+```json title="package.json" ins={13-16, 31} collapse={2-11, 19-29}
+{
+  "name": "vite-demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@swmansion/smelter": "0.2.0",
+    "@swmansion/smelter-web-wasm": "0.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/node": "20",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.22.0",
+    "vite": "^6.1.0",
+    "vite-plugin-static-copy": "^2.2.0"
+  }
+}
+```
+
+**Update Vite config**
+
+
+For configuration shown below, URL to `smelter.wasm` used in `setWasmBundleUrl` should be `'/assets/smelter.wasm'`
+```js title="vite.config.ts"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+
+const require = createRequire(import.meta.url);
+
+export default defineConfig({
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: path.join(
+            path.dirname(require.resolve('@swmansion/smelter-browser-render')),
+            'smelter.wasm'
+          ),
+          dest: 'assets',
+        },
+      ],
+    }),
+  ],
+  optimizeDeps: {
+    exclude: ['@swmansion/smelter-web-wasm'],
+    include: ['@swmansion/smelter-web-wasm > pino']
+  },
+});
+```
+</CollapsibleDetails>
