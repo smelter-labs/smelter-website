@@ -19,7 +19,7 @@ function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
         (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = canvasRef;
       }
 
-      smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
+      await smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
     },
     [smelter]
   );

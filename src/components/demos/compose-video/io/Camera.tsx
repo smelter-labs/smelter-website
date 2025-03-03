@@ -29,7 +29,6 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
       if (ref && "current" in ref) {
         (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = canvasRef;
       }
-      await smelter?.registerInput("camera", { type: "camera" });
     },
     [smelter]
   );
@@ -44,23 +43,17 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
 
   const handleCameraPermissionRequest = async () => {
     try {
-      const permissionStatus = await navigator.permissions.query({
-        name: "camera" as PermissionName,
-      });
+      setIsCameraReady(true);
+      setCameraInputsCount(1);
 
-      if (permissionStatus.state === "granted") {
-        setIsCameraReady(true);
-        setCameraInputsCount(1);
-        await smelter?.registerInput("camera-input", { type: "camera" });
-      } else if (permissionStatus.state === "prompt") {
-        setIsCameraReady(true);
-        setCameraInputsCount(1);
-        await smelter?.registerInput("camera-input", { type: "camera" });
-      } else {
-        alert(
-          "Camera access is denied. Please enable camera permissions in your browser settings."
-        );
-      }
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          width: { max: 400 },
+          height: { max: 400 },
+        },
+      });
+      await smelter?.registerInput("camera", { type: "stream", stream });
     } catch (error) {
       console.error("Error accessing the camera: ", error);
     }

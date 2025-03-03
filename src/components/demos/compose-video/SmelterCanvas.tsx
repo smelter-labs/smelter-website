@@ -18,6 +18,7 @@ type SmelterCanvasProps = {
 export default function SmelterCanvas(props: SmelterCanvasProps) {
   const { onCanvasCreate, onCanvasStarted, children, smelter, ...canvasProps } = props;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: children
   const canvasRef = useCallback(
     async (canvas: HTMLCanvasElement | null) => {
       if (!canvas) {
@@ -40,7 +41,7 @@ export default function SmelterCanvas(props: SmelterCanvasProps) {
         audio: false,
       });
     },
-    [onCanvasCreate, canvasProps.width, canvasProps.height, children, smelter, props.id]
+    [onCanvasCreate, canvasProps.width, canvasProps.height, smelter, props.id]
   );
 
   // biome-ignore lint/style/useSelfClosingElements: <explanation>

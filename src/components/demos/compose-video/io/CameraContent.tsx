@@ -8,20 +8,28 @@ export default function CameraContent() {
 
   return (
     <View
-      style={{ left: 0, top: 0, paddingVertical: 8, paddingLeft: 8, width: OUTPUT_SIZE.width / 3 }}>
+      style={{
+        left: 0,
+        top: 0,
+        paddingVertical: 8,
+        paddingLeft: 8,
+        width: OUTPUT_SIZE.width / 2 - 32,
+        height: OUTPUT_SIZE.height / 2,
+      }}>
       <Tiles
         transition={{ durationMs: 200 }}
         style={{ margin: 4, horizontalAlign: "left", verticalAlign: "top" }}>
-        {Array.from({ length: cameraInputsCount }, (item, index) => (
+        {Array.from({ length: cameraInputsCount }, (_item, index) => (
           <Rescaler
-            key={item?.toString()}
+            // biome-ignore lint/suspicious/noArrayIndexKey: ignore
+            key={index}
             style={{
               borderRadius: 12,
               borderColor: COLORS.white100,
               borderWidth: 1.5,
               rescaleMode: "fill",
             }}>
-            <InputStream id={`camera${index}`} inputId="camera-input" />
+            <InputStream id={`camera${index}`} inputId="camera" />
           </Rescaler>
         ))}
       </Tiles>

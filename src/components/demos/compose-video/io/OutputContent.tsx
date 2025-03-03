@@ -4,7 +4,7 @@ import CameraContent from "./CameraContent";
 import { OUTPUT_SIZE } from "./Output";
 import { useLabelStore } from "./TextInput";
 
-export default function OutputConent() {
+export default function OutputContent() {
   const { labelTextContent, backgroundColor, labelColor } = useLabelStore();
 
   return (
