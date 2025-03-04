@@ -60,6 +60,15 @@ export default defineConfig({
         },
         {
           tag: "meta",
+          attrs: {
+            "data-rh": "true",
+            name: "keywords",
+            content:
+              "live stream, video composition, multimedia composition, react, video mixing, audio mixing, real-time, live compositor, media server",
+          },
+        },
+        {
+          tag: "meta",
           attrs: { property: "twitter:title", content: "Smelter – Live stream mixing simplified" },
         },
         {
