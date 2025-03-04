@@ -196,9 +196,9 @@ export default defineConfig({
     }),
     mdx(),
     tailwind(),
-    sitemap({      
-      changefreq: 'weekly',
-      lastmod: new Date('2025-03-04')
+    sitemap({
+      changefreq: "weekly",
+      lastmod: new Date("2025-03-04"),
     }),
   ],
 
