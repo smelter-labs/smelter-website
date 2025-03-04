@@ -1,0 +1,23 @@
+---
+import ContactForm from "../components/home/ContactForm.astro";
+import ExampleSection from "../components/home/example/ExampleSection.astro";
+import LicenseSection from "../components/home/license/LicenseSection.astro";
+import UsageSection from "../components/home/usage/UsageSection.astro";
+import UseCasesSection from "../components/home/use-cases/UseCasesSection.astro";
+import CapabilitiesSection from "../components/react/capabilities/CapabilitiesSection.astro";
+import ExamplesSection from "../components/react/examples/ExamplesSection.astro";
+import ExplanationSection from "../components/react/explanation/ExplanationSection.astro";
+import HeroSection from "../components/react/hero/HeroSection.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout canonicalUrl="https://www.smelter.dev/react">
+<main class="flex justify-center min-h-screen w-full overflow-clip">
+   <div class="w-full max-w-[1536px] relative">
+      <HeroSection />
+      <ExplanationSection />
+      <CapabilitiesSection />
+      <ExamplesSection />
+    </div>
+  </main>
+</MainLayout>

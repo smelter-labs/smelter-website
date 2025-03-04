@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+
+import api from "../../../assets/capabilities/api.svg";
+import battery from "../../../assets/capabilities/battery.svg";
+import bolt from "../../../assets/capabilities/bolt.svg";
+import capabilitiesBlur from "../../../assets/capabilities/capabilities-blur2.svg";
+import wavePattern from "../../../assets/capabilities/capabilities-wave.svg";
+import index1Image from "../../../assets/explanation/1.svg";
+import index2Image from "../../../assets/explanation/2.svg";
+import index3Image from "../../../assets/explanation/3.svg";
+import ExampleItem from "./ExampleItem.astro";
+
+const EXAMPLES = [
+  {
+    text: "Streaming application",
+  },
+  {
+    text: "News broadcast",
+  },
+
+  {
+    text: "Video call",
+  },
+] as const;
+---
+
+<section class="px-4 flex flex-col items-center relative mb-28 text-center lg:px-8 xl:px-40">
+  <h2 class="mb-2 text-capabilities-header">Explore our live examples</h2>
+  <p class="par-l text-capabilities-subheader">See what you can build using Smelter</p>
+  <div class="flex w-full gap-6 overflow-hidden relative flex-col sm:flex-row mt-12 sm:mt-20">
+    <div class="flex w-full flex-col sm:flex-row gap-x-4 lg:gap-x-8">
+      {
+        EXAMPLES.map(example => (
+          <ExampleItem {...example} />
+        ))
+      }
+    </div>
+  </div>
+</section>
