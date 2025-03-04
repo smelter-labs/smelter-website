@@ -45,5 +45,5 @@ export default function SmelterCanvas(props: SmelterCanvasProps) {
   );
 
   // biome-ignore lint/style/useSelfClosingElements: <explanation>
-  return <canvas ref={canvasRef} {...canvasProps}></canvas>;
+  return <canvas ref={canvasRef} className="aspect-video w-[80%]" {...canvasProps}></canvas>;
 }
