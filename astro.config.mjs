@@ -63,8 +63,9 @@ export default defineConfig({
           attrs: {
             "data-rh": "true",
             name: "keywords",
-            content: "live stream, video composition, multimedia composition, react, video mixing, audio mixing, real-time, live compositor, media server"
-          }
+            content:
+              "live stream, video composition, multimedia composition, react, video mixing, audio mixing, real-time, live compositor, media server",
+          },
         },
         {
           tag: "meta",
