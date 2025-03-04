@@ -196,7 +196,10 @@ export default defineConfig({
     }),
     mdx(),
     tailwind(),
-    sitemap(),
+    sitemap({      
+      changefreq: 'weekly',
+      lastmod: new Date('2025-03-04')
+    }),
   ],
 
   markdown: {
