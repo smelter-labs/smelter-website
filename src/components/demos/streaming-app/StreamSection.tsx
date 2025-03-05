@@ -28,10 +28,8 @@ export default function StreamSection() {
   }, []);
 
   return (
-    <div className="relative flex items-center">    
-        <div className="flex grow flex-col">
-           {smelter && <Stream smelter={smelter} ref={smelterInputRef} />}
-        </div>
+    <div className="relative flex items-center">
+      {smelter && <Stream smelter={smelter} ref={smelterInputRef} />}
     </div>
   );
 }

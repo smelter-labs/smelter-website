@@ -1,5 +1,4 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
-import type React from "react";
 import { useCallback } from "react";
 
 type CanvasProps = React.DetailedHTMLProps<
@@ -45,5 +44,5 @@ export default function SmelterCanvas(props: SmelterCanvasProps) {
   );
 
   // biome-ignore lint/style/useSelfClosingElements: <explanation>
-  return <canvas ref={canvasRef} className="w-full" {...canvasProps}></canvas>;
+  return <canvas ref={canvasRef} {...canvasProps}></canvas>;
 }
