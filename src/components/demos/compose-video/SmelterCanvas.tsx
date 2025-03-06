@@ -9,14 +9,13 @@ type CanvasProps = React.DetailedHTMLProps<
 
 type SmelterCanvasProps = {
   id: string;
-  onCanvasCreate?: (canvasRef: HTMLCanvasElement | null) => Promise<void>;
-  onCanvasStarted?: () => Promise<void>;
+  onCanvasCreated?: () => Promise<void>;
   smelter: Smelter;
   children: React.ReactElement;
 } & CanvasProps;
 
 export default function SmelterCanvas(props: SmelterCanvasProps) {
-  const { onCanvasCreate, onCanvasStarted, children, smelter, ...canvasProps } = props;
+  const { onCanvasCreated, children, smelter, ...canvasProps } = props;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: children
   const canvasRef = useCallback(
@@ -25,8 +24,8 @@ export default function SmelterCanvas(props: SmelterCanvasProps) {
         return;
       }
 
-      if (onCanvasCreate) {
-        await onCanvasCreate(canvas);
+      if (onCanvasCreated) {
+        await onCanvasCreated();
       }
 
       await smelter.registerOutput(`${props.id}-output`, children, {
@@ -41,7 +40,7 @@ export default function SmelterCanvas(props: SmelterCanvasProps) {
         audio: false,
       });
     },
-    [onCanvasCreate, canvasProps.width, canvasProps.height, smelter, props.id]
+    [onCanvasCreated, canvasProps.width, canvasProps.height, smelter, props.id]
   );
 
   // biome-ignore lint/style/useSelfClosingElements: <explanation>

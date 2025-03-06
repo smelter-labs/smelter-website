@@ -1,6 +1,6 @@
 import { InputStream, Rescaler } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
-import { type Ref, forwardRef, useCallback, useState } from "react";
+import { useState } from "react";
 
 import { create } from "zustand";
 import SmelterCanvas from "../SmelterCanvas";
@@ -20,18 +20,9 @@ type CameraProps = {
   smelter?: Smelter;
 };
 
-function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
+export default function Camera({ smelter }: CameraProps) {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const { cameraInputsCount, setCameraInputsCount } = useCameraStore();
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const onCanvasCreate = useCallback(
-    async (canvasRef: HTMLCanvasElement | null) => {
-      if (ref && "current" in ref) {
-        (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = canvasRef;
-      }
-    },
-    [smelter]
-  );
 
   const handleIncrease = () => {
     setCameraInputsCount(cameraInputsCount + 1);
@@ -68,7 +59,6 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
       {isCameraReady ? (
         <SmelterCanvas
           id="camera"
-          onCanvasCreate={onCanvasCreate}
           smelter={smelter}
           width={INPUT_SIZE.width}
           height={INPUT_SIZE.height}>
@@ -112,5 +102,3 @@ function Camera({ smelter }: CameraProps, ref: Ref<Smelter>) {
     </div>
   );
 }
-
-export default forwardRef<Smelter, CameraProps>(Camera);

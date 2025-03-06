@@ -1,8 +1,6 @@
 import { InputStream, Rescaler, View } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
-import { type Ref, forwardRef, useCallback } from "react";
 import { COLORS } from "../../../../../styles/colors";
-import CommercialMp4 from "../../../../assets/game.mp4";
 import SmelterCanvas from "../SmelterCanvas";
 
 export const INPUT_SIZE = { width: 320, height: 180 };
@@ -11,19 +9,7 @@ type StreamProps = {
   smelter?: Smelter;
 };
 
-function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const onCanvasCreate = useCallback(
-    async (canvasRef: HTMLCanvasElement | null) => {
-      if (ref && "current" in ref) {
-        (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = canvasRef;
-      }
-
-      await smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
-    },
-    [smelter]
-  );
-
+export default function Stream({ smelter }: StreamProps) {
   if (!smelter) {
     return <div className="bg-demos-background" style={{ ...INPUT_SIZE }} />;
   }
@@ -33,7 +19,6 @@ function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
       <SmelterCanvas
         id="stream"
         smelter={smelter}
-        onCanvasCreate={onCanvasCreate}
         width={INPUT_SIZE.width}
         height={INPUT_SIZE.height}>
         <View style={{ backgroundColor: COLORS.black100 }}>
@@ -50,5 +35,3 @@ function Stream({ smelter }: StreamProps, ref: Ref<Smelter>) {
     </div>
   );
 }
-
-export default forwardRef<Smelter, StreamProps>(Stream);

@@ -1,9 +1,10 @@
 import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Arrow from "../../../assets/demos/arrow.svg";
 import Arrows from "../../../assets/demos/arrows.svg";
 import SmelterLogo from "../../../assets/navigation/smelter-logo-small.svg";
+import CommercialMp4 from "../../../assets/race_640x360_full.mp4";
 import Camera from "./io/Camera";
 import Output from "./io/Output";
 import Stream from "./io/Stream";
@@ -12,40 +13,60 @@ import TextInput from "./io/TextInput";
 setWasmBundleUrl("/smelter.wasm");
 
 export default function SmelterSection() {
-  const [smelter, setSmelter] = useState<Smelter>();
-  const smelterCameraRef = useRef<Smelter | null>(null);
-  const smelterInputRef = useRef<Smelter | null>(null);
-  const smelterOutputRef = useRef<Smelter | null>(null);
+  const smelter = useSmelter();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    const registerSmelter = async () => {
-      const smelter = new Smelter({});
-      await smelter.init();
-      setSmelter(smelter);
-      await smelter.start();
-    };
+    if (!smelter) {
+      return;
+    }
 
-    registerSmelter();
+    void smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
+    const interval = setInterval(async () => {
+      await smelter?.unregisterInput("stream").catch(() => {});
+      await smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
+    }, 36000);
 
     return () => {
-      if (smelter) {
-        void smelter.terminate();
-      }
+      clearInterval(interval);
     };
-  }, []);
+  }, [smelter]);
 
   return (
     <div className="relative flex items-center">
       <div className="flex flex-col gap-y-4">
-        <Camera ref={smelterCameraRef} smelter={smelter} />
-        <Stream ref={smelterInputRef} smelter={smelter} />
+        <Camera smelter={smelter} />
+        <Stream smelter={smelter} />
         <TextInput />
       </div>
       <img alt="arrows" src={Arrows.src} className="-ml-12 -z-10 h-56" />
       <img alt="smelter" src={SmelterLogo.src} className="-z-10 ml-16 h-24" />
       <img alt="arrow" src={Arrow.src} className="-z-10 mr-4 ml-6 w-28" />
-      {smelter && <Output ref={smelterOutputRef} smelter={smelter} />}
+      {smelter && <Output smelter={smelter} />}
     </div>
   );
+}
+
+function useSmelter(): Smelter | undefined {
+  const [smelter, setSmelter] = useState<Smelter>();
+  useEffect(() => {
+    const smelter = new Smelter();
+
+    let cancel = false;
+    const promise = (async () => {
+      await smelter.init();
+      await smelter.start();
+      if (!cancel) {
+        setSmelter(smelter);
+      }
+    })();
+
+    return () => {
+      cancel = true;
+      void (async () => {
+        await promise.catch(() => {});
+        await smelter.terminate();
+      })();
+    };
+  }, []);
+  return smelter;
 }
