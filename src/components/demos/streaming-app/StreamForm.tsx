@@ -2,7 +2,7 @@ import type React from "react";
 import { create } from "zustand";
 import { COLORS } from "../../../../styles/colors";
 import Edit from "../../../assets/demos/edit.svg";
-import type { LayoutVariant } from "./StreamSection";
+import { useStreamStore } from "./LayoutsSection";
 
 type LabelStore = {
   labelTextContent: string;
@@ -20,7 +20,8 @@ export const useLabelStore = create<LabelStore>((set) => ({
   setLabelColor: (color) => set({ labelColor: color }),
 }));
 
-export default function StreamForm({ currentLayout }: { currentLayout: LayoutVariant }) {
+export default function StreamForm() {
+      const { currentLayout } = useStreamStore();
   const { labelTextContent, labelColor, backgroundColor, setLabelTextContent, setLabelColor } =
     useLabelStore();
 

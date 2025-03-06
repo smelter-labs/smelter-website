@@ -1,7 +1,8 @@
 import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../styles/colors";
+import { useStreamStore } from "./LayoutsSection";
 import { useLabelStore } from "./StreamForm";
-import { INPUT_SIZE, useStreamStore } from "./StreamSection";
+import { INPUT_SIZE } from "./StreamSection";
 import Chat from "./chat/Chat";
 
 export default function StreamContent() {
