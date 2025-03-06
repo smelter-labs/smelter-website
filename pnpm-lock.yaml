@@ -42,17 +42,17 @@ importers:
         specifier: ^8.1.4
         version: 8.1.4
       '@swmansion/smelter':
-        specifier: 0.2.0-rc.0
-        version: 0.2.0-rc.0(react@18.3.1)
+        specifier: 0.2.1
+        version: 0.2.1(react@18.3.1)
       '@swmansion/smelter-browser-render':
-        specifier: ^0.2.0
-        version: 0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))
+        specifier: ^0.2.1
+        version: 0.2.1(@swmansion/smelter@0.2.1(react@18.3.1))
       '@swmansion/smelter-node':
-        specifier: 0.2.0-rc.1
-        version: 0.2.0-rc.1(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)
+        specifier: 0.2.0
+        version: 0.2.0(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)
       '@swmansion/smelter-web-wasm':
-        specifier: ^0.2.0
-        version: 0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)
+        specifier: ^0.2.1-rc.0
+        version: 0.2.1-rc.0(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)
       '@types/react-dom':
         specifier: 18.3.1
         version: 18.3.1
@@ -1117,10 +1117,10 @@ packages:
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
 
-  '@swmansion/smelter-browser-render@0.2.0':
-    resolution: {integrity: sha512-GwV9jJvMmecThtV5wnvWgSb8X3v0t6NwnOajf20RQ3eg4mX9AvfNAchHisQNxZAu0G14jrf0d6FNQ2uBPp3HTA==}
+  '@swmansion/smelter-browser-render@0.2.1':
+    resolution: {integrity: sha512-CczIc/agZbgJ8cdTa3BtMrrbLG9BmlYWlry2fJuo80e9r8KadCSWaKEsC559rWacR94ie2TeQBFYSCvaIR/JiQ==}
     peerDependencies:
-      '@swmansion/smelter': 0.2.0
+      '@swmansion/smelter': 0.2.1
 
   '@swmansion/smelter-core@0.2.0':
     resolution: {integrity: sha512-o3mwCYzM8+uSVw5ON6MQfwpGU/ITAJLJB4MmnIkKH1AXhqhR2S2I3lJouvjP39LGH+8pMo8QUAIAYKzTeowf6Q==}
@@ -1128,18 +1128,24 @@ packages:
       '@swmansion/smelter': ^0.2.0
       react: '*'
 
-  '@swmansion/smelter-node@0.2.0-rc.1':
-    resolution: {integrity: sha512-XNkm6dHGfOsHCJsZO3plgUvP3VNMCjRlo26iEj7j9UbnHF1SRbdvdUNIYlvJoIA3RYYt/XahfYKwuVGaNMUgwg==}
+  '@swmansion/smelter-core@0.2.1':
+    resolution: {integrity: sha512-Ih2ITv3/fRhgRRdxoo4QfVmJdnKKjBGDZNPM0E3dwyQ1RoiA+Gs18HjKipprA+SXkcaCNaOQ91wVYB2xKn3DDA==}
     peerDependencies:
-      '@swmansion/smelter': ^0.2.0-rc.0
+      '@swmansion/smelter': ^0.2.1
+      react: '*'
 
-  '@swmansion/smelter-web-wasm@0.2.0':
-    resolution: {integrity: sha512-Y+AQxy2n36O6nlQ43Bkbr2KsfsjvAXFhopfGFInDgIrW/H1pQX4Ge7bThUf95x/dstUJ2WAtJ5CQe9DNHjnRDA==}
+  '@swmansion/smelter-node@0.2.0':
+    resolution: {integrity: sha512-9uIPxdv8EUR0Yf/Lr1RvlTxuYKwJnuXcnNh8K1yX3DhNb4AgbuaTgNxLKDjJX6l8+A8dEEPnwHJE9oxWkWXBkQ==}
     peerDependencies:
       '@swmansion/smelter': ^0.2.0
 
-  '@swmansion/smelter@0.2.0-rc.0':
-    resolution: {integrity: sha512-JbOUzGAAu8QvTT4Z0eMp+rR4Q6Qib0AqfaeKOKxjetFL/IokdMqAMxTMHEeqCA2b10sLfrl7BtMYP+fxOPtXnw==}
+  '@swmansion/smelter-web-wasm@0.2.1-rc.0':
+    resolution: {integrity: sha512-xTpi15zVvKZXu4e7DswNslScvQIrZYe5QpoeP8AGKUyv2zmNcC1bjDHD+7GF4Iy2lBv606i91yJlopHoGeyrAQ==}
+    peerDependencies:
+      '@swmansion/smelter': ^0.2.1
+
+  '@swmansion/smelter@0.2.1':
+    resolution: {integrity: sha512-DtntMIDfhUlyyVx+0jQjWX5/aEcRd/CFKXbz35TtUZlCAjA18g/+m/CWbaIUMRkpO8ePbB+fpkNs/e8m6UDyZw==}
     peerDependencies:
       react: '*'
 
@@ -4774,20 +4780,26 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
-  '@swmansion/smelter-browser-render@0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))':
+  '@swmansion/smelter-browser-render@0.2.1(@swmansion/smelter@0.2.1(react@18.3.1))':
     dependencies:
-      '@swmansion/smelter': 0.2.0-rc.0(react@18.3.1)
+      '@swmansion/smelter': 0.2.1(react@18.3.1)
 
-  '@swmansion/smelter-core@0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)':
+  '@swmansion/smelter-core@0.2.0(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@swmansion/smelter': 0.2.0-rc.0(react@18.3.1)
+      '@swmansion/smelter': 0.2.1(react@18.3.1)
       react: 18.3.1
       react-reconciler: 0.29.2(react@18.3.1)
 
-  '@swmansion/smelter-node@0.2.0-rc.1(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)':
+  '@swmansion/smelter-core@0.2.1(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@swmansion/smelter': 0.2.0-rc.0(react@18.3.1)
-      '@swmansion/smelter-core': 0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)
+      '@swmansion/smelter': 0.2.1(react@18.3.1)
+      react: 18.3.1
+      react-reconciler: 0.29.2(react@18.3.1)
+
+  '@swmansion/smelter-node@0.2.0(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@swmansion/smelter': 0.2.1(react@18.3.1)
+      '@swmansion/smelter-core': 0.2.0(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)
       form-data: 4.0.2
       fs-extra: 11.3.0
       node-fetch: 2.7.0
@@ -4802,19 +4814,19 @@ snapshots:
       - react
       - utf-8-validate
 
-  '@swmansion/smelter-web-wasm@0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)':
+  '@swmansion/smelter-web-wasm@0.2.1-rc.0(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@datastructures-js/queue': 4.2.3
-      '@swmansion/smelter': 0.2.0-rc.0(react@18.3.1)
-      '@swmansion/smelter-browser-render': 0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))
-      '@swmansion/smelter-core': 0.2.0(@swmansion/smelter@0.2.0-rc.0(react@18.3.1))(react@18.3.1)
+      '@swmansion/smelter': 0.2.1(react@18.3.1)
+      '@swmansion/smelter-browser-render': 0.2.1(@swmansion/smelter@0.2.1(react@18.3.1))
+      '@swmansion/smelter-core': 0.2.1(@swmansion/smelter@0.2.1(react@18.3.1))(react@18.3.1)
       mp4box: 0.5.3
       path-parser: 6.1.0
       pino: 9.6.0
     transitivePeerDependencies:
       - react
 
-  '@swmansion/smelter@0.2.0-rc.0(react@18.3.1)':
+  '@swmansion/smelter@0.2.1(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
