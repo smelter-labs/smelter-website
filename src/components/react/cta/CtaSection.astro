@@ -1,47 +1,28 @@
 ---
-import { Image } from "astro:assets";
-
 import ArrowRight from "/public/images/arrow-right.svg";
-import api from "../../../assets/capabilities/api.svg";
-import battery from "../../../assets/capabilities/battery.svg";
-import bolt from "../../../assets/capabilities/bolt.svg";
-import capabilitiesBlur from "../../../assets/capabilities/capabilities-blur2.svg";
-import wavePattern from "../../../assets/capabilities/capabilities-wave.svg";
-import index1Image from "../../../assets/explanation/1.svg";
-import index2Image from "../../../assets/explanation/2.svg";
-import index3Image from "../../../assets/explanation/3.svg";
+import ReactScreens from "../../../assets/react/smelter-screens.svg";
 import PrimaryButton from "../../base/buttons/PrimaryButton.astro";
 import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
-import Example from "./Example.astro";
-
-const EXAMPLES = [
-  {
-    text: "Streaming application",
-  },
-  {
-    text: "News broadcast",
-  },
-
-  {
-    text: "Video call",
-  },
-] as const;
 ---
 
-<section class="relative mb-16 hidden lg:flex flex-col items-center text-center 2xl:mb-0">
+<section class="relative mb-16 flex flex-col items-center text-center 2xl:mb-0">
     <h2 class="mb-2 text-capabilities-header">Interested in using Smelter?</h2> 
-    <div class="flex gap-x-4 mt-4">
-        <a href="/docs" style="text-decoration: none; color: inherit;">
-            <PrimaryButton>
-                <p class="par-xl">Visit the docs</p>
-                <ArrowRight />
-            </PrimaryButton>
-        </a>
-        <a href="/#pricing" style="text-decoration: none; color: inherit;">
-            <SecondaryButton>
-                <p class="par-xl">Try for free</p>
-            </SecondaryButton>
-        </a>
+    <div class="flex flex-col w-[120%] items-center">
+
+        <div class="flex gap-x-4 mt-4 absolute top-1/2 -translate-y-1/2">
+            <a href="#pricing" style="text-decoration: none; color: inherit;">
+                <SecondaryButton>
+                    <p class="par-xl">Try for free</p>
+                    <ArrowRight />
+                </SecondaryButton>
+            </a>
+            <a href="/docs" style="text-decoration: none; color: inherit;">
+                <PrimaryButton>
+                    <p class="par-xl">Visit the docs</p>
+                    <ArrowRight />
+                </PrimaryButton>
+            </a>
+        </div>
+        <ReactScreens class="max-w-screen hidden lg:flex" />
     </div>
-    <Example />
 </section>

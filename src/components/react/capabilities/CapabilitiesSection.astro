@@ -3,13 +3,11 @@ import { Image } from "astro:assets";
 import CapabilitiesItem from "./CapabilitiesItem.astro";
 
 import api from "../../../assets/capabilities/api.svg";
-import battery from "../../../assets/capabilities/battery.svg";
 import bolt from "../../../assets/capabilities/bolt.svg";
 import capabilitiesBlur from "../../../assets/capabilities/capabilities-blur2.svg";
 import wavePattern from "../../../assets/capabilities/capabilities-wave.svg";
-import flexbility from "../../../assets/capabilities/flexbility.svg";
-import offline from "../../../assets/capabilities/offline.svg";
-import sliders from "../../../assets/capabilities/sliders.svg";
+import grid from "../../../assets/capabilities/grid.svg";
+import wand from "../../../assets/capabilities/wand.svg";
 
 const CAPABILITIES = [
   {
@@ -20,7 +18,7 @@ const CAPABILITIES = [
   {
     label: "Style",
     text: "Style everything using familiar API inspired by React Native.",
-    icon: flexbility,
+    icon: wand,
   },
   {
     label: "Animate",
@@ -30,7 +28,7 @@ const CAPABILITIES = [
   {
     label: "Embed",
     text: "Easily integrate Smelter into existing React applications. Then, estream directly from the browser.",
-    icon: battery,
+    icon: grid,
   },
 ] as const;
 ---

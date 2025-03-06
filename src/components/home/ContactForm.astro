@@ -15,11 +15,11 @@ import ArrowRight from "/public/images/arrow-right.svg";
   <form class="flex w-full flex-col gap-y-10 mt-12 sm:mt-0" method="POST">
     <TextInput label="Your e-mail" type="email" name="email" placeholder="user@smelter.dev" required/>
     <Select label="Type of inquiry" name="inquiry">
+      <option value="demo-request">I'm interested in a demo or trial to see how Smelter works</option>
       <option value="question">I have a few questions about Smelter</option>
       <option value="feature-request">I need additional features implemented for my project</option>
       <option value="enterprise-request">I'm interested in enterprise-level deployment and integration</option>
       <option value="unique-application">I have a unique use case in mind and want to discuss it</option>
-      <option value="demo-request">I'm interested in a demo or trial to see how Smelter works</option>
     </Select>
     <TextArea
       label="Your message"

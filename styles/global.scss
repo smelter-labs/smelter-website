@@ -186,11 +186,28 @@ body {
 
 .gradient-light-4 {
 	background: linear-gradient(
-		117.75deg,
+		180deg,
 		#C2B1E0 -0.12%,
 		#493880 100%
 	);
 }
+
+.gradient-light-5 {
+	background: linear-gradient(
+		to right,
+		#C2B1E0 -60%,
+		#493880 100%
+	);
+}
+
+.gradient-light-6 {
+	background: linear-gradient(
+		170deg,
+		theme("colors.gradient.redLight") -0.12%,
+		theme("colors.gradient.black") 100%
+	);
+}
+
 
 .border-gradient::before {
 	position: absolute;
