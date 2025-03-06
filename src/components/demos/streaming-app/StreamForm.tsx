@@ -2,6 +2,7 @@ import type React from "react";
 import { create } from "zustand";
 import { COLORS } from "../../../../styles/colors";
 import Edit from "../../../assets/demos/edit.svg";
+import type { LayoutVariant } from "./StreamSection";
 
 type LabelStore = {
   labelTextContent: string;
@@ -12,14 +13,14 @@ type LabelStore = {
 };
 
 export const useLabelStore = create<LabelStore>((set) => ({
-  labelTextContent: "User john123 donated 30$",
+  labelTextContent: "",
   labelColor: COLORS.red40,
   backgroundColor: COLORS.black100,
   setLabelTextContent: (content) => set({ labelTextContent: content }),
   setLabelColor: (color) => set({ labelColor: color }),
 }));
 
-export default function StreamForm() {
+export default function StreamForm({ currentLayout }: { currentLayout: LayoutVariant }) {
   const { labelTextContent, labelColor, backgroundColor, setLabelTextContent, setLabelColor } =
     useLabelStore();
 
@@ -31,31 +32,33 @@ export default function StreamForm() {
     setLabelColor(event.target.value);
   };
 
-  return (
-    <div className="flex gap-x-4 space-y-4 py-4">
-      <input
-        type="text"
-        value={labelTextContent}
-        onChange={handleChange}
-        placeholder="Enter text here..."
-        className="w-[60%] rounded-md border p-4 shadow-sm focus:outline-none"
-        style={{ color: labelColor, backgroundColor: backgroundColor }}
-      />
-
-      <div className="group relative flex flex-col items-center">
+  if (currentLayout === "layout-message")
+    return (
+      <div className="flex gap-x-4 space-y-4 py-4">
         <input
-          type="color"
-          id="textColor"
-          value={labelColor}
-          onChange={handleTextColorChange}
-          className="h-10 w-20 cursor-pointer rounded-md border border-demos-border"
+          type="text"
+          value={labelTextContent}
+          onChange={handleChange}
+          placeholder="Enter stream message..."
+          className="w-[60%] rounded-md border p-4 shadow-sm focus:outline-none"
+          style={{ color: labelColor, backgroundColor: backgroundColor }}
         />
-        <img
-          alt="edit"
-          src={Edit.src}
-          className="pointer-events-none absolute mt-2 cursor-pointer opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        />
+
+        <div className="group relative flex flex-col items-center">
+          <input
+            type="color"
+            id="textColor"
+            value={labelColor}
+            onChange={handleTextColorChange}
+            className="h-10 w-20 cursor-pointer rounded-md border border-demos-border"
+          />
+          <img
+            alt="edit"
+            src={Edit.src}
+            className="pointer-events-none absolute mt-2 cursor-pointer opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  return <div />;
 }

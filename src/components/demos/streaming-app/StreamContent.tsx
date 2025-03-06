@@ -1,7 +1,7 @@
 import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../styles/colors";
-import { INPUT_SIZE, useStreamStore } from "./Stream";
 import { useLabelStore } from "./StreamForm";
+import { INPUT_SIZE, useStreamStore } from "./StreamSection";
 import Chat from "./chat/Chat";
 
 export default function StreamContent() {
@@ -10,7 +10,7 @@ export default function StreamContent() {
 
   if (currentLayout === "layout-streamer") {
     return (
-      <View style={{ backgroundColor: COLORS.black100 }}>
+      <View>
         <Rescaler
           style={{
             borderRadius: 16,
@@ -42,7 +42,7 @@ export default function StreamContent() {
 
   if (currentLayout === "layout-chat")
     return (
-      <View style={{ backgroundColor: COLORS.black100 }}>
+      <View>
         <Rescaler
           style={{
             borderRadius: 16,
@@ -75,7 +75,7 @@ export default function StreamContent() {
 
   if (currentLayout === "layout-message")
     return (
-      <View style={{ backgroundColor: COLORS.black100 }}>
+      <View>
         <Rescaler
           style={{
             borderRadius: 16,
