@@ -1,0 +1,50 @@
+---
+---
+
+<div class="flex py-16 text-start w-full">
+    <div class="flex flex-row gap-16 items-center h-min">
+        <div class="flex flex-1.5 h-fit">
+            <div class="gradient-light-1 rounded-r-4xl 2xl:rounded-4xl p-px pl-0 h-fit">
+                <div class="h-fit w-fit rounded-r-[calc(2rem-1px)] 2xl:rounded-[calc(2rem-1px)] bg-explanation-background">
+                    <video id="example-video" autoplay muted class="rounded-r-4xl 2xl:rounded-4xl">
+                        <source src="example-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <div id="test" class="flex flex-1 items-center">
+            <div class="rounded-l-4xl 2xl:rounded-4xl border border-r-0 2xl:border-r border-solid border-example-border overflow-hidden">
+                <video id="code-video" autoplay muted class="pl-6 pr-4 py-4">
+                    <source src="code-video.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script is:inline data-astro-rerun>
+  document.addEventListener('astro:page-load', function () {
+    const video1 = document.getElementById('example-video');
+    const video2 = document.getElementById('code-video');
+
+    console.log('VIDEO 1 ', video1)
+    video1.addEventListener('ended', () => {
+        video1.currentTime = 0;
+        video1.play();
+        video2.currentTime = 0;
+        video2.play();
+    });
+
+    video2.addEventListener('ended', () => {
+        video1.currentTime = 0;
+        video1.play();
+        video2.currentTime = 0;
+        video2.play();
+    });
+
+    video1.play();
+    video2.play();
+  });
+</script>
