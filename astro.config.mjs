@@ -84,6 +84,15 @@ export default defineConfig({
         },
         {
           tag: "meta",
+          attrs: {
+            "data-rh": "true",
+            name: "keywords",
+            content:
+              "live stream, video composition, multimedia composition, react, video mixing, audio mixing, real-time, live compositor, media server",
+          },
+        },
+        {
+          tag: "meta",
           attrs: { property: "twitter:title", content: "Smelter – Live stream mixing simplified" },
         },
         {
@@ -211,7 +220,10 @@ export default defineConfig({
     }),
     mdx(),
     tailwind({ applyBaseStyles: false }),
-    sitemap(),
+    sitemap({
+      changefreq: "weekly",
+      lastmod: new Date("2025-03-04"),
+    }),
     react(),
   ],
 
