@@ -1,15 +1,19 @@
 ---
 import ArrowRight from "/public/images/arrow-right.svg";
+import Code from "../../../assets/react/code.svg";
 import ReactScreens from "../../../assets/react/smelter-screens.svg";
+import Stream from "../../../assets/react/stream.svg";
+
 import PrimaryButton from "../../base/buttons/PrimaryButton.astro";
 import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
 ---
 
-<section class="relative mb-16 flex flex-col items-center text-center 2xl:mb-0">
+<section class="relative mb-16 flex flex-col items-center justify-center text-center 2xl:mb-0">
     <h2 class="mb-2 text-capabilities-header">Interested in using Smelter?</h2> 
     <div class="flex flex-col w-[120%] items-center">
 
-        <div class="flex gap-x-4 mt-4 absolute top-1/2 -translate-y-1/2">
+        <Code class="w-full z-10 -translate-x-1/3 md:hidden" />
+        <div class="flex flex-col sm:flex-row gap-4 mt-12 sm:mt-4 sm:absolute sm:-translate-y-1/2 sm:top-1/2">
             <a href="#pricing" style="text-decoration: none; color: inherit;">
                 <SecondaryButton>
                     <p class="par-xl">Try for free</p>
@@ -23,6 +27,7 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
                 </PrimaryButton>
             </a>
         </div>
-        <ReactScreens class="max-w-screen hidden lg:flex" />
+        <Stream class="w-full translate-x-1/3 md:hidden" />
+        <ReactScreens class="max-w-screen hidden md:flex" />
     </div>
 </section>

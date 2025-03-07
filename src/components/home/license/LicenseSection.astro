@@ -30,63 +30,49 @@ import suitcase from "../../../assets/license/suitcase.svg";
               <h2 class="text-capabilities-header text-start">Free</h2>
             </div>
           </div>
-          <div class="flex flex-row">
-            <div class="text-capabilities-text flex flex-col flex-1 pl-4">
+          <div class="flex flex-col gap-y-6 sm:flex-row">
+            <div class="text-capabilities-text flex flex-col flex-1 sm:pl-4">
               <h3>Offline processing</h3>
-              <p class="mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
+              <p class="mt-2 sm:mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
             </div>
-            <div class="text-capabilities-text flex flex-col flex-1 px-10">
+            <div class="text-capabilities-text flex flex-col flex-1 sm:px-10">
               <h3>Live processing</h3>
-              <p class="mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
+              <p class="mt-2 sm:mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-                <!-- <Image src={star} alt="capability icon" class="w-full h-full object-cover" /> -->
-
-        <!-- <div class="flex flex-row">
-          <div class="text-capabilities-text flex flex-col flex-1 pr-10 pl-4">
-            <h3>Offline processing</h3>
-            <p class="mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
-          </div>
-          <div class="text-capabilities-text flex flex-col flex-1 px-10">
-            <h3>Live processing</h3>
-            <p class="mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
-          </div>
-        </div> -->
-
-
-      <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
-        <div class="flex items-center gap-4 mb-8">
-          <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
-            <div class="gradient-light-3 w-full h-full aspect-square">
-              <div class="flex items-center justify-center p-3 md:p-4">
-                <Image src={suitcase} alt="capability icon" class="w-full h-full object-cover" />
-              </div>
+    <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+          <div class="gradient-light-3 w-full h-full aspect-square">
+            <div class="flex items-center justify-center p-3 md:p-4">
+              <Image src={suitcase} alt="capability icon" class="w-full h-full object-cover" />
             </div>
           </div>
-          <div class="flex">
-            <h2 class="text-capabilities-header text-start">Enterprise</h2>
-          </div>
         </div>
-        <div class="flex flex-row">
-          <div class="text-capabilities-text flex flex-col justify-center flex-1 pr-10">
-            <ul class="pl-4 flex flex-col gap-4">
-              <p><strong>Product Distribution:</strong> If you embed Smelter within software or hardware products intended for sale.</p>
-              <p><strong>License Limits:</strong> If your usage exceeds the limits specified in <a href="/license">the license</a>.</p>
-            </ul>
-          </div>
-          <div class="text-capabilities-text flex flex-col flex-1 px-10">
-            <h3>Trial</h3>
-            <ul class="list-disc pl-4 flex flex-col gap-2 mt-4">
-              <li>90-day free trial for all use-cases.</li>
-              <li>No strings attached.</li>
-              <li>No credit card required.</li>
-            </ul>
-          </div>
+        <div class="flex">
+          <h2 class="text-capabilities-header text-start">Enterprise</h2>
         </div>
       </div>
+      <div class="flex flex-col sm:flex-row">
+        <div class="text-capabilities-text flex flex-col justify-center flex-1 pr-10">
+          <ul class="flex flex-col gap-4 sm:pl-4">
+            <p><strong>Product Distribution:</strong> If you embed Smelter within software or hardware products intended for sale.</p>
+            <p><strong>License Limits:</strong> If your usage exceeds the limits specified in <a href="/license">the license</a>.</p>
+          </ul>
+        </div>
+        <div class="text-capabilities-text flex flex-col flex-1 sm:px-10">
+          <h3>Trial</h3>
+          <ul class="list-disc pl-4 flex flex-col gap-2 mt-4">
+            <li>90-day free trial for all use-cases.</li>
+            <li>No strings attached.</li>
+            <li>No credit card required.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
