@@ -79,5 +79,13 @@ export const DARK_THEME = {
       borderOpacity: COLORS.white25,
       content: COLORS.white75,
     },
+    demos: {
+      header: COLORS.white100,
+      subheader: COLORS.purple20,
+      border: COLORS.white100,
+      background: COLORS.black100,
+      button: COLORS.red40,
+      buttonText: COLORS.white100,
+    },
   },
 } as const;

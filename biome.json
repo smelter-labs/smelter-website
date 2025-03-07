@@ -24,6 +24,9 @@
       "recommended": true,
       "nursery": {
         "useSortedClasses": "warn"
+      },
+      "complexity": {
+        "noBannedTypes": "warn"
       }
     }
   },

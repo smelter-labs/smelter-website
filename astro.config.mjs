@@ -1,16 +1,22 @@
+import { createRequire } from "node:module";
+import path from "node:path";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
-import starlightLinksValidator from "starlight-links-validator";
-
 // @ts-check
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import starlightLinksValidator from "starlight-links-validator";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
 
 import vercel from "@astrojs/vercel";
+
+import react from "@astrojs/react";
+
+const require = createRequire(import.meta.url);
 
 export default defineConfig({
   site: "https://smelter.dev",
@@ -27,7 +33,25 @@ export default defineConfig({
   experimental: {
     svg: true,
   },
-
+  vite: {
+    plugins: [
+      viteStaticCopy({
+        targets: [
+          {
+            src: path.join(
+              path.dirname(require.resolve("@swmansion/smelter-browser-render")),
+              "smelter.wasm"
+            ),
+            dest: ".",
+          },
+        ],
+      }),
+    ],
+    optimizeDeps: {
+      exclude: ["@swmansion/smelter-web-wasm"],
+      include: ["@swmansion/smelter-web-wasm > pino"],
+    },
+  },
   integrations: [
     starlight({
       title: "Smelter",
@@ -195,11 +219,12 @@ export default defineConfig({
       ],
     }),
     mdx(),
-    tailwind(),
+    tailwind({ applyBaseStyles: false }),
     sitemap({
       changefreq: "weekly",
       lastmod: new Date("2025-03-04"),
     }),
+    react(),
   ],
 
   markdown: {
