@@ -48,8 +48,8 @@ export default defineConfig({
       }),
     ],
     optimizeDeps: {
-      exclude: ['@swmansion/smelter-web-wasm'],
-      include: ['@swmansion/smelter-web-wasm > pino']
+      exclude: ["@swmansion/smelter-web-wasm"],
+      include: ["@swmansion/smelter-web-wasm > pino"],
     },
   },
   integrations: [
