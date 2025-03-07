@@ -59,8 +59,8 @@ export default function StreamSection() {
             )}
             <StreamForm />
           </div>
-          <LayoutsSection />
         </div>
+          <LayoutsSection />
       </div>
     </>
   );

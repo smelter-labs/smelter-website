@@ -42,14 +42,14 @@ export default defineConfig({
               path.dirname(require.resolve("@swmansion/smelter-browser-render")),
               "smelter.wasm"
             ),
-            dest: "/",
+            dest: ".",
           },
         ],
       }),
     ],
     optimizeDeps: {
       exclude: ["@swmansion/smelter-web-wasm"],
-      include: ["pino"],
+      include: ["@swmansion/smelter-web-wasm > pino"],
     },
   },
   integrations: [
@@ -80,6 +80,15 @@ export default defineConfig({
           attrs: {
             property: "og:image:alt",
             content: "Toolkit for real-time, programmable video and audio mixing.",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            "data-rh": "true",
+            name: "keywords",
+            content:
+              "live stream, video composition, multimedia composition, react, video mixing, audio mixing, real-time, live compositor, media server",
           },
         },
         {
@@ -211,7 +220,10 @@ export default defineConfig({
     }),
     mdx(),
     tailwind({ applyBaseStyles: false }),
-    sitemap(),
+    sitemap({
+      changefreq: "weekly",
+      lastmod: new Date("2025-03-04"),
+    }),
     react(),
   ],
 

@@ -1,7 +1,11 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
-import { type Ref, forwardRef, useCallback } from "react";
 import SmelterCanvas from "../SmelterCanvas";
-import OutputConent from "./OutputContent";
+
+import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
+import { COLORS } from "../../../../../styles/colors";
+import SmelterVideo from "../SmelterVideo";
+import CameraContent from "./CameraContent";
+import { useLabelStore } from "./TextInput";
 
 export const OUTPUT_SIZE = { width: 480, height: 270 };
 
@@ -9,27 +13,58 @@ type OutputProps = {
   smelter: Smelter;
 };
 
-function Output({ smelter }: OutputProps, ref: Ref<Smelter>) {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const onCanvasCreate = useCallback(async (canvasRef: HTMLCanvasElement | null) => {
-    if (ref && "current" in ref) {
-      (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = canvasRef;
-    }
-  }, []);
-
+export default function Output({ smelter }: OutputProps) {
   return (
     <div className="flex flex-col gap-y-4">
-      <SmelterCanvas
+      <SmelterVideo
         smelter={smelter}
         id="output"
-        onCanvasCreate={onCanvasCreate}
         width={OUTPUT_SIZE.width}
         height={OUTPUT_SIZE.height}>
-        <OutputConent />
-      </SmelterCanvas>
+        <OutputContent />
+      </SmelterVideo>
       <h3 className="text-demos-subheader">Composed live stream or video</h3>
     </div>
   );
 }
 
-export default forwardRef<Smelter, OutputProps>(Output);
+function OutputContent() {
+  const { labelTextContent, backgroundColor, labelColor } = useLabelStore();
+
+  return (
+    <View
+      style={{
+        borderRadius: 16,
+        borderColor: COLORS.white100,
+        borderWidth: 1.5,
+      }}>
+      <Rescaler>
+        <InputStream id="stream" inputId="stream" />
+      </Rescaler>
+      <CameraContent />
+      <View
+        style={{
+          top: 0,
+          width: OUTPUT_SIZE.width / 2,
+          right: 0,
+          paddingTop: 16,
+          paddingRight: 20,
+        }}>
+        <View />
+        <Text
+          style={{
+            fontSize: 18,
+            lineHeight: 21,
+            color: labelColor,
+            backgroundColor: backgroundColor,
+            fontWeight: "bold",
+            wrap: "word",
+            maxWidth: OUTPUT_SIZE.width / 2,
+            maxHeight: OUTPUT_SIZE.height,
+          }}>
+          {labelTextContent}
+        </Text>
+      </View>
+    </View>
+  );
+}
