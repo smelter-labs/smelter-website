@@ -28,7 +28,7 @@ export default function LayoutsSection() {
 
 
     return(
-        <div className="flex flex-1 flex-col gap-y-4">
+        <div className="flex flex-1 flex-col gap-y-4 bg-red-900">
         {LAYOUTS.map((layout, index) => (
           <button
             type="button"

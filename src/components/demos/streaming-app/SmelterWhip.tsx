@@ -1,4 +1,4 @@
-import Smelter from "@swmansion/smelter-web-wasm";
+import type Smelter from "@swmansion/smelter-web-wasm";
 import { type DetailedHTMLProps, type ReactElement, useCallback, useEffect, useState } from "react";
 
 type VideoProps = DetailedHTMLProps<
@@ -12,6 +12,7 @@ type WhipStreamProps = VideoProps & {
   onSmelterCreated?: (smelter: Smelter) => Promise<void> | void;
   onSmelterStarted?: (smelter: Smelter) => Promise<void> | void;
   children: ReactElement,
+  smelter: Smelter,
 };
 
 type SmelterState = { smelter: Smelter, initPromise: Promise<void> }
@@ -21,7 +22,7 @@ type SmelterState = { smelter: Smelter, initPromise: Promise<void> }
   * Preview of the stream is displayed in a `<video />` tag.
   */
 export default function WhipStream(props: WhipStreamProps) {
-  const { endpointUrl, bearerToken, children, onSmelterCreated, onSmelterStarted, ...videoProps } = props;
+  const { endpointUrl, bearerToken, children, onSmelterCreated, smelter, onSmelterStarted, ...videoProps } = props;
 
   const [smelterState, setSmelterState] = useState<SmelterState | undefined>();
 
@@ -30,7 +31,6 @@ export default function WhipStream(props: WhipStreamProps) {
     if (!videoElement) {
       return
     }
-    const smelter = new Smelter();
     const initPromise = smelter.init()
     setSmelterState({
       smelter,
