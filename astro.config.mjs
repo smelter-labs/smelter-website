@@ -42,14 +42,14 @@ export default defineConfig({
               path.dirname(require.resolve("@swmansion/smelter-browser-render")),
               "smelter.wasm"
             ),
-            dest: "/",
+            dest: ".",
           },
         ],
       }),
     ],
     optimizeDeps: {
-      exclude: ["@swmansion/smelter-web-wasm"],
-      include: ["pino"],
+      exclude: ['@swmansion/smelter-web-wasm'],
+      include: ['@swmansion/smelter-web-wasm > pino']
     },
   },
   integrations: [
