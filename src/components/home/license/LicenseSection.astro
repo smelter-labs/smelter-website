@@ -2,8 +2,13 @@
 import { Image, type LocalImageProps } from "astro:assets";
 import LicenseTile from "./LicenseTile.astro";
 
-import star from "../../../assets/license/star.svg";
-import suitcase from "../../../assets/license/suitcase.svg";
+import Screen from "../../../assets/license/screen.svg";
+import Server from "../../../assets/license/server.svg";
+import Star from "../../../assets/license/star.svg";
+import SuitcaseGradient from "../../../assets/license/suitcase-gradient.svg";
+import Suitcase from "../../../assets/license/suitcase.svg";
+import LimitItem from "./LimitItem.astro";
+
 ---
 
 <section id="pricing" class="flex min-h-screen flex-col items-center justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:min-h-[unset] 2xl:py-40">
@@ -15,53 +20,83 @@ import suitcase from "../../../assets/license/suitcase.svg";
     </div>
 
 
-    <div class="gradient-light-4 flex rounded-4xl p-px">
+    <div class="gradient-light-4 flex rounded-4xl p-px w-ful">
       <div class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10">
         <div class="relative z-0 flex h-full flex-col">
           <div class="flex items-center gap-4 mb-8">
             <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
               <div class="gradient-light-3 w-full h-full aspect-square">
                 <div class="flex items-center justify-center p-3 md:p-4">
-                  <Image src={star} alt="capability icon" class="w-full h-full object-cover" />
+                  <Star class="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
-            <div class="flex">
+            <div class="flex flex-col">
               <h2 class="text-capabilities-header text-start">Free</h2>
+              <p class="text-capabilities-header text-start">For hobbyists and small to medium-size solutions.</p>
             </div>
           </div>
           <div class="flex flex-col gap-y-6 sm:flex-row">
-            <div class="text-capabilities-text flex flex-col flex-1 sm:pl-4">
-              <h3>Offline processing</h3>
-              <p class="mt-2 sm:mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
+            <div class="text-capabilities-text flex flex-col flex-1 gap-4 sm:pl-4">
+              <div>
+                <h3>Offline processing</h3>
+                <p class="mt-2 sm:mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
+              </div>
+              <div class="flex h-full justify-center items-center">
+                <p>NO LIMITS</p>
+              </div>
             </div>
             <div class="text-capabilities-text flex flex-col flex-1 sm:px-10">
-              <h3>Live processing</h3>
-              <p class="mt-2 sm:mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
+              <div>
+                <h3>Live processing</h3>
+                <p class="mt-2 sm:mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
+              </div>
+              <div class="flex flex-col gap-2 mt-4">
+                <div class="flex flex-1 gap-x-2 items-center">
+                  <SuitcaseGradient class="w-8 h-8 aspect-square" /> &lt; 50 employees
+                </div>
+                <div class="flex flex-1 gap-x-2 items-center">
+                  <Screen class="w-8 h-8 aspect-square" /> &lt; 10,000 concurrent viewers
+                </div>
+                <div class="flex flex-1 gap-x-2 items-center">
+                  <Server class="w-8 h-8 aspect-square" /> &lt; 50 machines
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10">
+    <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10 w-full">
       <div class="flex items-center gap-4 mb-8">
         <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
           <div class="gradient-light-3 w-full h-full aspect-square">
             <div class="flex items-center justify-center p-3 md:p-4">
-              <Image src={suitcase} alt="capability icon" class="w-full h-full object-cover" />
+              <Suitcase class="w-full h-full object-cover" />
             </div>
           </div>
         </div>
-        <div class="flex">
+        <div class="flex flex-col">
           <h2 class="text-capabilities-header text-start">Enterprise</h2>
+          <p class="text-capabilities-header text-start">For enterprise-scale applications.</p>
         </div>
       </div>
       <div class="flex flex-col sm:flex-row">
         <div class="text-capabilities-text flex flex-col justify-center flex-1 pr-10">
           <ul class="flex flex-col gap-4 sm:pl-4">
-            <p><strong>Product Distribution:</strong> If you embed Smelter within software or hardware products intended for sale.</p>
             <p><strong>License Limits:</strong> If your usage exceeds the limits specified in <a href="/license">the license</a>.</p>
+              <div class="flex flex-col gap-2">
+                <div class="flex flex-1 gap-x-2 items-center">
+                  <SuitcaseGradient class="w-8 h-8 aspect-square" /> &gt; 50 employees
+                </div>
+                <div class="flex flex-1 gap-x-2 items-center">
+                  <Screen class="w-8 h-8 aspect-square" /> &gt; 10,000 concurrent viewers
+                </div>
+                <div class="flex flex-1 gap-x-2 items-center">
+                  <Server class="w-8 h-8 aspect-square" /> &gt; 50 machines
+                </div>
+              </div>
           </ul>
         </div>
         <div class="text-capabilities-text flex flex-col flex-1 sm:px-10">
