@@ -80,6 +80,6 @@ export default function WhipStream(props: WhipStreamProps) {
   }, [smelterState]);
 
   return (
-    <video ref={videoRef} {...videoProps} />
+    <video muted ref={videoRef} {...videoProps} />
   )
 }

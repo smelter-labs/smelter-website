@@ -15,11 +15,15 @@ export const LAYOUTS = [
   
   type StreamStore = {
     currentLayout: LayoutVariant;
+    isCameraActive: boolean;
     setCurrentLayout: (layout: LayoutVariant) => void;
+    setIsCameraActive: (isCameraActive: boolean) => void,
   };
   
   export const useStreamStore = create<StreamStore>((set) => ({
     currentLayout: LAYOUTS[0].id,
+    isCameraActive: false,
+    setIsCameraActive: (isCameraActive: boolean) => set({ isCameraActive }),
     setCurrentLayout: (layout: LayoutVariant) => set({ currentLayout: layout }),
   }));
 

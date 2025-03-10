@@ -3,7 +3,7 @@ import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 
 import { useEffect, useState } from "react";
 import RaceMp4 from "../../../assets/race_640x360_full.mp4";
-import StreamerMp4 from "../../../assets/streamer.mp4";
+import StreamerMp4 from "../../../assets/streamer_640x360_full.mp4";
 import { useSmelter } from "../useSmelter";
 import LayoutsSection from "./LayoutsSection";
 import WhipStream from "./SmelterWhip";
@@ -20,9 +20,7 @@ export default function StreamSection() {
 
   const onSmelterCreated = async (smelter: Smelter) => {
     await smelter?.registerInput("stream", { url: RaceMp4, type: "mp4" });
-    await smelter?.registerInput("streamer", { type: "camera" });
-
-    // setSmelter(smelter)
+    await smelter?.registerInput("streamer-placeholder", { url: StreamerMp4, type: "mp4" });
   };
 
   useEffect(() => {
@@ -31,13 +29,22 @@ export default function StreamSection() {
     }
 
     void smelter?.registerInput("stream", { url: RaceMp4, type: "mp4" });
-    const interval = setInterval(async () => {
+    void smelter?.registerInput("streamer-placeholder", { url: StreamerMp4, type: "mp4" });
+
+    const intervalStream = setInterval(async () => {
       await smelter?.unregisterInput("stream").catch(() => {});
       await smelter?.registerInput("stream", { url: RaceMp4, type: "mp4" });
     }, 18000);
 
+
+    const intervalStreamerPalceholder = setInterval(async () => {
+      await smelter?.unregisterInput("streamer-placeholder").catch(() => {});
+      await smelter?.registerInput("streamer-placeholder", { url: StreamerMp4, type: "mp4"});
+    }, 7000);
+
     return () => {
-      clearInterval(interval);
+      clearInterval(intervalStream);
+      clearInterval(intervalStreamerPalceholder);
     };
   }, [smelter]);
 
@@ -57,7 +64,7 @@ export default function StreamSection() {
                 <StreamContent />
               </WhipStream>
             )}
-            <StreamForm />
+            <StreamForm smelter={smelter} />
           </div>
         </div>
           <LayoutsSection />

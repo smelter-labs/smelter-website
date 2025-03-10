@@ -4,6 +4,7 @@ export const DARK_THEME = {
   colors: {
     mainBackground: COLORS.black100,
     link: COLORS.red40,
+    switchActive: COLORS.green100,
     nav: {
       icon: COLORS.white100,
       searchContent: COLORS.white100,
@@ -86,6 +87,7 @@ export const DARK_THEME = {
       background: COLORS.black100,
       button: COLORS.red40,
       buttonText: COLORS.white100,
+      inputLabel: COLORS.white100,
     },
   },
 } as const;
