@@ -1,5 +1,6 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
 import type React from "react";
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { COLORS } from "../../../../styles/colors";
 import Edit from "../../../assets/demos/edit.svg";
@@ -22,9 +23,29 @@ export const useLabelStore = create<LabelStore>((set) => ({
 }));
 
 export default function StreamForm({ smelter }: { smelter?: Smelter }) {
-  const { currentLayout, isCameraActive, setIsCameraActive } = useStreamStore();
+  const { currentLayout, isCameraActive, twitchKey, setIsCameraActive } = useStreamStore();
   const { labelTextContent, labelColor, backgroundColor, setLabelTextContent, setLabelColor } =
     useLabelStore();
+
+  const [draftTwitchKey, setDraftTwitchKey] = useState(twitchKey);
+  const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
+
+  useEffect(() => {
+    const checkCameraPermission = async () => {
+      try {
+        const permissionStatus = await navigator.permissions.query({ name: "camera" });
+        permissionStatus.onchange = () => {
+          setCameraPermissionDenied(permissionStatus.state === "denied");
+        };
+        setCameraPermissionDenied(permissionStatus.state === "denied");
+      } catch (error) {
+        console.error("Error checking camera permissions:", error);
+        setCameraPermissionDenied(false);
+      }
+    };
+
+    checkCameraPermission();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLabelTextContent(event.target.value);
@@ -48,32 +69,43 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
   if (!smelter) return;
   return (
     <div className="mt-4">
-      <label className="flex cursor-pointer select-none items-center">
-        <input
-          type="checkbox"
-          className="hidden"
-          id="toggleSwitch"
-          checked={isCameraActive}
-          onChange={toggleCamera}
-        />
-        <span className="relative">
-          <span
-            className={`block h-8 w-14 rounded-full bg-gray-300 shadow-inner ${isCameraActive ? "bg-switchActive" : ""}`}
+      <div className="flex justify-between">
+        <label className="flex cursor-pointer select-none items-center">
+          <input
+            type="checkbox"
+            className="hidden"
+            id="toggleSwitch"
+            checked={isCameraActive}
+            onChange={toggleCamera}
           />
-          <span
-            className={`absolute inset-y-0 left-0 mt-1 ml-1 block h-6 w-6 rounded-full bg-white shadow transition-transform duration-300 ease-in-out focus-within:shadow-outline ${
-              isCameraActive ? "translate-x-6 transform" : ""
-            }`}
+          <span className="relative">
+            <span
+              className={`block h-8 w-14 rounded-full bg-gray-300 shadow-inner ${isCameraActive ? "bg-switchActive" : ""}`}
+            />
+            <span
+              className={`absolute inset-y-0 left-0 mt-1 ml-1 block h-6 w-6 rounded-full bg-white shadow transition-transform duration-300 ease-in-out focus-within:shadow-outline ${
+                isCameraActive ? "translate-x-6 transform" : ""
+              }`}
+            />
+          </span>
+          <p className="ml-2 text-demos-inputLabel">
+            {isCameraActive ? "Camera active" : "Camera inactive"}
+          </p>
+        </label>
+        <label className="flex cursor-pointer select-none items-center">
+          <input
+            type="text"
+            value={draftTwitchKey}
+            onChange={(e) => setDraftTwitchKey(e.target.value)}
+            placeholder="Twitch key"
+            className="w-[60%] rounded-md border bg-demos-background p-4 text-white shadow-sm focus:outline-none"
           />
-        </span>
-        <p className="ml-2 text-demos-inputLabel">
-          {isCameraActive ? "Camera active" : "Camera inactive"}
-        </p>
-      </label>
+        </label>
+      </div>
       <div>
-        {true && (
+        {cameraPermissionDenied && (
           <p className="mt-2 text-demos-subheader">
-            Camera access has been denied. Modify your browser settings to enable the toggle.
+            Camera access has been denied. Update your permissions to enable the toggle.
           </p>
         )}
       </div>

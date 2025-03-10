@@ -5,52 +5,55 @@ import layout3 from "../../../assets/demos/streaming-app/layout3.svg";
 import layout4 from "../../../assets/demos/streaming-app/layout4.svg";
 
 export const LAYOUTS = [
-    { id: "layout-streamer", image: layout1 },
-    { id: "layout-chat", image: layout2 },
-    { id: "layout-message", image: layout3 },
-    { id: "layout-camera", image: layout4 },
-  ] as const;
-  
-  export type LayoutVariant = (typeof LAYOUTS)[number]["id"] | null;
-  
-  type StreamStore = {
-    currentLayout: LayoutVariant;
-    isCameraActive: boolean;
-    setCurrentLayout: (layout: LayoutVariant) => void;
-    setIsCameraActive: (isCameraActive: boolean) => void,
-  };
-  
-  export const useStreamStore = create<StreamStore>((set) => ({
-    currentLayout: LAYOUTS[0].id,
-    isCameraActive: false,
-    setIsCameraActive: (isCameraActive: boolean) => set({ isCameraActive }),
-    setCurrentLayout: (layout: LayoutVariant) => set({ currentLayout: layout }),
-  }));
+  { id: "layout-streamer", image: layout1 },
+  { id: "layout-chat", image: layout2 },
+  { id: "layout-message", image: layout3 },
+  { id: "layout-camera", image: layout4 },
+] as const;
+
+export type LayoutVariant = (typeof LAYOUTS)[number]["id"] | null;
+
+type StreamStore = {
+  currentLayout: LayoutVariant;
+  isCameraActive: boolean;
+  twitchKey?: string;
+  setCurrentLayout: (layout: LayoutVariant) => void;
+  setIsCameraActive: (isCameraActive: boolean) => void;
+  setTwitchKey: (twitchKey: string) => void;
+
+};
+
+export const useStreamStore = create<StreamStore>((set) => ({
+  currentLayout: LAYOUTS[0].id,
+  isCameraActive: false,
+  setCurrentLayout: (layout: LayoutVariant) => set({ currentLayout: layout }),
+  setIsCameraActive: (isCameraActive: boolean) => set({ isCameraActive }),
+  setTwitchKey: (twitchKey: string) => set({ twitchKey }),
+}));
 
 export default function LayoutsSection() {
-    const { currentLayout, setCurrentLayout } = useStreamStore();
+  const { currentLayout, setCurrentLayout } = useStreamStore();
 
-
-    return(
-        <div className="flex flex-1 flex-col gap-y-4">
-        {LAYOUTS.map((layout, index) => (
-          <button
-            type="button"
-            key={layout.id}
-            className="aspect-video"
-            onClick={() => {
-              setCurrentLayout(layout.id);
-            }}>
-            <img
-              src={layout.image.src}
-              alt={layout.id}
-              style={{ opacity: currentLayout === layout.id ? "1" : "0.30" }}
-              className={
-                "aspect-video w-full rounded-lg border border-solid transition-opacity duration-300"
-              }
-            />
-          </button>
-        ))}
-      </div>
-    )
+  return (
+    <div className="flex flex-1 flex-col gap-y-4">
+      {LAYOUTS.map((layout, index) => (
+        <button
+          type="button"
+          key={layout.id}
+          className="aspect-video"
+          onClick={() => {
+            setCurrentLayout(layout.id);
+          }}>
+          <img
+            src={layout.image.src}
+            alt={layout.id}
+            style={{ opacity: currentLayout === layout.id ? "1" : "0.30" }}
+            className={
+              "aspect-video w-full rounded-lg border border-solid transition-opacity duration-300"
+            }
+          />
+        </button>
+      ))}
+    </div>
+  );
 }

@@ -15,7 +15,7 @@ type SmelterVideoProps = {
 } & VideoProps;
 
 export default function SmelterVideo(props: SmelterVideoProps) {
-  const { onVideoCreated, children, smelter, ...canvasProps } = props;
+  const { onVideoCreated, children, smelter, ...videoProps } = props;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: children
   const canvasRef = useCallback(
@@ -32,8 +32,8 @@ export default function SmelterVideo(props: SmelterVideoProps) {
         type: "stream",
         video: {
           resolution: {
-            width: Number(canvasProps.width ?? video.width),
-            height: Number(canvasProps.height ?? video.height),
+            width: Number(videoProps.width ?? video.width),
+            height: Number(videoProps.height ?? video.height),
           },
         },
         audio: false,
@@ -44,8 +44,8 @@ export default function SmelterVideo(props: SmelterVideoProps) {
         await video.play();
       }
     },
-    [onVideoCreated, canvasProps.width, canvasProps.height, smelter, props.id]
+    [onVideoCreated, videoProps.width, videoProps.height, smelter, props.id]
   );
 
-  return <video ref={canvasRef} controls autoPlay {...canvasProps} />;
+  return <video ref={canvasRef} controls autoPlay {...videoProps} />;
 }
