@@ -1,4 +1,3 @@
-import { useAfterTimestamp } from "@swmansion/smelter";
 import { useEffect, useState } from "react";
 import type { Message } from "./ChatEntry";
 
@@ -27,28 +26,28 @@ const normalizedStart: [number, Message][] = [
 ];
 
 export function useFakeMessages(): Message[] {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [index, setIndex] = useState(0);
-    const [loopCount, setLoopCount] = useState(0); 
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if (index < normalizedStart.length) {
-          const currentLoopIteration = loopCount * normalizedStart.length;
-          const newMessage = {
-            ...normalizedStart[index][1],
-            id: normalizedStart[index][1].id + currentLoopIteration, 
-          };
-          setMessages(oldMessages => [...oldMessages.slice(-10), newMessage]);
-          setIndex(index + 1);
-        } else {
-          setIndex(0);
-          setLoopCount(loopCount + 1);
-        }
-      }, 500); 
-  
-      return () => clearInterval(interval);
-    }, [index, loopCount]); 
-  
-    return messages;
-  }
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [index, setIndex] = useState(0);
+  const [loopCount, setLoopCount] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (index < normalizedStart.length) {
+        const currentLoopIteration = loopCount * normalizedStart.length;
+        const newMessage = {
+          ...normalizedStart[index][1],
+          id: normalizedStart[index][1].id + currentLoopIteration,
+        };
+        setMessages((oldMessages) => [...oldMessages.slice(-10), newMessage]);
+        setIndex(index + 1);
+      } else {
+        setIndex(0);
+        setLoopCount(loopCount + 1);
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [index, loopCount]);
+
+  return messages;
+}

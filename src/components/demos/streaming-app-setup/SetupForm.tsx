@@ -23,9 +23,7 @@ export default function SetupForm() {
     return (
       <div className="mx-auto max-w-3xl p-4 text-center">
         <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
-        <p className="text-demos-subheader">
-          Please switch to a supported browser to continue.
-        </p>
+        <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
       </div>
     );
   }

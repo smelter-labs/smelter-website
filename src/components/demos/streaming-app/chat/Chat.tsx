@@ -1,6 +1,6 @@
-import { View } from '@swmansion/smelter';
-import ChatEntry from './ChatEntry';
-import { useFakeMessages } from './useFakeMessages';
+import { View } from "@swmansion/smelter";
+import ChatEntry from "./ChatEntry";
+import { useFakeMessages } from "./useFakeMessages";
 
 type ChatProps = {
   width: number;
@@ -18,11 +18,11 @@ function Chat(props: ChatProps) {
         height: props.height,
         left: 32,
         bottom: 0,
-    overflow: 'hidden'
+        overflow: "hidden",
       }}>
-      <View style={{ height: 4500, bottom: 0, left: 0, direction: 'column', overflow: 'hidden' }}>
+      <View style={{ height: 4500, bottom: 0, left: 0, direction: "column", overflow: "hidden" }}>
         <View />
-        {messages.map(msg => {
+        {messages.map((msg) => {
           return <ChatEntry key={msg.id} width={props.width} msg={msg} />;
         })}
       </View>

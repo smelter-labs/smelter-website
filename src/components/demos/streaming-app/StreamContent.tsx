@@ -1,4 +1,4 @@
-import { InputStream, Rescaler, Text, View, useInputStreams } from "@swmansion/smelter";
+import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../styles/colors";
 import { useStreamStore } from "./LayoutsSection";
 import { useLabelStore } from "./StreamForm";
@@ -7,7 +7,6 @@ import StreamerWindow from "./StreamerWindow";
 import Chat from "./chat/Chat";
 
 export default function StreamContent() {
-  const inputStreams = useInputStreams();
   const { currentLayout } = useStreamStore();
   const { labelColor, labelTextContent } = useLabelStore();
 
@@ -88,15 +87,17 @@ export default function StreamContent() {
   if (currentLayout === "layout-camera")
     return (
       <View>
-        {<Rescaler
-          style={{
-            borderRadius: 16,
-            borderColor: COLORS.white100,
-            borderWidth: 1.5,
-            rescaleMode: "fit",
-          }}>
-          <InputStream inputId="stream" />
-        </Rescaler>}
+        {
+          <Rescaler
+            style={{
+              borderRadius: 16,
+              borderColor: COLORS.white100,
+              borderWidth: 1.5,
+              rescaleMode: "fit",
+            }}>
+            <InputStream inputId="stream" />
+          </Rescaler>
+        }
         <StreamerWindow size="full" />
       </View>
     );

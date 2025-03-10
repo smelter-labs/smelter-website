@@ -20,7 +20,6 @@ type StreamStore = {
   setCurrentLayout: (layout: LayoutVariant) => void;
   setIsCameraActive: (isCameraActive: boolean) => void;
   setTwitchKey: (twitchKey: string) => void;
-
 };
 
 export const useStreamStore = create<StreamStore>((set) => ({
@@ -36,7 +35,7 @@ export default function LayoutsSection() {
 
   return (
     <div className="flex flex-1 flex-col gap-y-4">
-      {LAYOUTS.map((layout, index) => (
+      {LAYOUTS.map((layout) => (
         <button
           type="button"
           key={layout.id}

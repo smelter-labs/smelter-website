@@ -1,4 +1,4 @@
-import { View } from '@swmansion/smelter';
+import { View } from "@swmansion/smelter";
 
 const CHAR_SIZE = 72;
 
@@ -9,13 +9,13 @@ export type Message = {
 
 function ChatEntry(props: { msg: Message; width: number }) {
   return (
-    <View style={{ direction: 'column', paddingBottom: 28, height: CHAR_SIZE + 28 }}>
+    <View style={{ direction: "column", paddingBottom: 28, height: CHAR_SIZE + 28 }}>
       <View key={props.msg.id}>
         <View
           style={{
             width: CHAR_SIZE * 1.3,
             height: CHAR_SIZE,
-            backgroundColor: '#FFFFFF22',
+            backgroundColor: "#FFFFFF22",
             borderRadius: 24,
           }}
         />
@@ -24,7 +24,7 @@ function ChatEntry(props: { msg: Message; width: number }) {
           style={{
             width: props.msg.text.length * 10,
             height: CHAR_SIZE,
-            backgroundColor: '#FFFFFF22',
+            backgroundColor: "#FFFFFF22",
             borderRadius: 24,
           }}
         />

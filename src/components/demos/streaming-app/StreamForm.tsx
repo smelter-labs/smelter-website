@@ -24,7 +24,7 @@ export const useLabelStore = create<LabelStore>((set) => ({
 }));
 
 export default function StreamForm({ smelter }: { smelter?: Smelter }) {
-  const { currentLayout, isCameraActive, twitchKey, setIsCameraActive } = useStreamStore();
+  const { currentLayout, isCameraActive, setIsCameraActive } = useStreamStore();
   const { labelTextContent, labelColor, backgroundColor, setLabelTextContent, setLabelColor } =
     useLabelStore();
 
@@ -76,7 +76,6 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
     }
     setIsCameraActive(!isCameraActive);
   };
-
 
   if (!smelter) return;
 

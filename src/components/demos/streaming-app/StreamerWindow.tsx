@@ -1,4 +1,4 @@
-import { InputStream, Rescaler, type RescalerProps, useInputStreams } from "@swmansion/smelter";
+import { InputStream, Rescaler, type RescalerProps } from "@swmansion/smelter";
 import { COLORS } from "../../../../styles/colors";
 import { useStreamStore } from "./LayoutsSection";
 import { INPUT_SIZE } from "./StreamSection";
@@ -6,8 +6,6 @@ import { INPUT_SIZE } from "./StreamSection";
 type Size = "full" | "min";
 
 export default function StreamerWindow({ size = "min" }: { size?: Size }) {
-  const inputStreams = useInputStreams();
-
   const { isCameraActive } = useStreamStore();
 
   const STYLES = {
