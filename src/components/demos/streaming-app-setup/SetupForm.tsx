@@ -1,10 +1,13 @@
 import { navigate } from "astro:transitions/client";
 import { type FormEvent, useRef } from "react";
+import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
 import { useStreamStore } from "../streaming-app/LayoutsSection";
 
 export default function SetupForm() {
-  const { twitchKey, setTwitchKey } = useStreamStore();
+  const { setTwitchKey } = useStreamStore();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isAvailable = isChromiumBased() || !isMobileBreakpoint();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -14,6 +17,17 @@ export default function SetupForm() {
       setTwitchKey(formData.getAll("key")[0].toString());
     }
     navigate("/demos/streaming-app");
+  }
+
+  if (!isAvailable) {
+    return (
+      <div className="mx-auto max-w-3xl p-4 text-center">
+        <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
+        <p className="text-demos-subheader">
+          Please switch to a supported browser to continue.
+        </p>
+      </div>
+    );
   }
 
   return (

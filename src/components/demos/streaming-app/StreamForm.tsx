@@ -24,8 +24,7 @@ export const useLabelStore = create<LabelStore>((set) => ({
 }));
 
 export default function StreamForm({ smelter }: { smelter?: Smelter }) {
-  const { currentLayout, isCameraActive, twitchKey, setIsCameraActive } =
-    useStreamStore();
+  const { currentLayout, isCameraActive, twitchKey, setIsCameraActive } = useStreamStore();
   const { labelTextContent, labelColor, backgroundColor, setLabelTextContent, setLabelColor } =
     useLabelStore();
 
@@ -44,9 +43,9 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
           const microphoneStatus = await navigator.permissions.query({ name: "microphone" });
 
           const isDenied = cameraStatus.state === "denied" || microphoneStatus.state === "denied";
-          if(isDenied) setIsCameraActive(false)
+          if (isDenied) setIsCameraActive(false);
           setCameraPermissionDenied(isDenied);
-        }
+        };
 
         cameraStatus.onchange = handleUpdate;
         microphoneStatus.onchange = handleUpdate;
@@ -78,7 +77,9 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
     setIsCameraActive(!isCameraActive);
   };
 
+
   if (!smelter) return;
+
   return (
     <div className="mt-4">
       <div className="flex items-start justify-between">

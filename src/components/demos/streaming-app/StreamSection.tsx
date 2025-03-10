@@ -4,6 +4,7 @@ import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 import { useCallback, useEffect } from "react";
 import RaceMp4 from "../../../assets/race_640x360_full.mp4";
 import StreamerMp4 from "../../../assets/streamer_640x360_full.mp4";
+import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
 import { useSmelter } from "../useSmelter";
 import LayoutsSection from "./LayoutsSection";
 import Output from "./Output";
@@ -14,6 +15,7 @@ setWasmBundleUrl("/smelter.wasm");
 export const INPUT_SIZE = { width: 1920, height: 1080 } as const;
 
 export default function StreamSection() {
+  const isAvailable = isChromiumBased() && !isMobileBreakpoint();
   const smelter = useSmelter();
 
   useEffect(() => {
@@ -40,6 +42,14 @@ export default function StreamSection() {
     };
   }, [smelter]);
 
+  if (!isAvailable) {
+    return (
+      <div className="mx-auto max-w-3xl p-4 text-center">
+        <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
+        <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex w-full justify-center gap-x-6">
