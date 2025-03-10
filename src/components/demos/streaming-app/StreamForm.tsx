@@ -1,3 +1,4 @@
+import { navigate } from "astro:transitions/client";
 import type Smelter from "@swmansion/smelter-web-wasm";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -23,21 +24,33 @@ export const useLabelStore = create<LabelStore>((set) => ({
 }));
 
 export default function StreamForm({ smelter }: { smelter?: Smelter }) {
-  const { currentLayout, isCameraActive, twitchKey, setIsCameraActive } = useStreamStore();
+  const { currentLayout, isCameraActive, twitchKey, setIsCameraActive } =
+    useStreamStore();
   const { labelTextContent, labelColor, backgroundColor, setLabelTextContent, setLabelColor } =
     useLabelStore();
 
-  const [draftTwitchKey, setDraftTwitchKey] = useState(twitchKey);
   const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
 
   useEffect(() => {
     const checkCameraPermission = async () => {
       try {
-        const permissionStatus = await navigator.permissions.query({ name: "camera" });
-        permissionStatus.onchange = () => {
-          setCameraPermissionDenied(permissionStatus.state === "denied");
-        };
-        setCameraPermissionDenied(permissionStatus.state === "denied");
+        const cameraStatus = await navigator.permissions.query({ name: "camera" });
+        const microphoneStatus = await navigator.permissions.query({ name: "microphone" });
+
+        const isDenied = cameraStatus.state === "denied" || microphoneStatus.state === "denied";
+
+        const handleUpdate = async () => {
+          const cameraStatus = await navigator.permissions.query({ name: "camera" });
+          const microphoneStatus = await navigator.permissions.query({ name: "microphone" });
+
+          const isDenied = cameraStatus.state === "denied" || microphoneStatus.state === "denied";
+          if(isDenied) setIsCameraActive(false)
+          setCameraPermissionDenied(isDenied);
+        }
+
+        cameraStatus.onchange = handleUpdate;
+        microphoneStatus.onchange = handleUpdate;
+        setCameraPermissionDenied(isDenied);
       } catch (error) {
         console.error("Error checking camera permissions:", error);
         setCameraPermissionDenied(false);
@@ -45,7 +58,7 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
     };
 
     checkCameraPermission();
-  }, []);
+  }, [setIsCameraActive]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLabelTextContent(event.target.value);
@@ -55,12 +68,11 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
     setLabelColor(event.target.value);
   };
 
-  const toggleCamera = async () => {
+  const toggleCamera = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     if (isCameraActive) {
-      console.log("test 1");
       await smelter?.unregisterInput("streamer");
     } else {
-      console.log("test 2");
       await smelter?.registerInput("streamer", { type: "camera" });
     }
     setIsCameraActive(!isCameraActive);
@@ -69,7 +81,7 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
   if (!smelter) return;
   return (
     <div className="mt-4">
-      <div className="flex justify-between">
+      <div className="flex items-start justify-between">
         <label className="flex cursor-pointer select-none items-center">
           <input
             type="checkbox"
@@ -92,15 +104,18 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
             {isCameraActive ? "Camera active" : "Camera inactive"}
           </p>
         </label>
-        <label className="flex cursor-pointer select-none items-center">
-          <input
-            type="text"
-            value={draftTwitchKey}
-            onChange={(e) => setDraftTwitchKey(e.target.value)}
-            placeholder="Twitch key"
-            className="w-[60%] rounded-md border bg-demos-background p-4 text-white shadow-sm focus:outline-none"
-          />
-        </label>
+        <div className="flex cursor-pointer select-none items-center gap-4">
+          <button type="submit" className="gradient-red-5 h-10 w-fit rounded-full px-4">
+            {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+            <div
+              onClick={() => {
+                navigate("/demos/streaming-app-setup");
+              }}
+              className="flex items-center justify-center gap-x-3 text-sm text-white">
+              <span>Update twitch key</span>
+            </div>
+          </button>
+        </div>
       </div>
       <div>
         {cameraPermissionDenied && (
@@ -110,7 +125,7 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
         )}
       </div>
       {currentLayout === "layout-message" && (
-        <div className="flex gap-x-4 space-y-4 py-4">
+        <div className="mt-10 flex gap-x-4 space-y-4 py-4">
           <input
             type="text"
             value={labelTextContent}

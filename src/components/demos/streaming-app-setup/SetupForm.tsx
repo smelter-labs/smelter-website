@@ -13,7 +13,7 @@ export default function SetupForm() {
     if (formData.getAll("key")[0]) {
       setTwitchKey(formData.getAll("key")[0].toString());
     }
-    navigate('/demos/streaming-app')
+    navigate("/demos/streaming-app");
   }
 
   return (
@@ -23,18 +23,28 @@ export default function SetupForm() {
           <label htmlFor="key">
             <input
               ref={inputRef}
-              type="text"
+              type="password"
               id="key"
               name="key"
               placeholder="Enter a twitch key"
               className="w-[60%] rounded-md border bg-demos-background p-4 text-demos-inputLabel shadow-sm focus:outline-none"
             />
           </label>
-          <button type="submit" className="gradient-red-5 h-12 w-fit rounded-full px-6 sm:px-7">
-            <div className="flex items-center justify-center gap-x-3 text-white text-xl">
-              <span>Continue</span>
-            </div>
-          </button>
+          <div className="flex gap-x-4">
+            <button type="submit" className="gradient-red-5 h-12 w-fit rounded-full px-6 sm:px-7">
+              <div className="flex items-center justify-center gap-x-3 text-white text-xl">
+                <span>Continue</span>
+              </div>
+            </button>
+            <button
+              onClick={() => navigate("/demos/streaming-app")}
+              type="button"
+              className="gradient-light-5 h-12 w-fit rounded-full px-6 sm:px-7">
+              <div className="flex items-center justify-center gap-x-3 text-white text-xl">
+                <span>Continue without key</span>
+              </div>
+            </button>
+          </div>
         </form>
         <p className="text-demos-subheader">
           If you don't provide a key, the example will only be displayed on the site.

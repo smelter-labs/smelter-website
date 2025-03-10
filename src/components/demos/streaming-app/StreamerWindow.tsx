@@ -7,6 +7,7 @@ type Size = "full" | "min";
 
 export default function StreamerWindow({ size = "min" }: { size?: Size }) {
   const inputStreams = useInputStreams();
+
   const { isCameraActive } = useStreamStore();
 
   const STYLES = {
@@ -32,7 +33,7 @@ export default function StreamerWindow({ size = "min" }: { size?: Size }) {
     },
   } satisfies Record<Size, RescalerProps["style"]>;
 
-  const showPlaceholder = !inputStreams.streamer || !isCameraActive;
+  const showPlaceholder = !isCameraActive;
 
   if (showPlaceholder)
     return (
