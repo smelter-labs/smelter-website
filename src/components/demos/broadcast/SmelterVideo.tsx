@@ -47,5 +47,5 @@ export default function SmelterVideo(props: SmelterVideoProps) {
     [onVideoCreated, canvasProps.width, canvasProps.height, smelter, props.id]
   );
 
-  return <video ref={canvasRef} controls autoPlay {...canvasProps} />;
+  return <video className="flex" ref={canvasRef} controls autoPlay {...canvasProps} />;
 }
