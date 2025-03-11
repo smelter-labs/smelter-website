@@ -1,15 +1,15 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-type Props = HTMLAttributes<"button">;
+type Props = HTMLAttributes<"button"> & { textClass?: string };
 
-const { class: buttonClass, ...primaryButtonProps } = Astro.props;
+const { class: buttonClass, textClass, ...primaryButtonProps } = Astro.props;
 ---
 
 <button
   class:list={['rounded-full w-fit gradient-red-5 px-6 h-14 sm:px-7 sm:h-17.5', buttonClass]}
   {...primaryButtonProps}>
-  <div class="flex gap-x-3 text-xl text-white justify-center items-center">
+  <div class:list={["flex gap-x-3 text-xl text-white justify-center items-center", textClass]}>
     <slot />
   </div>
 </button>
