@@ -1,13 +1,15 @@
 import { navigate } from "astro:transitions/client";
 import { type FormEvent, useRef } from "react";
 import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
+import LoadingSpinner from "../../base/LoadingSpinner";
 import { useStreamStore } from "../streaming-app/LayoutsSection";
 
 export default function SetupForm() {
+  const isChromium = isChromiumBased();
+  const isMobile = isMobileBreakpoint();
+
   const { setTwitchKey } = useStreamStore();
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const isAvailable = isChromiumBased() || !isMobileBreakpoint();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,11 +21,24 @@ export default function SetupForm() {
     navigate("/demos/streaming-app");
   }
 
-  if (!isAvailable) {
+  if (isChromium === "loading" || isMobile === "loading") {
+    return <LoadingSpinner />;
+  }
+
+  if (isChromium === false) {
     return (
       <div className="mx-auto max-w-3xl p-4 text-center">
         <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
         <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
+      </div>
+    );
+  }
+
+  if (isMobile === true) {
+    return (
+      <div className="mx-auto max-w-3xl p-4 text-center">
+        <h3 className="mb-4 text-demos-header">This demo works only on desktop</h3>
+        <p className="text-demos-subheader">Please switch to another device to continue.</p>
       </div>
     );
   }

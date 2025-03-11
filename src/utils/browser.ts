@@ -7,7 +7,7 @@ export function isChromiumBased() {
       deviceType.includes("CriOS");
     return isChromium;
   }
-  return false;
+  return 'loading';
 }
 
 export function isMobileBreakpoint() {
@@ -15,5 +15,5 @@ export function isMobileBreakpoint() {
     const mobileBreakpointWidth = 768;
     return window.innerWidth <= mobileBreakpointWidth;
   }
-  return false;
+  return 'loading';
 }

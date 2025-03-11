@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import RaceMp4 from "../../../assets/race_640x360_full.mp4";
 import StreamerMp4 from "../../../assets/streamer_640x360_full.mp4";
 import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
+import LoadingSpinner from "../../base/LoadingSpinner";
 import { useSmelter } from "../useSmelter";
 import LayoutsSection from "./LayoutsSection";
 import Output from "./Output";
@@ -14,7 +15,9 @@ setWasmBundleUrl("/smelter.wasm");
 export const INPUT_SIZE = { width: 1920, height: 1080 } as const;
 
 export default function StreamSection() {
-  const isAvailable = isChromiumBased() && !isMobileBreakpoint();
+  const isChromium = isChromiumBased();
+  const isMobile = isMobileBreakpoint();
+
   const smelter = useSmelter();
 
   useEffect(() => {
@@ -41,7 +44,11 @@ export default function StreamSection() {
     };
   }, [smelter]);
 
-  if (!isAvailable) {
+  if (isChromium === "loading" || isMobile === 'loading') {
+    return <LoadingSpinner />;
+  }
+
+  if (isChromium === false) {
     return (
       <div className="mx-auto max-w-3xl p-4 text-center">
         <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
@@ -49,6 +56,16 @@ export default function StreamSection() {
       </div>
     );
   }
+
+  if (isMobile === true) {
+    return (
+      <div className="mx-auto max-w-3xl p-4 text-center">
+        <h3 className="mb-4 text-demos-header">This demo works only on desktop</h3>
+        <p className="text-demos-subheader">Please switch to another device to continue.</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex w-full justify-center gap-x-6">
