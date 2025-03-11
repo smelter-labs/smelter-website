@@ -1,13 +1,10 @@
 ---
-import { Image, type LocalImageProps } from "astro:assets";
-import LicenseTile from "./LicenseTile.astro";
-
 import Screen from "../../../assets/license/screen.svg";
 import Server from "../../../assets/license/server.svg";
+import StarGradient from "../../../assets/license/star-gradient.svg";
 import Star from "../../../assets/license/star.svg";
 import SuitcaseGradient from "../../../assets/license/suitcase-gradient.svg";
 import Suitcase from "../../../assets/license/suitcase.svg";
-import LimitItem from "./LimitItem.astro";
 
 ---
 
@@ -42,7 +39,8 @@ import LimitItem from "./LimitItem.astro";
                 <h3>Offline processing</h3>
                 <p class="mt-2 sm:mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
               </div>
-              <div class="flex h-full justify-center items-center">
+              <div class="flex h-full justify-center items-center gap-2">
+                <StarGradient class="h-8 w-8 aspect-square" />
                 <h3>No limits</h3>
               </div>
             </div>
