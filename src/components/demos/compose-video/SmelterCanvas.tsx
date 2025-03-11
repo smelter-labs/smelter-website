@@ -17,28 +17,28 @@ type SmelterCanvasProps = {
 export default function SmelterCanvas(props: SmelterCanvasProps) {
   const { onCanvasCreated, children, smelter, ...canvasProps } = props;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: children
-  const canvasRef = useCallback(
-    async (canvas: HTMLCanvasElement | null) => {
-      if (!canvas) {
-        return;
-      }
-
-      if (onCanvasCreated) {
-        await onCanvasCreated();
-      }
-
-      await smelter.registerOutput(`${props.id}-output`, children, {
-        type: "canvas",
-        video: {
-          canvas: canvas,
-          resolution: {
-            width: Number(canvasProps.width ?? canvas.width),
-            height: Number(canvasProps.height ?? canvas.height),
-          },
+  const initializeCanvas = async (canvas: HTMLCanvasElement) => {
+    if (onCanvasCreated) {
+      await onCanvasCreated();
+    }
+    await smelter.registerOutput(`${props.id}-output`, children, {
+      type: "canvas",
+      video: {
+        canvas: canvas,
+        resolution: {
+          width: Number(canvasProps.width ?? canvas.width),
+          height: Number(canvasProps.height ?? canvas.height),
         },
-        audio: false,
-      });
+      },
+      audio: false,
+    });
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  const canvasRef = useCallback(
+    (canvas: HTMLCanvasElement | null) => {
+      if (!canvas) return;
+      initializeCanvas(canvas);
     },
     [onCanvasCreated, canvasProps.width, canvasProps.height, smelter, props.id]
   );

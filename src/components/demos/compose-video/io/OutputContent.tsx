@@ -1,32 +1,10 @@
 import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
-import type Smelter from "@swmansion/smelter-web-wasm";
 import { COLORS } from "../../../../../styles/colors";
-import SmelterVideo from "../../SmelterVideo";
 import CameraContent from "./CameraContent";
+import { OUTPUT_SIZE } from "./Output";
 import { useLabelStore } from "./TextInput";
 
-export const OUTPUT_SIZE = { width: 480, height: 270 };
-
-type OutputProps = {
-  smelter: Smelter;
-};
-
-export default function Output({ smelter }: OutputProps) {
-  return (
-    <div className="flex flex-col gap-y-4">
-      <SmelterVideo
-        smelter={smelter}
-        id="output"
-        width={OUTPUT_SIZE.width}
-        height={OUTPUT_SIZE.height}>
-        <OutputContent />
-      </SmelterVideo>
-      <h3 className="text-demos-subheader">Composed live stream or video</h3>
-    </div>
-  );
-}
-
-function OutputContent() {
+export default function OutputContent() {
   const { labelTextContent, backgroundColor, labelColor } = useLabelStore();
 
   return (
