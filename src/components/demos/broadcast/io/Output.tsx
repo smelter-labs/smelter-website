@@ -1,9 +1,9 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
 
-import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
+import { InputStream, Rescaler, View } from "@swmansion/smelter";
 import { useMemo } from "react";
 import { COLORS } from "../../../../../styles/colors";
-import SmelterVideo from "../SmelterVideo";
+import SmelterVideo from "../../SmelterVideo";
 import Chyron, { useChyronStore } from "./Chyron";
 
 export const OUTPUT_SIZE = { width: 1270, height: 720 };
@@ -27,7 +27,7 @@ export default function Output({ smelter }: OutputProps) {
 }
 
 function OutputContent() {
-  const { chyronContent, backgroundColor, labelColor } = useChyronStore();
+  const { chyronContent, backgroundColor } = useChyronStore();
 
   const messages = useMemo(() => {
     return chyronContent.split(/\r?\n|\r/);
@@ -40,9 +40,9 @@ function OutputContent() {
         borderColor: COLORS.white100,
         borderWidth: 1.5,
       }}>
-        <Rescaler style={{rescaleMode: 'fill'}}>
-          <InputStream inputId="broadcast" />
-        </Rescaler>
+      <Rescaler style={{ rescaleMode: "fill" }}>
+        <InputStream inputId="broadcast" />
+      </Rescaler>
       <View
         style={{
           bottom: 0,
@@ -51,7 +51,7 @@ function OutputContent() {
           paddingHorizontal: 24,
           backgroundColor: backgroundColor,
         }}>
-        <Chyron messages={messages} messageDurationMs={5000} />
+        <Chyron messages={messages} messageDurationMs={4000} />
       </View>
     </View>
   );
