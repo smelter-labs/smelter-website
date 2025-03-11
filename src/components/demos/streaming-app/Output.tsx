@@ -1,6 +1,6 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
 
-import SmelterVideo from "../compose-video/SmelterVideo";
+import SmelterVideo from "../SmelterVideo";
 import { useStreamStore } from "./LayoutsSection";
 import WhipStream from "./SmelterWhip";
 import StreamContent from "./StreamContent";

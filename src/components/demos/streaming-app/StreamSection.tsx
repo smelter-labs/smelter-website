@@ -44,7 +44,7 @@ export default function StreamSection() {
     };
   }, [smelter]);
 
-  if (isChromium === "loading" || isMobile === 'loading') {
+  if (isChromium === "loading" || isMobile === "loading") {
     return <LoadingSpinner />;
   }
 
