@@ -8,6 +8,7 @@ import swmLogo from "/public/images/swm-logo.svg";
 import heroGradient from "../../../assets/hero/gradient.webp";
 
 import "./heroSection.scss";
+import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
 ---
 
 <section class="px-4 sm:px-12 xl:pl-40 flex h-screen flex-row justify-center sm:py-14 items-center relative 2xl:h-fit 2xl:py-80">
@@ -24,12 +25,20 @@ import "./heroSection.scss";
         Toolkit for real-time, low-latency, programmable<br />multimedia composition.
       </p>
     </div>
-    <a href="/docs" style="text-decoration: none; color: inherit;">
-      <PrimaryButton>
-        <p class="par-xl">Visit the docs</p>
-        <ArrowRight />
-      </PrimaryButton>
-    </a>
+    <div class="flex gap-2">
+      <a href="/docs" style="text-decoration: none; color: inherit;">
+        <PrimaryButton>
+          <p class="par-xl">Visit the docs</p>
+          <ArrowRight />
+        </PrimaryButton>
+      </a>
+      <a href="/react" style="text-decoration: none; color: inherit;">
+        <SecondaryButton>
+          <p class="par-xl">Use React</p>
+          <ArrowRight />
+        </SecondaryButton>
+      </a>
+    </div>
   </div>
   <HeroStreams />
   <Image src={heroGradient} alt="Hero" class="hero-gradient fade-in" loading="eager" />

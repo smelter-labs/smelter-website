@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-type Props = HTMLAttributes<"button"> & {textClass?: string};
+type Props = HTMLAttributes<"button"> & { textClass?: string };
 
 const { class: buttonClass, textClass, ...primaryButtonProps } = Astro.props;
 ---
