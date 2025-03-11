@@ -4,6 +4,8 @@ export const DARK_THEME = {
   colors: {
     mainBackground: COLORS.black100,
     link: COLORS.red40,
+    switchActive: COLORS.green100,
+    loadingFill: COLORS.red60,
     nav: {
       icon: COLORS.white100,
       searchContent: COLORS.white100,
@@ -78,6 +80,16 @@ export const DARK_THEME = {
       border: COLORS.green60,
       borderOpacity: COLORS.white25,
       content: COLORS.white75,
+    },
+    demos: {
+      header: COLORS.white100,
+      subheader: COLORS.purple20,
+      border: COLORS.white100,
+      background: COLORS.black100,
+      button: COLORS.red40,
+      buttonText: COLORS.white100,
+      text: COLORS.white100,
+      inputLabel: COLORS.white100,
     },
   },
 } as const;

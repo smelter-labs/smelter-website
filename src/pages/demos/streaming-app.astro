@@ -1,0 +1,16 @@
+---
+import StreamSection from "../../components/demos/streaming-app/StreamSection";
+import DemosLayout from "../../layouts/DemosLayout.astro";
+---
+
+<DemosLayout canonicalUrl="https://smelter.dev">
+  <main
+    class="flex justify-center min-h-screen w-full overflow-clip py-24 px-16"
+  >
+    <div
+      class="w-full max-w-[1536px] relative gap-y-12 flex flex-col self-center"
+    >
+      <StreamSection client:load />
+    </div>
+  </main>
+</DemosLayout>
