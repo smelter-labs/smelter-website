@@ -1,0 +1,16 @@
+---
+import SmelterSection from "../../components/demos/video-conference/SmelterSection";
+import DemosLayout from "../../layouts/DemosLayout.astro";
+---
+
+<DemosLayout canonicalUrl="https://smelter.dev">
+  <main
+    class="flex flex-col justify-center w-full overflow-clip pt-20 px-4 sm:px-16 h-screen"
+  >
+    <div
+      class="w-full max-w-[1536px] relative gap-y-12 flex flex-col self-center justify-center"
+    >
+      <SmelterSection client:load />
+    </div>
+  </main>
+</DemosLayout>
