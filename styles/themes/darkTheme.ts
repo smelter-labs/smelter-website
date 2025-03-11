@@ -88,6 +88,7 @@ export const DARK_THEME = {
       background: COLORS.black100,
       button: COLORS.red40,
       buttonText: COLORS.white100,
+      text: COLORS.white100,
       inputLabel: COLORS.white100,
     },
   },
