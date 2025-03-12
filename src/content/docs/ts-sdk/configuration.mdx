@@ -27,8 +27,14 @@ Node.js SDK requires
   </thead>
   <tbody>
     <tr>
-      <td><strong>`v0.2.0`</strong></td>
-      <td><strong>`v0.4.0`</strong></td>
+      <td>
+        <strong>`v0.2.0`</strong><br/>
+        <strong>`v0.2.1`</strong>
+      </td>
+      <td>
+        <strong>`v0.4.0`</strong><br/>
+        <strong>`v0.4.1`</strong>
+      </td>
       <td>
         Recommended: `18.3.1`
 
@@ -64,7 +70,10 @@ is done fully in-browser by Smelter code compiled to WASM.
   </thead>
   <tbody>
     <tr>
-      <td><strong>`v0.2.0`</strong></td>
+      <td>
+        <strong>`v0.2.0`</strong><br/>
+        <strong>`v0.2.1`</strong>
+      </td>
       <td>
         Google Chrome and other Chromium based browsers
       </td>
@@ -95,11 +104,16 @@ syntax in a library code.
   });
   ```
 
-<CollapsibleDetails summaryTitle='Next.js'>
+<CollapsibleDetails summaryTitle='Configuring Next.js project'>
 
-**Required dependencies**
+With below configuration, somewhere in your code you need to call:
+```ts
+import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 
-```json title="package.json" ins={12-13, 15-16, 22} collapse={2-10, 24-27}
+setWasmBundleUrl('/smelter.wasm')
+```
+
+```json title="package.json" ins={12-13, 15-16, 27} collapse={2-10, 19-25}
 {
   "name": "nextjs-demo",
   "version": "0.1.0",
@@ -111,8 +125,8 @@ syntax in a library code.
     "lint": "next lint"
   },
   "dependencies": {
-    "@swmansion/smelter": "0.2.0",
-    "@swmansion/smelter-web-wasm": "0.2.0",
+    "@swmansion/smelter": "0.2.1",
+    "@swmansion/smelter-web-wasm": "0.2.1",
     "next": "14.2.24",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -121,20 +135,16 @@ syntax in a library code.
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "copy-webpack-plugin": "12.0.2" ,
     "eslint": "^8",
     "eslint-config-next": "14.2.24",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "copy-webpack-plugin": "12.0.2",
   }
 }
-
 ```
 
-**Update Next.js config**
-
-For configuration shown below, URL to `smelter.wasm` used in `setWasmBundleUrl` should be `'/smelter.wasm'`
 ```js title="next.config.mjs"
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -175,9 +185,14 @@ export default nextConfig;
 ```
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Vite'>
+<CollapsibleDetails summaryTitle='Configuring Vite projects'>
 
-**Required dependencies**
+With below configuration, somewhere in your code you need to call:
+```ts
+import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
+
+setWasmBundleUrl('/assets/smelter.wasm')
+```
 
 ```json title="package.json" ins={13-16, 31} collapse={2-11, 19-29}
 {
@@ -215,10 +230,6 @@ export default nextConfig;
 }
 ```
 
-**Update Vite config**
-
-
-For configuration shown below, URL to `smelter.wasm` used in `setWasmBundleUrl` should be `'/assets/smelter.wasm'`
 ```js title="vite.config.ts"
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
