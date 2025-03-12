@@ -5,7 +5,7 @@ import { useUserSettingsStore } from "./UsersSettingsSection";
 export default function UserSettingsTile({ id }: { id: string }) {
   const { usersMuted, toggleUserMute } = useUserSettingsStore();
   const isMuted = usersMuted[id] || false;
-  
+
   return (
     <div className="mb-2 flex h-12 w-full items-center justify-between rounded-md bg-demos-userSettingsTileBackground px-4 py-2">
       <span className="text-demos-text">User {id}</span>

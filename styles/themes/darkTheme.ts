@@ -90,7 +90,7 @@ export const DARK_THEME = {
       buttonText: COLORS.white100,
       text: COLORS.white100,
       inputLabel: COLORS.white100,
-      userSettingsTileBackground: COLORS.gray50
+      userSettingsTileBackground: COLORS.gray50,
     },
   },
 } as const;

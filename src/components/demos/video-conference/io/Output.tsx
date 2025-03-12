@@ -62,10 +62,8 @@ function OutputContent() {
           ...tilesStyle,
         }}>
         {Array.from({ length: usersCount }, (_item, index) => (
-          <View>
+          <View key={`${_item}`}>
             <Rescaler
-              // biome-ignore lint/suspicious/noArrayIndexKey: ignore
-              key={index}
               style={{
                 borderRadius: 12,
                 borderColor: COLORS.white100,

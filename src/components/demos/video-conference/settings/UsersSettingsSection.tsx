@@ -49,7 +49,7 @@ export default function UserSettingsSection({ smelter }: { smelter: Smelter }) {
   return (
     <div className="mb-4 flex h-full flex-col items-center justify-center">
       <div className="flex justify-between">
-        <div className="flex mr-4">
+        <div className="mr-4 flex">
           <label className="flex cursor-pointer select-none items-center">
             <input
               type="checkbox"
