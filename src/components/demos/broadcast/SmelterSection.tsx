@@ -1,7 +1,7 @@
 import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 import { useEffect, useState } from "react";
-import BroadcastMp4 from "../../../assets/broadcast.mp4";
+import BroadcastMp4 from "../../../assets/demos/broadcast/broadcast.mp4";
 import Edit from "../../../assets/demos/edit.svg";
 import { useChyronStore } from "./io/Chyron";
 import Output from "./io/Output";

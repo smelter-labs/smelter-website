@@ -1,11 +1,30 @@
 import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 import { useEffect, useState } from "react";
-import StreamerMp4 from "../../../assets/streamer_640x360_full.mp4";
+import StreamerMp4 from "../../../assets/demos/streamer_640x360_full.mp4";
+import Participant1 from "../../../assets/demos/video-conference/conference-participant1.mp4";
+import Participant2 from "../../../assets/demos/video-conference/conference-participant2.mp4";
+import Participant3 from "../../../assets/demos/video-conference/conference-participant3.mp4";
+
 import Output from "./io/Output";
 import UserSettingsSection from "./settings/UsersSettingsSection";
 
 setWasmBundleUrl("/smelter.wasm");
+
+const CONFERENCE_PARTICIPANTS = [
+  {
+    id: "participant1",
+    uri: Participant1,
+  },
+  {
+    id: "participant2",
+    uri: Participant2,
+  },
+  {
+    id: "participant3",
+    uri: Participant3,
+  },
+];
 
 export default function SmelterSection() {
   const smelter = useSmelter();
@@ -15,15 +34,25 @@ export default function SmelterSection() {
       return;
     }
 
-    void smelter?.registerInput("streamer", { url: StreamerMp4, type: "mp4" });
+    CONFERENCE_PARTICIPANTS.map((participant) => {
+      void smelter?.registerInput(participant.id, {
+        url: participant.uri,
+        type: "mp4",
+      });
+    });
 
-    const intervalStreamer = setInterval(async () => {
-      await smelter?.unregisterInput("streamer").catch(() => {});
-      await smelter?.registerInput("streamer", { url: StreamerMp4, type: "mp4" });
-    }, 7000);
+    const intervalParticipants = setInterval(async () => {
+      CONFERENCE_PARTICIPANTS.map(async (participant) => {
+        await smelter?.unregisterInput(participant.id).catch(() => {});
+        await smelter?.registerInput(participant.id, {
+          url: participant.uri,
+          type: "mp4",
+        });
+      });
+    }, 10000);
 
     return () => {
-      clearInterval(intervalStreamer);
+      clearInterval(intervalParticipants);
     };
   }, [smelter]);
 
