@@ -1,9 +1,7 @@
-import type Smelter from "@swmansion/smelter-web-wasm";
-import SmelterCanvas from "../SmelterCanvas";
-
 import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
+import type Smelter from "@swmansion/smelter-web-wasm";
 import { COLORS } from "../../../../../styles/colors";
-import SmelterVideo from "../SmelterVideo";
+import SmelterVideo from "../../SmelterVideo";
 import CameraContent from "./CameraContent";
 import { useLabelStore } from "./TextInput";
 

@@ -15,20 +15,6 @@ function hexToRgb(hex: string) {
   return { r, g, b };
 }
 
-function interpolateColor(color1: string, color2: string, factor: number) {
-  // Parse hex codes to RGB
-  const rgb1 = hexToRgb(color1);
-  const rgb2 = hexToRgb(color2);
-
-  // Linearly interpolate each component
-  const red = Math.round(rgb1.r + factor * (rgb2.r - rgb1.r));
-  const green = Math.round(rgb1.g + factor * (rgb2.g - rgb1.g));
-  const blue = Math.round(rgb1.b + factor * (rgb2.b - rgb1.b));
-
-  // Convert back to hex
-  return `rgb(${red}, ${green}, ${blue})`;
-}
-
 document.addEventListener("astro:page-load", () => {
   const snapInThreshold = 220;
   const snapOutThreshold = 220;

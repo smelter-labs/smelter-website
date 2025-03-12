@@ -23,7 +23,7 @@ export const COLORS = {
   purple80: "#493880",
   purple60: "#624BAA",
   purple40: "#8471C1",
-  purple20: "#A99CD3",
+  purple20: "#C2B1E0",
 
   gray50: "#424242",
   green100: "#0C662F",

@@ -2,7 +2,7 @@ import type Smelter from "@swmansion/smelter-web-wasm";
 
 import { InputStream, Rescaler, Tiles, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../../styles/colors";
-import SmelterVideo from "../SmelterVideo";
+import SmelterVideo from "../../SmelterVideo";
 import { useUserSettingsStore } from "../settings/UsersSettingsSection";
 
 export const OUTPUT_SIZE = { width: 1270, height: 720 };

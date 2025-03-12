@@ -5,6 +5,7 @@ export const DARK_THEME = {
     mainBackground: COLORS.black100,
     link: COLORS.red40,
     switchActive: COLORS.green100,
+    loadingFill: COLORS.red60,
     nav: {
       icon: COLORS.white100,
       searchContent: COLORS.white100,
