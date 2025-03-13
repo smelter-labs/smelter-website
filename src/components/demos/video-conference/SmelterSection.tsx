@@ -63,6 +63,7 @@ export default function SmelterSection() {
       await smelter.registerImage("muted", {
         assetType: "svg",
         url: new URL(VoiceOffCircle.src, import.meta.url).toString(),
+        resolution: {width: 500, height: 500}
       });
     };
     loadSvg();

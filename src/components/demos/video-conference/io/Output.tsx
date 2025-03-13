@@ -45,6 +45,14 @@ function OutputContent() {
           margin: 12,
         };
 
+  const usersCountFactor = 1 + Math.floor((usersCount - 1) / 4) * 0.25;
+
+  const mutedStyle = {
+    borderRadius: 32 / usersCountFactor,
+    width: 64 / usersCountFactor,
+    height: 64 / usersCountFactor,
+  };
+
   return (
     <View
       style={{
@@ -77,9 +85,9 @@ function OutputContent() {
               )}
             </Rescaler>
             {usersMuted[index] && (
-              <View style={{top: 12, right: 12, borderRadius: 32, width: 64, height: 64}}>
+              <Rescaler style={{ top: 12, right: 12, ...mutedStyle }}>
                 <Image imageId="muted" />
-              </View>
+              </Rescaler>
             )}
           </View>
         ))}
