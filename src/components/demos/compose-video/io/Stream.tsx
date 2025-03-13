@@ -16,10 +16,7 @@ export default function Stream({ smelter }: StreamProps) {
 
   return (
     <div className="bg-demos-background">
-      <SmelterCanvasOutput
-        smelter={smelter}
-        width={INPUT_SIZE.width}
-        height={INPUT_SIZE.height}>
+      <SmelterCanvasOutput smelter={smelter} width={INPUT_SIZE.width} height={INPUT_SIZE.height}>
         <View style={{ backgroundColor: COLORS.black100 }}>
           <Rescaler
             style={{

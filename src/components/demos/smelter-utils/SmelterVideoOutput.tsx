@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import type Smelter from '@swmansion/smelter-web-wasm';
-import { getNewOutputId } from './util';
+import type Smelter from "@swmansion/smelter-web-wasm";
+import type React from "react";
+import { useCallback, useEffect, useState } from "react";
+import { getNewOutputId } from "./util";
 
 type VideoProps = React.DetailedHTMLProps<
   React.VideoHTMLAttributes<HTMLVideoElement>,
@@ -21,6 +22,7 @@ export default function SmelterVideoOutput(props: SmelterVideoProps) {
     setVideoElement(updatedVideo);
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: explanation
   useEffect(() => {
     if (!videoElement) {
       return;
@@ -29,7 +31,7 @@ export default function SmelterVideoOutput(props: SmelterVideoProps) {
     const outputId = getNewOutputId();
     const promise = (async () => {
       const { stream } = await smelter.registerOutput(outputId, children, {
-        type: 'stream',
+        type: "stream",
         video: {
           resolution: {
             width: Number(videoProps.width ?? videoElement?.width),

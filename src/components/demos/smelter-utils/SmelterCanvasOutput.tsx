@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import type Smelter from '@swmansion/smelter-web-wasm';
-import { getNewOutputId } from './util';
+import type Smelter from "@swmansion/smelter-web-wasm";
+import type React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getNewOutputId } from "./util";
 
 type CanvasProps = React.DetailedHTMLProps<
   React.CanvasHTMLAttributes<HTMLCanvasElement>,
@@ -58,13 +59,14 @@ export default function SmelterCanvasOutput(props: SmelterCanvasProps) {
     });
   }, [canvasProps.width, canvasProps.height, smelter, audio]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: explanation
   useEffect(() => {
     if (!registerOptions) {
       return;
     }
     const { audio, outputId, width, height, canvas } = registerOptions;
     const promise = smelter.registerOutput(outputId, children, {
-      type: 'canvas',
+      type: "canvas",
       video: {
         canvas,
         resolution: {

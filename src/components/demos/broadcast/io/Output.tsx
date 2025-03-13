@@ -3,8 +3,8 @@ import type Smelter from "@swmansion/smelter-web-wasm";
 import { InputStream, Rescaler, View } from "@swmansion/smelter";
 import { useMemo } from "react";
 import { COLORS } from "../../../../../styles/colors";
-import Chyron, { useChyronStore } from "./Chyron";
 import SmelterVideoOutput from "../../smelter-utils/SmelterVideoOutput";
+import Chyron, { useChyronStore } from "./Chyron";
 
 export const OUTPUT_SIZE = { width: 1270, height: 720 };
 

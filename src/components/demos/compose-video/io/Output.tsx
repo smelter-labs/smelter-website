@@ -1,9 +1,9 @@
 import { InputStream, Rescaler, Text, View } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
 import { COLORS } from "../../../../../styles/colors";
+import SmelterVideoOutput from "../../smelter-utils/SmelterVideoOutput";
 import CameraContent from "./CameraContent";
 import { useLabelStore } from "./TextInput";
-import SmelterVideoOutput from "../../smelter-utils/SmelterVideoOutput";
 
 export const OUTPUT_SIZE = { width: 480, height: 270 };
 

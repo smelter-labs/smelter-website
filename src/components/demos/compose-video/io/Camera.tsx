@@ -3,8 +3,8 @@ import type Smelter from "@swmansion/smelter-web-wasm";
 import { useState } from "react";
 
 import { create } from "zustand";
-import { INPUT_SIZE } from "./Stream";
 import SmelterCanvasOutput from "../../smelter-utils/SmelterCanvasOutput";
+import { INPUT_SIZE } from "./Stream";
 
 type CameraStore = {
   cameraInputsCount: number;
@@ -57,10 +57,7 @@ export default function Camera({ smelter }: CameraProps) {
   return (
     <div className="relative bg-demos-background">
       {isCameraReady ? (
-        <SmelterCanvasOutput
-          smelter={smelter}
-          width={INPUT_SIZE.width}
-          height={INPUT_SIZE.height}>
+        <SmelterCanvasOutput smelter={smelter} width={INPUT_SIZE.width} height={INPUT_SIZE.height}>
           <Rescaler
             style={{
               borderRadius: 16,

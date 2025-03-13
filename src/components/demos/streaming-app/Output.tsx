@@ -1,9 +1,9 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
 
+import SmelterVideoOutput from "../smelter-utils/SmelterVideoOutput";
+import SmelterWhipOutput from "../smelter-utils/SmelterWhipOutput";
 import { useStreamStore } from "./LayoutsSection";
 import StreamContent from "./StreamContent";
-import SmelterWhipOutput from "../smelter-utils/SmelterWhipOutput";
-import SmelterVideoOutput from "../smelter-utils/SmelterVideoOutput";
 
 export const INPUT_SIZE = { width: 1920, height: 1080 } as const;
 
@@ -27,7 +27,7 @@ export default function Output({ smelter }: { smelter?: Smelter }) {
     );
 
   return (
-    <SmelterVideoOutput smelter={smelter} id="output" width={INPUT_SIZE.width} height={INPUT_SIZE.height} muted>
+    <SmelterVideoOutput smelter={smelter} width={INPUT_SIZE.width} height={INPUT_SIZE.height} muted>
       <StreamContent />
     </SmelterVideoOutput>
   );

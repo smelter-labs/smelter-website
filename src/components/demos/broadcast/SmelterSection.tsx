@@ -2,9 +2,9 @@ import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 import { useEffect } from "react";
 import BroadcastMp4 from "../../../assets/broadcast.mp4";
 import Edit from "../../../assets/demos/edit.svg";
+import { useSmelter } from "../smelter-utils/useSmelter";
 import { useChyronStore } from "./io/Chyron";
 import Output from "./io/Output";
-import { useSmelter } from "../smelter-utils/useSmelter";
 
 setWasmBundleUrl("/smelter.wasm");
 
@@ -28,7 +28,7 @@ export default function SmelterSection() {
     void smelter?.registerInput("broadcast", { url: BroadcastMp4, type: "mp4" });
 
     const intervalBroadcast = setInterval(async () => {
-      await smelter?.unregisterInput("broadcast").catch(() => { });
+      await smelter?.unregisterInput("broadcast").catch(() => {});
       await smelter?.registerInput("broadcast", { url: BroadcastMp4, type: "mp4" });
     }, 20000);
 
