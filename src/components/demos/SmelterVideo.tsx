@@ -46,5 +46,5 @@ export default function SmelterVideo(props: SmelterVideoProps) {
     [onVideoCreated, videoProps.width, videoProps.height, smelter, props.id]
   );
 
-  return <video ref={videoRef} className="rounded-md" muted controls autoPlay {...videoProps} />;
+  return <video ref={videoRef} className="rounded-md" muted controls  autoPlay {...videoProps} />;
 }

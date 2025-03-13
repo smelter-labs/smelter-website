@@ -1,8 +1,9 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
 
-import { InputStream, Rescaler, View } from "@swmansion/smelter";
+import { Image, InputStream, Rescaler, View } from "@swmansion/smelter";
 import { useMemo } from "react";
 import { COLORS } from "../../../../../styles/colors";
+import SmelterLogo from "../../../../assets/navigation/smelter-logo.svg";
 import SmelterVideo from "../../SmelterVideo";
 import Chyron, { useChyronStore } from "./Chyron";
 
@@ -42,6 +43,9 @@ function OutputContent() {
       }}>
       <Rescaler style={{ rescaleMode: "fill" }}>
         <InputStream inputId="broadcast" />
+      </Rescaler>
+      <Rescaler style={{ top: 12, left: 12, width: 100, height: 100 }}>
+        <Image imageId="smelter"  />
       </Rescaler>
       <View
         style={{

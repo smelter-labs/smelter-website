@@ -69,7 +69,7 @@ export default function StreamSection() {
   return (
     <>
       <div className="flex w-full justify-center gap-x-6">
-        <div className="flex flex-3.5">
+        <div className="flex flex-2.5">
           <div className="flex w-full flex-col">
             <Output smelter={smelter} />
             <StreamForm smelter={smelter} />

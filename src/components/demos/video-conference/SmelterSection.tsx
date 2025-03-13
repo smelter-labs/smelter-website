@@ -5,7 +5,6 @@ import Participant1 from "../../../assets/demos/video-conference/conference-part
 import Participant2 from "../../../assets/demos/video-conference/conference-participant2.mp4";
 import Participant3 from "../../../assets/demos/video-conference/conference-participant3.mp4";
 import VoiceOffCircle from "../../../assets/demos/voice-off-circle.svg";
-import VoiceOff from "../../../assets/demos/voice-off.svg";
 
 import Output from "./io/Output";
 import UserSettingsSection from "./settings/UsersSettingsSection";

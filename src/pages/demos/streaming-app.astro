@@ -5,12 +5,20 @@ import DemosLayout from "../../layouts/DemosLayout.astro";
 
 <DemosLayout canonicalUrl="https://smelter.dev">
   <main
-    class="flex justify-center min-h-screen w-full overflow-clip py-24 px-16"
+    class="flex items-center min-h-screen w-full overflow-clip pt-12 px-16"
   >
-    <div
-      class="w-full max-w-[1536px] relative gap-y-12 flex flex-col self-center"
-    >
-      <StreamSection client:load />
+    <div class="h-full flex flex-1 flex-col">
+      <div
+      class="w-full max-w-[1400px] relative gap-y-12 flex flex-col self-center"
+      >
+      <div class="mb-1">
+        <h2 class="text-demos-header">Streaming app example</h2>
+        <p class="text-demos-subheader">
+          Switch between different layouts and see how Smelter handles streaming directly from browser.
+        </p>
+      </div>
+        <StreamSection client:load />
+      </div>
     </div>
   </main>
 </DemosLayout>

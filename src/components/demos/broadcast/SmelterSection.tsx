@@ -3,12 +3,14 @@ import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 import { useEffect, useState } from "react";
 import BroadcastMp4 from "../../../assets/demos/broadcast/broadcast.mp4";
 import Edit from "../../../assets/demos/edit.svg";
+import SmelterLogo from '../../../assets/demos/smelter-circle.svg'
 import { useChyronStore } from "./io/Chyron";
 import Output from "./io/Output";
 
 setWasmBundleUrl("/smelter.wasm");
 
 export default function SmelterSection() {
+  const [isReady, setIsReady] = useState(false)
   const smelter = useSmelter();
 
   const {
@@ -37,12 +39,25 @@ export default function SmelterSection() {
     };
   }, [smelter]);
 
+  useEffect(() => {
+    const loadSvg = async () => {
+      if(!smelter) return;
+      await smelter.registerImage("smelter", {
+        assetType: "svg",
+        url: new URL(SmelterLogo.src, import.meta.url).toString(),
+        resolution: {width: 500, height: 500}
+      });
+      setIsReady(true)
+    };
+    loadSvg();
+  }, [smelter]);
+
   return (
     <div className="flex flex-col">
       <div className="flex w-full shrink flex-col justify-center gap-6 sm:flex-row">
         <div className="flex flex-3">
           <div className="flex w-full flex-col">
-            {smelter && <Output smelter={smelter} />}
+            {smelter && isReady && <Output smelter={smelter} />}
             <div className="flex flex-1" />
           </div>
         </div>

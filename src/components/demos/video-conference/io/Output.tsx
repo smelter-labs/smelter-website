@@ -5,7 +5,7 @@ import { COLORS } from "../../../../../styles/colors";
 import SmelterVideo from "../../SmelterVideo";
 import { useUserSettingsStore } from "../settings/UsersSettingsSection";
 
-export const OUTPUT_SIZE = { width: 1270, height: 720 };
+export const OUTPUT_SIZE = { width: 1270 * 1.5, height: 720 * 1.5 };
 
 type OutputProps = {
   smelter: Smelter;
@@ -48,7 +48,6 @@ function OutputContent() {
   const usersCountFactor = 1 + Math.floor((usersCount - 1) / 4) * 0.25;
 
   const mutedStyle = {
-    borderRadius: 32 / usersCountFactor,
     width: 64 / usersCountFactor,
     height: 64 / usersCountFactor,
   };
@@ -70,7 +69,7 @@ function OutputContent() {
           ...tilesStyle,
         }}>
         {Array.from({ length: usersCount }, (_item, index) => (
-          <View key={`${_item}`}>
+          <View key={`${_item}`} style={{...OUTPUT_SIZE}} >
             <Rescaler
               style={{
                 borderRadius: 12,
