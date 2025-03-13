@@ -1,10 +1,11 @@
 import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 import { useEffect, useState } from "react";
-import StreamerMp4 from "../../../assets/demos/streamer_640x360_full.mp4";
 import Participant1 from "../../../assets/demos/video-conference/conference-participant1.mp4";
 import Participant2 from "../../../assets/demos/video-conference/conference-participant2.mp4";
 import Participant3 from "../../../assets/demos/video-conference/conference-participant3.mp4";
+import VoiceOffCircle from "../../../assets/demos/voice-off-circle.svg";
+import VoiceOff from "../../../assets/demos/voice-off.svg";
 
 import Output from "./io/Output";
 import UserSettingsSection from "./settings/UsersSettingsSection";
@@ -54,6 +55,17 @@ export default function SmelterSection() {
     return () => {
       clearInterval(intervalParticipants);
     };
+  }, [smelter]);
+
+  useEffect(() => {
+    const x = async () => {
+      if (!smelter) return;
+      await smelter.registerImage("muted", {
+        assetType: "svg",
+        url: new URL(VoiceOffCircle.src, import.meta.url).toString(),
+      });
+    };
+    x();
   }, [smelter]);
 
   return (

@@ -77,8 +77,8 @@ function OutputContent() {
               )}
             </Rescaler>
             {usersMuted[index] && (
-              <View style={{ height: 100, width: 100, top: 0, right: 0 }}>
-                <Image source="/images/voice-off.svg" />
+              <View style={{top: 12, right: 12, borderRadius: 32, width: 64, height: 64}}>
+                <Image imageId="muted" />
               </View>
             )}
           </View>
