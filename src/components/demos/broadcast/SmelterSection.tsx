@@ -1,8 +1,8 @@
-import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BroadcastMp4 from "../../../assets/broadcast.mp4";
 import Edit from "../../../assets/demos/edit.svg";
+import { useSmelter } from "../smelter-utils/useSmelter";
 import { useChyronStore } from "./io/Chyron";
 import Output from "./io/Output";
 
@@ -91,29 +91,4 @@ export default function SmelterSection() {
       </div>
     </div>
   );
-}
-
-function useSmelter(): Smelter | undefined {
-  const [smelter, setSmelter] = useState<Smelter>();
-  useEffect(() => {
-    const smelter = new Smelter();
-
-    let cancel = false;
-    const promise = (async () => {
-      await smelter.init();
-      await smelter.start();
-      if (!cancel) {
-        setSmelter(smelter);
-      }
-    })();
-
-    return () => {
-      cancel = true;
-      void (async () => {
-        await promise.catch(() => {});
-        await smelter.terminate();
-      })();
-    };
-  }, []);
-  return smelter;
 }
