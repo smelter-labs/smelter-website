@@ -1,6 +1,5 @@
-import Smelter from "@swmansion/smelter-web-wasm";
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Arrow from "../../../assets/demos/arrow.svg";
 import Arrows from "../../../assets/demos/arrows.svg";
 import SmelterLogo from "../../../assets/navigation/smelter-logo-small.svg";
@@ -9,6 +8,7 @@ import Camera from "./io/Camera";
 import Output from "./io/Output";
 import Stream from "./io/Stream";
 import TextInput from "./io/TextInput";
+import { useSmelter } from "../smelter-utils/useSmelter";
 
 setWasmBundleUrl("/smelter.wasm");
 
@@ -22,7 +22,7 @@ export default function SmelterSection() {
 
     void smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
     const interval = setInterval(async () => {
-      await smelter?.unregisterInput("stream").catch(() => {});
+      await smelter?.unregisterInput("stream").catch(() => { });
       await smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
     }, 36000);
 
@@ -44,29 +44,4 @@ export default function SmelterSection() {
       {smelter && <Output smelter={smelter} />}
     </div>
   );
-}
-
-function useSmelter(): Smelter | undefined {
-  const [smelter, setSmelter] = useState<Smelter>();
-  useEffect(() => {
-    const smelter = new Smelter();
-
-    let cancel = false;
-    const promise = (async () => {
-      await smelter.init();
-      await smelter.start();
-      if (!cancel) {
-        setSmelter(smelter);
-      }
-    })();
-
-    return () => {
-      cancel = true;
-      void (async () => {
-        await promise.catch(() => {});
-        await smelter.terminate();
-      })();
-    };
-  }, []);
-  return smelter;
 }

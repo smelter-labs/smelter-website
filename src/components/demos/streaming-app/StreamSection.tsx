@@ -5,7 +5,7 @@ import RaceMp4 from "../../../assets/race_640x360_full.mp4";
 import StreamerMp4 from "../../../assets/streamer_640x360_full.mp4";
 import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
 import LoadingSpinner from "../../base/LoadingSpinner";
-import { useSmelter } from "../useSmelter";
+import { useSmelter } from "../smelter-utils/useSmelter";
 import LayoutsSection from "./LayoutsSection";
 import Output from "./Output";
 import StreamForm from "./StreamForm";
