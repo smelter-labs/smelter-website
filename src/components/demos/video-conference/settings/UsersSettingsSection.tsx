@@ -1,4 +1,5 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import UserSettingsTile from "./UserSettingsTile";
 
@@ -29,6 +30,37 @@ export const useUserSettingsStore = create<UserSettingsStore>((set) => ({
 export default function UserSettingsSection({ smelter }: { smelter: Smelter }) {
   const { usersCount, isCameraActive, setUsersCount, setIsCameraActive } = useUserSettingsStore();
 
+  const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
+
+  useEffect(() => {
+    const checkCameraPermission = async () => {
+      try {
+        const cameraStatus = await navigator.permissions.query({ name: "camera" });
+        const microphoneStatus = await navigator.permissions.query({ name: "microphone" });
+
+        const isDenied = cameraStatus.state === "denied" || microphoneStatus.state === "denied";
+
+        const handleUpdate = async () => {
+          const cameraStatus = await navigator.permissions.query({ name: "camera" });
+          const microphoneStatus = await navigator.permissions.query({ name: "microphone" });
+
+          const isDenied = cameraStatus.state === "denied" || microphoneStatus.state === "denied";
+          if (isDenied) setIsCameraActive(false);
+          setCameraPermissionDenied(isDenied);
+        };
+
+        cameraStatus.onchange = handleUpdate;
+        microphoneStatus.onchange = handleUpdate;
+        setCameraPermissionDenied(isDenied);
+      } catch (error) {
+        console.error("Error checking camera permissions:", error);
+        setCameraPermissionDenied(false);
+      }
+    };
+
+    checkCameraPermission();
+  }, [setIsCameraActive]);
+
   const toggleCamera = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (isCameraActive) {
@@ -48,7 +80,7 @@ export default function UserSettingsSection({ smelter }: { smelter: Smelter }) {
   };
   return (
     <div className="mb-4 flex h-full flex-col items-center justify-center">
-      <div className="flex justify-between">
+      <div className="flex w-full justify-between">
         <div className="mr-4 flex">
           <label className="flex cursor-pointer select-none items-center">
             <input
@@ -87,8 +119,14 @@ export default function UserSettingsSection({ smelter }: { smelter: Smelter }) {
           </button>
         </div>
       </div>
+      
+      {cameraPermissionDenied && (
+        <p className="mt-2 text-demos-subheader">
+          Camera access has been denied. Update your permissions to enable the toggle.
+        </p>
+      )}
 
-      <div className="flex h-[60vh] w-full flex-col overflow-y-auto rounded-md border border-demos-border p-2">
+      <div className="mt-4 flex h-full max-h-[300px] w-full flex-col overflow-y-auto rounded-md border border-demos-border p-2">
         <div className="h-full overflow-y-scroll">
           {Array.from({ length: usersCount }, (_, index) => index).map((number) => (
             <UserSettingsTile key={number} id={`${number}`} />

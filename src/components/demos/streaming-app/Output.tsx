@@ -10,7 +10,6 @@ export const INPUT_SIZE = { width: 1920, height: 1080 } as const;
 export default function Output({ smelter }: { smelter?: Smelter }) {
   const { twitchKey } = useStreamStore();
 
-  console.log("TWITCH KEY ", twitchKey);
   if (!smelter) return null;
 
   if (twitchKey)

@@ -58,14 +58,14 @@ export default function SmelterSection() {
   }, [smelter]);
 
   useEffect(() => {
-    const x = async () => {
+    const loadSvg = async () => {
       if (!smelter) return;
       await smelter.registerImage("muted", {
         assetType: "svg",
         url: new URL(VoiceOffCircle.src, import.meta.url).toString(),
       });
     };
-    x();
+    loadSvg();
   }, [smelter]);
 
   return (
