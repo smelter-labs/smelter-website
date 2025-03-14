@@ -1,6 +1,6 @@
 import { InputStream, Rescaler } from "@swmansion/smelter";
 import type Smelter from "@swmansion/smelter-web-wasm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { create } from "zustand";
 import SmelterCanvasOutput from "../../smelter-utils/SmelterCanvasOutput";
@@ -21,8 +21,35 @@ type CameraProps = {
 };
 
 export default function Camera({ smelter }: CameraProps) {
-  const [isCameraReady, setIsCameraReady] = useState(false);
   const { cameraInputsCount, setCameraInputsCount } = useCameraStore();
+
+  const [isCameraReady, setIsCameraReady] = useState(false);
+  const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
+
+  useEffect(() => {
+    const checkCameraPermission = async () => {
+      try {
+        const cameraStatus = await navigator.permissions.query({ name: "camera" });
+
+        const isDenied = cameraStatus.state === "denied";
+
+        const handleUpdate = async () => {
+          const cameraStatus = await navigator.permissions.query({ name: "camera" });
+
+          const isDenied = cameraStatus.state === "denied";
+          setCameraPermissionDenied(isDenied);
+        };
+
+        cameraStatus.onchange = handleUpdate;
+        setCameraPermissionDenied(isDenied);
+      } catch (error) {
+        console.error("Error checking camera permissions:", error);
+        setCameraPermissionDenied(false);
+      }
+    };
+
+    checkCameraPermission();
+  }, []);
 
   const handleIncrease = () => {
     setCameraInputsCount(cameraInputsCount + 1);
@@ -69,16 +96,24 @@ export default function Camera({ smelter }: CameraProps) {
           </Rescaler>
         </SmelterCanvasOutput>
       ) : (
-        <div
-          style={{ ...INPUT_SIZE }}
-          className="flex items-center justify-center rounded-2xl border border-demos-border border-solid">
-          <button
-            type="button"
-            className="rounded bg-demos-button px-4 py-2 text-demos-buttonText shadow"
-            onClick={handleCameraPermissionRequest}>
-            Toggle camera
-          </button>
-        </div>
+        <>
+          <div
+            style={{ ...INPUT_SIZE }}
+            className="flex items-center justify-center rounded-2xl border border-demos-border border-solid p-4">
+            {cameraPermissionDenied ? (
+              <p className="mt-2 text-center text-demos-subheader">
+                Camera access has been denied. Update your permissions to enable the toggle.
+              </p>
+            ) : (
+              <button
+                type="button"
+                className="rounded bg-demos-button px-4 py-2 text-demos-buttonText shadow"
+                onClick={handleCameraPermissionRequest}>
+                Toggle camera
+              </button>
+            )}
+          </div>
+        </>
       )}
       <div className="-right-12 absolute top-0 mb-4 flex flex-col items-center justify-center">
         <button

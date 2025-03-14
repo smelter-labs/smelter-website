@@ -1,8 +1,8 @@
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 
 import { useEffect } from "react";
+import StreamerMp4 from "../../../assets/demos/streamer_640x360_full.mp4";
 import RaceMp4 from "../../../assets/race_640x360_full.mp4";
-import StreamerMp4 from "../../../assets/streamer_640x360_full.mp4";
 import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
 import LoadingSpinner from "../../base/LoadingSpinner";
 import { useSmelter } from "../smelter-utils/useSmelter";
@@ -69,7 +69,7 @@ export default function StreamSection() {
   return (
     <>
       <div className="flex w-full justify-center gap-x-6">
-        <div className="flex flex-3.5">
+        <div className="flex flex-2.5">
           <div className="flex w-full flex-col">
             <Output smelter={smelter} />
             <StreamForm smelter={smelter} />

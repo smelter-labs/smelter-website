@@ -68,7 +68,7 @@ export default function SetupForm() {
               type="button"
               className="gradient-light-5 h-12 w-fit rounded-full px-6 sm:px-7">
               <div className="flex items-center justify-center gap-x-3 text-white text-xl">
-                <span>Continue without key</span>
+                <span>Continue without a key</span>
               </div>
             </button>
           </div>

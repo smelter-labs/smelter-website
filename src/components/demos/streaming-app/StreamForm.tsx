@@ -16,7 +16,7 @@ type LabelStore = {
 };
 
 export const useLabelStore = create<LabelStore>((set) => ({
-  labelTextContent: "",
+  labelTextContent: "Modify the text and see results on twitch",
   labelColor: COLORS.red40,
   backgroundColor: COLORS.black100,
   setLabelTextContent: (content) => set({ labelTextContent: content }),
@@ -125,7 +125,7 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
         )}
       </div>
       {currentLayout === "layout-message" && (
-        <div className="mt-10 flex gap-x-4 space-y-4 py-4">
+        <div className="mt-4 flex gap-x-4 space-y-4 py-4">
           <input
             type="text"
             value={labelTextContent}

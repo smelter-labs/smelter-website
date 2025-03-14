@@ -1,16 +1,25 @@
 ---
-import ExampleItem from "./ExampleItem.astro";
+import Broadcast from "../../../assets/examples/news.webp";
+import StreamingApp from "../../../assets/examples/streaming-app.webp";
+import VideoConference from "../../../assets/examples/video-conference.webp";
 
+import ExampleItem from "./ExampleItem.astro";
 const EXAMPLES = [
   {
+    uri: "/demos/streaming-app-setup",
     text: "Streaming application",
+    image: StreamingApp,
   },
   {
+    uri: "/demos/broadcast",
     text: "News broadcast",
+    image: Broadcast,
   },
 
   {
+    uri: "/demos/video-conference",
     text: "Video call",
+    image: VideoConference,
   },
 ] as const;
 ---
