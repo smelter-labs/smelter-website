@@ -45,7 +45,6 @@ export default function SmelterSection() {
       await smelter.registerImage("smelter", {
         assetType: "svg",
         url: new URL(SmelterLogo.src, import.meta.url).toString(),
-        resolution: {width: 500, height: 500}
       });
       setIsReady(true)
     };
