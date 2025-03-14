@@ -35,7 +35,7 @@ export default function LayoutsSection() {
 
   return (
 <div className="-mt-10 flex max-w-[300px] flex-1 flex-col gap-y-4">
-  <p className="text-demos-subheader">Available layouts:</p>
+  <p className="text-demos-subheader">Select layout:</p>
       {LAYOUTS.map((layout) => (
         <button
           type="button"
