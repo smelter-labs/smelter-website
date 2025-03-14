@@ -119,7 +119,7 @@ export default function UserSettingsSection({ smelter }: { smelter: Smelter }) {
           </button>
         </div>
       </div>
-      
+
       {cameraPermissionDenied && (
         <p className="mt-2 text-demos-subheader">
           Camera access has been denied. Update your permissions to enable the toggle.

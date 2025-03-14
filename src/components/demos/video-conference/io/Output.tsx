@@ -69,7 +69,7 @@ function OutputContent() {
           ...tilesStyle,
         }}>
         {Array.from({ length: usersCount }, (_item, index) => (
-          <View key={`${_item}`} style={{...OUTPUT_SIZE}} >
+          <View key={`${_item}`} style={{ ...OUTPUT_SIZE }}>
             <Rescaler
               style={{
                 borderRadius: 12,

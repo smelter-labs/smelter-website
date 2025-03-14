@@ -34,8 +34,8 @@ export default function LayoutsSection() {
   const { currentLayout, setCurrentLayout } = useStreamStore();
 
   return (
-<div className="-mt-10 flex max-w-[300px] flex-1 flex-col gap-y-4">
-  <p className="text-demos-subheader">Select layout:</p>
+    <div className="-mt-10 flex max-w-[300px] flex-1 flex-col gap-y-4">
+      <p className="text-demos-subheader">Select layout:</p>
       {LAYOUTS.map((layout) => (
         <button
           type="button"
