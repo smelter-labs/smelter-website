@@ -54,5 +54,5 @@ export default function SmelterVideoOutput(props: SmelterVideoProps) {
     };
   }, [videoProps.width, videoProps.height, smelter, audio, videoElement]);
 
-  return <video ref={videoRef} {...videoProps} />;
+  return <video ref={videoRef} muted controls autoPlay {...videoProps} />;
 }
