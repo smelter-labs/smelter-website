@@ -18,7 +18,8 @@ export default function Output({ smelter }: { smelter?: Smelter }) {
     return (
       <SmelterWhipOutput
         smelter={smelter}
-        video={{ resolution: { width: 1280, height: 720 } }}
+        audio
+        video={{ resolution: { width: INPUT_SIZE.width, height: INPUT_SIZE.height } }}
         endpointUrl="https://g.webrtc.live-video.net:4443/v2/offer"
         bearerToken={twitchKey}>
         <StreamContent />

@@ -69,5 +69,5 @@ export default function SmelterWhipOutput(props: SmelterWhipProps) {
     endpointUrl,
   ]);
 
-  return <video ref={videoRef} {...videoProps} muted controls autoPlay />;
+  return <video ref={videoRef} {...videoProps} muted controls autoPlay className="aspect-video" />;
 }
