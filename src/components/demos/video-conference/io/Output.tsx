@@ -2,7 +2,7 @@ import type Smelter from "@swmansion/smelter-web-wasm";
 
 import { Image, InputStream, Rescaler, Tiles, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../../styles/colors";
-import SmelterVideo from "../../SmelterVideo";
+import SmelterVideoOutput from "../../smelter-utils/SmelterVideoOutput";
 import { useUserSettingsStore } from "../settings/UsersSettingsSection";
 
 export const OUTPUT_SIZE = { width: 1270 * 1.5, height: 720 * 1.5 };
@@ -14,13 +14,12 @@ type OutputProps = {
 export default function Output({ smelter }: OutputProps) {
   return (
     <div className="flex flex-col gap-y-4">
-      <SmelterVideo
+      <SmelterVideoOutput
         smelter={smelter}
-        id="output"
         width={OUTPUT_SIZE.width + 3}
         height={OUTPUT_SIZE.height + 3}>
         <OutputContent />
-      </SmelterVideo>
+      </SmelterVideoOutput>
     </div>
   );
 }
