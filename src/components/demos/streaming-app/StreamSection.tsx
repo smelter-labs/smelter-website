@@ -51,7 +51,7 @@ export default function StreamSection() {
   if (isChromium === false) {
     return (
       <div className="mx-auto max-w-3xl p-4 text-center">
-        <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
+        <h3 className="mb-4 text-demos-header">Demos work only on chromium-based browsers</h3>
         <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
       </div>
     );
@@ -61,13 +61,20 @@ export default function StreamSection() {
     return (
       <div className="mx-auto max-w-3xl p-4 text-center">
         <h3 className="mb-4 text-demos-header">This demo works only on desktop</h3>
-        <p className="text-demos-subheader">Please switch to another device to continue.</p>
+        <p className="text-demos-subheader">Please switch to another device or breakpoint to continue.</p>
       </div>
     );
   }
 
   return (
     <>
+      <div className="mt-8">
+        <h2 className="text-demos-header">Streaming app example</h2>
+        <p className="text-demos-subheader">
+          Switch between different layouts and see how Smelter handles streaming directly from
+          browser.
+        </p>
+      </div>
       <div className="flex w-full justify-center gap-x-6">
         <div className="flex flex-2.5">
           <div className="flex w-full flex-col">

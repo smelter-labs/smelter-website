@@ -8,11 +8,9 @@ import Chyron, { useChyronStore } from "./Chyron";
 
 export const OUTPUT_SIZE = { width: 1270, height: 720 };
 
-type OutputProps = {
-  smelter: Smelter;
-};
+export default function Output({ smelter }: { smelter?: Smelter }) {
+  if (!smelter) return null;
 
-export default function Output({ smelter }: OutputProps) {
   return (
     <div className="flex flex-col gap-y-4">
       <SmelterVideoOutput
