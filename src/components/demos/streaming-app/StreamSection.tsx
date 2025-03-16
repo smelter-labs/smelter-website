@@ -61,7 +61,9 @@ export default function StreamSection() {
     return (
       <div className="mx-auto max-w-3xl p-4 text-center">
         <h3 className="mb-4 text-demos-header">This demo works only on desktop</h3>
-        <p className="text-demos-subheader">Please switch to another device or breakpoint to continue.</p>
+        <p className="text-demos-subheader">
+          Please switch to another device or breakpoint to continue.
+        </p>
       </div>
     );
   }
