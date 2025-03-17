@@ -29,7 +29,6 @@ const CONFERENCE_PARTICIPANTS = [
 
 export default function SmelterSection() {
   const isChromium = isChromiumBased();
-  const isMobile = isMobileBreakpoint();
 
   const smelter = useSmelter();
 
