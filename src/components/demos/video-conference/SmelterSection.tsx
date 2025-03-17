@@ -6,7 +6,7 @@ import Participant2 from "../../../assets/demos/video-conference/conference-part
 import Participant3 from "../../../assets/demos/video-conference/conference-participant3.mp4";
 import VoiceOffCircle from "../../../assets/demos/voice-off-circle.svg";
 
-import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
+import { isChromiumBased } from "../../../utils/browser";
 import Output from "./io/Output";
 import UserSettingsSection from "./settings/UsersSettingsSection";
 

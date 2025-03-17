@@ -26,7 +26,7 @@ export default function Output({ smelter }: OutputProps) {
 }
 
 function OutputContent() {
-  const { usersCount, isCameraActive, usersMuted } = useUserSettingsStore();
+  const { usersCount } = useUserSettingsStore();
   const viewStyle =
     usersCount === 1
       ? {
@@ -46,11 +46,6 @@ function OutputContent() {
         };
 
   const usersCountFactor = 1 + Math.floor((usersCount - 1) / 4) * 0.25;
-
-  const mutedStyle = {
-    width: 64 / usersCountFactor,
-    height: 64 / usersCountFactor,
-  };
 
   return (
     <View
