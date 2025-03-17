@@ -1,5 +1,5 @@
 ---
-import ContactForm from "../components/home/ContactForm.astro";
+import ContactForm from "../components/ContactForm.astro";
 import LicenseSection from "../components/home/license/LicenseSection.astro";
 import CapabilitiesSection from "../components/react/capabilities/CapabilitiesSection.astro";
 import CtaSection from "../components/react/cta/CtaSection.astro";
@@ -9,7 +9,7 @@ import HeroSection from "../components/react/hero/HeroSection.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 ---
 
-<MainLayout canonicalUrl="https://smelter.dev/react">
+<MainLayout canonicalUrl="https://smelter.dev/react" rootHref="https://smelter.dev/react">
 <main class="flex justify-center min-h-screen w-full overflow-clip">
    <div class="w-full max-w-[1536px] relative">
       <HeroSection />

@@ -1,9 +1,10 @@
 import type Smelter from "@swmansion/smelter-web-wasm";
 
-import { Image, InputStream, Rescaler, Tiles, View } from "@swmansion/smelter";
+import { Tiles, View } from "@swmansion/smelter";
 import { COLORS } from "../../../../../styles/colors";
 import SmelterVideoOutput from "../../smelter-utils/SmelterVideoOutput";
 import { useUserSettingsStore } from "../settings/UsersSettingsSection";
+import UserTile from "./UserTile";
 
 export const OUTPUT_SIZE = { width: 1270 * 1.5, height: 720 * 1.5 };
 
@@ -25,7 +26,7 @@ export default function Output({ smelter }: OutputProps) {
 }
 
 function OutputContent() {
-  const { usersCount, isCameraActive, usersMuted } = useUserSettingsStore();
+  const { usersCount } = useUserSettingsStore();
   const viewStyle =
     usersCount === 1
       ? {
@@ -46,11 +47,6 @@ function OutputContent() {
 
   const usersCountFactor = 1 + Math.floor((usersCount - 1) / 4) * 0.25;
 
-  const mutedStyle = {
-    width: 64 / usersCountFactor,
-    height: 64 / usersCountFactor,
-  };
-
   return (
     <View
       style={{
@@ -68,26 +64,7 @@ function OutputContent() {
           ...tilesStyle,
         }}>
         {Array.from({ length: usersCount }, (_item, index) => (
-          <View key={`${_item}`} style={{ ...OUTPUT_SIZE }}>
-            <Rescaler
-              style={{
-                borderRadius: 12,
-                borderColor: COLORS.white100,
-                borderWidth: 1.5,
-                rescaleMode: "fill",
-              }}>
-              {isCameraActive ? (
-                <InputStream id={`camera${index}`} inputId="camera" />
-              ) : (
-                <InputStream id={`camera${index}`} inputId={`participant${(index % 3) + 1}`} />
-              )}
-            </Rescaler>
-            {usersMuted[index] && (
-              <Rescaler style={{ top: 12, right: 12, ...mutedStyle }}>
-                <Image imageId="muted" />
-              </Rescaler>
-            )}
-          </View>
+          <UserTile key={`${_item}`} index={index} iconSize={64 / usersCountFactor} />
         ))}
       </Tiles>
     </View>

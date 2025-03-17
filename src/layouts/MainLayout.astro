@@ -7,9 +7,10 @@ import NavBar from "../components/navigation/NavBar.astro";
 
 interface Props {
   canonicalUrl: string;
+  rootHref?: string;
 }
 
-const { canonicalUrl } = Astro.props;
+const { canonicalUrl, rootHref } = Astro.props;
 ---
 
 <!doctype html>
@@ -53,7 +54,7 @@ const { canonicalUrl } = Astro.props;
     <ClientRouter />
   </head>
   <body class="bg-mainBackground">
-    <NavBar />
+    <NavBar rootHref={rootHref} />
     <slot />
     <Footer />
     <Snackbar header="Message sent" content="Thank you for your inquiry. We will contact you as soon as possible." />
