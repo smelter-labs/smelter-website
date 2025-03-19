@@ -49,6 +49,18 @@ p {
 	line-height: 150%;
 }
 
+figcaption {
+	font-family: Aeonik;
+	font-weight: 400;
+	font-size: 0.75rem;
+	line-height: 120%;
+
+	@media (min-width: 1024px) {
+		font-size: 0.875rem;
+		line-height: 136%;
+	}
+}
+
 a {
 	@apply text-link
 }
