@@ -71,6 +71,11 @@ export const DARK_THEME = {
       copyright: COLORS.white100,
       link: COLORS.white100,
     },
+    testimonials: {
+      header: COLORS.white100,
+      content: COLORS.purple20,
+      caption: COLORS.white100
+    },
     license: {
       content: COLORS.white100,
     },
