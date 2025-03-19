@@ -74,7 +74,7 @@ export const DARK_THEME = {
     testimonials: {
       header: COLORS.white100,
       content: COLORS.purple20,
-      caption: COLORS.white100
+      caption: COLORS.white100,
     },
     license: {
       content: COLORS.white100,
