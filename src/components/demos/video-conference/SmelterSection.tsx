@@ -7,6 +7,7 @@ import Participant3 from "../../../assets/demos/video-conference/conference-part
 import VoiceOffCircle from "../../../assets/demos/voice-off-circle.svg";
 
 import { isChromiumBased } from "../../../utils/browser";
+import LoadingSpinner from "../../base/LoadingSpinner";
 import Output from "./io/Output";
 import UserSettingsSection from "./settings/UsersSettingsSection";
 
@@ -69,6 +70,10 @@ export default function SmelterSection() {
     };
     loadSvg();
   }, [smelter]);
+
+  if (isChromium === "loading") {
+    return <LoadingSpinner />;
+  }
 
   if (isChromium === false) {
     return (
