@@ -44,7 +44,13 @@ export default function SetupForm() {
   }
 
   return (
-    <div className="mt-4">
+    <>
+      <div className="mt-8">
+        <h2 className="text-demos-header">Streaming app example</h2>
+        <p className="text-demos-subheader">
+          Stream with custom layouts directly from Your Browser.
+        </p>
+      </div>
       <div className="flex flex-col space-y-4 py-4">
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4 py-4">
           <label htmlFor="key">
@@ -77,6 +83,6 @@ export default function SetupForm() {
           If you don't provide a key, the example will only be displayed on the site.
         </p>
       </div>
-    </div>
+    </>
   );
 }
