@@ -1,9 +1,8 @@
 ---
 title: Shaders
 ---
-import { Code, Aside } from '@astrojs/starlight/components';
+import { Code } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import vertexShader from '../../../../assets/docs/vertex-shader.png';
 
 Shaders are small programs that we send to a GPU to perform computations. Shaders are extensively used in Smelter, in fact all built-in transformations rely on them.
@@ -93,32 +92,6 @@ struct BaseShaderParameters {
 
 var<push_constant> base_params: BaseShaderParameters;
 `} lang='wgsl' />
-
-<Aside type="caution">
-    When `@swmansion/smelter-web-wasm` is used, shaders can accept only one texture (use `texture_2d<f32>` instead of `binding_array<texture_2d<f32>, 16>`).
-</Aside>
-
-<CollapsibleDetails summaryTitle="@swmansion/smelter-web-wasm">
-<Code code={`
-struct VertexInput {
-    @location(0) position: vec3<f32>,
-    @location(1) tex_coords: vec2<f32>,
-}
-
-struct BaseShaderParameters {
-    plane_id: i32,
-    time: f32,
-    output_resolution: vec2<u32>,
-    texture_count: u32,
-}
-
-@group(0) @binding(0) var texture: texture_2d<f32>;
-@group(2) @binding(0) var sampler_: sampler;
-
-var<push_constant> base_params: BaseShaderParameters;
-`} lang='wgsl' mark={13} />
-</CollapsibleDetails>
-
 
 ### Custom parameters
 You can define a custom WGSL struct and bind a value of this type:
