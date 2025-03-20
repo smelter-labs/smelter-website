@@ -4,6 +4,7 @@ import BroadcastMp4 from "../../../assets/demos/broadcast/broadcast.mp4";
 import Edit from "../../../assets/demos/edit.svg";
 import SmelterLogo from "../../../assets/demos/smelter-circle.svg";
 import { isChromiumBased } from "../../../utils/browser";
+import LoadingSpinner from "../../base/LoadingSpinner";
 import { useSmelter } from "../smelter-utils/useSmelter";
 import { useChyronStore } from "./io/Chyron";
 import Output from "./io/Output";
@@ -53,6 +54,10 @@ export default function SmelterSection() {
     };
     loadSvg();
   }, [smelter]);
+
+  if (isChromium === "loading") {
+    return <LoadingSpinner />;
+  }
 
   if (isChromium === false) {
     return (

@@ -16,7 +16,7 @@ const { uri, text, image } = Astro.props;
       <div class="mb-6">
         <h3 class="text-explanation-text" set:html={text} />
       </div>
-      <Image src={image} alt={text} />
+      <Image src={image} alt={text} width={612} height={344} />
     </div>
   </div>
 </a>
