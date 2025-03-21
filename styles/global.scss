@@ -12,7 +12,7 @@ h1 {
 	font-weight: 500;
 	font-size: 1.875rem;
 	line-height: 130%;
-	
+
 	@media (min-width: 1024px) {
 		font-size: 3.25rem;
 		line-height: 130%;
@@ -36,7 +36,7 @@ h3 {
 	font-weight: 500;
 	font-size: 1.25rem;
 	line-height: 130%;
-	
+
 	@media (min-width: 1024px) {
 		font-size: 1.5rem;
 		line-height: 130%;
@@ -117,108 +117,89 @@ body {
 }
 
 .gradient-red-1 {
-	background: linear-gradient(
-		180deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(180deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-2 {
-	background: linear-gradient(
-		360deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(360deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-3 {
-	background: linear-gradient(
-		90deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(90deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-4 {
-	background: linear-gradient(
-		270deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(270deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-5 {
-	background: linear-gradient(
-		135deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(135deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-6 {
-	background: linear-gradient(
-		315deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(315deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-7 {
-	background: linear-gradient(
-		45deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(45deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
+
 .gradient-red-8 {
-	background: linear-gradient(
-		45deg,
-		theme("colors.gradient.red") 0%,
-		theme("colors.gradient.purple") 100%
-	);
+	background: linear-gradient(45deg,
+			theme("colors.gradient.red") 0%,
+			theme("colors.gradient.purple") 100%);
 }
 
 .gradient-light-1 {
-	background: linear-gradient(
-		180deg,
-		theme("colors.gradient.redLight") 0%,
-		theme("colors.gradient.black") 100%
-	);
+	background: linear-gradient(180deg,
+			theme("colors.gradient.redLight") 0%,
+			theme("colors.gradient.black") 100%);
 }
+
 .gradient-light-2 {
-	background: linear-gradient(
-		117.75deg,
-		theme("colors.gradient.redLight") -0.12%,
-		theme("colors.gradient.black") 100%
-	);
+	background: linear-gradient(117.75deg,
+			theme("colors.gradient.redLight") -0.12%,
+			theme("colors.gradient.black") 100%);
 }
 
 .gradient-light-3 {
-	background: linear-gradient(
-		180deg,
-		#C2B1E0 20%,
-		#493880 100%
-	);
+	background: linear-gradient(180deg,
+			#C2B1E0 20%,
+			#493880 100%);
 }
 
 .gradient-light-4 {
-	background: linear-gradient(
-		180deg,
-		#C2B1E0 -0.12%,
-		#493880 100%
-	);
+	background: linear-gradient(180deg,
+			#C2B1E0 -0.12%,
+			#493880 100%);
 }
 
 .gradient-light-5 {
-	background: linear-gradient(
-		to right,
-		#C2B1E0 -60%,
-		#493880 100%
-	);
+	background: linear-gradient(to right,
+			#C2B1E0 -60%,
+			#493880 100%);
 }
 
 .gradient-light-6 {
-	background: linear-gradient(
-		170deg,
-		theme("colors.gradient.redLight") -0.12%,
-		theme("colors.gradient.black") 100%
-	);
+	background: linear-gradient(170deg,
+			theme("colors.gradient.redLight") -0.12%,
+			theme("colors.gradient.black") 100%);
 }
+
 
 
 .border-gradient::before {
@@ -239,7 +220,7 @@ body {
 	background: radial-gradient(ellipse at center, #FBC6CF var(--start-ratio), #FBC6CF00 var(--end-ratio));
 	background-size: 90% 110%;
 	background-position: center center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
 
 #usageGhostButton:hover svg path {
@@ -247,31 +228,35 @@ body {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: white !important; /* ensures text color is white */
-    background-color: #161127 !important; /* sets autofill background to black */
+	transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+	-webkit-text-fill-color: white !important;
+	/* ensures text color is white */
+	background-color: #161127 !important;
+	/* sets autofill background to black */
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
 }
 
 .fade-in {
-    opacity: 0;
-    animation: fadeIn 0.7s ease-in-out forwards;
+	opacity: 0;
+	animation: fadeIn 0.7s ease-in-out forwards;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
+	padding: 0;
 }
+
 input[type="color"]::-webkit-color-swatch {
-  border: none;
+	border: none;
 }
