@@ -1,4 +1,5 @@
 ---
+import ArrowRight from "/public/images/arrow-right.svg";
 import Screen from "../../../assets/license/screen.svg";
 import Server from "../../../assets/license/server.svg";
 import StarGradient from "../../../assets/license/star-gradient.svg";
@@ -6,20 +7,25 @@ import Star from "../../../assets/license/star.svg";
 import SuitcaseGradient from "../../../assets/license/suitcase-gradient.svg";
 import Suitcase from "../../../assets/license/suitcase.svg";
 ---
-<section id="pricing" class="flex flex-col items-center mb-28 justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:min-h-[unset] 2xl:pb-20 2xl:pt-40">
-    <div class="justify-center text-center">
-        <h2 class="mb-6 text-homeLicense-header">Pricing</h2>
-        <p class="text-homeLicense-subheader text-center">
-            Smelter is free to use excluding some enterprise-scale business applications.
-        </p>
-    </div>
 
+<section
+  id="pricing"
+  class="flex flex-col items-center mb-28 justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-40 2xl:h-fit 2xl:min-h-[unset] 2xl:pb-20 2xl:pt-40"
+>
+  <div class="justify-center text-center">
+    <h2 class="mb-6 text-homeLicense-header">How much does it cost?</h2>
+  </div>
 
-    <div class="gradient-light-4 flex rounded-4xl p-px w-full">
-      <div class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10">
-        <div class="relative z-0 flex h-full flex-col">
-          <div class="flex items-center gap-4 mb-8">
-            <div class="flex grow w-full aspect-square h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+  <div class="gradient-light-4 flex rounded-4xl p-px w-full">
+    <div
+      class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10"
+    >
+      <div class="relative z-0 flex h-full flex-col">
+        <div class="flex justify-between flex-col items-center sm:flex-row sm:items-start">
+          <div class="flex items-start gap-4 mb-8">
+            <div
+              class="flex grow w-full aspect-square h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16"
+            >
               <div class="gradient-light-3 w-full h-full aspect-square">
                 <div class="flex items-center justify-center p-3 md:p-4">
                   <Star class="w-full h-full object-cover" />
@@ -28,54 +34,87 @@ import Suitcase from "../../../assets/license/suitcase.svg";
             </div>
             <div class="flex flex-col">
               <h2 class="text-capabilities-header text-start">Free</h2>
-              <p class="text-capabilities-header text-start">For hobbyists and small to medium-size solutions.</p>
+              <p class="text-capabilities-header text-start">
+                For hobbyists and small to medium-size solutions.
+              </p>
             </div>
           </div>
-          <div class="flex flex-col gap-y-6 sm:flex-row">
-            <div class="text-capabilities-text flex flex-col flex-1 gap-4 sm:pl-4">
-              <div>
-                <h3>Offline processing</h3>
-                <p class="mt-2 sm:mt-4">Enjoy free use of Smelter for all offline tasks, including pre-recorded video processing and batch operations.</p>
-              </div>
-              <div class="flex h-full justify-center items-center gap-2">
-                <StarGradient class="h-8 w-8 aspect-square" />
-                <h3>No limits</h3>
-              </div>
+          <button
+            onclick="window.location.href='/docs'"
+            class="rounded-full w-fit gradient-red-3 px-4 h-10 mb-4 sm:mb-0 sm:px-5 sm:h-12"
+          >
+            <div
+              class="flex gap-x-2 text-base text-white justify-center items-center"
+            >
+              <p class="m-0">Try it now</p>
+              <ArrowRight class="w-4 h-4" />
             </div>
-            <div class="text-capabilities-text flex flex-col flex-1 sm:pl-10">
-              <div>
-                <h3>Live processing</h3>
-                <p class="mt-2 sm:mt-4">Compose live streams in real-time, within enterprise usage limits. See more details below.</p>
+          </button>
+        </div>
+        <div class="flex flex-col gap-y-6 sm:flex-row">
+          <div
+            class="text-capabilities-text flex flex-col flex-1 gap-4 sm:pl-4"
+          >
+            <div>
+              <h3>Offline processing</h3>
+              <p class="mt-2 sm:mt-4">
+                Enjoy free use of Smelter for all offline tasks, including
+                pre-recorded video processing and batch operations.
+              </p>
+            </div>
+            <div class="flex h-full justify-center items-center gap-2">
+              <StarGradient class="h-8 w-8 aspect-square" />
+              <h3>No limits</h3>
+            </div>
+          </div>
+          <div class="text-capabilities-text flex flex-col flex-1 sm:pl-10">
+            <div>
+              <h3>Live processing</h3>
+              <p class="mt-2 sm:mt-4">
+                Compose live streams in real-time, within enterprise usage
+                limits. See more details below.
+              </p>
+            </div>
+            <div class="flex gap-2 mt-6 flex-wrap">
+              <div
+                class="flex flex-col flex-1 gap-x-2 items-center text-center"
+              >
+                <div class="flex">
+                  <SuitcaseGradient class="w-8 h-8 aspect-square mr-1" /> &lt; 50
+                </div>
+                <span>employees</span>
               </div>
-              <div class="flex gap-2 mt-6 flex-wrap">
-                <div class="flex flex-col flex-1 gap-x-2 items-center text-center">
-                  <div class="flex">
-                    <SuitcaseGradient class="w-8 h-8 aspect-square mr-1" /> &lt; 50 
-                  </div>
-                  <span>employees</span>
+              <div
+                class="flex flex-col flex-1 gap-x-2 items-center text-center"
+              >
+                <div class="flex">
+                  <Screen class="w-8 h-8 aspect-square mr-1" /> &lt; 10k
                 </div>
-                <div class="flex flex-col flex-1 gap-x-2 items-center text-center">
-                  <div class="flex">
-                    <Screen class="w-8 h-8 aspect-square mr-1" /> &lt; 10k 
-                  </div>
-                  <span>concurrent viewers</span>
+                <span>concurrent viewers</span>
+              </div>
+              <div
+                class="flex flex-col flex-1 gap-x-2 items-center text-center"
+              >
+                <div class="flex">
+                  <Server class="w-8 h-8 aspect-square mr-1" /> &lt; 50
                 </div>
-                <div class="flex flex-col flex-1 gap-x-2 items-center text-center">
-                  <div class="flex">
-                    <Server class="w-8 h-8 aspect-square mr-1" /> &lt; 50 
-                  </div>
-                  <span>machines</span>
-                </div>
+                <span>machines</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="h-full flex-1 rounded-4xl border border-capabilities-border p-10 w-full">
-      <div class="flex items-center gap-4 mb-8">
-        <div class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+  <div
+    class="h-full flex-1 rounded-4xl border border-capabilities-border p-10 w-full"
+  >
+    <div class="flex justify-between flex-col items-center sm:flex-row sm:items-start">
+      <div class="flex items-start gap-4 mb-8">
+        <div
+          class="flex grow aspect-square w-14 h-14 max-w-14 max-h-14 rounded-2xl border border-homeLicense-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16"
+        >
           <div class="gradient-light-3 w-full h-full aspect-square">
             <div class="flex items-center justify-center p-3 md:p-4">
               <Suitcase class="w-full h-full object-cover" />
@@ -84,22 +123,41 @@ import Suitcase from "../../../assets/license/suitcase.svg";
         </div>
         <div class="flex flex-col">
           <h2 class="text-capabilities-header text-start">Enterprise</h2>
-          <p class="text-capabilities-header text-start">For enterprise-scale applications.</p>
+          <p class="text-capabilities-header text-start">
+            For enterprise-scale applications.
+          </p>
         </div>
       </div>
-      <div class="flex flex-col sm:flex-row">
-        <div class="text-capabilities-text flex flex-col justify-start flex-1 sm:pl-4">
-            <p><strong>License Limits:</strong> If your usage exceeds the limits specified in <a href="/license">the license</a>.</p>
-
+      <button
+        onclick="window.location.href='#contact'"
+        class="rounded-full w-fit gradient-red-3 px-4 h-10 mb-4 sm:mb-0 sm:px-5 sm:h-12"
+      >
+        <div
+          class="flex gap-x-2 text-base text-white justify-center items-center"
+        >
+          <p class="m-0">Contact us</p>
+          <ArrowRight class="w-4 h-4" />
         </div>
-        <div class="text-capabilities-text flex flex-col flex-1 mt-4 sm:mt-0 sm:pl-10">
-          <h3>Trial</h3>
-          <ul class="list-disc pl-4 flex flex-col gap-2 mt-4">
-            <li>90-day free trial for all use-cases.</li>
-            <li>No strings attached.</li>
-            <li>No credit card required.</li>
-          </ul>
-        </div>
+      </button>
+    </div>
+    <div class="flex flex-col sm:flex-row">
+      <div
+        class="text-capabilities-text flex flex-col justify-start flex-1 sm:pl-4"
+      >
+        <p>
+          <strong>License Limits:</strong> If your usage exceeds the limits specified
+          in <a href="/license">the license</a>.
+        </p>
+      </div>
+      <div
+        class="text-capabilities-text flex flex-col flex-1 mt-4 sm:mt-0 sm:pl-10"
+      >
+        <h3>Trial</h3>
+        <ul class="list-disc pl-4 flex flex-col gap-2 mt-4">
+          <li>90-day free trial for all use-cases.</li>
+          <li>No strings attached.</li>
+          <li>No credit card required.</li>
+        </ul>
       </div>
     </div>
   </div>

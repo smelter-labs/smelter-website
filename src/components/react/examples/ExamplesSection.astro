@@ -7,33 +7,41 @@ import ExampleItem from "./ExampleItem.astro";
 const EXAMPLES = [
   {
     uri: "/demos/streaming-app-setup",
-    text: "Streaming application",
+    text: "Streaming applications",
+    description:
+      "Share the screen, mix it with your camera input, display chat messages – and layout everything just the way you want.",
     image: StreamingApp,
   },
   {
     uri: "/demos/broadcast",
-    text: "News broadcast",
+    text: "News broadcasts",
+    description:
+      "Make a real-time broadcast, enrich the video with a customizable news bar – and provide your viewers with the lowest latency possible.",
     image: Broadcast,
   },
 
   {
     uri: "/demos/video-conference",
-    text: "Video call",
+    text: "Video calls",
+    description:
+      "Provide a modern video chat experience for multiple users – using out-of-the-box React components.",
     image: VideoConference,
   },
 ] as const;
 ---
 
-<section id="examples" class="px-4 flex flex-col items-center relative sm:mb-28 py-40 text-center lg:px-8 xl:px-40">
-  <h2 class="mb-2 text-capabilities-header">Explore our live examples</h2>
-  <p class="par-l text-capabilities-subheader">See what you can compose in your browser using Smelter</p>
-  <div class="flex w-full gap-6 overflow-hidden relative flex-col sm:flex-row mt-12 sm:mt-20">
+<section
+  id="examples"
+  class="px-4 flex flex-col items-center relative sm:mb-28 py-40 text-center lg:px-8 xl:px-40"
+>
+  <h2 class="mb-2 text-capabilities-header">
+    What can you develop with Smelter?
+  </h2>
+  <div
+    class="flex w-full gap-6 overflow-hidden relative flex-col sm:flex-row mt-12 sm:mt-20"
+  >
     <div class="flex w-full flex-col sm:flex-row gap-x-4 lg:gap-x-8">
-      {
-        EXAMPLES.map(example => (
-          <ExampleItem {...example} />
-        ))
-      }
+      {EXAMPLES.map((example) => <ExampleItem {...example} />)}
     </div>
   </div>
 </section>

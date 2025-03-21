@@ -1,22 +1,41 @@
 ---
 import { Image, type LocalImageProps } from "astro:assets";
+import { string } from "astro:schema";
 
 interface Props {
   uri: string;
   text: string;
+  description: string;
   image: LocalImageProps["src"];
 }
 
-const { uri, text, image } = Astro.props;
+const { uri, text, description, image } = Astro.props;
 ---
 
-<a href={uri} target="_blank" aria-label={`${text} example`} data-astro-prefetch class="gradient-light-1 flex h-full flex-1 rounded-4xl p-px">
-  <div class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background">
-    <div class="relative z-0 flex h-full flex-col p-6 pt-12 text-center">
+<a
+  href={uri}
+  target="_blank"
+  aria-label={`${text} example`}
+  data-astro-prefetch
+  class="gradient-light-1 group flex h-full flex-1 rounded-4xl p-px transition-transform duration-500 ease-in-out"
+>
+  <div
+    class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background group-hover:bg-opacity-90 border border-transparent hover:border-[#C2B1E0]"
+  >
+    <div
+      class="relative z-0 flex h-full flex-col p-6 pt-12 text-center items-center justify-center transition duration-200 ease-in-out"
+    >
       <div class="mb-6">
-        <h3 class="text-explanation-text" set:html={text} />
+        <h3 class="text-explanation-text text-lg mb-2" set:html={text} />
+        <p class="text-capabilities-subheader text-sm">{description}</p>
       </div>
-      <Image src={image} alt={text} width={612} height={344} />
+      <Image
+        src={image}
+        alt={text}
+        width={612}
+        height={344}
+        class="rounded-lg shadow-md transition-transform duration-300 transform group-hover:scale-105"
+      />
     </div>
   </div>
 </a>

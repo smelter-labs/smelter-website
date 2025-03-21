@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import ExplanationStepItem from "./ExplanationStepItem.astro";
 
 import index1Image from "../../../assets/explanation/1.svg";
 import index2Image from "../../../assets/explanation/2.svg";
 import index3Image from "../../../assets/explanation/3.svg";
+import smelterDiagram from "../../../assets/explanation/smelter_diagram.svg";
 
 const STEPS = [
   {
@@ -21,11 +23,17 @@ const STEPS = [
 ] as const;
 ---
 
-<section class="flex flex-col items-center justify-center px-4 py-52 sm:px-8 xl:px-40 2xl:h-fit 2xl:py-40">
-  <h2 class="mb-12 text-explanation-header">How does it work?</h2>
-  <div class="flex">
-    <div class="flex flex-col sm:flex-row gap-x-4 lg:gap-x-8">
-      {STEPS.map((step, index) => <ExplanationStepItem {...step} index={index} />)}
+<section
+  class="flex flex-col items-center justify-center px-4 py-40 sm:px-8 xl:px-32 2xl:h-fit 2xl:py-32"
+>
+  <h2 class="mb-12 text-explanation-header">How does Smelter work?</h2>
+  <div class="flex flex-col sm:hidden gap-x-4">
+    {STEPS.map((step, index) => <ExplanationStepItem {...step} index={index} />)}
+  </div>
+  
+  <div class="hidden sm:block">
+    <div class="flex">
+      <Image src={smelterDiagram} alt="" class="-z-10 self-center mb-8" />
     </div>
   </div>
 </section>
