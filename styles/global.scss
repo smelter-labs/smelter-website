@@ -140,11 +140,17 @@ body {
 			theme("colors.gradient.purple") 100%);
 }
 
-.gradient-red-5 {
-	background: linear-gradient(135deg,
-			theme("colors.gradient.red") 0%,
-			theme("colors.gradient.purple") 100%);
-}
+// .gradient-red-5 {
+// 	background: linear-gradient(135deg,
+// 			theme("colors.gradient.red") 0%,
+// 			theme("colors.gradient.purple") 100%);
+// }
+
+// .gradient-red-5-active {
+// 	background: linear-gradient(135deg,
+// 			theme("colors.gradient.red") 0%,
+// 			theme("colors.gradient.red") 120%);
+// }
 
 .gradient-red-6 {
 	background: linear-gradient(315deg,
@@ -196,8 +202,8 @@ body {
 
 .gradient-light-6 {
 	background: linear-gradient(170deg,
-			theme("colors.gradient.redLight") -0.12%,
-			theme("colors.gradient.black") 100%);
+		theme("colors.gradient.redLight") 0%,
+		#FBC6CF66 100%)
 }
 
 

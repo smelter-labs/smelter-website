@@ -16,6 +16,12 @@ export default {
         18: "4.5rem",
         "1/6": "16.666667%",
       },
+      backgroundImage: {
+        "gradient-red-5": "linear-gradient(135deg, #F24664 0%, #302555 100%)",
+      },
+      boxShadow: {
+        "2xl": "0 13px 26px -7px rgba(0, 0, 0, 0.3)",
+      },
       borderRadius: {
         "4xl": "2rem",
       },

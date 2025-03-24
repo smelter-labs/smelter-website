@@ -23,5 +23,5 @@ const { label, text, icon } = Astro.props;
       <h3 class="text-capabilities-header text-start">{label}</h3>
     </div>
   </div>
-  <p class="par-l text-capabilities-text text-start">{text}</p>
+  <p class="par-l text-capabilities-text text-start" set:html={text} />
 </div>
