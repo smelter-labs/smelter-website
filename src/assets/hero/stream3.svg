@@ -1,27 +1,37 @@
 <svg width="582" height="422" viewBox="0 0 582 422" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_185_373)">
-<path id="opacity_layer" d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z" fill="#161127" fill-opacity="0.75"/>
-<path d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z" stroke="url(#paint0_linear_185_373)"/>
-<path d="M29 48C29 37.5066 37.5066 29 48 29H190C200.493 29 209 37.5066 209 48V140C209 150.493 200.493 159 190 159H48C37.5066 159 29 150.493 29 140V48Z" fill="white" fill-opacity="0.25"/>
-<path d="M48 30H190C199.941 30 208 38.0589 208 48V140C208 149.941 199.941 158 190 158H48C38.0589 158 30 149.941 30 140V48C30 38.0589 38.0589 30 48 30Z" stroke="white" stroke-opacity="0.25" stroke-width="2"/>
-<foreignObject x="31" y="31" width="176" height="126">
-  <body xmlns="http://www.w3.org/1999/xhtml">
-    <div id="streamerLayer" style="width: 176px; height: 126px; border-radius: 17px; overflow: hidden; opacity: 0;">
-      <video autoplay loop muted style="width: 176px; height: 126px; object-fit: cover;">
-        <source src="streamer.mp4" type="video/mp4">
-      </video>
-    </div>
-  </body>
-</foreignObject>
+  <g clip-path="url(#clip0_185_373)">
+    <path id="opacity_layer"
+      d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z"
+      fill="#161127" fill-opacity="0.75" />
+    <path
+      d="M549 1H33C15.3269 1 1 15.3269 1 33V389C1 406.673 15.3269 421 33 421H549C566.673 421 581 406.673 581 389V33C581 15.3269 566.673 1 549 1Z"
+      stroke="url(#paint0_linear_185_373)" />
+    <path
+      d="M29 48C29 37.5066 37.5066 29 48 29H190C200.493 29 209 37.5066 209 48V140C209 150.493 200.493 159 190 159H48C37.5066 159 29 150.493 29 140V48Z"
+      fill="white" fill-opacity="0.25" />
+    <path
+      d="M48 30H190C199.941 30 208 38.0589 208 48V140C208 149.941 199.941 158 190 158H48C38.0589 158 30 149.941 30 140V48C30 38.0589 38.0589 30 48 30Z"
+      stroke="white" stroke-opacity="0.25" stroke-width="2" />
+    <foreignObject x="31" y="31" width="176" height="126">
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <div id="streamerLayer"
+          style="width: 176px; height: 126px; border-radius: 17px; overflow: hidden; opacity: 0;">
+          <video autoplay loop muted style="width: 176px; height: 126px; object-fit: cover;">
+            <source src="/streamer.mp4" type="video/mp4">
+          </video>
+        </div>
+      </body>
+    </foreignObject>
 
-</g>
-<defs>
-<linearGradient id="paint0_linear_185_373" x1="1.00002" y1="-0.410353" x2="581" y2="421" gradientUnits="userSpaceOnUse">
-<stop stop-color="#FBC6CF"/>
-<stop offset="1" stop-color="#161127"/>
-</linearGradient>
-<clipPath id="clip0_185_373">
-<rect width="582" height="422" fill="white"/>
-</clipPath>
-</defs>
+  </g>
+  <defs>
+    <linearGradient id="paint0_linear_185_373" x1="1.00002" y1="-0.410353" x2="581" y2="421"
+      gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBC6CF" />
+      <stop offset="1" stop-color="#161127" />
+    </linearGradient>
+    <clipPath id="clip0_185_373">
+      <rect width="582" height="422" fill="white" />
+    </clipPath>
+  </defs>
 </svg>
