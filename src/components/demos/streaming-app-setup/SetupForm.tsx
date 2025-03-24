@@ -64,7 +64,9 @@ export default function SetupForm() {
             />
           </label>
           <div className="flex gap-x-4">
-            <button type="submit" className="h-12 w-fit rounded-full bg-gradient-red-5 px-6 sm:px-7">
+            <button
+              type="submit"
+              className="h-12 w-fit rounded-full bg-gradient-red-5 px-6 sm:px-7">
               <div className="flex items-center justify-center gap-x-3 text-white text-xl">
                 <span>Continue</span>
               </div>
