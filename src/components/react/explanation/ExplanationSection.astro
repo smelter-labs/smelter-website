@@ -1,26 +1,7 @@
 ---
 import { Image } from "astro:assets";
-
-import index1Image from "../../../assets/explanation/1.svg";
-import index2Image from "../../../assets/explanation/2.svg";
-import index3Image from "../../../assets/explanation/3.svg";
 import smelterDiagramMobile from "../../../assets/explanation/smelter-diagram-mobile.svg";
 import smelterDiagram from "../../../assets/explanation/smelter-diagram.svg";
-
-const STEPS = [
-  {
-    text: "Stream inputs <br /> or provide MP4 files.",
-    indexImage: index1Image,
-  },
-  {
-    text: `Configure output video <br class="sm:hidden block"/> using React components.`,
-    indexImage: index2Image,
-  },
-  {
-    text: `Write the result to a file <br class="sm:hidden block" /> or stream it in real time.`,
-    indexImage: index3Image,
-  },
-] as const;
 ---
 
 <section
