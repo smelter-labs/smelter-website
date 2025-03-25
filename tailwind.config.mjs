@@ -11,6 +11,9 @@ export default {
       colors: {
         ...DARK_THEME.colors,
       },
+      fontSize: {
+        'smd': '1rem',
+      },
       spacing: {
         17.5: "4.375rem",
         18: "4.5rem",
