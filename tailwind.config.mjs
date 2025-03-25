@@ -12,7 +12,7 @@ export default {
         ...DARK_THEME.colors,
       },
       fontSize: {
-        'smd': '1rem',
+        smd: "1rem",
       },
       spacing: {
         17.5: "4.375rem",
