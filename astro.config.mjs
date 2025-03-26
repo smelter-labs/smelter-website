@@ -89,7 +89,7 @@ export default defineConfig({
             "data-rh": "true",
             name: "keywords",
             content:
-              "live stream, video composition, multimedia composition, react, video mixing, audio mixing, real-time, live compositor, media server",
+              "video compositing, react video compositing, compositing software, real time video editing, live video editing, video mixing, live stream mixing",
           },
         },
         {
