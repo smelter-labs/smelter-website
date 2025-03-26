@@ -1,5 +1,8 @@
 ---
 import { Image, type LocalImageProps } from "astro:assets";
+import GhostButton from "../../base/buttons/GhostButton.astro";
+
+import ArrowRight from "/public/images/arrow-right.svg";
 
 interface Props {
   uri: string;
@@ -35,6 +38,7 @@ const { uri, text, description, image } = Astro.props;
         height={344}
         class="rounded-lg shadow-md transition-transform duration-300 transform group-hover:scale-[1.02]"
       />
+      <GhostButton id="exampleGhostButton" class="mt-4 self-end hover:text-example-link">See the demo <ArrowRight /></GhostButton>
     </div>
   </div>
 </a>

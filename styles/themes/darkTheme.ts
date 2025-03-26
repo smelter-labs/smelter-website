@@ -49,6 +49,7 @@ export const DARK_THEME = {
     },
     example: {
       border: COLORS.white25,
+      link: COLORS.purple20,
     },
     capabilities: {
       header: COLORS.white100,
