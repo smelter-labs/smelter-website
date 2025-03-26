@@ -49,8 +49,6 @@ function OutputContent() {
           bottom: 0,
           left: 0,
           height: 48,
-          paddingHorizontal: 24,
-          backgroundColor: backgroundColor,
         }}>
         <Chyron messages={messages} messageDurationMs={4000} />
       </View>
