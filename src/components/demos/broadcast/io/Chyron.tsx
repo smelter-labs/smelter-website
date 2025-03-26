@@ -16,9 +16,11 @@ export const useChyronStore = create<ChyronStore>((set) => ({
   chyronContent:
     "Smelter is a toolkit for video composition\nYou can use it to seamlessly build applications such as this one\nConfigure output video using React components, or HTTP API\nSmelter is free to use excluding some enterprise-scale business applications",
   labelColor: COLORS.white100.slice(0, 7),
-  backgroundColor: COLORS.black100,
+  backgroundColor: COLORS.black75,
   setLabelColor: (color: string) => set({ labelColor: color }),
-  setBackgroundColor: (color: string) => set({ backgroundColor: color }),
+  setBackgroundColor: (color: string) => {
+    set({ backgroundColor: `${color}BF` });
+  },
   setChyronContent: (chyronContent: string) => set({ chyronContent }),
 }));
 
@@ -59,7 +61,7 @@ function ChyronText(props: { msg: string; index: number; current?: boolean; colo
   return (
     <View
       id={String(props.index)}
-      style={{ left: 0, top: props.current ? 8 : 56 }}
+      style={{ left: 0, top: props.current ? 8 : 56, paddingHorizontal: 24 }}
       transition={{
         durationMs: 500,
         easingFunction: { functionName: "cubic_bezier", points: [0.33, 1, 0.68, 1] },
