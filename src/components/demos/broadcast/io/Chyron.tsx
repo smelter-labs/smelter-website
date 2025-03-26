@@ -18,7 +18,9 @@ export const useChyronStore = create<ChyronStore>((set) => ({
   labelColor: COLORS.white100.slice(0, 7),
   backgroundColor: COLORS.black75,
   setLabelColor: (color: string) => set({ labelColor: color }),
-  setBackgroundColor: (color: string) => {set({ backgroundColor: `${color}BF` })},
+  setBackgroundColor: (color: string) => {
+    set({ backgroundColor: `${color}BF` });
+  },
   setChyronContent: (chyronContent: string) => set({ chyronContent }),
 }));
 

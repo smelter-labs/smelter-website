@@ -25,7 +25,7 @@ export default function Output({ smelter }: { smelter?: Smelter }) {
 }
 
 function OutputContent() {
-  const { chyronContent, backgroundColor } = useChyronStore();
+  const { chyronContent } = useChyronStore();
 
   const messages = useMemo(() => {
     return chyronContent.split(/\r?\n|\r/);
