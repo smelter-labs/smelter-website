@@ -234,6 +234,10 @@ body {
 	@apply stroke-usage-hoverText;
 }
 
+#exampleGhostButton:hover svg path {
+	@apply stroke-example-link;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
