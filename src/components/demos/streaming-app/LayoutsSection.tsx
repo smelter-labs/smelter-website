@@ -40,7 +40,7 @@ export default function LayoutsSection() {
         <button
           type="button"
           key={layout.id}
-          className="aspect-video"
+          className="aspect-video transition-all hover:scale-[1.02]"
           onClick={() => {
             setCurrentLayout(layout.id);
           }}>
