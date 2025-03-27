@@ -222,7 +222,7 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     sitemap({
       changefreq: "weekly",
-      lastmod: new Date("2025-03-04"),
+      lastmod: new Date("2025-03-27"),
     }),
     react(),
   ],
