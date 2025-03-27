@@ -166,3 +166,13 @@ Location of a file where all Smelter logs should be saved. Logging to file does 
 List of comma separated URLs that specify STUN servers that should be used in connection negotiation for WHIP/WHEP.
 
 - **Defaults to**: `stun:stun.l.google.com:19302`
+
+### `SMELTER_FORCE_CPU_OPTIMIZED_RENDERING_MODE`
+
+Enable rendering mode optimized for processing on CPU. It will result in better performance while sacrificing correctness.
+
+In this mode:
+- Color blending is applied in on sRGB values with pre-multiplied alpha (In the default mode blending happens in the linear space).
+- Pre-multiplied alpha is applied on sRGB values (In the default mode alpha is pre-multiplied after conversion to the linear space).
+
+- **Defaults to**: `false`
