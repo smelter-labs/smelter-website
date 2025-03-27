@@ -1,12 +1,11 @@
 ---
 title: Shader
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
+import { Aside, Code } from '@astrojs/starlight/components';
 import shaderExample from './examples/Shader.tsx?raw';
+import shaderExampleWasm from './examples/ShaderWasm.tsx?raw';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 import ExampleImage from '../../../../assets/guides/component-shader-example.mp4';
-
-<Badge text="Node.js" variant="tip" size="large" />
 
 <br />
 <br />
@@ -19,6 +18,13 @@ For more information on using shaders in Smelter, please visit [Shaders document
 ## Usage
 
 <Code code={shaderExample} title='ShaderExample.tsx' lang='tsx' collapse={["7-54", "77-98"]} />
+<Aside type="caution">
+    When `@swmansion/smelter-web-wasm` is used, shaders can accept only one texture (use `texture_2d<f32>` instead of `binding_array<texture_2d<f32>, 16>`).
+</Aside>
+
+<CollapsibleDetails summaryTitle='@swmansion/smelter-web-wasm'>
+  <Code code={shaderExampleWasm} title='ShaderExample.tsx' lang='tsx' collapse={["5-30", "58-100"]} mark={[32, 55]} />
+</CollapsibleDetails>
 
 <CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
