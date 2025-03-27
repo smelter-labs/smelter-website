@@ -40,7 +40,6 @@ type Mp4Input = {
   loop?: bool;
   required?: bool;
   offset_ms?: f64;
-  video_decoder?: "ffmpeg_h264" | "vulkan_video";
 }
 ```
 </CollapsibleDetails>
@@ -84,22 +83,4 @@ Determines if the input stream is essential for output frame production. If set 
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `f64`
-
----
-
-### video_decoder
-The decoder to use for decoding video.
-
-- **Type**: `"ffmpeg_h264" | "vulkan_video"`
-- **Default value**: `ffmpeg_h264`
-- **Supported values**:
-  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
-  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
-
-    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
-    support it.
-
-    This requires hardware that supports Vulkan Video. Another requirement is this program has
-    to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
-    support Vulkan, i.e. non-Apple operating systems and not the web).
 
