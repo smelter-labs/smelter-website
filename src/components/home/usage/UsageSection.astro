@@ -9,12 +9,12 @@ import usageBlur from "../../../assets/usage/usage-blur.svg";
 
 const USE_CASES = [
   {
-    label: "React / TypeScript SDK",
+    label: "React / TypeScript",
     iconUrl: react,
-    text: "React is a powerful library for building user interfaces, leverage its benefits and seamlessly compose scenes. Alternatively, you can manage your Smelter instance directly using TypeScript SDK.",
+    text: "React is a powerful library for building dynamic user interfaces — leverage its benefits to seamlessly compose video. Or manage your Smelter instance directly with our TypeScript SDK.",
     buttons: {
-      docs: "/ts-sdk",
-      "explore TS SDK": "/react",
+      "read the docs": "/ts-sdk",
+      "explore React": "/react",
     },
   },
   {
@@ -22,25 +22,24 @@ const USE_CASES = [
     iconUrl: elixir,
     text: "Membrane is a developer-friendly multimedia framework for Elixir. With its use, you can easily integrate video and audio mixing into your multimedia pipeline using the Membrane Smelter plugin.",
     buttons: {
-      docs: "https://hexdocs.pm/membrane_live_compositor_plugin/0.9.0/Membrane.LiveCompositor.html",
-      repository: "https://github.com/membraneframework/membrane_live_compositor_plugin",
+      "read the docs": "https://hexdocs.pm/membrane_live_compositor_plugin/0.9.0/Membrane.LiveCompositor.html",
+      "see the repo": "https://github.com/membraneframework/membrane_live_compositor_plugin",
     },
   },
   {
     label: "Standalone server",
     iconUrl: docker,
-    text: "Deploy Smelter as a standalone server. Its language-agnostic API integrates easily with your solutions. With Dockerfiles and comprehensive deployment guidelines in our documentation, setting up Smelter is effortless.",
+    text: "You can deploy Smelter as a standalone server, locally or in the cloud. Its language-agnostic API will integrate easily with your solutions, and our Docker images, coupled with proper deployment guides, will make the setup effortless.",
     buttons: {
-      docs: "https://smelter.dev/http-api",
-      "docker registry": "https://github.com/software-mansion/smelter/pkgs/container/smelter",
+      "read the docs": "https://smelter.dev/http-api",
+      "see the registry": "https://github.com/software-mansion/smelter/pkgs/container/smelter",
     },
   },
 ] as const;
 ---
 
 <section class="relative mb-28 flex flex-col items-center px-4 lg:px-8 xl:px-40 text-center 2xl:mb-0 2xl:h-fit 2xl:min-h-[unset]">
-  <h2 class="mb-6 text-usage-header">Start using Smelter</h2>
-  <p class="par-l text-usage-subheader">Select an option to seamlessly blend smelter into your existing solutions.</p>
+  <h2 class="mb-6 text-usage-header">Set up Smelter the way you want</h2>
   <div class="mt-12 flex flex-col gap-4 sm:mt-20 text-start w-full md:w-fit">
     {USE_CASES.map(useCase => <UsageItem {...useCase} />)}
   </div>
