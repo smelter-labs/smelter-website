@@ -57,7 +57,7 @@ export default defineConfig({
     starlight({
       title: "Smelter",
       plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
-      description: "Toolkit for real-time, programmable multimedia mixing.",
+      description: "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
       social: {
         github: "https://github.com/software-mansion/smelter",
         discord: "https://discord.com/invite/Cxj3rzTTag",
@@ -80,7 +80,7 @@ export default defineConfig({
           tag: "meta",
           attrs: {
             property: "og:image:alt",
-            content: "Toolkit for real-time, programmable multimedia mixing.",
+            content: "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
           },
         },
         {
@@ -94,13 +94,13 @@ export default defineConfig({
         },
         {
           tag: "meta",
-          attrs: { property: "twitter:title", content: "Smelter – Live stream mixing simplified" },
+          attrs: { property: "twitter:title", content: "Smelter: Real-time video compositing software" },
         },
         {
           tag: "meta",
           attrs: {
             property: "twitter:description",
-            content: "Toolkit for real-time, programmable multimedia mixing.",
+            content: "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
           },
         },
         {
