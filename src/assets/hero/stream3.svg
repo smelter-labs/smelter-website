@@ -16,7 +16,7 @@
       <body xmlns="http://www.w3.org/1999/xhtml">
         <div id="streamerLayer"
           style="width: 176px; height: 126px; border-radius: 17px; overflow: hidden; opacity: 0;">
-          <video autoplay loop muted style="width: 176px; height: 126px; object-fit: cover;">
+          <video autoplay loop muted playsinline aria-hidden="true" style="width: 176px; height: 126px; object-fit: cover;">
             <source src="/streamer.mp4" type="video/mp4">
           </video>
         </div>
