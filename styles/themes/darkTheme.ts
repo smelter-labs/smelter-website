@@ -72,7 +72,9 @@ export const DARK_THEME = {
     footer: {
       logo: COLORS.white100,
       copyright: COLORS.white100,
-      link: COLORS.white100,
+      text: COLORS.white100,
+      link: COLORS.purple20,
+      linkHover: COLORS.red40,
     },
     testimonials: {
       header: COLORS.white100,
