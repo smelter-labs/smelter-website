@@ -54,6 +54,7 @@ export const DARK_THEME = {
     capabilities: {
       header: COLORS.white100,
       subheader: COLORS.purple20,
+      background: COLORS.black75,
       text: COLORS.white100,
       border: COLORS.white25,
     },
