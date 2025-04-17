@@ -7,65 +7,69 @@ import battery from "../../../assets/capabilities/battery.svg";
 import bolt from "../../../assets/capabilities/bolt.svg";
 import capabilitiesBlur from "../../../assets/capabilities/capabilities-blur2.svg";
 import wavePattern from "../../../assets/capabilities/capabilities-wave.svg";
+import cog from "../../../assets/capabilities/cog.svg";
 import flexbility from "../../../assets/capabilities/flexbility.svg";
+import multiSource from "../../../assets/capabilities/multi-source.svg";
 import offline from "../../../assets/capabilities/offline.svg";
-import sliders from "../../../assets/capabilities/sliders.svg";
+import rocket from "../../../assets/capabilities/rocket.svg";
+import wand from "../../../assets/capabilities/wand.svg";
 
 const CAPABILITIES = [
   {
-    label: "Simple, declarative API",
-    text: "Easily mix streams using an intuitive React component tree. Smelter is quick to pick up for anyone familiar with web development.",
-    icon: api,
-  },
-  {
-    label: "Unmatched flexibility",
-    text: "Smelter's API is language-agnostic and effortlessly integrates with your existing setup. It functions across both browser and server environments and supports a wide range of protocols.",
-    icon: flexbility,
-  },
-  {
-    label: "Real-time and low latency",
-    text: "Smelter targets real-time use cases with sub-frame latency. It ensures seamless performance for applications that demand immediate responsiveness.",
+    label: "Ultra-low latency",
+    text: "Compose and stream your videos with minimal delay. Smelter means seamless experience for use cases that demand immediate responsiveness.",
     icon: bolt,
   },
   {
-    label: "Batteries included",
-    text: "Process streams, render text, images, or websites. Combine them using high-level components and enrich with animated transitions.",
-    icon: battery,
+    label: "Multi-source support",
+    text: "Combine live feeds, screen recordings, and pre-recorded videos into a single composition. Mix multiple inputs at the same time without any frame drops.",
+    icon: multiSource,
   },
   {
-    label: "Highly customizable",
-    text: "Choose from pre-built options or create custom effects with WGSL shaders and directly leverage GPU parallel processing capabilities.",
-    icon: sliders,
+    label: "Dynamic overlays",
+    text: "Add text, animations, transitions, and graphics seamlessly — both to live and to recorded videos. Change layouts on the fly.",
+    icon: wand,
+  },
+  {
+    label: "Browser-based experience",
+    text: "Run high-performance video processing directly in the browser with WASM. Also, leverage GPU processing by rendering with WebGL or WebGPU.",
+    icon: cog,
+  },
+  {
+    label: "Simple API",
+    text: "Thanks to the declarative API, Smelter is quick to pick up for anyone familiar with web development. Which means you customize it in no time.",
+    icon: api,
+  },
+  {
+    label: "Tech-stack flexibility",
+    text: "You can use Smelter with TypeScript (React), Elixir (Membrane Framework) or just HTTP API with any language. Also, you need no deep video expertise.",
+    icon: flexbility,
+  },
+  {
+    label: "Easy deployment",
+    text: "We provide pre-built binaries and publish images to the Docker registry. This way, you can set up Smelter in just a few steps.",
+    icon: rocket,
   },
   {
     label: "Offline processing available",
-    text: "Convert, combine, or generate static multimedia files.",
+    text: "It’s not only about real-time streaming. With Smelter, you can also process data offline and then save the result as a file.",
     icon: offline,
   },
 ] as const;
 ---
 
-<section class="px-4 flex flex-col items-center relative mb-28 text-center lg:px-8 xl:px-40">
+<section class="px-4 relative mb-28 text-center lg:px-8 xl:px-10">
   <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute -right-56 opacity-45 sm:top-36 sm:-right-40 -z-10" />
   <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute bottom-40 sm:-bottom-52 sm:-left-40 -translate-x-1/2 -z-10" />
-  <h2 class="mb-2 text-capabilities-header">Live stream mixing simplified</h2>
-  <p class="par-l text-capabilities-subheader">Simple, powerful, fast</p>
-  <div class="flex gap-6 overflow-hidden relative flex-col sm:flex-row mt-12 sm:mt-20">
-    <div class="flex flex-1 flex-col gap-y-6">
-      {
-        CAPABILITIES.filter((_, index) => !(index % 2)).map(capability => (
-          <CapabilitiesItem {...capability} />
-        ))
-      }
-    </div>
-    <div class="flex flex-1 flex-col gap-y-6 sm:mt-1/6">
-      {
-        CAPABILITIES.filter((_, index) => index % 2).map(capability => (
-          <CapabilitiesItem {...capability} />
-        ))
-      }
-    </div>
+  <h2 class="mb-2 text-capabilities-header">The only video<br />compositing software you need</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-12 sm:mt-20 justify-center">
+    {
+      CAPABILITIES.map(capability => (
+        <CapabilitiesItem {...capability} />
+      ))
+    }
   </div>
+
 </section>
 
 

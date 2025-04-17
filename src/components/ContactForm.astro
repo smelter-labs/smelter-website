@@ -11,10 +11,12 @@ import ArrowRight from "/public/images/arrow-right.svg";
   id="contact"
   class="mx-4 my-20 flex gap-x-28 rounded-4xl border border-form-border bg-mainBackground flex-col p-10 sm:mx-8 xl:mx-40 lg:flex-row"
 >
-  <h2 class="shrink-0 text-form-header md:mb-12">
-    Ask us anything<br />
-    about Smelter
-  </h2>
+  <div>
+    <h2 class="shrink-0 text-form-header md:mb-4">
+      Do you want to use<br/>Smelter?
+    </h2>
+    <p class="text-form-subtitle">Tell us about your needs and we’ll get back to you in 48 hours</p>
+  </div>
   <form class="flex w-full flex-col gap-y-10 mt-12 sm:mt-0" method="POST">
     <TextInput
       label="Your e-mail"
@@ -39,7 +41,7 @@ import ArrowRight from "/public/images/arrow-right.svg";
       >
     </Select>
     <TextArea
-      label="Tell us about your needs"
+      label="Tell us more about your needs"
       name="message"
       class="resize-none"
       rows="6"

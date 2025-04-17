@@ -34,7 +34,7 @@ export const DARK_THEME = {
       header: COLORS.white100,
       subheader: COLORS.purple20,
       tileHeader: COLORS.white100,
-      tileSubheader: COLORS.white100,
+      tileSubheader: COLORS.purple20,
       tileBackground: COLORS.black100,
       tileBackgroundOpacity: COLORS.black75,
       borderInactive: COLORS.white25,
@@ -54,6 +54,7 @@ export const DARK_THEME = {
     capabilities: {
       header: COLORS.white100,
       subheader: COLORS.purple20,
+      background: COLORS.black75,
       text: COLORS.white100,
       border: COLORS.white25,
     },
@@ -64,6 +65,7 @@ export const DARK_THEME = {
     },
     form: {
       header: COLORS.white100,
+      subtitle: COLORS.purple20,
       border: COLORS.white25,
       label: COLORS.white100,
     },
