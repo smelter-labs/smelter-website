@@ -1,10 +1,13 @@
 ---
 import { Image, getImage } from "astro:assets";
 
+import cross from "../../assets/navigation/cross.svg";
 import discordLogo from "../../assets/navigation/discord-logo.svg";
 import githubLogo from "../../assets/navigation/github-logo.svg";
+import hamburger from "../../assets/navigation/hamburger.svg";
 import smelterLogoSmall from "../../assets/navigation/smelter-logo-small.svg";
 import smelterLogo from "../../assets/navigation/smelter-logo.svg";
+import NavButton from "../base/buttons/NavButton.astro";
 
 const discordLogoImage = await getImage({ src: discordLogo, format: "svg", width: 24, height: 24 });
 const githubLogoImage = await getImage({ src: githubLogo, format: "svg", width: 24, height: 24 });
@@ -34,21 +37,87 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={githubLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
+    <link rel="preload" href={cross.src} as="image" />
+    <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
   <nav class="flex h-18 md:h-20">
-    <div class="flex justify-between max-w-[1800px] w-full m-auto px-4 sm:px-8 lg:px-20">
+    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 sm:px-8 lg:px-20">
       <a href={rootHref}>
         <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" loading="eager" />
         <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" loading="eager" />
       </a>
   
-      <div class="flex gap-x-4 md:gap-x-6">
-        <a href="https://discord.com/invite/Cxj3rzTTag" target="_blank">
-          <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
-        </a>
-        <a href="https://github.com/software-mansion/smelter" target="_blank">
-          <Image src={githubLogo} alt="Github logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
-        </a>
+      <div class="md:hidden flex justify-between items-center min-w-8 min-h-8">
+        <button
+          class="relative text-xl text-white min-w-8 min-h-8"
+          aria-label="Toggle navigation"
+          onclick="toggleMobileMenu()"
+        >
+          <Image id="nav-close" src={cross} alt="close menu" class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-0" loading="eager" />
+          <Image id="nav-hamburger" src={hamburger} alt="menu" class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-1" loading="eager" />
+        </button>
+      </div>
+
+  <div
+    id="mobile-menu"
+    class="opacity-0 absolute -top-[1px] left-0 w-full bg-[#161127EB] text-white z-20 mt-18 transition-all duration-300 ease-in-out"
+  >
+      <div class="flex flex-col items-start p-4">
+          <a href="/#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Features</a>
+          <a href="/#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Pricing</a>
+          <a href="/docs" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link" target="_blank">Docs</a>
+          <a href="/#reviews" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Reviews</a>
+          <a href="/#use-cases" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">See live demos</a>
+          <a href="/#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Try it for free</a>
+          <div class="flex gap-x-4 w-full justify-end py-2">
+            <a href="https://discord.com/invite/Cxj3rzTTag" onclick="toggleMobileMenu()" target="_blank">
+              <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
+            </a>
+            <a href="https://github.com/software-mansion/smelter" onclick="toggleMobileMenu()" target="_blank">
+              <Image src={githubLogo} alt="Github logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="items-center hidden md:flex">
+        <div class="flex items-center">
+          <div class="flex items-center gap-x-4 md:gap-x-6 mr-6 md:mr-8">
+            <a href="/#features" class="text-white hover:underline">
+              Features
+            </a>
+            <a href="/#pricing" class="text-white hover:underline">
+              Pricing
+            </a>
+            <a href="/docs" class="text-white hover:underline" target="_blank">
+              Docs
+            </a>
+            <a href="/#reviews" class="text-white hover:underline">
+              Reviews
+            </a>
+          </div>
+          <div class="flex gap-x-2 md:gap-x-4 mr-6 md:mr-8">
+            <a href="/#use-cases">
+              <NavButton>
+                See live demos
+              </NavButton>
+            </a>
+            <a href="/#usage">
+              <NavButton>
+                Try it for free
+              </NavButton>
+            </a>
+          </div>
+        </div>
+
+        <div class="flex gap-x-4">
+          <a href="https://discord.com/invite/Cxj3rzTTag" target="_blank">
+            <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
+          </a>
+          <a href="https://github.com/software-mansion/smelter" target="_blank">
+            <Image src={githubLogo} alt="Github logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
+          </a>
+        </div>
        </div>
     </div>
   </nav>
@@ -59,8 +128,8 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     const header = document.getElementById('pageHeader');
 
     function handleOpacity() {
-      const scrollDistanceLimit = 100;
-      const alphaDecimal = Math.min(128, (window.scrollY / scrollDistanceLimit) * 128);
+      const scrollDistanceLimit = 150;
+      const alphaDecimal = Math.min(235, (window.scrollY / scrollDistanceLimit) * 235);
       const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, '0');
       if (header) header.style.backgroundColor = `#161127${alphaHex}`;
     }
@@ -69,4 +138,20 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
 
     window.addEventListener('scroll', handleOpacity);
   });
+
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const hamburger = document.getElementById('nav-hamburger');
+    const close = document.getElementById('nav-close');
+  
+    if (menu.style.opacity === '0') {
+      menu.style.opacity = '1';
+      hamburger.style.opacity = '0'
+      close.style.opacity = '1'
+    } else {
+      menu.style.opacity = '0';
+      hamburger.style.opacity = '1'
+      close.style.opacity = '0'
+    }
+  }
 </script>
