@@ -31,7 +31,7 @@ interface Props {
 const { rootHref = "https://smelter.dev/" } = Astro.props;
 ---
 
-<header id="pageHeader" class="fixed z-50 w-screen max-w-screen bg-transparent">
+<header id="pageHeader" class="fixed z-50 w-screen max-w-screen bg-transparent transition-all ease-in-out duration-300">
   <Fragment slot="head">
     <link rel="preload" href={discordLogoImage.src} as="image" />
     <link rel="preload" href={githubLogoImage.src} as="image" />
@@ -47,7 +47,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
         <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" loading="eager" />
       </a>
   
-      <div class="md:hidden flex justify-between items-center min-w-8 min-h-8">
+      <div class="lg:hidden flex justify-between items-center min-w-8 min-h-8">
         <button
           class="relative text-xl text-white min-w-8 min-h-8"
           aria-label="Toggle navigation"
@@ -80,7 +80,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
         </div>
       </div>
 
-      <div class="items-center hidden md:flex">
+      <div class="items-center hidden lg:flex">
         <div class="flex items-center">
           <div class="flex items-center gap-x-4 md:gap-x-6 mr-6 md:mr-8">
             <a href="/#features" class="text-white hover:underline">
@@ -143,15 +143,23 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     const menu = document.getElementById('mobile-menu');
     const hamburger = document.getElementById('nav-hamburger');
     const close = document.getElementById('nav-close');
-  
+    const navbar = document.getElementById('pageHeader');
+
     if (menu.style.opacity === '0') {
       menu.style.opacity = '1';
       hamburger.style.opacity = '0'
       close.style.opacity = '1'
+      const alphaHex = Math.round(235).toString(16).padStart(2, '0');
+      navbar.style.backgroundColor = `#161127${alphaHex}`;
     } else {
       menu.style.opacity = '0';
       hamburger.style.opacity = '1'
       close.style.opacity = '0'
+
+      const scrollDistanceLimit = 150;
+      const alphaDecimal = Math.min(235, (window.scrollY / scrollDistanceLimit) * 235);
+      const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, '0');
+      navbar.style.backgroundColor = `#161127${alphaHex}`;
     }
   }
 </script>
