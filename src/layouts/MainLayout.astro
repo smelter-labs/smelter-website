@@ -9,7 +9,7 @@ import ReactNavBar from "../components/navigation/ReactNavBar.astro";
 interface Props {
   canonicalUrl: string;
   rootHref?: string;
-  navbarVariant?: 'react' | 'main'
+  navbarVariant?: "react" | "main";
 }
 
 const { canonicalUrl, rootHref, navbarVariant = "main" } = Astro.props;
