@@ -9,7 +9,7 @@ type UserTileProps = {
 };
 
 export default function UserTile({ index, iconSize }: UserTileProps) {
-  const { usersCount, isCameraActive, usersMuted } = useUserSettingsStore();
+  const { isCameraActive, usersMuted } = useUserSettingsStore();
 
   const mutedStyle = {
     width: iconSize,
