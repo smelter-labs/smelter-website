@@ -10,6 +10,7 @@ export const DARK_THEME = {
       icon: COLORS.white100,
       searchContent: COLORS.white100,
       searchBorder: COLORS.white25,
+      link: COLORS.white100,
     },
     hero: {
       title: COLORS.white100,
