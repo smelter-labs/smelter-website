@@ -41,7 +41,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
   <nav class="flex h-18 md:h-20">
-    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 sm:px-8 lg:px-20">
+    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 lg:px-10">
       <a href={rootHref}>
         <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" loading="eager" />
         <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" loading="eager" />
@@ -63,11 +63,11 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     class="opacity-0 absolute -top-[1px] hidden left-0 w-full bg-[#161127EB] text-white z-20 mt-18 transition-all duration-300 ease-in-out"
   >
       <div class="flex flex-col items-start p-4">
-          <a href="/react#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Features</a>
-          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Pricing</a>
-          <a href="/docs" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link" target="_blank">Docs</a>
-          <a href="/react#examples" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">See live demos</a>
-          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Try it for free</a>
+          <a href="/react#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Features</a>
+          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Pricing</a>
+          <a href="/docs" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full" target="_blank">Docs</a>
+          <a href="/react#examples" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">See live demos</a>
+          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Try it for free</a>
           <div class="flex gap-x-4 w-full justify-end py-2">
             <a href="https://discord.com/invite/Cxj3rzTTag" onclick="toggleMobileMenu()" target="_blank">
               <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
