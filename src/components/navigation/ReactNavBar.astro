@@ -60,7 +60,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
 
   <div
     id="mobile-menu"
-    class="opacity-0 absolute -top-[1px] left-0 w-full bg-[#161127EB] text-white z-20 mt-18 transition-all duration-300 ease-in-out"
+    class="opacity-0 absolute -top-[1px] hidden left-0 w-full bg-[#161127EB] text-white z-20 mt-18 transition-all duration-300 ease-in-out"
   >
       <div class="flex flex-col items-start p-4">
           <a href="/react#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Features</a>
@@ -135,27 +135,37 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     window.addEventListener('scroll', handleOpacity);
   });
 
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const hamburger = document.getElementById('nav-hamburger');
-    const close = document.getElementById('nav-close');
-    const navbar = document.getElementById('pageHeader');
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('nav-hamburger');
+  const close = document.getElementById('nav-close');
+  const navbar = document.getElementById('pageHeader');
 
-    if (menu.style.opacity === '0') {
-      menu.style.opacity = '1';
-      hamburger.style.opacity = '0'
-      close.style.opacity = '1'
-      const alphaHex = Math.round(235).toString(16).padStart(2, '0');
-      navbar.style.backgroundColor = `#161127${alphaHex}`;
-    } else {
-      menu.style.opacity = '0';
-      hamburger.style.opacity = '1'
-      close.style.opacity = '0'
+  if (menu.classList.contains('hidden')) {
+    console.log('TOGGLE')
+    menu.classList.remove('hidden');
 
+    hamburger.style.opacity = '0';
+    close.style.opacity = '1';
+    const alphaHex = Math.round(235).toString(16).padStart(2, '0');
+    navbar.style.backgroundColor = `#161127${alphaHex}`;
+
+    setTimeout(() => {
+      menu.style.opacity = '1'
+    }, 100);
+  } else {
+    menu.style.opacity = '0';
+    hamburger.style.opacity = '1';
+    close.style.opacity = '0';
+
+    setTimeout(() => {
+      menu.classList.add('hidden');
       const scrollDistanceLimit = 150;
       const alphaDecimal = Math.min(235, (window.scrollY / scrollDistanceLimit) * 235);
       const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, '0');
       navbar.style.backgroundColor = `#161127${alphaHex}`;
-    }
+      menu.style.opacity = '1';  
+    }, 300);
   }
+}
 </script>
