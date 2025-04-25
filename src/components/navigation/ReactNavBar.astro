@@ -41,7 +41,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
   <nav class="flex h-18 md:h-20">
-    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 sm:px-8 lg:px-20">
+    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 lg:px-10">
       <a href={rootHref}>
         <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" loading="eager" />
         <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" loading="eager" />
@@ -60,14 +60,14 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
 
   <div
     id="mobile-menu"
-    class="opacity-0 absolute -top-[1px] left-0 w-full bg-[#161127EB] text-white z-20 mt-18 transition-all duration-300 ease-in-out"
+    class="opacity-0 absolute -top-[1px] hidden left-0 w-full bg-[#161127EB] text-white z-20 mt-18 transition-all duration-300 ease-in-out"
   >
       <div class="flex flex-col items-start p-4">
-          <a href="/react#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Features</a>
-          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Pricing</a>
-          <a href="/docs" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link" target="_blank">Docs</a>
-          <a href="/react#examples" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">See live demos</a>
-          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link">Try it for free</a>
+          <a href="/react#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Features</a>
+          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Pricing</a>
+          <a href="/docs" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full" target="_blank">Docs</a>
+          <a href="/react#examples" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">See live demos</a>
+          <a href="/react#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Try it for free</a>
           <div class="flex gap-x-4 w-full justify-end py-2">
             <a href="https://discord.com/invite/Cxj3rzTTag" onclick="toggleMobileMenu()" target="_blank">
               <Image src={discordLogo} alt="Discord logo" class="fill-nav-icon aspect-square w-5 md:w-6" loading="eager" />
@@ -135,27 +135,37 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     window.addEventListener('scroll', handleOpacity);
   });
 
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const hamburger = document.getElementById('nav-hamburger');
-    const close = document.getElementById('nav-close');
-    const navbar = document.getElementById('pageHeader');
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('nav-hamburger');
+  const close = document.getElementById('nav-close');
+  const navbar = document.getElementById('pageHeader');
 
-    if (menu.style.opacity === '0') {
-      menu.style.opacity = '1';
-      hamburger.style.opacity = '0'
-      close.style.opacity = '1'
-      const alphaHex = Math.round(235).toString(16).padStart(2, '0');
-      navbar.style.backgroundColor = `#161127${alphaHex}`;
-    } else {
-      menu.style.opacity = '0';
-      hamburger.style.opacity = '1'
-      close.style.opacity = '0'
+  if (menu.classList.contains('hidden')) {
+    console.log('TOGGLE')
+    menu.classList.remove('hidden');
 
+    hamburger.style.opacity = '0';
+    close.style.opacity = '1';
+    const alphaHex = Math.round(235).toString(16).padStart(2, '0');
+    navbar.style.backgroundColor = `#161127${alphaHex}`;
+
+    setTimeout(() => {
+      menu.style.opacity = '1'
+    }, 100);
+  } else {
+    menu.style.opacity = '0';
+    hamburger.style.opacity = '1';
+    close.style.opacity = '0';
+
+    setTimeout(() => {
+      menu.classList.add('hidden');
       const scrollDistanceLimit = 150;
       const alphaDecimal = Math.min(235, (window.scrollY / scrollDistanceLimit) * 235);
       const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, '0');
       navbar.style.backgroundColor = `#161127${alphaHex}`;
-    }
+      menu.style.opacity = '1';  
+    }, 300);
   }
+}
 </script>
