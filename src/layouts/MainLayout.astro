@@ -10,9 +10,12 @@ interface Props {
   canonicalUrl: string;
   rootHref?: string;
   navbarVariant?: "react" | "main";
+  title?: string;
+  description?: string;
+  keywords?: string;
 }
 
-const { canonicalUrl, rootHref, navbarVariant = "main" } = Astro.props;
+const { canonicalUrl, rootHref, navbarVariant = "main", title="Smelter: Real-time video compositing software", description="Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.", keywords="video compositing, react video compositing, compositing software, real time video editing, live video editing, video mixing, live stream mixing" } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,7 +23,7 @@ const { canonicalUrl, rootHref, navbarVariant = "main" } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta data-rh="true" name="keywords" content="video compositing, react video compositing, compositing software, real time video editing, live video editing, video mixing, live stream mixing">
+    <meta data-rh="true" name="keywords" content={keywords}>
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
     <link rel="shortcut icon" href="/favicons/favicon.ico" />
@@ -35,22 +38,22 @@ const { canonicalUrl, rootHref, navbarVariant = "main" } = Astro.props;
     <slot name="head" />
     <meta name="generator" content={Astro.generator} />
     
-    <meta name="description" content="Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.">
-    <meta property="og:title" content="Smelter: Real-time video compositing software" />
+    <meta name="description" content={description}>
+    <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://smelter.dev/" />
-    <meta property="og:description" content="Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more." />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content="https://smelter.dev/og-image.png">
     <meta property="og:image:alt" content="Toolkit for real-time, programmable multimedia mixing.">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Smelter: Real-time video compositing software" />
-    <meta property="twitter:description" content="Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more." />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
     <meta name=”twitter:image” content="https://smelter.dev/og-image.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="canonical" href={canonicalUrl} />
 
-    <title>Smelter: Real-time video compositing software</title>
+    <title>{title}</title>
     <ClientRouter />
   </head>
   <body class="bg-mainBackground">
