@@ -1,0 +1,70 @@
+---
+import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
+
+---
+<section class="bg-red-900 relative min-h-screen h-fit w-full flex flex-row">
+    <div class="bg-blue-900 flex flex-3 flex-col">
+        <div class="relative flex w-full">
+            <video id="videoBottom" class="absolute top-0 left-0 aspect-video rounded-xl object-cover" playsinline autoplay muted loop>
+                <source src="/example-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video id="videoTop" class="absolute top-0 left-0 aspect-video rounded-xl object-cover" playsinline autoplay muted loop>
+                <source src="/example-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="flex ">
+            <SecondaryButton class="sm:h-10 py-0! px-0!">Test</SecondaryButton>
+            <SecondaryButton class="sm:h-10 py-0! px-0! opacity-25">Test</SecondaryButton>
+        </div>
+    </div>
+    <div class="bg-green-900 flex flex-2"/>
+
+    <!-- <div class="flex flex-1 h-full">
+        <video id="videoBottom" class="absolute top-0 left-0 aspect-video" playsinline autoplay muted loop>
+            <source src="/example-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <video id="videoTop" class="absolute top-0 left-0 w-full h-full aspect-video" playsinline autoplay muted loop>
+            <source src="/example-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="flex flex-1" /> -->
+  
+
+  <!-- <div id="slider" class="absolute top-0 h-full bg-white opacity-75 border-l-2 border-r-2 border-black w-2.5 cursor-ew-resize z-10 left-1/2"></div> -->
+</section>
+
+<script is:inline data-astro-rerun>
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.getElementById('slider');
+  const videoCover = document.getElementById('videoCover');
+  let isDragging = false;
+  
+  slider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    slider.classList.add('opacity-90'); // Change opacity on drag start
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const rect = slider.parentElement.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const width = rect.width;
+      if (x >= 0 && x <= width) {
+        const percentage = x / width * 100;
+        videoCover.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0% 100%)`;
+        slider.style.left = `${x}px`;
+      }
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    slider.classList.remove('opacity-90'); // Reset opacity on drag end
+  });
+});
+</script>
