@@ -46,7 +46,7 @@ const { label, iconUrl, text, buttons } = Astro.props;
                 id="usageReactButton"
                 class="gradient-react !px-4 sm:!px-4 !py-0 !h-12 sm:!h-14"
               >
-                <p class="par-xl capitalize">{label}</p>
+                <p class="par-xl upper-case">{label}</p>
                 <ArrowRight />
               </PrimaryButton>
             ) : (
@@ -58,7 +58,7 @@ const { label, iconUrl, text, buttons } = Astro.props;
                     "text-usage-reactButton hover:text-usage-reactHover",
                 ]}
               >
-                <p class="par-xl capitalize">{label}</p>
+                <p class="par-xl upper-case">{label}</p>
                 <ArrowRight />
               </GhostButton>
             )}

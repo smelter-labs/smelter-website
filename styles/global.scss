@@ -8,6 +8,10 @@ html {
 	scroll-behavior: smooth;
 }
 
+.upper-case::first-letter {
+	text-transform: capitalize;
+}
+
 h1 {
 	font-family: Aeonik;
 	font-weight: 500;
