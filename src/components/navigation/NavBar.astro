@@ -41,13 +41,13 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
   <nav class="flex h-18 md:h-20">
-    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 lg:px-10">
+    <div class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 xl:px-10">
       <a href={rootHref}>
         <Image src={smelterLogo} alt="Smelter logo" class="hidden md:block" loading="eager" />
         <Image src={smelterLogoSmall} alt="Smelter logo" class="md:hidden" loading="eager" />
       </a>
   
-      <div class="lg:hidden flex justify-between items-center min-w-8 min-h-8">
+      <div class="xl:hidden flex justify-between items-center min-w-8 min-h-8">
         <button
           class="relative text-xl text-white min-w-8 min-h-8"
           aria-label="Toggle navigation"
@@ -66,6 +66,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
           <a href="/#features" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Features</a>
           <a href="/#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Pricing</a>
           <a href="/docs" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full" target="_blank">Docs</a>
+          <a href="/#use-cases" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Use cases</a>
           <a href="/#reviews" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Reviews</a>
           <a href="/#use-cases" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">See live demos</a>
           <a href="/#pricing" onclick="toggleMobileMenu()" class="py-2 hover:underline text-nav-link w-full">Try it for free</a>
@@ -80,7 +81,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
         </div>
       </div>
 
-      <div class="items-center hidden lg:flex">
+      <div class="items-center hidden xl:flex">
         <div class="flex items-center">
           <div class="flex items-center gap-x-4 md:gap-x-6 mr-6 md:mr-8">
             <a href="/#features" class="text-white hover:underline">
@@ -91,6 +92,9 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
             </a>
             <a href="/docs" class="text-white hover:underline" target="_blank">
               Docs
+            </a>
+            <a href="/#use-cases" class="text-white hover:underline">
+              Use cases
             </a>
             <a href="/#reviews" class="text-white hover:underline">
               Reviews
