@@ -29,4 +29,7 @@ export const COLORS = {
   green100: "#0C662F",
   green60: "#3DA362",
   green20: "#A4D7AF",
+
+  react100: "#61DAFB",
+  react50: "#61DAFB",
 } as const satisfies Record<string, Color>;

@@ -21,6 +21,7 @@ export default {
       },
       backgroundImage: {
         "gradient-red-5": "linear-gradient(135deg, #F24664 0%, #302555 100%)",
+        // "gradient-react": "linear-gradient(135deg, #61DAFB 0%, #2176FF 100%)",
       },
       boxShadow: {
         "2xl": "0 13px 26px -7px rgba(0, 0, 0, 0.3)",
