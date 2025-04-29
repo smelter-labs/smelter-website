@@ -18,7 +18,7 @@ const { label, iconUrl, text, buttons } = Astro.props;
 ---
 
 <div
-  class="flex flex-col items-center justify-between gap-x-16 gap-y-8 rounded-4xl border border-capabilities-border bg-transparent p-10 transition duration-300 ease-in-out hover:bg-usage-hoverBackground lg:flex-row w-full"
+  class="flex flex-col items-center justify-between gap-x-16 gap-y-8 rounded-4xl border border-capabilities-border bg-transparent p-10 px-6 transition duration-300 ease-in-out hover:bg-usage-hoverBackground lg:flex-row w-full"
 >
   <div class="flex flex-1 flex-col">
     <div class="flex mb-4 gap-x-2">
@@ -28,7 +28,7 @@ const { label, iconUrl, text, buttons } = Astro.props;
     <p class="par-l text-usage-tileText hidden md:block">{text}</p>
   </div>
   <div
-    class="flex gap-x-4 gap-y-1 flex-row lg:flex-col justify-between lg:w-[230px] md:self-start lg:self-center"
+    class="flex flex-col sm:flex-row gap-x-4 gap-y-1 lg:flex-col justify-between lg:w-[230px] md:self-start lg:self-center"
   >
     {
       Object.entries(buttons).map(([label, url]) => {
