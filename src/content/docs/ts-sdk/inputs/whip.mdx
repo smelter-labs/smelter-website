@@ -27,13 +27,17 @@ import Smelter from "@swmansion/smelter-node";
 async function run() {
   const smelter = new Smelter();
   await smelter.init();
-  await smelter.registerInput("example", {
+  const { bearerToken, endpointRoute } = await smelter.registerInput(
+    "example",
+    {
       type: "whip",
       video: { decoder: "ffmpeg_h264" },
       audio: { decoder: "opus" }
-  });
+    }
+  );
   // At this point you can establish WHIP connection to
-  // http://localhost:9000/whip/example
+  // `http://localhost:9000${endpointRoute}` with token
+  // `bearerToken`
 }
 void run();
 ```
