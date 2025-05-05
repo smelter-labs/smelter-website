@@ -15,6 +15,7 @@ export default {
         smd: "1rem",
       },
       spacing: {
+        1.5: "0.375rem",
         17.5: "4.375rem",
         18: "4.5rem",
         "1/6": "16.666667%",
