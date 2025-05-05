@@ -164,7 +164,7 @@ const CAPABILITIES = [
     setAutoScroll();
 
   	window.addEventListener('scroll', handleScroll);
-    window.addEventListener('unload', () => clearInterval(interval));
+    window.addEventListener('pagehide', () => clearInterval(interval));
   });
 </script>
 
