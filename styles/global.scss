@@ -8,6 +8,10 @@ html {
 	scroll-behavior: smooth;
 }
 
+.upper-case::first-letter {
+	text-transform: capitalize;
+}
+
 h1 {
 	font-family: Aeonik;
 	font-weight: 500;
@@ -141,17 +145,11 @@ body {
 			theme("colors.gradient.purple") 100%);
 }
 
-// .gradient-red-5 {
-// 	background: linear-gradient(135deg,
-// 			theme("colors.gradient.red") 0%,
-// 			theme("colors.gradient.purple") 100%);
-// }
-
-// .gradient-red-5-active {
-// 	background: linear-gradient(135deg,
-// 			theme("colors.gradient.red") 0%,
-// 			theme("colors.gradient.red") 120%);
-// }
+.gradient-react {
+	background: linear-gradient(170deg,
+			#61DAFB -20%,
+			#1C4D8C 100% 0%)
+}
 
 .gradient-red-6 {
 	background: linear-gradient(315deg,
