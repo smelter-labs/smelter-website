@@ -30,9 +30,6 @@ export default defineConfig({
     "/http-api": "/http-api/overview",
     "/http-api/renderers": "/http-api/renderers/overview",
   },
-  experimental: {
-    svg: true,
-  },
   prefetch: true,
   vite: {
     plugins: [
@@ -56,7 +53,28 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
-      plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
+      plugins: process.env.ENABLE_LINK_CHECKER
+        ? [
+            starlightLinksValidator(),
+            starlightVersions({
+              versions: [
+                {
+                  slug: "ts-sdk/1.0",
+                  label: "ts-sdk v1.0",
+                },
+              ],
+            }),
+          ]
+        : [
+            starlightVersions({
+              versions: [
+                {
+                  slug: "ts-sdk/1.0",
+                  label: "ts-sdk v1.0",
+                },
+              ],
+            }),
+          ],
       description:
         "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
       social: {
