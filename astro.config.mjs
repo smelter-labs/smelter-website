@@ -8,6 +8,7 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import starlightLinksValidator from "starlight-links-validator";
+import starlightVersions from 'starlight-versions';
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
@@ -53,6 +54,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
+      prerender: false,
       plugins: process.env.ENABLE_LINK_CHECKER
         ? [
             starlightLinksValidator(),

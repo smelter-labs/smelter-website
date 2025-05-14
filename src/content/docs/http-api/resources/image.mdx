@@ -1,15 +1,17 @@
 ---
 title: Image
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+import { Aside, Code } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 Represents an image asset. It can be used via an [Image component](/http-api/components/image).
 
 ## Reference
 
-<CollapsibleDetails summaryTitle='Type definition' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definition" open>
+  <Code
+    code={`
 type Image =
     | { asset_type: "png"; url?: string; path?: string; }
     | { asset_type: "jpeg"; url?: string; path?: string; }
@@ -23,12 +25,15 @@ type Image =
           height: u32,
         };
       }
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 ## Properties
 
 ### asset_type
+
 Format of an image.
 
 - **Type**: `"png" | "jpeg" | "gif" | "svg"`
@@ -36,6 +41,7 @@ Format of an image.
 ---
 
 ### url
+
 Url to download an image. This field is mutually exclusive with the `path` field.
 
 - **Type**: `string`
@@ -43,6 +49,7 @@ Url to download an image. This field is mutually exclusive with the `path` field
 ---
 
 ### path
+
 Path to an image. This field is mutually exclusive with the `url` field.
 
 - **Type**: `string`
@@ -50,6 +57,7 @@ Path to an image. This field is mutually exclusive with the `url` field.
 ---
 
 ### resolution
+
 The resolution to use when rendering an SVG image.
 
 - **Type**: `{ width: u32; height: u32; }`

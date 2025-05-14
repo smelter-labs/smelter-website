@@ -1,15 +1,21 @@
 ---
 title: Image
 ---
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Aside } from '@astrojs/starlight/components';
-import ExampleImage from '../../../../assets/guides/component-image-example.webp';
+
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import { Aside } from "@astrojs/starlight/components";
+import ExampleImage from "@assets/guides/component-image-example.webp";
 
 A component for rendering images:
+
 - From external URLs
 - From a local path
 
-<Aside> To use this component, you need to first register the image with matching `image_id` using [`register image`](/http-api/routes#register-image) request. </Aside>
+<Aside>
+  {" "}
+  To use this component, you need to first register the image with matching `image_id`
+  using [`register image`](/http-api/routes#register-image) request.{" "}
+</Aside>
 
 ## Usage
 
@@ -52,9 +58,10 @@ Content-Type: application/json
   }
 }
 ```
+
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Example output'>
+<CollapsibleDetails summaryTitle="Example output">
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
@@ -69,10 +76,10 @@ type Image = {
 ```
 </CollapsibleDetails>
 
-
 ## Properties
 
 ### id
+
 ID of a component.
 
 - **Type**: `string`
@@ -80,6 +87,7 @@ ID of a component.
 ---
 
 ### image_id
+
 ID of an image. It identifies an image registered using a [register image](/http-api/routes#register-image) request.
 
 - **Type**: `string`
