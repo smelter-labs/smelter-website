@@ -15,37 +15,9 @@ Each of the following examples is testing max number of inputs and outputs that 
 
 You can see the most important benchmarks below. Visit our [GitHub repository](https://github.com/software-mansion/smelter/tree/master/integration_tests/benchmarks) for more results and the exact implementation of the benchmarks.
 
-### `c5.2xlarge` 8vCPU 16GB
+### `g4dn.xlarge`
 
-- **Input**: 720p24fps, **Output**: 720p24fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **1** | **1** |
-  | 1:1 | veryfast | **1** | **1** |
-  | 1:1 | fast | **1** | **1** |
-  | 2:1 | ultrafast | **2** | **1** |
-  | 2:1 | veryfast | **2** | **1** |
-  | 2:1 | fast | **2** | **1** |
-  | 4:1 | ultrafast | **4** | **1** |
-  | 4:1 | veryfast | **-** | **-** |
-  | 4:1 | fast | **-** | **-** |
-
-### `c5.4xlarge` 16vCPU 32GB
-
-- **Input**: 720p24fps, **Output**: 720p24fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **3** | **3** |
-  | 1:1 | veryfast | **3** | **3** |
-  | 1:1 | fast | **2** | **2** |
-  | 2:1 | ultrafast | **6** | **3** |
-  | 2:1 | veryfast | **4** | **2** |
-  | 2:1 | fast | **4** | **2** |
-  | 4:1 | ultrafast | **4** | **1** |
-  | 4:1 | veryfast | **4** | **1** |
-  | 4:1 | fast | **4** | **1** |
-
-### `g4dn.xlarge` 4vCPU 16GB + GPU Nvidia T4
+**4vCPU 16GB, GPU Nvidia T4**
 
 - **Input**: 720p24fps, **Output**: 720p24fps
   | Input/output ratio | Encoder preset | Max inputs | Max outputs |
@@ -73,7 +45,9 @@ You can see the most important benchmarks below. Visit our [GitHub repository](h
   | 4:1 | veryfast | **8** | **2** |
   | 4:1 | fast | **-** | **-** |
 
-### `c4dn.2xlarge` 16vCPU 32GB + GPU Nvidia T4
+### `c4dn.2xlarge`
+
+**16vCPU 32GB, GPU Nvidia T4**
 
 - **Input**: 720p24fps, **Output**: 720p24fps
   | Input/output ratio | Encoder preset | Max inputs | Max outputs |
@@ -88,7 +62,7 @@ You can see the most important benchmarks below. Visit our [GitHub repository](h
   | 4:1 | veryfast | **36** | **9** |
   | 4:1 | fast | **16** | **4** |
 
-- **Input**: 1080p 30fps, **Output**: 1080p 30fps
+- **Input**: 1080p30fps, **Output**: 1080p30fps
   | Input/output ratio | Encoder preset | Max inputs | Max outputs |
   | ------------------ | -------------- | ---------- | ----------- |
   | 1:1 | ultrafast | **10** | **10** |
@@ -106,3 +80,37 @@ A possible explanation for that case is that when rendering 2 inputs on an outpu
 might be easier to encode. Additionally, inputs are hardware decoded, so the difference between 6 vs 2 inputs might not be significant.
 
 The same effect is visible in few other cases.
+
+### `c5.2xlarge`
+
+**8vCPU 16GB**
+
+- **Input**: 720p24fps, **Output**: 720p24fps
+  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
+  | ------------------ | -------------- | ---------- | ----------- |
+  | 1:1 | ultrafast | **1** | **1** |
+  | 1:1 | veryfast | **1** | **1** |
+  | 1:1 | fast | **1** | **1** |
+  | 2:1 | ultrafast | **2** | **1** |
+  | 2:1 | veryfast | **2** | **1** |
+  | 2:1 | fast | **2** | **1** |
+  | 4:1 | ultrafast | **4** | **1** |
+  | 4:1 | veryfast | **-** | **-** |
+  | 4:1 | fast | **-** | **-** |
+
+### `c5.4xlarge`
+
+**16vCPU 32GB**
+
+- **Input**: 720p24fps, **Output**: 720p24fps
+  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
+  | ------------------ | -------------- | ---------- | ----------- |
+  | 1:1 | ultrafast | **3** | **3** |
+  | 1:1 | veryfast | **3** | **3** |
+  | 1:1 | fast | **2** | **2** |
+  | 2:1 | ultrafast | **6** | **3** |
+  | 2:1 | veryfast | **4** | **2** |
+  | 2:1 | fast | **4** | **2** |
+  | 4:1 | ultrafast | **4** | **1** |
+  | 4:1 | veryfast | **4** | **1** |
+  | 4:1 | fast | **4** | **1** |
