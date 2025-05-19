@@ -1,0 +1,83 @@
+import starlightVersionsConfig from 'virtual:starlight-versions-config'
+import starlightConfig from 'virtual:starlight/user-config'
+import { type StarlightRouteData, defineRouteMiddleware } from '@astrojs/starlight/route-data'
+
+import { type Version, getVersionFromPaginationLink, getVersionFromSlug, getVersionSidebar } from './libs/versions'
+
+const versionRegex = /(?:ts-sdk|http-api)\/\d+(\.\d+)*/;
+const versionedSectionRegex = /(?:ts-sdk|http-api)\//;
+
+function containsHref(entries: any[], regex: RegExp): boolean {
+    return entries.some(entry => {
+        if (entry.type === 'link' && entry.href && regex.test(entry.href)) {
+            return true;
+        }
+        if (entry.type === 'group' && entry.entries) {
+            return containsHref(entry.entries, regex); // Recursive search in the case of nested groups
+        }
+        return false;
+    });
+}
+
+function filterGroups(groups: any[], regex: RegExp): any[] {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+    return groups.filter(group => !containsHref(group.entries, regex));
+}
+
+export const onRequest = defineRouteMiddleware(async (context, next) => {
+
+  const { starlightRoute } = context.locals
+  const { entry, locale, pagination, sidebar } = starlightRoute
+
+  const uriVersion = entry.slug.split('/').splice(0,2).join('/')
+  const selectedVersion = context.cookies.get('selectedVersion')
+  
+  const version = versionRegex.test(uriVersion) ? uriVersion : selectedVersion?.value
+  // if(selectedVersion?.value && !entry.id.includes(selectedVersion.value) && selectedVersion?.value.includes('ts-sdk/')) {
+  //   console.log('TEST 123')
+  //   context.redirect(entry.id.replace('.mdx', '').replace('ts-sdk/', selectedVersion?.value ))
+  //   return next()
+  // }
+
+  const currentSidebarEntries = filterGroups(getVersionSidebar(
+    getVersionFromSlug(starlightVersionsConfig, starlightConfig, ''),
+    sidebar,
+  ), versionRegex)
+
+  const baseSidebarEntries = filterGroups(currentSidebarEntries, versionedSectionRegex)
+
+  const versionSidebarEntries = version ? getVersionSidebar(
+    getVersionFromSlug(starlightVersionsConfig, starlightConfig, version),
+    sidebar,
+  ) : []
+  
+  // console.log('versionSidebarEntries ',JSON.stringify(currentSidebarEntries, null, 2))
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  starlightRoute.sidebar =  version && getVersionFromSlug(starlightVersionsConfig, starlightConfig, version) ? [...baseSidebarEntries, ...versionSidebarEntries] : currentSidebarEntries
+  
+  const pageVersion = getVersionFromSlug(starlightVersionsConfig, starlightConfig, entry.slug)
+
+  starlightRoute.pagination.prev = getPaginationLink(locale, pageVersion, pagination.prev)
+  starlightRoute.pagination.next = getPaginationLink(locale, pageVersion, pagination.next)
+
+  if(versionRegex.test(entry.slug) && (!selectedVersion || selectedVersion.value === 'current') ) {
+    context.cookies.delete('selectedVersion')
+    context.cookies.set('selectedVersion', "ts-sdk/1.0", { sameSite: 'strict', secure: true, path: '/'})
+  }
+
+  return next()
+})
+
+function getPaginationLink(locale: string | undefined, currentVersion: Version | undefined, link: PaginationLink) {
+  if (!link) return undefined
+
+  const linkVersion = getVersionFromPaginationLink(starlightVersionsConfig, link.href, locale)
+
+  // If the current version is not the same as the link version, remove the link.
+  return (currentVersion === undefined && linkVersion === undefined) || currentVersion?.slug === linkVersion?.slug
+    ? link
+    : undefined
+}
+
+type PaginationLink = StarlightRouteData['pagination']['next']
