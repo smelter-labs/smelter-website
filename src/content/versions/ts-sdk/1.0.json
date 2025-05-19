@@ -1,44 +1,6 @@
 {
   "sidebar": [
     {
-      "label": "Fundamentals",
-      "items": [
-        {
-          "label": "Getting started",
-          "slug": "fundamentals/getting-started"
-        },
-        {
-          "label": "Glossary of terms",
-          "slug": "fundamentals/glossary"
-        },
-        {
-          "label": "Concepts",
-          "autogenerate": {
-            "directory": "fundamentals/concepts"
-          }
-        }
-      ]
-    },
-    {
-      "label": "Deployment",
-      "items": [
-        {
-          "label": "Setup",
-          "slug": "deployment/setup"
-        },
-        {
-          "label": "Configuration",
-          "slug": "deployment/configuration"
-        },
-        {
-          "label": "Variants",
-          "autogenerate": {
-            "directory": "deployment/variants"
-          }
-        }
-      ]
-    },
-    {
       "label": "TypeScript SDK",
       "items": [
         {
@@ -111,58 +73,6 @@
           "collapsed": true,
           "autogenerate": {
             "directory": "ts-sdk/guides"
-          }
-        }
-      ]
-    },
-    {
-      "label": "HTTP API",
-      "items": [
-        {
-          "label": "Overview",
-          "slug": "http-api/overview"
-        },
-        {
-          "label": "Routes",
-          "slug": "http-api/routes"
-        },
-        {
-          "label": "Events",
-          "slug": "http-api/events"
-        },
-        {
-          "label": "Components",
-          "collapsed": true,
-          "autogenerate": {
-            "directory": "http-api/components"
-          }
-        },
-        {
-          "label": "Inputs",
-          "collapsed": true,
-          "autogenerate": {
-            "directory": "http-api/inputs"
-          }
-        },
-        {
-          "label": "Outputs",
-          "collapsed": true,
-          "autogenerate": {
-            "directory": "http-api/outputs"
-          }
-        },
-        {
-          "label": "Resources",
-          "collapsed": true,
-          "autogenerate": {
-            "directory": "http-api/resources"
-          }
-        },
-        {
-          "label": "Guides",
-          "collapsed": true,
-          "autogenerate": {
-            "directory": "http-api/guides"
           }
         }
       ]

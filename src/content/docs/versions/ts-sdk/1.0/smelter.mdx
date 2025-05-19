@@ -54,12 +54,12 @@ registerEventListener(cb: (event: unknown) => void): void;
 
 Configures how the client code will connect and manage a Smelter server. Smelter SDK provides 2 implementations that you can use or extend:
 
-* [`LocallySpawnedInstnaceManager`](/ts-sdk/1.0/ts-sdk/managers/node-locally-spawned) (**default**) - Automatically download the necessary Smelter binaries and launch the server on your local machine.
-* [`ExistingInstanceManager`](/ts-sdk/1.0/ts-sdk/managers/node-existing-instance) - Connect to a smelter server instance that is already running.
+* [`LocallySpawnedInstnaceManager`](/ts-sdk/1.0/managers/node-locally-spawned) (**default**) - Automatically download the necessary Smelter binaries and launch the server on your local machine.
+* [`ExistingInstanceManager`](/ts-sdk/1.0/managers/node-existing-instance) - Connect to a smelter server instance that is already running.
 
 <br />
 
-* **Type**: [`SmelterManager`](/ts-sdk/1.0/ts-sdk/smelter#runtime-nodejs)
+* **Type**: [`SmelterManager`](/ts-sdk/1.0/smelter#runtime-nodejs)
 
 ### Runtime: Browser (WASM)
 
@@ -81,7 +81,7 @@ type WebWasmSmelterOptions = {
   />
 </CollapsibleDetails>
 
-See [WebWasmSmelterOptions](/ts-sdk/1.0/ts-sdk/managers/web-wasm/#webwasmsmelteroptions) to learn more.
+See [WebWasmSmelterOptions](/ts-sdk/1.0/managers/web-wasm/#webwasmsmelteroptions) to learn more.
 
 ## init()
 
@@ -165,15 +165,15 @@ Register external destination that can be used as a smelter output. Visit output
 
 `@swmansion/smelter-node`:
 
-* [RTP](/ts-sdk/1.0/ts-sdk/outputs/rtp)
-* [MP4](/ts-sdk/1.0/ts-sdk/outputs/mp4)
-* [WHIP](/ts-sdk/1.0/ts-sdk/outputs/whip)
+* [RTP](/ts-sdk/1.0/outputs/rtp)
+* [MP4](/ts-sdk/1.0/outputs/mp4)
+* [WHIP](/ts-sdk/1.0/outputs/whip)
 
 `@swmansion/smelter-web-wasm`
 
-* [Canvas (Web API)](/ts-sdk/1.0/ts-sdk/outputs/wasm-canvas)
-* [MediaStream (Web API)](/ts-sdk/1.0/ts-sdk/outputs/wasm-stream)
-* [WHIP (Web API)](/ts-sdk/1.0/ts-sdk/outputs/wasm-whip)
+* [Canvas (Web API)](/ts-sdk/1.0/outputs/wasm-canvas)
+* [MediaStream (Web API)](/ts-sdk/1.0/outputs/wasm-stream)
+* [WHIP (Web API)](/ts-sdk/1.0/outputs/wasm-whip)
 
 ## unregisterOutput()
 
@@ -228,16 +228,16 @@ Register external source that can be used as a smelter input. Visit input docume
 
 `@swmansion/smelter-node`
 
-* [RTP](/ts-sdk/1.0/ts-sdk/inputs/rtp)
-* [MP4](/ts-sdk/1.0/ts-sdk/inputs/mp4)
-* [WHIP](/ts-sdk/1.0/ts-sdk/inputs/whip)
+* [RTP](/ts-sdk/1.0/inputs/rtp)
+* [MP4](/ts-sdk/1.0/inputs/mp4)
+* [WHIP](/ts-sdk/1.0/inputs/whip)
 
 `@swmansion/smelter-web-wasm`
 
-* [Camera (Web API)](/ts-sdk/1.0/ts-sdk/inputs/wasm-camera)
-* [Screen capture (Web API)](/ts-sdk/1.0/ts-sdk/inputs/wasm-screen)
-* [MediaStream (Web API)](/ts-sdk/1.0/ts-sdk/inputs/wasm-stream)
-* [MP4](/ts-sdk/1.0/ts-sdk/inputs/mp4)
+* [Camera (Web API)](/ts-sdk/1.0/inputs/wasm-camera)
+* [Screen capture (Web API)](/ts-sdk/1.0/inputs/wasm-screen)
+* [MediaStream (Web API)](/ts-sdk/1.0/inputs/wasm-stream)
+* [MP4](/ts-sdk/1.0/inputs/mp4)
 
 ## unregisterInput()
 
@@ -258,7 +258,7 @@ image: Renderers.RegisterImage,
   lang="tsx"
 />
 
-Register an image asset. See [RegisterImage](/ts-sdk/1.0/ts-sdk/resources/image) to learn more.
+Register an image asset. See [RegisterImage](/ts-sdk/1.0/resources/image) to learn more.
 
 ## unregisterImage()
 
@@ -279,7 +279,7 @@ shader: Renderers.RegisterShader,
   lang="tsx"
 />
 
-Register a shader. See [RegisterShader](/ts-sdk/1.0/ts-sdk/resources/shader) to learn more.
+Register a shader. See [RegisterShader](/ts-sdk/1.0/resources/shader) to learn more.
 
 ## unregisterShader()
 
@@ -300,7 +300,7 @@ instance: Renderers.RegisterWebRenderer,
   lang="tsx"
 />
 
-Register a web renderer instance. See [RegisterWebRenderer](/ts-sdk/1.0/ts-sdk/resources/web-renderer) to learn more.
+Register a web renderer instance. See [RegisterWebRenderer](/ts-sdk/1.0/resources/web-renderer) to learn more.
 
 ## unregisterWebRenderer()
 

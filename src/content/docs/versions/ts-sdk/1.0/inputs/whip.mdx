@@ -19,7 +19,7 @@ An input type that allows streaming video and audio to Smelter over WHIP.
 Smelter exposes WHIP endpoint on port 9000 under `/whip/:input_id` route. A different port can be
 configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/ts-sdk/1.0/deployment/configuration#smelter_whip_whep_server_port).
 
-To connect new input, register it first with [`Smelter.registerInput`](/ts-sdk/1.0/ts-sdk/smelter#registerinput) and
+To connect new input, register it first with [`Smelter.registerInput`](/ts-sdk/1.0/smelter#registerinput) and
 then establish a WHIP connection.
 
 ## Usage
@@ -69,7 +69,7 @@ Parameters for registering an WHIP endpoint as an input.
 
 Parameters of a video included in the WHIP stream.
 
-* **Type**: [`InputWhipVideoOptions`](/ts-sdk/1.0/ts-sdk/inputs/whip#inputwhipvideooptions)
+* **Type**: [`InputWhipVideoOptions`](/ts-sdk/1.0/inputs/whip#inputwhipvideooptions)
 
 ***
 
@@ -77,7 +77,7 @@ Parameters of a video included in the WHIP stream.
 
 Parameters of an audio included in the WHIP stream.
 
-* **Type**: [`InputWhipAudioOptions`](/ts-sdk/1.0/ts-sdk/inputs/whip#inputwhipaudiooptions)
+* **Type**: [`InputWhipAudioOptions`](/ts-sdk/1.0/inputs/whip#inputwhipaudiooptions)
 
 ***
 
