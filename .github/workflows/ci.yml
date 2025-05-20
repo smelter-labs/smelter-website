@@ -40,7 +40,7 @@ jobs:
           node-version-file: ".nvmrc"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run astro check
         run: pnpm run astrocheck
