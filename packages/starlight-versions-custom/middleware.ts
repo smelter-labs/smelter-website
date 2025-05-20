@@ -25,7 +25,6 @@ function filterGroups(groups: any[], regex: RegExp): any[] {
 }
 
 export const onRequest = defineRouteMiddleware(async (context, next) => {
-
   const { starlightRoute } = context.locals
   const { entry, locale, pagination, sidebar } = starlightRoute
 
@@ -33,11 +32,6 @@ export const onRequest = defineRouteMiddleware(async (context, next) => {
   const selectedVersion = context.cookies.get('selectedVersion')
   
   const version = versionRegex.test(uriVersion) ? uriVersion : selectedVersion?.value
-  // if(selectedVersion?.value && !entry.id.includes(selectedVersion.value) && selectedVersion?.value.includes('ts-sdk/')) {
-  //   console.log('TEST 123')
-  //   context.redirect(entry.id.replace('.mdx', '').replace('ts-sdk/', selectedVersion?.value ))
-  //   return next()
-  // }
 
   const currentSidebarEntries = filterGroups(getVersionSidebar(
     getVersionFromSlug(starlightVersionsConfig, starlightConfig, ''),
@@ -50,8 +44,6 @@ export const onRequest = defineRouteMiddleware(async (context, next) => {
     getVersionFromSlug(starlightVersionsConfig, starlightConfig, version),
     sidebar,
   ) : []
-  
-  // console.log('versionSidebarEntries ',JSON.stringify(currentSidebarEntries, null, 2))
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   starlightRoute.sidebar =  version && getVersionFromSlug(starlightVersionsConfig, starlightConfig, version) ? [...baseSidebarEntries, ...versionSidebarEntries] : currentSidebarEntries
@@ -63,7 +55,15 @@ export const onRequest = defineRouteMiddleware(async (context, next) => {
 
   if(versionRegex.test(entry.slug) && (!selectedVersion || selectedVersion.value === 'current') ) {
     context.cookies.delete('selectedVersion')
-    context.cookies.set('selectedVersion', "ts-sdk/1.0", { sameSite: 'strict', secure: true, path: '/'})
+    context.cookies.set('selectedVersion', uriVersion, { sameSite: 'strict', secure: true, path: '/'})
+  }
+
+  console.log('REDIRECT 1 ', entry.slug)
+
+  if(!versionRegex.test(entry.slug) && (entry.slug.includes('ts-sdk/') || entry.slug.includes('http-api/')) && (selectedVersion && selectedVersion.value !== 'current') ) {
+    console.log(`TEST /${entry.slug.replace('ts-sdk', selectedVersion.value)}`)
+    const test = `/${entry.slug.replace('ts-sdk', selectedVersion.value)}`
+    return next()
   }
 
   return next()

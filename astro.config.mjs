@@ -17,6 +17,8 @@ import vercel from "@astrojs/vercel";
 
 import react from "@astrojs/react";
 
+import node from "@astrojs/node";
+
 const require = createRequire(import.meta.url);
 
 export default defineConfig({
@@ -32,6 +34,7 @@ export default defineConfig({
     "/http-api/renderers": "/http-api/renderers/overview",
   },
   prefetch: true,
+  output: 'server',
   vite: {
     plugins: [
       viteStaticCopy({
@@ -265,5 +268,7 @@ export default defineConfig({
     ],
   },
 
-  adapter: vercel(),
+  adapter: node({
+    mode: "standalone",
+  }),
 });
