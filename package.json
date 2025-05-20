@@ -52,10 +52,5 @@
     "sass-embedded": "^1.83.4",
     "starlight-links-validator": "^0.14.3",
     "vite-plugin-static-copy": "^2.2.0"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@astrojs/starlight@0.32.0": "patches/@astrojs__starlight@0.32.0.patch"
-    }
   }
 }
