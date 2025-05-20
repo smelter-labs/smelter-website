@@ -3702,8 +3702,8 @@ packages:
       typescript: ^4.9.4 || ^5.0.2
       zod: ^3
 
-  zod@3.24.4:
-    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+  zod@3.25.7:
+    resolution: {integrity: sha512-YGdT1cVRmKkOg6Sq7vY7IkxdphySKnXhaUmFI4r4FcuFVNgpCb9tZfNwXbT6BPjD5oz0nubFsoo9pIqKrDcCvg==}
 
   zustand@5.0.4:
     resolution: {integrity: sha512-39VFTN5InDtMd28ZhjLyuTnlytDr9HfwO512Ai4I8ZABCoyAj4F1+sr7sD1jP/+p7k77Iko0Pb5NhgBFDCX0kQ==}
@@ -3963,7 +3963,7 @@ snapshots:
     dependencies:
       sitemap: 8.0.0
       stream-replace-string: 2.0.0
-      zod: 3.24.4
+      zod: 3.25.7
 
   '@astrojs/starlight-docsearch@0.5.0(@algolia/client-search@5.25.0)(@astrojs/starlight@0.32.0(patch_hash=8b36d5e35fb0f232a29b365910ada310a869af4412d0b7dd6e0aeac76642170a)(astro@5.7.13(@types/node@22.15.19)(jiti@1.21.7)(rollup@4.41.0)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0)))(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)':
     dependencies:
@@ -5109,9 +5109,9 @@ snapshots:
       xxhash-wasm: 1.1.0
       yargs-parser: 21.1.1
       yocto-spinner: 0.2.2
-      zod: 3.24.4
-      zod-to-json-schema: 3.24.5(zod@3.24.4)
-      zod-to-ts: 1.2.0(typescript@5.8.3)(zod@3.24.4)
+      zod: 3.25.7
+      zod-to-json-schema: 3.24.5(zod@3.25.7)
+      zod-to-ts: 1.2.0(typescript@5.8.3)(zod@3.25.7)
     optionalDependencies:
       sharp: 0.33.5
     transitivePeerDependencies:
@@ -8065,16 +8065,16 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zod-to-json-schema@3.24.5(zod@3.24.4):
+  zod-to-json-schema@3.24.5(zod@3.25.7):
     dependencies:
-      zod: 3.24.4
+      zod: 3.25.7
 
-  zod-to-ts@1.2.0(typescript@5.8.3)(zod@3.24.4):
+  zod-to-ts@1.2.0(typescript@5.8.3)(zod@3.25.7):
     dependencies:
       typescript: 5.8.3
-      zod: 3.24.4
+      zod: 3.25.7
 
-  zod@3.24.4: {}
+  zod@3.25.7: {}
 
   zustand@5.0.4(@types/react@18.3.1)(react@18.3.1):
     optionalDependencies:

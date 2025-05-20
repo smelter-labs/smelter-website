@@ -13,8 +13,6 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
 
-import vercel from "@astrojs/vercel";
-
 import react from "@astrojs/react";
 
 import node from "@astrojs/node";
