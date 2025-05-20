@@ -1,2 +1,4 @@
 patchedDependencies:
-  '@astrojs/starlight@0.32.0': patches/@astrojs__starlight@0.32.0.patch
+  "@astrojs/starlight@0.32.0": patches/@astrojs__starlight@0.32.0.patch
+packages:
+  - "."
