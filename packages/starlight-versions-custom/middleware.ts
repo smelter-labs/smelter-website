@@ -58,14 +58,6 @@ export const onRequest = defineRouteMiddleware(async (context, next) => {
     context.cookies.set('selectedVersion', uriVersion, { sameSite: 'strict', secure: true, path: '/'})
   }
 
-  console.log('REDIRECT 1 ', entry.slug)
-
-  if(!versionRegex.test(entry.slug) && (entry.slug.includes('ts-sdk/') || entry.slug.includes('http-api/')) && (selectedVersion && selectedVersion.value !== 'current') ) {
-    console.log(`TEST /${entry.slug.replace('ts-sdk', selectedVersion.value)}`)
-    const test = `/${entry.slug.replace('ts-sdk', selectedVersion.value)}`
-    return next()
-  }
-
   return next()
 })
 
