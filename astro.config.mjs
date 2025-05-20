@@ -15,7 +15,7 @@ import sitemap from "@astrojs/sitemap";
 
 import react from "@astrojs/react";
 
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 
 const require = createRequire(import.meta.url);
 
@@ -31,8 +31,10 @@ export default defineConfig({
     "/http-api": "/http-api/overview",
     "/http-api/renderers": "/http-api/renderers/overview",
   },
+
   prefetch: true,
   output: "server",
+
   vite: {
     plugins: [
       viteStaticCopy({
@@ -52,6 +54,7 @@ export default defineConfig({
       include: ["@swmansion/smelter-web-wasm > pino"],
     },
   },
+
   integrations: [
     starlight({
       title: "Smelter",
@@ -267,7 +270,5 @@ export default defineConfig({
     ],
   },
 
-  adapter: node({
-    mode: "standalone",
-  }),
+  adapter: vercel(),
 });
