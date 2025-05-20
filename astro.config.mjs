@@ -8,7 +8,7 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import starlightLinksValidator from "starlight-links-validator";
-import starlightVersions from 'starlight-versions';
+import starlightVersions from "starlight-versions";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
@@ -34,7 +34,7 @@ export default defineConfig({
     "/http-api/renderers": "/http-api/renderers/overview",
   },
   prefetch: true,
-  output: 'server',
+  output: "server",
   vite: {
     plugins: [
       viteStaticCopy({

@@ -44,6 +44,12 @@
       "formatter": {
         "lineWidth": 75
       }
+    },
+    {
+      "include": ["src/content/docs/versions/**/*/examples/**/*.tsx"],
+      "formatter": {
+        "lineWidth": 75
+      }
     }
   ]
 }
