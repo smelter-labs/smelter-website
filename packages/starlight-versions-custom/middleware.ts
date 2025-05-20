@@ -53,9 +53,18 @@ export const onRequest = defineRouteMiddleware(async (context, next) => {
   starlightRoute.pagination.prev = getPaginationLink(locale, pageVersion, pagination.prev)
   starlightRoute.pagination.next = getPaginationLink(locale, pageVersion, pagination.next)
 
+
+  const isPathVersionless = !versionRegex.test(entry.slug) && versionedSectionRegex.test(entry.slug);
+
+  console.log('IS PATH VERSIONLESS ', isPathVersionless)
+  // console.log('SELECTED VERSION ', selectedVersion)
   if(versionRegex.test(entry.slug) && (!selectedVersion || selectedVersion.value === 'current') ) {
     context.cookies.delete('selectedVersion')
     context.cookies.set('selectedVersion', uriVersion, { sameSite: 'strict', secure: true, path: '/'})
+  }
+  if(isPathVersionless) {
+    context.cookies.delete('selectedVersion')
+    context.cookies.set('selectedVersion', 'current', { sameSite: 'strict', secure: true, path: '/'})
   }
 
   return next()
