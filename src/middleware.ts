@@ -16,15 +16,15 @@ export const onRequest = defineMiddleware((context, next) => {
     return context.redirect(test);
   }
 
-  if (
-    isPathVersionless &&
-    selectedVersion &&
-    selectedVersion.value !== "current"
-  ) {
-    const [versionName] = selectedVersion.value.split("/");
-    const test = `${pathname.replace(versionName, selectedVersion.value)}`;
-    return context.redirect(test);
-  }
+  // if (
+  //   isPathVersionless &&
+  //   selectedVersion &&
+  //   selectedVersion.value !== "current"
+  // ) {
+  //   const [versionName] = selectedVersion.value.split("/");
+  //   const test = `${pathname.replace(versionName, selectedVersion.value)}`;
+  //   return context.redirect(test);
+  // }
 
   return next();
 });
