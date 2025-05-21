@@ -3,7 +3,7 @@ title: WHIP
 hide_table_of_contents: true
 ---
 import { Aside } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from Smelter over WHIP.
 
@@ -274,7 +274,7 @@ Condition for termination of the output stream based on the input streams states
 
 #### encoder_preferences
 An ordered list of preferred audio encoders. The first element in the list has the highest priority during WHIP negotiation.
-- **Type**: [`WhipAudioEncoderOptions`](#whipaudioencoderoptions)
+- **Type**: [`WhipAudioEncoderOptions`](#whipaudioencoderoptions)[]
 - **Default value**: `[{ type: "any" }]`
 
 Behavior:
