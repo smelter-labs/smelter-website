@@ -47,6 +47,8 @@ export const DARK_THEME = {
       tileText: COLORS.white100,
       hoverBackground: COLORS.black75,
       hoverText: COLORS.red40,
+      reactButton: COLORS.react50,
+      reactHover: COLORS.react100,
     },
     example: {
       border: COLORS.white25,

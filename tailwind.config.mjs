@@ -15,12 +15,14 @@ export default {
         smd: "1rem",
       },
       spacing: {
+        1.5: "0.375rem",
         17.5: "4.375rem",
         18: "4.5rem",
         "1/6": "16.666667%",
       },
       backgroundImage: {
         "gradient-red-5": "linear-gradient(135deg, #F24664 0%, #302555 100%)",
+        // "gradient-react": "linear-gradient(135deg, #61DAFB 0%, #2176FF 100%)",
       },
       boxShadow: {
         "2xl": "0 13px 26px -7px rgba(0, 0, 0, 0.3)",
