@@ -33,7 +33,7 @@ const httpVersions = versions.filter((version) => version.slug.includes('http-ap
   <label>
     <span class="sr-only">Select version</span>
     <Icon name={iconName} class="icon label-icon" />
-    <select id="version-select" value={activeVersion ?? 'current'} autocomplete="off">
+    <select value={activeVersion ?? 'current'} autocomplete="off">
       <option selected={activeVersion === undefined} value={'current'}>{starlightVersionsConfig.current.label}</option>
       {(tsVersions.length > 0 || httpVersions.length > 0) && <option disabled>──────────</option>}
 
