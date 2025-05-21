@@ -12,6 +12,7 @@ export const onRequest = defineMiddleware((context, next) => {
   if (
     context.url.searchParams.has('bannerRedirect')
   ) {
+    context.cookies.set('selectedVersion', 'current')
     const test = `${pathname.replace('?bannerRedirect', '')}`;
     return context.redirect(test);
   }
