@@ -3,8 +3,8 @@ title: SlideShow
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 import slideShowExample from './examples/SlideShow.tsx?raw';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import ExampleImage from '../../../../assets/guides/component-slide-show-example.mp4';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import ExampleImage from '@assets/guides/component-slide-show-example.mp4';
 
 The `SlideShow` component serves as utility to chain series of scene one after the other. It can only accept `Slide` components as children.
 After it is mounted it will start showing slides sequentially one after the other. How long single slide shows up is evaluated as follows:
