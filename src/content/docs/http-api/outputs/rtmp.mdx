@@ -1,13 +1,13 @@
 ---
-title: MP4
+title: RTMP
 ---
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
-An output type that allows saving video and audio from Smelter to MP4 file.
+An output type that allows streaming video and audio from Smelter over RTMP.
 
 ## Usage
 
-To use MP4 Output you need to register it first.
+To use RTMP Output you need to register it first.
 <CollapsibleDetails summaryTitle='Example request' open>
 
 ```http
@@ -15,8 +15,8 @@ POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-  "type": "mp4",
-  "path": "/path/to/file.mp4",
+  "type": "rtmp_client",
+  "url": "https://example.com/rtmp",
   "video": {
     "resolution": { "width": 1280, "height": 720 },
     "encoder": { "type": "ffmpeg_h264" },
@@ -30,7 +30,7 @@ Content-Type: application/json
     "encoder": { "type": "aac" },
     "channels": "stereo",
     "initial": {
-      "inputs": [{ "input_id": "input_1", "volume": 1 }]
+      "inputs": [{ "input_id": "input_1" }]
     }
   }
 }
@@ -44,19 +44,19 @@ See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type Mp4Output = {
-  type: "mp4";
-  path: string;
-  video?: Mp4VideoOptions;
-  audio?: Mp4AudioOptions;
+type RtmpClientOutput = {
+  type: "rtmp_client";
+  url: string;
+  video?: RtmpClientVideoOptions;
+  audio?: RtmpClientAudioOptions;
 }
 ```
 </CollapsibleDetails>
 
 ## Properties
 
-### path
-Path to output MP4 file.
+### url
+RTMP endpoint url.
 
 - **Type**: `string`
 
@@ -65,26 +65,26 @@ Path to output MP4 file.
 ### video
 Video track configuration.
 
-- **Type**: [`Mp4VideoOptions`](#mp4videooptions)
+- **Type**: [`RtmpClientVideoOptions`](#rtmpclientvideooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`Mp4AudioOptions`](#mp4audiooptions)
+- **Type**: [`RtmpClientAudioOptions`](#rtmpclientaudiooptions)
 
-## Mp4VideoOptions
+## RtmpClientVideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4VideoOptions = {
+type RtmpClientVideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: Mp4VideoEncoderOptions;
+  encoder: RtmpClientVideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -109,7 +109,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`Mp4VideoEncoderOptions`](#mp4videoencoderoptions)
+- **Type**: [`RtmpClientVideoEncoderOptions`](#rtmpclientvideoencoderoptions)
 
 ---
 
@@ -118,7 +118,7 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 - **Type**: `{ root: Component; }`
 
-## Mp4VideoEncoderOptions
+## RtmpClientVideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
@@ -166,13 +166,13 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Mp4AudioOptions
+## RtmpClientAudioOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioOptions = {
+type RtmpClientAudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: Mp4AudioEncoderOptions;
+  encoder: RtmpClientAudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -202,7 +202,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`Mp4AudioEncoderOptions`](#mp4audioencoderoptions)
+- **Type**: [`RtmpClientAudioEncoderOptions`](#rtmpclientaudioencoderoptions)
 
 #### channels
 Channels configuration
@@ -219,11 +219,11 @@ Initial audio mixer configuration for output.
 - **Type**: `{ inputs: InputAudio[]; }`
 
 
-## Mp4AudioEncoderOptions
+## RtmpClientAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioEncoderOptions = {
+type RtmpClientAudioEncoderOptions = {
   type: "aac";
   sample_rate?: u32;
 }

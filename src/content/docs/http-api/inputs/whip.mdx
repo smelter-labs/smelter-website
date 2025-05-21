@@ -1,7 +1,7 @@
 ---
 title: WHIP
 ---
-import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An input type that allows streaming video and audio to Smelter over WHIP. 
@@ -25,15 +25,26 @@ Content-Type: application/json
 {
   "type": "whip",
   "video": {
-    "decoder": "ffmpeg_h264"
-  },
-  "audio": {
-    "decoder": "opus"
+    "decoder_preferences": ["ffmpeg_h264", "any"]
   },
 }
 ```
 </CollapsibleDetails>
 
+<Aside>
+Even if `video` field is not specified, the video decoder will still be automatically negotiated.
+The `audio` decoder is **always** automatically negotiated.
+
+In the following example, both audio and video decoders will be automatically negotiated:
+```http
+POST: /api/input/:input_id/register
+Content-Type: application/json
+
+{
+  "type": "whip",
+}
+```
+</Aside>
 
 ## Reference
 
@@ -43,30 +54,20 @@ Content-Type: application/json
 type WhipInput = {
   type: "whip";
   video?: InputWhipVideoOptions;
-  audio?: InputWhipAudioOptions;
   required?: bool;
-  offsetMs?: f64;
+  offset_ms?: f64;
 };
 ```
 </CollapsibleDetails>
 
 Parameters for registering an WHIP endpoint as an input.
 
-<Aside>At least one of `video` and `audio` has to be defined.</Aside>
-
 ## Properties
 
 ### video
 Parameters of a video source included in the WHIP stream.
 
-- **Type**: [`InputWhipVideoOptions`](/http-api/inputs/whip#inputwhipvideooptions)
-
----
-
-### audio
-Parameters of an audio source included in the WHIP stream.
-
-- **Type**: [`InputWhipAudioOptions`](/http-api/inputs/whip#inputwhipaudiooptions)
+- **Type**: [`InputWhipVideoOptions`](#inputwhipvideooptions)
 
 ---
 
@@ -87,21 +88,42 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputWhipVideoOptions = {
-    decoder: "ffmpeg_h264" | "vulkan_h264";
+    decoder_preferences?: WhipVideoDecoder[];
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
 
-#### decoder
+#### decoder_preferences
+An ordered list of preferred video decoders. The first element in the list has the highest priority during WHIP negotiation.
+- **Type**: [`WhipVideoDecoder`](#whipvideodecoder)[]
+- **Default value**: `[ "any" ]`
 
-- **Type**: `"ffmpeg_h264" | "vulkan_h264"`
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the decoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed decoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+- If "any" is not included:
+  - Only the decoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
+## WhipVideoDecoder
+Video decoder type.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type WhipVideoDecoder = "ffmpeg_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "vulkan_h264" | "any"
+```
+</CollapsibleDetails>
+
+- **Type**: "ffmpeg_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "vulkan_h264" | "any"
 - **Supported values**:
-  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
-  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
+  - `"ffmpeg_h264"` - Software H264 decoder based on ffmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder based on Vulkan Video.
     
     This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
     support it.
@@ -109,23 +131,6 @@ type InputWhipVideoOptions = {
     This requires hardware that supports Vulkan Video. Another requirement is this program has
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
-
-## InputWhipAudioOptions
-Parameters of a audio source included in the WHIP stream.
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type InputWhipAudioOptions = {
-    decoder: "opus";
-    forward_error_correction?: bool;
-  }
-`} lang='tsx' />
-</CollapsibleDetails>
-
-### Properties (decoder: "opus")
-
-#### forward_error_correction
-Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
-
-- **Type**: `bool`
-- **Default value**: `false`
+  - `"ffmpeg_vp8"` - Software VP8 decoder based on ffmpeg.
+  - `"ffmpeg_vp9"` - Software VP9 decoder based on ffmpeg.
+  - `"any"` - Automatically selects any video decoder supported by Smelter.

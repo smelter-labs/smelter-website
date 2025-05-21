@@ -1,7 +1,6 @@
 ---
 title: RTP
 ---
-import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from Smelter over RTP.
@@ -30,7 +29,8 @@ Content-Type: application/json
     }
   },
   "audio": {
-    "encoder": { "type": "opus", "channels": "stereo" },
+    "encoder": { "type": "opus" },
+    "channels": "stereo",
     "initial": {
       "inputs": [{ "input_id": "input_1", "volume": 1 }]
     }
@@ -100,17 +100,17 @@ Parameters of an audio included in the RTP stream.
 
 ## RtpVideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpVideoOptions = {
-    resolution: {
-      width: u32;
-      height: u32;
-    };
-    send_eos_when?: OutputEndCondition;
-    encoder: RtpVideoEncoderOptions;
-    initial: { root: Component; };
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  send_eos_when?: OutputEndCondition;
+  encoder: RtpVideoEncoderOptions;
+  initial: { root: Component; };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -134,6 +134,8 @@ Video encoder options.
 
 - **Type**: [`RtpVideoEncoderOptions`](#rtpvideoencoderoptions)
 
+---
+
 #### initial
 Root of a component tree/scene that should be rendered for the output. Use [`update_output`](/http-api/routes#update-output) request to update this value after registration.
 
@@ -142,23 +144,29 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 ## RtpVideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpVideoEncoderOptions = {
-    type: "ffmpeg_h264";
-    preset?: 
-      | "ultrafast"
-      | "superfast"
-      | "veryfast"
-      | "faster"
-      | "fast"
-      | "medium"
-      | "slow"
-      | "slower"
-      | "veryslow"
-      | "placebo";
-    ffmpeg_options?: Map<string, string>;
+  type: "ffmpeg_h264";
+  preset?: 
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  ffmpeg_options?: Map<string, string>;
+} | {
+  type: "ffmpeg_vp8";
+  ffmpeg_options?: Map<string, string>;
+} | {
+  type: "ffmpeg_vp9";
+  ffmpeg_options?: Map<string, string>;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties (`type: "ffmpeg_h264"`)
@@ -169,18 +177,32 @@ Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
 - **Default value**: `fast`
 - **Supported values**:
-    - `ultrafast`
-    - `superfast`
-    - `veryfast`
-    - `faster`
-    - `fast`
-    - `medium`
-    - `slow`
-    - `slower`
-    - `veryslow`
-    - `placebo`
+  - `ultrafast`
+  - `superfast`
+  - `veryfast`
+  - `faster`
+  - `fast`
+  - `medium`
+  - `slow`
+  - `slower`
+  - `veryslow`
+  - `placebo`
 
 ---
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (`type: "ffmpeg_vp8"`)
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (`type: "ffmpeg_vp9"`)
 
 #### ffmpeg_options
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
@@ -190,14 +212,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 ## RtpAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpAudioOptions = {
-    mixing_strategy?: "sum_clip" | "sum_scale";
-    send_eos_when?: OutputEndCondition;
-    encoder: RtpAudioEncoderOptions;
-    initial: { inputs: InputAudio[]; };
+  mixing_strategy?: "sum_clip" | "sum_scale";
+  send_eos_when?: OutputEndCondition;
+  encoder: RtpAudioEncoderOptions;
+  channels?: "mono" | "stereo";
+  initial: { inputs: InputAudio[]; };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -208,8 +231,8 @@ Specifies how audio should be mixed.
 - **Type**: `"sum_clip" | "sum_scale"`
 - **Default value**: `"sum_clip"`
 - **Supported values**:
-    - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
-    - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+  - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
 
 ---
 
@@ -225,6 +248,18 @@ Audio encoder options.
 
 - **Type**: [`RtpAudioEncoderOptions`](#rtpaudioencoderoptions)
 
+---
+
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+  - `mono` - Mono audio (single channel).
+  - `stereo` - Stereo audio (two channels).
+
+
 #### initial
 Initial audio mixer configuration for output.
 
@@ -233,25 +268,16 @@ Initial audio mixer configuration for output.
 ## RtpAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpAudioEncoderOptions = {
-    type: "opus";
-    channels: "mono" | "stereo";
-    preset?: "quality" | "voip" | "lowest_latency";
-    sample_rate?: u32;
+  type: "opus";
+  preset?: "quality" | "voip" | "lowest_latency";
+  sample_rate?: u32;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties(type: "opus")
-
-#### channels
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Supported values**:
-    - `mono` - Mono audio (single channel).
-    - `stereo` - Stereo audio (two channels).
 
 #### preset
 Audio output encoder preset.
@@ -259,10 +285,11 @@ Audio output encoder preset.
 - **Type**: `"quality" | "voip" | "lowest_latency"`
 - **Default value**: `voip`
 - **Supported values**:
-    - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
-    - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
-    - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
+  - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
+  - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
+  - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
+---
 
 #### sample_rate
 Sample rate.
@@ -272,13 +299,14 @@ Sample rate.
 - **Supported values**: `8000`, `16000`, `24000`, `48000`
 
 ## InputAudio
+
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputAudio = {
-    input_id: string;
-    volume?: f32;
+  input_id: string;
+  volume?: f32;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -304,14 +332,14 @@ Unless specified otherwise the input stream is considered finished/ended when:
 - Input was unregistered already (or never registered).
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type OutputEndCondition = {
-    any_of?: string[];
-    all_of?: string[];
-    any_input?: bool;
-    all_inputs?: bool;
+  any_of?: string[];
+  all_of?: string[];
+  any_input?: bool;
+  all_inputs?: bool;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
