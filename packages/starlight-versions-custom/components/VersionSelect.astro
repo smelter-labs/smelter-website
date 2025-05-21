@@ -29,8 +29,8 @@ const tsVersions = versions.filter((version) => version.slug.includes('ts-sdk/')
 const httpVersions = versions.filter((version) => version.slug.includes('http-api/'))
 ---
 
-<starlight-version-select>
-  <label>
+<starlight-version-select style="width: 8rem;">
+  <label style="width: 100%;">
     <span class="sr-only">Select version</span>
     <Icon name={iconName} class="icon label-icon" />
     <select value={activeVersion ?? 'current'} autocomplete="off">
@@ -108,7 +108,7 @@ const httpVersions = versions.filter((version) => version.slug.includes('http-ap
     padding-inline: calc(var(--sl-versions-label-icon-size) + 0.375rem)
       calc(var(--sl-versions-caret-icon-size) + 0.25rem);
     text-overflow: ellipsis;
-    width: 6.5em;
+    width: 100%;
   }
 
   option {
