@@ -285,7 +285,6 @@ export function getVersionURL(
     versionURL.pathname = `incompatible:${version.slug}`  
   }
 
-
   return versionURL
 }
 

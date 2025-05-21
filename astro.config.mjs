@@ -270,7 +270,5 @@ export default defineConfig({
     ],
   },
 
-  adapter: vercel({
-    isr: true,
-  }),
+  adapter: vercel(),
 });

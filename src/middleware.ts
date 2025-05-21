@@ -8,11 +8,18 @@ export const onRequest = defineMiddleware((context, next) => {
   const selectedVersion = context.cookies.get("selectedVersion");
 
   const isPathVersionless = !versionRegex.test(pathname) && versionedSectionRegex.test(pathname);
+
+  if (
+    context.url.searchParams.has('bannerRedirect')
+  ) {
+    const test = `${pathname.replace('?bannerRedirect', '')}`;
+    return context.redirect(test);
+  }
+
   if (
     isPathVersionless &&
     selectedVersion &&
-    selectedVersion.value !== "current" &&
-    selectedVersion
+    selectedVersion.value !== "current"
   ) {
     const [versionName] = selectedVersion.value.split("/");
     const test = `${pathname.replace(versionName, selectedVersion.value)}`;
