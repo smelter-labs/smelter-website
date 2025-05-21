@@ -12,6 +12,7 @@ export const onRequest = defineMiddleware((context, next) => {
   if (
     context.url.searchParams.has('bannerRedirect')
   ) {
+    context.cookies.delete('selectedVersion')
     context.cookies.set('selectedVersion', 'current')
     const test = `${pathname.replace('?bannerRedirect', '')}`;
     return context.redirect(test);
@@ -23,6 +24,8 @@ export const onRequest = defineMiddleware((context, next) => {
     selectedVersion.value !== "current"
   ) {
     const [versionName] = selectedVersion.value.split("/");
+    context.cookies.delete('selectedVersion')
+    context.cookies.set('selectedVersion', selectedVersion.value)
     const test = `${pathname.replace(versionName, selectedVersion.value)}`;
     return context.redirect(test);
   }
