@@ -1,7 +1,7 @@
 ---
-title: MP4
+title: RTMP
 sidebar:
-  order: 2
+  order: 4
 ---
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
@@ -11,11 +11,11 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 <br />
 <br />
 
-An output type that allows recording video and audio to MP4 file.
+An output type that allows streaming video and audio from Smelter over RTMP.
 
 ## Usage
 
-```tsx title=mp4OutputExample.tsx
+```tsx title=rtmpClientOutputExample.tsx
 import Smelter from "@swmansion/smelter-node";
 import { View } from "@swmansion/smelter";
 
@@ -23,12 +23,24 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
   await smelter.registerOutput("example", <View />, {
-    type: "mp4",
-    serverPath: "./output.mp4",
+    type: 'rtmp_client',
+    url: 'rtmp://example.com/rtmp',
     video: {
-      encoder: { type: "ffmpeg_h264" },
-      resolution: { width: 1920, height: 1080 },
-    }
+      encoder: {
+        type: 'ffmpeg_h264',
+        preset: 'ultrafast',
+      },
+      resolution: {
+        width: 1920,
+        height: 1080,
+      },
+    },
+    audio: {
+      channels: 'stereo',
+      encoder: {
+        type: 'aac',
+      },
+    },
   });
 }
 void run();
@@ -39,23 +51,19 @@ void run();
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type RegisterMp4Output = {
-  type: "mp4";
-  serverPath: string;
-  video?: Mp4VideoOptions;
-  audio?: Mp4AudioOptions;
+type RegisterRtmpClientOutput = {
+  type: "rtmp_client";
+  url: string;
+  video?: RtmpClientVideoOptions;
+  audio?: RtmpClientAudioOptions;
 }
 ```
 </CollapsibleDetails>
 
-Parameters for registering an output that writes composed video/audio to MP4 file.
-
-<Aside>Exactly one of `url` or `serverPath` has to be defined.</Aside>
-
 ## Properties
 
-### serverPath
-Path to the MP4 file, specifying its location on the server where Smelter is deployed.
+### url
+RTMP endpoint url.
 
 - **Type**: `string`
 
@@ -64,26 +72,26 @@ Path to the MP4 file, specifying its location on the server where Smelter is dep
 ### video
 Video track configuration.
 
-- **Type**: [`Mp4VideoOptions`](#mp4videooptions)
+- **Type**: [`RtmpClientVideoOptions`](#rtmpclientvideooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`Mp4AudioOptions`](#mp4audiooptions)
+- **Type**: [`RtmpClientAudioOptions`](#rtmpclientaudiooptions)
 
-## Mp4VideoOptions
+## RtmpClientVideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4VideoOptions = {
+type RtmpClientVideoOptions = {
   resolution: {
     width: number;
     height: number;
   };
   sendEosWhen?: OutputEndCondition;
-  encoder: Mp4VideoEncoderOptions;
+  encoder: RtmpClientVideoEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -102,21 +110,21 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`Mp4VideoEncoderOptions`](/ts-sdk/outputs/mp4#mp4videoencoderoptions)
+- **Type**: [`RtmpClientVideoEncoderOptions`](#rtmpclientvideoencoderoptions)
 
 
-## Mp4VideoEncoderOptions
+## RtmpClientVideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4VideoEncoderOptions = {
+type RtmpClientVideoEncoderOptions = {
   type: "ffmpeg_h264";
   preset: 
     | "ultrafast"
@@ -162,15 +170,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Mp4AudioOptions
+## RtmpClientAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioOptions = {
+type RtmpClientAudioOptions = {
   channels?: "mono" | "stereo";
   mixingStrategy?: "sum_clip" | "sum_scale";
   sendEosWhen?: OutputEndCondition;
-  encoder: Mp4AudioEncoderOptions;
+  encoder: RtmpClientAudioEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -202,20 +210,20 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`Mp4AudioEncoderOptions`](/ts-sdk/outputs/mp4#mp4audioencoderoptions)
+- **Type**: [`RtmpClientAudioEncoderOptions`](#rtmpclientaudioencoderoptions)
 
-## Mp4AudioEncoderOptions
+## RtmpClientAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioEncoderOptions = {
+type RtmpClientAudioEncoderOptions = {
   type: "aac";
   sampleRate?: number;
 }

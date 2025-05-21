@@ -3,7 +3,7 @@ title: WHIP
 sidebar:
   order: 1
 ---
-import { Code, Badge } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
@@ -27,9 +27,17 @@ async function run() {
     endpointUrl: "https://example.com/whip",
     bearerToken: "<TOKEN>",
     video: {
-      encoder: { type: "ffmpeg_h264" },
+      encoderPreferences: [
+        {
+          type: "ffmpeg_h264",
+        }, 
+        {
+          type: "any",
+        }
+      ],
       resolution: { width: 1920, height: 1080 },
-    }
+    },
+    audio: true,
   });
 }
 void run();
@@ -45,7 +53,7 @@ type RegisterWhipOutput = {
   endpointUrl: string;
   bearerToken?: string;
   video?: WhipVideoOptions;
-  audio?: WhipAudioOptions;
+  audio?: true |  WhipAudioOptions;
 };
 ```
 </CollapsibleDetails>
@@ -59,11 +67,14 @@ The destination URL for sending media streams using the WHIP.
 
  - **Type**: `string`
 
+---
+
 ### bearerToken
 Token used for authentication when connecting to the WHIP endpoint.
 
  - **Type**: `string`
 
+---
 
 ### video
 Parameters of a video included in the WHIP stream.
@@ -75,7 +86,9 @@ Parameters of a video included in the WHIP stream.
 ### audio
 Parameters of an audio included in the WHIP stream.
 
-- **Type**: [`WhipAudioOptions`](/ts-sdk/outputs/whip#whipaudiooptions)
+When set to `true`, audio will be enabled without requiring explicit `WhipAudioOptions` - they will be set automaticly based on negotation.
+
+- **Type**: `true` | [`WhipAudioOptions`](/ts-sdk/outputs/whip#whipaudiooptions)
 
 ## WhipVideoOptions
 
@@ -88,7 +101,7 @@ type WhipVideoOptions = {
     height: number;
   };
   sendEosWhen?: OutputEndCondition;
-  encoder: WhipVideoEncoderOptions;
+  encoderPreferences?: WhipVideoEncoderOptions[];
 };
 ```
 </CollapsibleDetails>
@@ -111,32 +124,49 @@ Condition for termination of the output stream based on the input streams states
 
 ---
 
-#### encoder
-Video encoder options.
+#### encoderPreferences
+An ordered list of preferred video encoders. The first element in the list has the highest priority during WHIP negotiation.
 
-- **Type**: [`WhipVideoEncoderOptions`](/ts-sdk/outputs/whip#whipvideoencoderoptions)
+- **Type**: [`WhipVideoEncoderOptions`](#whipvideoencoderoptions)[]
+- **Default value**: `[{ type: "any" }]`
 
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+- If "any" is not included:
+  - Only the encoders listed will be considered.
+  - If none are supported, no fallback will occur.
 
 ## WhipVideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type WhipVideoEncoderOptions = {
-      type: "ffmpeg_h264";
-      preset?: 
-        | "ultrafast"
-        | "superfast"
-        | "veryfast"
-        | "faster"
-        | "fast"
-        | "medium"
-        | "slow"
-        | "slower"
-        | "veryslow"
-        | "placebo";
-      ffmpegOptions?: Map<string, string>;
-    }
-`} lang='tsx' />
+  type: "ffmpeg_h264";
+  preset?: 
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  ffmpegOptions?: Map<string, string>;
+} | {
+  type: "ffmpeg_vp8";
+  ffmpegOptions?: Map<string, string>;
+} | {
+  type: "ffmpeg_vp9";
+  ffmpegOptions?: Map<string, string>;
+} | {
+  type: "any"
+}
+```
 </CollapsibleDetails>
 
 Configuration for the video encoder, based on the selected codec.
@@ -167,21 +197,52 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
+### Properties (type: “ffmpeg_vp8”)
+
+#### ffmpegOptions
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “ffmpeg_vp9”)
+
+#### ffmpegOptions
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “any”)
+
+
+Specifies that any video encoder supported by Smelter can be used. If `"any"` is not included in the `encoder_preferences` list, Smelter will only use the encoders explicitly listed in the preferences.
+
 ## WhipAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type WhipAudioOptions = {
-    mixingStrategy?: "sum_clip" | "sum_scale";
-    sendEosWhen?: OutputEndCondition;
-    encoder: WhipAudioEncoderOptions;
+  channels?: "mono" | "stereo";
+  mixingStrategy?: "sum_clip" | "sum_scale";
+  sendEosWhen?: OutputEndCondition;
+  encoderPreferences?: WhipAudioEncoderOptions[];
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 Parameters of an audio source included in the WHIP stream.
 
 ### Properties
+
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+    - `mono` - Mono audio (single channel).
+    - `stereo` - Stereo audio (two channels).
+
+---
 
 #### mixingStrategy
 Specifies how audio should be mixed.
@@ -201,39 +262,38 @@ Condition for termination of the output stream based on the input streams states
 
 ---
 
-#### encoder
-Audio encoder options.
+#### encoderPreferences
+An ordered list of preferred audio encoders. The first element in the list has the highest priority during WHIP negotiation.
+- **Type**: [`WhipAudioEncoderOptions`](#whipaudioencoderoptions)[]
+- **Default value**: `[{ type: "any" }]`
 
-- **Type**: [`WhipAudioEncoderOptions`](/ts-sdk/outputs/whip#whipaudioencoderoptions)
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
 
----
+- If "any" is not included:
+  - Only the encoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
 
 ## WhipAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type WhipAudioEncoderOptions = {
-      type: "opus";
-      channels: "mono" | "stereo";
-      preset?: "quality" | "voip" | "lowest_latency";
-      sampleRate?: number
-    }
-`} lang='tsx' />
+  type: "opus";
+  preset?: "quality" | "voip" | "lowest_latency";
+  sampleRate?: number;
+} | {
+  type: "any";
+}
+```
 </CollapsibleDetails>
 
 Configuration for the audio encoder, based on the selected codec.
 
 ### Properties(type: "opus")
-
-#### channels
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Supported values**:
-    - `mono` - Mono audio (single channel).
-    - `stereo` - Stereo audio (two channels).
-
----
 
 #### preset
 Audio output encoder preset.
@@ -252,17 +312,19 @@ Sample rate for audio encoder.
 - **Default value**: `48000`
 - **Supported values**: `8000`, `16000`, `24000`, `48000`.
 
+### Properties(type: "any")
+Specifies that any audio encoder supported by Smelter can be used. If `"any"` is not included in the `encoderPreferences` list, Smelter will only use the encoders explicitly listed in the preferences.
 
 ## OutputEndCondition
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type OutputEndCondition = 
-    | { anyOf: string[]; }
-    | { allOf: string[]; }
-    | { anyInput: boolean; }
-    | { allInputs: boolean; };
-`} lang='tsx' />
+  | { anyOf: string[]; }
+  | { allOf: string[]; }
+  | { anyInput: boolean; }
+  | { allInputs: boolean; };
+```
 </CollapsibleDetails>
 
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 

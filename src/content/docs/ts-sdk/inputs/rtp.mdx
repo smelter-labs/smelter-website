@@ -3,7 +3,7 @@ title: RTP
 sidebar:
   order: 3
 ---
-import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
@@ -106,11 +106,11 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 ## InputRtpVideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputRtpVideoOptions = {
-    decoder: "ffmpeg_h264" | "vulkan_h264";
+    decoder: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 Parameters of a video source included in the RTP stream.
@@ -121,9 +121,9 @@ Parameters of a video source included in the RTP stream.
 
 Video decoder.
 
-- **Type**: `"ffmpeg_h264" | "vulkan_h264"`
+- **Type**: `"ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9"`
 - **Supported values**:
-  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
+  - `"ffmpeg_h264"` - Use the software H264 decoder based on ffmpeg.
   - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
 
     This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
@@ -132,11 +132,13 @@ Video decoder.
     This requires hardware that supports Vulkan Video. Another requirement is this program has
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
+  - `"ffmpeg_vp8"` - Use the software VP8 decoder based on ffmpeg.
+  - `"ffmpeg_vp9"` - Use the software VP9 decoder based on ffmpeg.
 
 ## InputRtpAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputRtpAudioOptions =
   | {
       decoder: "opus";
@@ -147,7 +149,7 @@ type InputRtpAudioOptions =
       audioSpecificConfig: string;
       rtpMode?: "low_bitrate" | "high_bitrate";
     }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 Parameters of an audio source included in the RTP stream.

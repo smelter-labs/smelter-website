@@ -3,7 +3,7 @@ title: RTP
 sidebar:
   order: 3
 ---
-import { Code, Badge } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
@@ -102,7 +102,7 @@ Parameters of an audio included in the RTP stream.
 ## RtpVideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpVideoOptions = {
     resolution: {
       width: number;
@@ -111,7 +111,7 @@ type RtpVideoOptions = {
     sendEosWhen?: OutputEndCondition;
     encoder: RtpVideoEncoderOptions;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 Parameters of a video source included in the RTP stream.
@@ -141,23 +141,29 @@ Video encoder options.
 ## RtpVideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpVideoEncoderOptions = {
-      type: "ffmpeg_h264";
-      preset: 
-        | "ultrafast"
-        | "superfast"
-        | "veryfast"
-        | "faster"
-        | "fast"
-        | "medium"
-        | "slow"
-        | "slower"
-        | "veryslow"
-        | "placebo";
-      ffmpegOptions?: Map<string, string>;
-    }
-`} lang='tsx' />
+  type: "ffmpeg_h264";
+  preset: 
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  ffmpegOptions?: Map<string, string>;
+} | {
+  type: "ffmpeg_vp8";
+  ffmpegOptions?: Map<string, string>;
+} | {
+  type: "ffmpeg_vp9";
+  ffmpegOptions?: Map<string, string>;
+}
+```
 </CollapsibleDetails>
 
 Configuration for the video encoder, based on the selected codec.
@@ -188,21 +194,47 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
+### Properties (type: “ffmpeg_vp8”)
+
+#### ffmpegOptions
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “ffmpeg_vp9”)
+
+#### ffmpegOptions
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
 ## RtpAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpAudioOptions = {
-    mixingStrategy?: "sum_clip" | "sum_scale";
-    sendEosWhen?: OutputEndCondition;
-    encoder: RtpAudioEncoderOptions;
+  channels?: "mono" | "stereo";
+  mixingStrategy?: "sum_clip" | "sum_scale";
+  sendEosWhen?: OutputEndCondition;
+  encoder: RtpAudioEncoderOptions;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 Parameters of an audio source included in the RTP stream.
 
 ### Properties
+
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+    - `mono` - Mono audio (single channel).
+    - `stereo` - Stereo audio (two channels).
+
+---
 
 #### mixingStrategy
 Specifies how audio should be mixed.
@@ -230,28 +262,17 @@ Audio encoder options.
 ## RtpAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RtpAudioEncoderOptions = {
-      type: "opus";
-      channels: "mono" | "stereo";
-      preset?: "quality" | "voip" | "lowest_latency";
-    }
-`} lang='tsx' />
+    type: "opus";
+    preset?: "quality" | "voip" | "lowest_latency";
+  }
+```
 </CollapsibleDetails>
 
 Configuration for the audio encoder, based on the selected codec.
 
 ### Properties(type: "opus")
-
-#### channels
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Supported values**:
-    - `mono` - Mono audio (single channel).
-    - `stereo` - Stereo audio (two channels).
-
----
 
 #### preset
 Audio output encoder preset.
@@ -266,13 +287,13 @@ Audio output encoder preset.
 ## OutputEndCondition
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type OutputEndCondition = 
-    | { anyOf: string[]; }
-    | { allOf: string[]; }
-    | { anyInput: boolean; }
-    | { allInputs: boolean; };
-`} lang='tsx' />
+  | { anyOf: string[]; }
+  | { allOf: string[]; }
+  | { anyInput: boolean; }
+  | { allInputs: boolean; };
+```
 </CollapsibleDetails>
 
 Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
