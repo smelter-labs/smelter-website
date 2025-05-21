@@ -275,7 +275,6 @@ export default defineConfig({
       webAnalytics: {
         enabled: true
       },
-      isr: true
     }
   ),
 });
