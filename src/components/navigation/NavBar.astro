@@ -35,6 +35,12 @@ const smelterLogoSmallImage = await getImage({
   width: 31,
   height: 17,
 });
+const newScreenSmallImage = await getImage({
+  src: newScreen,
+  format: "svg",
+  width: 24,
+  height: 24,
+});
 
 interface Props {
   rootHref?: string;
@@ -52,6 +58,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={githubLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
+    <link rel="preload" href={newScreenSmallImage.src} as="image" />
     <link rel="preload" href={cross.src} as="image" />
     <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
@@ -139,7 +146,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
             target="_blank"
           >
             Docs
-            <Image src={newScreen} alt="newscreen" />
+            <Image width={64} height={64} class="aspect-square w-6 h-6" src={newScreen} alt="newscreen" />
           </a>
           <div class="flex gap-x-4 w-full justify-end py-2">
             <a
