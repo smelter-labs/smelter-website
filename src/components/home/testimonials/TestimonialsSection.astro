@@ -106,7 +106,6 @@ const TESTIMONIALS = [
     const prevButton = document.getElementById("testimonialsPrevButton");
     const nextButton = document.getElementById("testimonialsNextButton");
 
-    console.log("NEXT BUTTON ", nextButton);
     const testimonials = Array.from(
       document.querySelectorAll(".testimonial-item")
     );
@@ -148,7 +147,6 @@ const TESTIMONIALS = [
       } else {
         nextIndex =
           (currentIndex - 1 + testimonials.length) % testimonials.length;
-        console.log("NEXT INDEX ", nextIndex);
       }
       testimonials[currentIndex].classList.remove("active-item");
       testimonials[nextIndex].classList.add("active-item");
