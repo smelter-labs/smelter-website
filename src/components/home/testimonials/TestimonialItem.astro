@@ -1,0 +1,27 @@
+---
+import Image from "astro/components/Image.astro";
+
+import type { ImageMetadata } from "astro";
+import type { Testimonial } from "./TestimonialsSection.astro";
+
+type Props = Testimonial & {index: number}
+
+const { avatar, author, role, testimonial, index } = Astro.props;
+---
+
+<div class:list={["testimonial-item", index === 0 ? 'active-item' : '']}> 
+  <p class="text-testimonials-content mb-6" set:html={testimonial}/>
+  <figure class="flex flex-col items-center">
+    <Image
+      alt=`${author} avatar`
+      width={60}
+      height={60}
+      src={avatar}
+      class="rounded-full mb-4 aspect-square"
+    />
+    <figcaption class="text-testimonials-caption flex flex-col">
+      <span class="text-base mb-1 font-semibold">{author}</span>
+      <span>{role}</span>
+    </figcaption>
+  </figure>
+</div>

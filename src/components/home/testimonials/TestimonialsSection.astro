@@ -1,0 +1,124 @@
+---
+import Image from "astro/components/Image.astro";
+import TestimonialItem from "./TestimonialItem.astro";
+
+import chevronLeft from "/public/images/chevron-left.svg";
+import chevronRight from "/public/images/chevron-right.svg";
+import Deric from "../../../assets/testimonials/deric.avif";
+import Michael from "../../../assets/testimonials/michael.jpeg";
+
+export type Testimonial = {
+  avatar: ImageMetadata;
+  author: string;
+  role: string;
+  testimonial: string;
+};
+
+const TESTIMONIALS = [
+  {
+    avatar: Deric,
+    author: "Deric Walintukan",
+    role: "Senior Engineering Manager at Firework",
+    testimonial:
+      "“We currently use this in one of our current production apps and the capabilities of it are fantastic.<br/>Quite a pragmatic toolkit to use and would definitely recommend it to anyone interested in doing real-time A/V.<br/>The best toolkit to use in Elixir for sure.”",
+  },
+  {
+    avatar: Michael,
+    author: "Michaël de Marliave",
+    role: "YouTuber & Founder of OneClickStudio",
+    testimonial:
+      "“We use Smelter as a library to power our video production studios.<br/>It lets us composite multiple sources into high-quality animated scenes. Handling complex layouts entirely in software and real time!<br/>It is truly a versatile and reliable tool we can only recommend.”",
+  },
+] as const satisfies Testimonial[];
+---
+
+<section
+  id="reviews"
+  class="px-4 my-40 flex flex-row justify-center items-center w-full relative sm:px-12 sm:pb-14 2xl:pb-20 2xl:h-fit scroll-mt-[30svh]"
+>
+  <div class="flex flex-col text-center items-center w-full">
+    <h2 class="text-testimonials-header mb-10">
+      What our users say about Smelter
+    </h2>
+    <div
+      class="w-full h-full relative"
+    >
+      <div class="testimonials-container w-full h-full">
+        {
+          TESTIMONIALS.map((testimonial, index) => (
+            <TestimonialItem {...testimonial} index={index} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .testimonials-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+  }
+  .testimonial-item {
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.75s;
+    will-change: opacity;
+  }
+  .active-item {
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  document.addEventListener("astro:page-load", function () {
+    const testimonials = Array.from(
+      document.querySelectorAll(".testimonial-item")
+    );
+    let currentIndex = 0;
+
+    function setupTestimonials() {
+      // Initially hide all testimonials except the first
+      testimonials.forEach((t, index) => {
+        t.style.opacity = index === 0 ? "1" : "0";
+      });
+
+      testimonials.forEach((testimonial, index) => {
+        testimonial.addEventListener("transitionend", function (event) {
+          if (event.propertyName === "opacity" && this.style.opacity === "0") {
+            // This testimonial has just completely faded out.
+            setTimeout(() => handleNextTestimonial(index), 750); // buffer time if needed
+          }
+        });
+      });
+    }
+
+    function handleNextTestimonial(currentIndex) {
+      const nextIndex = (currentIndex + 1) % testimonials.length;
+      testimonials[currentIndex].classList.remove("active-item");
+      testimonials[nextIndex].classList.add("active-item");
+      testimonials[nextIndex].style.opacity = "1"; // Fade in the next testimonial
+    }
+
+    function initiateFadeOut() {
+      testimonials[currentIndex].style.opacity = "0"; // Start fading out the current testimonial
+      currentIndex = (currentIndex + 1) % testimonials.length;
+    }
+
+    setupTestimonials(); // Set up testimonials on load
+
+    const interval = setInterval(initiateFadeOut, 5000);
+
+    window.addEventListener("pagehide", () => clearInterval(interval));
+  });
+</script>
