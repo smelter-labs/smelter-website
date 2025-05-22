@@ -40,15 +40,35 @@ const TESTIMONIALS = [
     <h2 class="text-testimonials-header mb-10">
       What our users say about Smelter
     </h2>
-    <div
-      class="w-full h-full relative"
-    >
+    <div class="w-full h-full relative">
       <div class="testimonials-container w-full h-full">
+        <button
+          id="testimonialsPrevButton"
+          class="z-50 absolute hidden sm:visible left-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
+        >
+          <Image
+            id="capabilitiesBlur"
+            src={chevronLeft}
+            alt="previous"
+            class="w-10 h-10 aspect-square"
+          />
+        </button>
         {
           TESTIMONIALS.map((testimonial, index) => (
             <TestimonialItem {...testimonial} index={index} />
           ))
         }
+        <button
+          id="testimonialsNextButton"
+          class="z-50 absolute hidden sm:visible right-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
+        >
+          <Image
+            id="capabilitiesBlur"
+            src={chevronRight}
+            alt="previous"
+            class="w-10 h-10 aspect-square"
+          />
+        </button>
       </div>
     </div>
   </div>
@@ -67,8 +87,7 @@ const TESTIMONIALS = [
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition:
-      opacity 0.75s;
+    transition: opacity 0.75s;
     will-change: opacity;
   }
   .active-item {
@@ -81,14 +100,20 @@ const TESTIMONIALS = [
 </style>
 
 <script is:inline data-astro-rerun>
+  const AUTO_FADE_INTERVAL = 8000;
+
   document.addEventListener("astro:page-load", function () {
+    const prevButton = document.getElementById("testimonialsPrevButton");
+    const nextButton = document.getElementById("testimonialsNextButton");
+
+    console.log("NEXT BUTTON ", nextButton);
     const testimonials = Array.from(
       document.querySelectorAll(".testimonial-item")
     );
+
     let currentIndex = 0;
 
     function setupTestimonials() {
-      // Initially hide all testimonials except the first
       testimonials.forEach((t, index) => {
         t.style.opacity = index === 0 ? "1" : "0";
       });
@@ -96,8 +121,7 @@ const TESTIMONIALS = [
       testimonials.forEach((testimonial, index) => {
         testimonial.addEventListener("transitionend", function (event) {
           if (event.propertyName === "opacity" && this.style.opacity === "0") {
-            // This testimonial has just completely faded out.
-            setTimeout(() => handleNextTestimonial(index), 750); // buffer time if needed
+            setTimeout(() => handleNextTestimonial(index), 750);
           }
         });
       });
@@ -107,18 +131,38 @@ const TESTIMONIALS = [
       const nextIndex = (currentIndex + 1) % testimonials.length;
       testimonials[currentIndex].classList.remove("active-item");
       testimonials[nextIndex].classList.add("active-item");
-      testimonials[nextIndex].style.opacity = "1"; // Fade in the next testimonial
+      testimonials[nextIndex].style.opacity = "1";
     }
 
     function initiateFadeOut() {
-      testimonials[currentIndex].style.opacity = "0"; // Start fading out the current testimonial
+      testimonials[currentIndex].style.opacity = "0";
       currentIndex = (currentIndex + 1) % testimonials.length;
     }
 
-    setupTestimonials(); // Set up testimonials on load
+    let autoFadeInterval = setInterval(initiateFadeOut, AUTO_FADE_INTERVAL);
 
-    const interval = setInterval(initiateFadeOut, 5000);
+    function handleManualTransition(next) {
+      let nextIndex;
+      if (next) {
+        nextIndex = (currentIndex + 1) % testimonials.length;
+      } else {
+        nextIndex =
+          (currentIndex - 1 + testimonials.length) % testimonials.length;
+        console.log("NEXT INDEX ", nextIndex);
+      }
+      testimonials[currentIndex].classList.remove("active-item");
+      testimonials[nextIndex].classList.add("active-item");
+      testimonials[nextIndex].style.opacity = "1";
+      clearInterval(autoFadeInterval);
+      currentIndex = nextIndex;
+      autoFadeInterval = setInterval(initiateFadeOut, AUTO_FADE_INTERVAL);
+    }
 
-    window.addEventListener("pagehide", () => clearInterval(interval));
+    prevButton.addEventListener("click", () => handleManualTransition(false));
+    nextButton.addEventListener("click", () => handleManualTransition(true));
+
+    setupTestimonials();
+
+    window.addEventListener("pagehide", () => clearInterval(autoFadeInterval));
   });
 </script>

@@ -14,10 +14,10 @@ const { avatar, author, role, testimonial, index } = Astro.props;
   <figure class="flex flex-col items-center">
     <Image
       alt=`${author} avatar`
-      width={60}
-      height={60}
+      width={320}
+      height={320}
       src={avatar}
-      class="rounded-full mb-4 aspect-square"
+      class="rounded-full w-16 h-16 mb-4 aspect-square"
     />
     <figcaption class="text-testimonials-caption flex flex-col">
       <span class="text-base mb-1 font-semibold">{author}</span>
