@@ -44,7 +44,7 @@ const TESTIMONIALS = [
       <div class="testimonials-container w-full h-full">
         <button
           id="testimonialsPrevButton"
-          class="z-50 absolute hidden sm:visible left-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
+          class="z-50 absolute hidden sm:block left-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
         >
           <Image
             id="capabilitiesBlur"
@@ -60,7 +60,7 @@ const TESTIMONIALS = [
         }
         <button
           id="testimonialsNextButton"
-          class="z-50 absolute hidden sm:visible right-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
+          class="z-50 absolute hidden sm:block right-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
         >
           <Image
             id="capabilitiesBlur"
@@ -87,7 +87,7 @@ const TESTIMONIALS = [
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.75s;
+    transition: opacity 0.35s;
     will-change: opacity;
   }
   .active-item {
@@ -121,7 +121,7 @@ const TESTIMONIALS = [
       testimonials.forEach((testimonial, index) => {
         testimonial.addEventListener("transitionend", function (event) {
           if (event.propertyName === "opacity" && this.style.opacity === "0") {
-            setTimeout(() => handleNextTestimonial(index), 750);
+            setTimeout(() => handleNextTestimonial(index), 350);
           }
         });
       });
