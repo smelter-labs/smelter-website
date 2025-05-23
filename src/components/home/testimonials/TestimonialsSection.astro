@@ -41,7 +41,7 @@ const TESTIMONIALS = [
       What our users say about Smelter
     </h2>
     <div class="w-full h-full relative">
-      <div class="testimonials-container w-full h-full">
+      <div class="testimonials-container">
         <button
           id="testimonialsPrevButton"
           class="z-50 absolute hidden sm:block left-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
@@ -77,11 +77,10 @@ const TESTIMONIALS = [
 <style is:global>
   .testimonials-container {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
     width: 100%;
-    height: auto;
   }
   .testimonial-item {
     width: 100%;
