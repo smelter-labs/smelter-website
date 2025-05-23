@@ -234,6 +234,7 @@ List of box shadows.
 type Transition = {
   duration_ms: f64;
   easing_function?: EasingFunction;
+  should_interrupt?: boolean;
 }
 ```
 ### Properties
@@ -250,6 +251,14 @@ Easing functions are used to interpolate between two values over time during tra
 
 - **Type**: [`EasingFunction`](#easingfunction)
 - **Default value**: `"linear"`
+
+---
+
+#### should_interrupt
+If `true`, on scene update a transition that is already in progress will be interrupted and a new transition will start from the current state.
+
+- **Type**: `boolean`
+- **Default value**: `false`
 
 ## BoxShadow
 ```typescript

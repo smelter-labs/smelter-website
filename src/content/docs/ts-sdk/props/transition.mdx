@@ -11,6 +11,7 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 type Transition {
     durationMs: number;
     easingFunction?: EasingFunction | null;
+    shouldInterrupt?: boolean;
 }
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -25,7 +26,15 @@ Duration of a transition in milliseconds.
 ---
 
 ### easingFunction
-Easing functions are used to interpolate between two values over time during transition. 
+Easing functions are used to interpolate between two values over time during transition.
 
 - **Type**: [`EasingFunction`](/ts-sdk/props/easing-function)
 - **Default value**: `"linear"`
+
+---
+
+### shouldInterrupt
+If `true`, instead of continuing currently ongoing transition, new transition will start from the current state
+
+- **Type**: `boolean`
+- **Default value**: `false`
