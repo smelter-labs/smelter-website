@@ -2,7 +2,7 @@
 import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
 ---
 
-<section class="relative h-fit w-full text-center">
+<section   class="px-4 my-40 flex flex-row justify-center items-center w-full relative sm:px-12 sm:pb-14 2xl:pb-20 2xl:h-fit scroll-mt-[30svh]">
   <div class="flex flex-row">
     <div class="flex flex-col w-full px-12">
       <div class="flex gap-8">
@@ -55,7 +55,7 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
           </div>
         </div>
       </div>
-      <div class="flex mt-4">
+      <!-- <div class="flex mt-4">
         <div class="flex-1">
           <div
             class="border border-solid border-ai-border w-fit flex flex-1.5 rounded-xl p-px h-14"
@@ -66,15 +66,14 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
             </div>
           </div>
         </div>
-        <div class="flex-1"></div>
-      </div>
+      </div> -->
     </div>
   </div>
 </section>
 
 <style is:global>
   .scroller {
-    max-width: 600px;
+    max-width: 650px;
   }
 
   .scroller__inner {
@@ -129,47 +128,6 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
     to {
       transform: translate(calc(-50% - 0.5rem));
     }
-  }
-
-  /* general styles */
-
-  :root {
-    --clr-neutral-100: hsl(0, 0%, 100%);
-    --clr-primary-100: hsl(205, 15%, 58%);
-    --clr-primary-400: hsl(215, 25%, 27%);
-    --clr-primary-800: hsl(217, 33%, 17%);
-    --clr-primary-900: hsl(218, 33%, 9%);
-  }
-
-  html {
-    color-scheme: dark;
-  }
-
-  body {
-    display: grid;
-    min-block-size: 100vh;
-    place-content: center;
-    font-family: system-ui;
-    font-size: 1.125rem;
-    background-color: var(--clr-primary-800);
-  }
-
-  .tag-list {
-    margin: 0;
-    padding-inline: 0;
-    list-style: none;
-  }
-
-  .tag-list li {
-    padding: 1rem;
-    background: var(--clr-primary-400);
-    border-radius: 0.5rem;
-    box-shadow: 0 0.5rem 1rem -0.25rem var(--clr-primary-900);
-  }
-
-  /* for testing purposed to ensure the animation lined up correctly */
-  .test {
-    background: red !important;
   }
 </style>
 
