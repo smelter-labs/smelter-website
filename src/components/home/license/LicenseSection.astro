@@ -7,7 +7,7 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
 
 <section
   id="pricing"
-  class="flex flex-col items-center mb-28 justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-64 2xl:h-fit 2xl:min-h-[unset] 2xl:py-20 scroll-mt-[10svh]"
+  class="flex flex-col items-center mb-28 justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-64 2xl:h-fit 2xl:min-h-[unset] 2xl:py-20 license-scroll-margin"
 >
   <div class="justify-center text-center">
     <h2 class="mb-6 text-homeLicense-header">Choose your plan</h2>
@@ -19,14 +19,14 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
         class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10"
       >
         <div class="relative z-0 flex h-full flex-col">
-          <div
-            class="flex justify-between flex-col items-start md:flex-row"
-          >
+          <div class="flex justify-between flex-col items-start md:flex-row">
             <div class="flex items-start gap-4 h-[100px] md:h-[130px]">
               <div
                 class="flex grow aspect-square overflow-clip rounded-2xl border border-homeLicense-border w-14 h-14 min-w-14 min-h-14"
               >
-                <div class="gradient-light-3 w-full h-full aspect-square min-w-14 min-h-14">
+                <div
+                  class="gradient-light-3 w-full h-full aspect-square min-w-14 min-h-14"
+                >
                   <div class="flex items-center justify-center p-2.5 md:p-3">
                     <Star class="w-full h-full object-cover" />
                   </div>
@@ -37,7 +37,8 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
                 <p
                   class="text-homeLicense-subheader text-start text-md leading-6"
                 >
-                  For hobbyists and<br class="hidden md:block" />small-to-medium projects
+                  For hobbyists and<br class="hidden md:block" />small-to-medium
+                  projects
                 </p>
               </div>
             </div>
@@ -79,14 +80,14 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
         class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10"
       >
         <div class="relative z-0 flex h-full flex-col">
-          <div
-            class="flex justify-between flex-col items-start md:flex-row"
-          >
+          <div class="flex justify-between flex-col items-start md:flex-row">
             <div class="flex items-start gap-4 h-[100px] md:h-[130px]">
               <div
                 class="flex grow aspect-square overflow-clip rounded-2xl border border-homeLicense-border w-14 h-14 min-w-14 min-h-14"
               >
-                <div class="gradient-light-3 w-full h-full aspect-square min-w-14 min-h-14">
+                <div
+                  class="gradient-light-3 w-full h-full aspect-square min-w-14 min-h-14"
+                >
                   <div class="flex items-center justify-center p-2.5 md:p-3">
                     <Suitcase class="w-full h-full object-cover" />
                   </div>
@@ -138,3 +139,14 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
     </div>
   </div>
 </section>
+
+<style>
+  .license-scroll-margin {
+    scroll-margin-top: 10vh;
+  }
+  @supports (scroll-margin-top;: 10dvh) {
+    .license-scroll-margin {
+      scroll-margin-top: 10dvh;
+    }
+  }
+</style>
