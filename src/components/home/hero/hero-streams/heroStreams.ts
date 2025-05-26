@@ -86,7 +86,7 @@ document.addEventListener("astro:page-load", () => {
         transitionCompletedCount++;
         if (transitionCompletedCount === streamLayers.length) {
           setupLayersMovement();
-          window.addEventListener('resize', setupLayersMovement);
+          window.addEventListener("resize", setupLayersMovement);
         }
       };
     });
