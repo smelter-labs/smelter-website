@@ -236,7 +236,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
   </nav>
 </header>
 
-<script src="./navBar.ts" data-astro-rerun></script>
+<script src="./navBar.ts" is:inline data-astro-rerun />
 <script is:inline data-astro-rerun>
   function toggleMobileMenu() {
   const menu = document.getElementById("mobile-menu");
