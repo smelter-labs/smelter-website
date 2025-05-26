@@ -1,3 +1,5 @@
+import { throttle } from "@utils/misc";
+
 function hexToRgb(hex: string) {
   // Remove the hash at the front, if there
   let processedHex = hex.replace(/^\s*#|\s*$/g, "");
@@ -83,8 +85,8 @@ document.addEventListener("astro:page-load", () => {
       entryAnimation.onfinish = () => {
         transitionCompletedCount++;
         if (transitionCompletedCount === streamLayers.length) {
-          // All layers are faded in, proceed to set up layer movements
           setupLayersMovement();
+          window.addEventListener("resize", setupLayersMovement);
         }
       };
     });
@@ -238,8 +240,21 @@ document.addEventListener("astro:page-load", () => {
     });
   }
 
+  const throttledMoveLayers = throttle((event: MouseEvent) => {
+    moveLayers(event);
+  }, 50);
+
+  const throttledHandleOpacity = throttle((event: MouseEvent) => {
+    handleOpacity(event);
+  }, 50);
+
   function setupLayersMovement() {
-    window.addEventListener("mousemove", moveLayers);
-    document.addEventListener("mousemove", handleOpacity);
+    if (window.innerWidth >= 1280) {
+      window.addEventListener("mousemove", throttledMoveLayers);
+      window.addEventListener("mousemove", throttledHandleOpacity);
+    } else {
+      window.removeEventListener("mousemove", throttledMoveLayers);
+      window.removeEventListener("mousemove", throttledHandleOpacity);
+    }
   }
 });

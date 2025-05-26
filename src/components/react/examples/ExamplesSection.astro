@@ -33,7 +33,7 @@ const EXAMPLES = [
 
 <section
   id="examples"
-  class="px-4 flex flex-col items-center relative py-28 text-center lg:px-8 xl:px-28 scroll-mt-[10svh]"
+  class="px-4 flex flex-col items-center relative py-28 text-center lg:px-8 xl:px-28 examples-scroll-margin"
 >
   <h2 class="mb-2 text-capabilities-header">
     What can you develop with Smelter?
@@ -46,3 +46,15 @@ const EXAMPLES = [
     </div>
   </div>
 </section>
+
+
+<style>
+  .examples-scroll-margin {
+    scroll-margin-top: 10vh;
+  }
+  @supports (scroll-margin-top;: 10dvh) {
+    .examples-scroll-margin {
+      scroll-margin-top: 10dvh;
+    }
+  }
+</style>
