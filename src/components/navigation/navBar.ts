@@ -5,10 +5,7 @@ document.addEventListener("astro:page-load", () => {
 
   function handleOpacity() {
     const scrollDistanceLimit = 150;
-    const alphaDecimal = Math.min(
-      235,
-      (window.scrollY / scrollDistanceLimit) * 235
-    );
+    const alphaDecimal = Math.min(235, (window.scrollY / scrollDistanceLimit) * 235);
     const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
     if (header) header.style.backgroundColor = `#161127${alphaHex}`;
   }

@@ -118,6 +118,6 @@ document.addEventListener("astro:page-load", () => {
   }
   onScroll();
 
-  const throttledOnScroll = throttle(onScroll, 50)
-  window.addEventListener("scroll", throttledOnScroll, {passive: true});
+  const throttledOnScroll = throttle(onScroll, 50);
+  window.addEventListener("scroll", throttledOnScroll, { passive: true });
 });
