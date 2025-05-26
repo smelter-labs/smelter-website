@@ -1,3 +1,5 @@
+import { throttle } from "@utils/misc";
+
 type Color = {
   r: number;
   g: number;
@@ -115,5 +117,7 @@ document.addEventListener("astro:page-load", () => {
     });
   }
   onScroll();
-  window.addEventListener("scroll", onScroll);
+
+  const throttledOnScroll = throttle(onScroll, 50)
+  window.addEventListener("scroll", throttledOnScroll, {passive: true});
 });
