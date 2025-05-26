@@ -10,7 +10,7 @@ const footerWaveImage = await getImage({
 });
 ---
 
-<footer class="relative flex overflow-hidden min-h-[60dvh] sm:hidden">
+<footer class="relative flex overflow-hidden footer-size sm:hidden">
   <Fragment slot="head">
     <link rel="preload" href={footerWaveImage.src} as="image" />
   </Fragment>
@@ -76,7 +76,11 @@ const footerWaveImage = await getImage({
       </div>
 
       <div class="text-white flex flex-col w-full px-4">
-        <a href="https://swmansion.com" target="_blank" class="text-footer-text flex flex-col justify-between items-center w-full">
+        <a
+          href="https://swmansion.com"
+          target="_blank"
+          class="text-footer-text flex flex-col justify-between items-center w-full"
+        >
           <Image src={swmLogo} alt="SoftwareMansion logo" class="w-24 mb-4" />
           <h3 class="font-medium text-md">Created by Software Mansion</h3>
         </a>
@@ -92,3 +96,14 @@ const footerWaveImage = await getImage({
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-size {
+    min-height: 60vh;
+  }
+  @supports (height: 60dvh) {
+    .footer-size {
+      min-height: 60dvh;
+    }
+  }
+</style>

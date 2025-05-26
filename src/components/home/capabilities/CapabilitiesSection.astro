@@ -60,7 +60,7 @@ const CAPABILITIES = [
 ] as const;
 ---
 
-<section id="features" class="md:px-4 relative mb-28 text-center lg:px-8 xl:px-10 scroll-mt-[10dvh]">
+<section id="features" class="md:px-4 relative mb-28 text-center lg:px-8 xl:px-10 capabilities-scroll-margin">
   <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute -right-56 opacity-45 sm:top-36 sm:-right-40 -z-10" />
   <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute bottom-40 sm:-bottom-52 sm:-left-40 -translate-x-1/2 -z-10" />
   <h2 class="mb-2 text-capabilities-header">The only video<br />compositing software you need</h2>
@@ -169,6 +169,15 @@ const CAPABILITIES = [
 </script>
 
 <style>
+  .capabilities-scroll-margin {
+    scroll-margin-top: 10vh;
+  }
+  @supports (scroll-margin-top;: 10dvh) {
+    .capabilities-scroll-margin {
+      scroll-margin-top: 10dvh;
+    }
+  }
+
   .carousel-container {
     display: none;
     overflow: hidden;
