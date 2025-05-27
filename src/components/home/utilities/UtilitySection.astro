@@ -1,8 +1,22 @@
 ---
-import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
+import chip from "@assets/utilities/chip.svg";
+import costream from "@assets/utilities/costream.svg";
+import megaphone from "@assets/utilities/megaphone.svg";
+import star from "@assets/utilities/star.svg";
+
+import UtilityTile from "./UtilityTile.astro";
+
+const UTILITIES = [
+  { title: "Ads embedding", icon: megaphone },
+  { title: "AI effects", icon: chip },
+  { title: "AR avatars", icon: star },
+  { title: "Collab streaming", icon: costream },
+] as const;
 ---
 
-<section   class="px-4 my-40 flex flex-row justify-center items-center w-full relative sm:px-12 sm:pb-14 2xl:pb-20 2xl:h-fit scroll-mt-[30svh]">
+<section
+  class="px-4 my-40 flex flex-row justify-center items-center w-full relative sm:px-12 sm:pb-14 2xl:pb-20 2xl:h-fit scroll-mt-[30svh]"
+>
   <div class="flex flex-row">
     <div class="flex flex-col w-full px-12">
       <div class="flex gap-8">
@@ -14,7 +28,7 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
             autoplay
             muted
             loop
-            >
+          >
             <source src="/example-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -39,18 +53,7 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
           </p>
           <div class="scroller" data-direction="right" data-speed="slow">
             <div class="scroller__inner">
-              <div class="px-4 py-2 h-full border border-solid border-ai-border rounded-2xl aspect-video w-[350px]">
-                <h3>Ads embedding</h3>
-              </div>
-              <div class="px-4 py-2 h-full border border-solid border-ai-border rounded-2xl aspect-video w-[350px]">
-                <h3>AI effects</h3>
-              </div>
-              <div class="px-4 py-2 h-full border border-solid border-ai-border rounded-2xl aspect-video w-[350px]">
-                <h3>AR avatars</h3>
-              </div>
-              <div class="px-4 py-2 h-full border border-solid border-ai-border rounded-2xl aspect-video w-[350px]">
-                <h3>Collab streaming</h3>
-              </div>
+              {UTILITIES.map((utility) => <UtilityTile {...utility} />)}
             </div>
           </div>
         </div>
@@ -134,29 +137,29 @@ import SecondaryButton from "../../base/buttons/SecondaryButton.astro";
 <script is:inline>
   document.addEventListener("astro:page-load", () => {
     // If a user hasn't opted in for recuded motion, then we add the animation
-if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  addAnimation();
-}
-function addAnimation() {
-  const scrollers = document.querySelectorAll(".scroller");
-  scrollers.forEach((scroller) => {
-    // add data-animated="true" to every `.scroller` on the page
-    scroller.setAttribute("data-animated", true);
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      addAnimation();
+    }
+    function addAnimation() {
+      const scrollers = document.querySelectorAll(".scroller");
+      scrollers.forEach((scroller) => {
+        // add data-animated="true" to every `.scroller` on the page
+        scroller.setAttribute("data-animated", true);
 
-    // Make an array from the elements within `.scroller-inner`
-    const scrollerInner = scroller.querySelector(".scroller__inner");
-    const scrollerContent = Array.from(scrollerInner.children);
+        // Make an array from the elements within `.scroller-inner`
+        const scrollerInner = scroller.querySelector(".scroller__inner");
+        const scrollerContent = Array.from(scrollerInner.children);
 
-    // For each item in the array, clone it
-    // add aria-hidden to it
-    // add it into the `.scroller-inner`
-    scrollerContent.forEach((item) => {
-      const duplicatedItem = item.cloneNode(true);
-      duplicatedItem.setAttribute("aria-hidden", true);
-      scrollerInner.appendChild(duplicatedItem);
-    });
-  });
-}
+        // For each item in the array, clone it
+        // add aria-hidden to it
+        // add it into the `.scroller-inner`
+        scrollerContent.forEach((item) => {
+          const duplicatedItem = item.cloneNode(true);
+          duplicatedItem.setAttribute("aria-hidden", true);
+          scrollerInner.appendChild(duplicatedItem);
+        });
+      });
+    }
     // const container = document.getElementById("squares-container");
     // if (!container) return;
 
