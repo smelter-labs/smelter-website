@@ -7,10 +7,30 @@ import star from "@assets/utilities/star.svg";
 import UtilityTile from "./UtilityTile.astro";
 
 const UTILITIES = [
-  { title: "Ads embedding", icon: megaphone },
-  { title: "AI effects", icon: chip },
-  { title: "AR avatars", icon: star },
-  { title: "Collab streaming", icon: costream },
+  {
+    title: "Ads Embedding",
+    icon: megaphone,
+    description:
+      "Seamlessly embed targeted **commercials** and branded content directly into **live video streams**.",
+  },
+  {
+    title: "AI Effects",
+    icon: chip,
+    description:
+      "Automate **real-time transformations** like **AI-powered blurring**, redaction, or custom filters for live video.",
+  },
+  {
+    title: "AR Avatars",
+    icon: star,
+    description:
+      "Integrate **real-time AR avatars** and virtual characters directly into **live video streams** for interactive use cases.",
+  },
+  {
+    title: "Collab Streaming",
+    icon: costream,
+    description:
+      "Effortlessly combine multiple **live video feeds** from remote participants into a single, cohesive **collaborative stream**.",
+  },
 ] as const;
 ---
 
@@ -20,6 +40,29 @@ const UTILITIES = [
   <div class="flex flex-row">
     <div class="flex flex-col w-full px-12">
       <div class="flex gap-8">
+        <div class="flex flex-1 flex-col gap-4 text-start">
+          <div class="flex">
+            <h2 class="text-ai-header">Flexible live stream utilities</h2>
+            <span
+              class="ml-2 px-3 h-fit py-1 rounded-full text-xs font-medium border"
+              style={{
+                backgroundColor: "#C2B1E0",
+                color: "#302555",
+                borderColor: "#624BAA",
+              }}>Available soon</span
+            >
+          </div>
+          <p class="text-useCases-tileSubheader">
+            Build powerful live stream experiences. Our programmable toolkit
+            gives developers ultimate control over real-time video composition
+            and dynamic content integration directly into their applications.
+          </p>
+          <div class="scroller" data-direction="right" data-speed="slow">
+            <div class="scroller__inner">
+              {UTILITIES.map((utility) => <UtilityTile {...utility} />)}
+            </div>
+          </div>
+        </div>
         <div class="relative flex flex-1 aspect-video">
           <video
             id="videoBottom"
@@ -44,19 +87,6 @@ const UTILITIES = [
             Your browser does not support the video tag.
           </video>
         </div>
-        <div class="flex flex-1 flex-col gap-4 text-start">
-          <h2 class="text-ai-header">Flexible live stream utilities</h2>
-          <p class="text-useCases-tileSubheader">
-            Build powerful live stream experiences. Our programmable toolkit
-            gives developers ultimate control over real-time video composition
-            and dynamic content integration directly into their applications.
-          </p>
-          <div class="scroller" data-direction="right" data-speed="slow">
-            <div class="scroller__inner">
-              {UTILITIES.map((utility) => <UtilityTile {...utility} />)}
-            </div>
-          </div>
-        </div>
       </div>
       <!-- <div class="flex mt-4">
         <div class="flex-1">
@@ -77,6 +107,7 @@ const UTILITIES = [
 <style is:global>
   .scroller {
     max-width: 650px;
+    cursor: pointer;
   }
 
   .scroller__inner {
@@ -86,7 +117,7 @@ const UTILITIES = [
     gap: 1.5rem;
   }
 
-  .scroller[data-animated="true"] {
+  .scroller {
     overflow: hidden;
     -webkit-mask: linear-gradient(
       90deg,
@@ -109,6 +140,15 @@ const UTILITIES = [
     flex-wrap: nowrap;
     animation: scroll var(--_animation-duration, 40s)
       var(--_animation-direction, forwards) linear infinite;
+    animation-play-state: running;
+  }
+
+  .scroller[data-animated="false"] .scroller__inner {
+    width: max-content;
+    flex-wrap: nowrap;
+    animation: scroll var(--_animation-duration, 40s)
+      var(--_animation-direction, forwards) linear infinite;
+    animation-play-state: paused;
   }
 
   .scroller[data-direction="right"] {
@@ -124,7 +164,7 @@ const UTILITIES = [
   }
 
   .scroller[data-speed="slow"] {
-    --_animation-duration: 60s;
+    --_animation-duration: 40s;
   }
 
   @keyframes scroll {
@@ -136,73 +176,28 @@ const UTILITIES = [
 
 <script is:inline>
   document.addEventListener("astro:page-load", () => {
-    // If a user hasn't opted in for recuded motion, then we add the animation
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       addAnimation();
     }
     function addAnimation() {
-      const scrollers = document.querySelectorAll(".scroller");
-      scrollers.forEach((scroller) => {
-        // add data-animated="true" to every `.scroller` on the page
+      const scroller = document.querySelector(".scroller");
+      scroller.setAttribute("data-animated", true);
+
+      const scrollerInner = scroller.querySelector(".scroller__inner");
+      const scrollerContent = Array.from(scrollerInner.children);
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        duplicatedItem.setAttribute("aria-hidden", "true");
+        scrollerInner.appendChild(duplicatedItem);
+      });
+
+      scroller.addEventListener("mouseover", () => {
+        scroller.setAttribute("data-animated", false);
+      });
+
+      scroller.addEventListener("mouseout", () => {
         scroller.setAttribute("data-animated", true);
-
-        // Make an array from the elements within `.scroller-inner`
-        const scrollerInner = scroller.querySelector(".scroller__inner");
-        const scrollerContent = Array.from(scrollerInner.children);
-
-        // For each item in the array, clone it
-        // add aria-hidden to it
-        // add it into the `.scroller-inner`
-        scrollerContent.forEach((item) => {
-          const duplicatedItem = item.cloneNode(true);
-          duplicatedItem.setAttribute("aria-hidden", true);
-          scrollerInner.appendChild(duplicatedItem);
-        });
       });
     }
-    // const container = document.getElementById("squares-container");
-    // if (!container) return;
-
-    // const squares = Array.from(container.children);
-    // const squareWidth = squares[0].offsetWidth;
-    // const gap = 16;
-
-    // console.log("SQUARES ", squares);
-
-    // // Clone squares for seamless looping
-    // squares.forEach((square) => {
-    //   const clone = square.cloneNode(true);
-    //   container.appendChild(clone);
-    // });
-
-    // // Set container width to accommodate all squares (originals + clones)
-    // // const totalWidth = (squareWidth + gap) * squares.length;
-    // // container.style.width = `${totalWidth * 2}px`;
-
-    // let position = 0;
-    // let animationId;
-
-    // // Animation function
-    // const animate = () => {
-    //   position -= 1; // Speed of scrolling (adjust as needed)
-
-    //   // Reset position when first set of squares is out of view
-    //   if (position <= -totalWidth) {
-    //     position = 0;
-    //   }
-
-    //   container.style.transform = `translateX(${position}px)`;
-    //   animationId = requestAnimationFrame(animate);
-    // };
-
-    // // Start animation
-    // animationId = requestAnimationFrame(animate);
-
-    // // Optional: Cleanup on page unload
-    // window.addEventListener("beforeunload", () => {
-    //   if (animationId) {
-    //     cancelAnimationFrame(animationId);
-    //   }
-    // });
   });
 </script>
