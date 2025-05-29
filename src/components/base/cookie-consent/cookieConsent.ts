@@ -92,6 +92,7 @@ class CookieConsent {
       timestamp: Date.now(),
     };
 
+    window.clarity('consent');
     this.saveConsent(consent);
     this.applyCookieSettings(consent);
     this.hideConsentBanner();
@@ -104,6 +105,7 @@ class CookieConsent {
       timestamp: Date.now(),
     };
 
+    window.clarity('consent', false)
     this.saveConsent(consent);
     this.applyCookieSettings(consent);
     this.hideConsentBanner();
@@ -116,6 +118,10 @@ class CookieConsent {
         (document.getElementById("analytics-cookies") as HTMLInputElement)?.checked || false,
       timestamp: Date.now(),
     };
+
+    if(!(document.getElementById("analytics-cookies") as HTMLInputElement)?.checked) {
+      window.clarity('consent', false)
+    }
 
     this.saveConsent(consent);
     this.applyCookieSettings(consent);
@@ -145,20 +151,6 @@ class CookieConsent {
     const analyticsCheckbox = document.getElementById("analytics-cookies") as HTMLInputElement;
 
     if (analyticsCheckbox) analyticsCheckbox.checked = consent.analytics;
-
-    if (consent.analytics) {
-      this.enableAnalytics();
-    } else {
-      this.disableAnalytics();
-    }
-  }
-
-  enableAnalytics() {
-    console.log("Analytics cookies enabled");
-  }
-
-  disableAnalytics() {
-    console.log("Analytics cookies disabled");
   }
 
   static isAllowed(cookieType: ConsentCookies) {
