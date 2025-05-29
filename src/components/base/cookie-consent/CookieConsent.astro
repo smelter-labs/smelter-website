@@ -1,0 +1,338 @@
+---
+---
+
+<div id="cookie-consent" class="z-[10000] hidden">
+  <div id="cookie-banner" class="cookie-banner">
+    <div class="banner-text-wrapper">
+      <div class="cookie-text">
+        <h3>We use cookies</h3>
+        <p>
+          We use cookies to persist your settings and analyze our
+          traffic. Please select your preferences.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3 flex-1">
+        <div class="flex gap-3">
+          <button id="reject-all" class="button button-primary">Reject all</button>
+          <button id="accept-all" class="button button-primary">Accept all</button>
+        </div>
+        <button id="manage-preferences" class="button button-secondary"
+          >Manage Individual preferences</button
+        >
+      </div>
+    </div>
+  </div>
+
+  <div id="cookie-preferences" class="cookie-preferences">
+    <div class="preferences-header">
+      <h3>Cookie Preferences</h3>
+      <button id="close-preferences" class="close-button">×</button>
+    </div>
+
+    <div class="preferences-content">
+      <div class="cookie-category">
+        <label class="cookie-label">
+          <div class="cookie-info">
+            <h4>Essential Cookies</h4>
+            <p>
+              Required for basic site functionality. These cannot be disabled.
+            </p>
+          </div>
+          <div class="toggle-wrapper">
+            <input type="checkbox" id="essential-cookies" checked disabled />
+            <span class="toggle essential"></span>
+          </div>
+        </label>
+      </div>
+
+      <div class="cookie-category">
+        <label class="cookie-label">
+          <div class="cookie-info">
+            <h4>Analytics Cookies</h4>
+            <p>Help us understand how visitors interact with our website.</p>
+          </div>
+          <div class="toggle-wrapper">
+            <input type="checkbox" id="analytics-cookies" />
+            <span class="toggle"></span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="preferences-actions">
+      <button id="save-preferences" class="button button-primary"
+        >Save Preferences</button
+      >
+    </div>
+  </div>
+</div>
+
+<script src="./cookieConsent.ts" ></script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #161127;
+    border: 1px solid #493880;
+    border-radius: 1rem;
+    --tw-shadow: 0 13px 26px -7px rgba(0, 0, 0, 0.3);
+    --tw-shadow-colored: 0 13px 26px -7px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    max-width: 700px;
+    padding: 1.5rem
+  }
+
+  .banner-text-wrapper {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .cookie-preferences {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #161127;
+    border: 1px solid #493880;
+    border-radius: 16px;
+    padding: 1.5rem;
+    max-width: 480px;
+    max-height: 600px;
+    overflow-y: auto;
+    box-shadow:
+      0 20px 25px -5px #16112740,
+      0 10px 10px -5px #16112740;
+    animation: slideInUp 0.4s ease-out;
+    display: none;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .cookie-text{
+    flex: 1;
+  }
+
+  .cookie-text h3 {
+    color: #ffffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .cookie-text p {
+    color: #ffffffbf;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .cookie-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .primary-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .preferences-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #302555;
+  }
+
+  .preferences-header h3 {
+    color: #ffffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    color: #ffffffbf;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .close-button:hover {
+    background-color: #302555;
+    color: #ffffffff;
+  }
+
+  .preferences-content {
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-category {
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #302555;
+    transition: border-color 0.2s ease;
+  }
+
+  .cookie-category:hover {
+    border-color: #493880;
+  }
+
+  .cookie-category:last-child {
+    margin-bottom: 0;
+  }
+
+  .cookie-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    gap: 1rem;
+  }
+
+  .cookie-info h4 {
+    color: #ffffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .cookie-info p {
+    color: #ffffffbf;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .toggle-wrapper {
+    flex-shrink: 0;
+  }
+
+  .toggle-wrapper input[type="checkbox"] {
+    display: none;
+  }
+
+  .toggle {
+    display: block;
+    width: 44px;
+    height: 24px;
+    background-color: #302555;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: #ffffffbf;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .toggle.essential {
+    background-color: #624baa;
+  }
+
+  .toggle.essential::after {
+    background-color: #ffffffff;
+    transform: translateX(20px);
+  }
+
+  input[type="checkbox"]:checked + .toggle {
+    background-color: #624baa;
+  }
+
+  input[type="checkbox"]:checked + .toggle::after {
+    background-color: #ffffffff;
+    transform: translateX(20px);
+  }
+
+  .button {
+    padding: 0.75rem 0.25rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+  }
+
+  .button-primary {
+    background-color: #624baa;
+    color: #ffffffff;
+  }
+
+  .button-primary:hover {
+    background-color: #493880;
+  }
+
+  .button-secondary {
+    background-color: #302555;
+    color: #ffffffbf;
+    border: 1px solid #493880;
+  }
+
+  .button-secondary:hover {
+    background-color: #493880;
+    color: #ffffffff;
+  }
+
+  .preferences-actions .button {
+    width: 100%;
+  }
+
+  .cookie-settings-trigger {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #302555;
+    color: #ffffffff;
+    border: 1px solid #493880;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px #16112740;
+  }
+
+  .cookie-settings-trigger:hover {
+    background-color: #493880;
+  }
+
+  .cookie-settings-trigger.hidden {
+    display: none;
+  }
+</style>
+
