@@ -1,21 +1,30 @@
 ---
+type Props = {
+  variant?: "docs" | "page";
+};
+
+const { variant = 'page' } = Astro.props;
 ---
 
 <div id="cookie-consent" class="z-[10000] hidden">
-  <div id="cookie-banner" class="cookie-banner">
+  <div id="cookie-banner" class:list={["cookie-banner", variant ==='docs' ? 'docs-theme' : '']}>
     <div class="banner-text-wrapper">
       <div class="cookie-text">
         <h3>We use cookies</h3>
         <p>
-          We use cookies to persist your settings and analyze our
-          traffic. Please select your preferences.
+          We use cookies to persist your settings and analyze our traffic.
+          Please select your preferences.
         </p>
       </div>
 
-      <div class="flex flex-col gap-3 flex-1">
-        <div class="flex gap-3">
-          <button id="reject-all" class="button button-primary">Reject all</button>
-          <button id="accept-all" class="button button-primary">Accept all</button>
+      <div class="banner-buttons">
+        <div class="banner-buttons-top">
+          <button id="reject-all" class="button button-primary"
+            >Deny non-essential</button
+          >
+          <button id="accept-all" class="button button-primary"
+            >Accept all</button
+          >
         </div>
         <button id="manage-preferences" class="button button-secondary"
           >Manage Individual preferences</button
@@ -24,7 +33,7 @@
     </div>
   </div>
 
-  <div id="cookie-preferences" class="cookie-preferences">
+  <div id="cookie-preferences" class:list={["cookie-preferences", variant ==='docs' ? 'docs-theme' : '']}>
     <div class="preferences-header">
       <h3>Cookie Preferences</h3>
       <button id="close-preferences" class="close-button">×</button>
@@ -68,7 +77,7 @@
   </div>
 </div>
 
-<script src="./cookieConsent.ts" ></script>
+<script src="./cookieConsent.ts"></script>
 
 <style>
   .cookie-banner {
@@ -80,16 +89,34 @@
     border-radius: 1rem;
     --tw-shadow: 0 13px 26px -7px rgba(0, 0, 0, 0.3);
     --tw-shadow-colored: 0 13px 26px -7px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     max-width: 700px;
-    padding: 1.5rem
+    padding: 1.5rem;
+    display: none;
   }
 
+  .cookie-banner.docs-theme, .cookie-preferences.docs-theme {
+    background-color: #212635;
+    border: 1px solid #bec2cc;
+  }
+  
   .banner-text-wrapper {
     display: flex;
     gap: 1.5rem;
   }
 
+  .banner-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .banner-buttons-top {
+    display: flex;
+    gap: 0.75rem;
+  }
   .cookie-preferences {
     position: fixed;
     bottom: 2rem;
@@ -119,7 +146,7 @@
     }
   }
 
-  .cookie-text{
+  .cookie-text {
     flex: 1;
   }
 
@@ -154,7 +181,10 @@
     align-items: center;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #302555;
+    border-bottom: 0.5px solid #302555;
+  }
+  .docs-theme .preferences-header {
+    border-bottom: 0.5px solid #848b9e;
   }
 
   .preferences-header h3 {
@@ -195,6 +225,10 @@
     border-radius: 8px;
     border: 1px solid #302555;
     transition: border-color 0.2s ease;
+  }
+
+  .docs-theme .cookie-category {
+    border: 0.5px solid #848b9e;
   }
 
   .cookie-category:hover {
@@ -246,6 +280,10 @@
     transition: all 0.3s ease;
   }
 
+  .docs-theme .toggle {
+    background-color: #ffffffbf;
+  }
+
   .toggle::after {
     content: "";
     position: absolute;
@@ -292,19 +330,37 @@
     color: #ffffffff;
   }
 
+  .docs-theme .button-primary {
+    background-color: #848b9e;
+    color: white;
+  }
+
   .button-primary:hover {
     background-color: #493880;
   }
 
+  .docs-theme .button-primary:hover {
+    background-color: #bec2cc;
+  }
+
   .button-secondary {
     background-color: #302555;
-    color: #ffffffbf;
+    color: #ffffff;
     border: 1px solid #493880;
+  }
+
+  .docs-theme .button-secondary {
+    background-color: #323848;
+    color: #ffffff;
+    border: none;
   }
 
   .button-secondary:hover {
     background-color: #493880;
-    color: #ffffffff;
+  }
+
+  .docs-theme .button-secondary:hover {
+    background-color: #525869;
   }
 
   .preferences-actions .button {
@@ -335,4 +391,3 @@
     display: none;
   }
 </style>
-

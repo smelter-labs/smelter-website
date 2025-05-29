@@ -16,7 +16,6 @@ class CookieConsent {
   init() {
     const existingConsent = this.getConsent();
 
-    console.log('EXISTING ', existingConsent)
     if (!existingConsent) {
       this.showConsentBanner();
     } else {
@@ -46,16 +45,16 @@ class CookieConsent {
     const bannerContent = document.getElementById("cookie-banner");
     const preferences = document.getElementById("cookie-preferences");
 
-    banner?.classList.remove("hidden");
+    banner?.style.setProperty("display", "block");
     bannerContent?.style.setProperty("display", "block");
-    preferences?.style.setProperty("display", "hidden");
+    preferences?.style.setProperty("display", "none");
 
     this.hideSettingsTrigger();
   }
 
   hideConsentBanner() {
     const banner = document.getElementById("cookie-consent");
-    banner?.classList.add("hidden");
+    banner?.style.setProperty("display", "none");
     this.showSettingsTrigger();
   }
 
@@ -78,12 +77,12 @@ class CookieConsent {
 
   showSettingsTrigger() {
     const trigger = document.getElementById("cookie-settings-trigger");
-    trigger?.classList.remove("hidden");
+    trigger?.style.setProperty("display", "block");
   }
 
   hideSettingsTrigger() {
     const trigger = document.getElementById("cookie-settings-trigger");
-    trigger?.classList.add("hidden");
+    trigger?.style.setProperty("display", "none");
   }
 
   acceptAll() {
