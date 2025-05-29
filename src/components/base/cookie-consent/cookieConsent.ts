@@ -176,5 +176,3 @@ if (document.readyState === "loading") {
 } else {
   new CookieConsent();
 }
-
-window.CookieConsent = CookieConsent;
