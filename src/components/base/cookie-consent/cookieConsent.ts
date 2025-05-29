@@ -1,10 +1,10 @@
 type Consent = {
-  essential: boolean,
-  analytics: boolean,
-  timestamp: number,
-}
+  essential: boolean;
+  analytics: boolean;
+  timestamp: number;
+};
 
-type ConsentCookies = keyof Omit<Consent, 'timestamp'>
+type ConsentCookies = keyof Omit<Consent, "timestamp">;
 
 class CookieConsent {
   consentKey: string;
@@ -70,7 +70,7 @@ class CookieConsent {
     const bannerContent = document.getElementById("cookie-banner");
     const preferences = document.getElementById("cookie-preferences");
 
-    console.log('PREFERENCES ', preferences)
+    console.log("PREFERENCES ", preferences);
     bannerContent?.style.setProperty("display", "block");
     preferences?.style.setProperty("display", "none");
   }
@@ -112,7 +112,8 @@ class CookieConsent {
   saveSelected() {
     const consent: Consent = {
       essential: true,
-      analytics: (document.getElementById("analytics-cookies") as HTMLInputElement)?.checked || false,
+      analytics:
+        (document.getElementById("analytics-cookies") as HTMLInputElement)?.checked || false,
       timestamp: Date.now(),
     };
 

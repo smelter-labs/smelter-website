@@ -3,11 +3,14 @@ type Props = {
   variant?: "docs" | "page";
 };
 
-const { variant = 'page' } = Astro.props;
+const { variant = "page" } = Astro.props;
 ---
 
-<div id="cookie-consent" class="z-[10000] hidden">
-  <div id="cookie-banner" class:list={["cookie-banner", variant ==='docs' ? 'docs-theme' : '']}>
+<div id="cookie-consent" class="z-[10000]">
+  <div
+    id="cookie-banner"
+    class:list={["cookie-banner", variant === "docs" ? "docs-theme" : ""]}
+  >
     <div class="banner-text-wrapper">
       <div class="cookie-text">
         <h3>We use cookies</h3>
@@ -33,7 +36,10 @@ const { variant = 'page' } = Astro.props;
     </div>
   </div>
 
-  <div id="cookie-preferences" class:list={["cookie-preferences", variant ==='docs' ? 'docs-theme' : '']}>
+  <div
+    id="cookie-preferences"
+    class:list={["cookie-preferences", variant === "docs" ? "docs-theme" : ""]}
+  >
     <div class="preferences-header">
       <h3>Cookie Preferences</h3>
       <button id="close-preferences" class="close-button">×</button>
@@ -96,11 +102,12 @@ const { variant = 'page' } = Astro.props;
     display: none;
   }
 
-  .cookie-banner.docs-theme, .cookie-preferences.docs-theme {
+  .cookie-banner.docs-theme,
+  .cookie-preferences.docs-theme {
     background-color: #212635;
     border: 1px solid #bec2cc;
   }
-  
+
   .banner-text-wrapper {
     display: flex;
     gap: 1.5rem;
@@ -162,17 +169,6 @@ const { variant = 'page' } = Astro.props;
     font-size: 0.875rem;
     line-height: 1.5;
     margin: 0;
-  }
-
-  .cookie-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .primary-actions {
-    display: flex;
-    gap: 0.75rem;
   }
 
   .preferences-header {
@@ -365,29 +361,5 @@ const { variant = 'page' } = Astro.props;
 
   .preferences-actions .button {
     width: 100%;
-  }
-
-  .cookie-settings-trigger {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background-color: #302555;
-    color: #ffffffff;
-    border: 1px solid #493880;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 1000;
-    box-shadow: 0 4px 12px #16112740;
-  }
-
-  .cookie-settings-trigger:hover {
-    background-color: #493880;
-  }
-
-  .cookie-settings-trigger.hidden {
-    display: none;
   }
 </style>
