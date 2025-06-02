@@ -8,10 +8,17 @@ const { entry } = Astro.locals.starlightRoute
 const { template } = Astro.locals.starlightRoute.entry.data
 
 const pageVersion = getVersionFromSlug(starlightVersionsConfig, starlightConfig, entry.slug)
+
+const [versionName] = pageVersion.slug.split('/')
+const versionsBySlug = Object.keys(starlightVersionsConfig.versionsBySlug).filter((versionSlug) => versionSlug.includes(versionName))
+const currentVersion = versionsBySlug.sort().slice(-1)[0]
+
+console.log('pageVersion ',pageVersion)
+const displayBanner = pageVersion && currentVersion !== pageVersion.slug
 ---
 
 {
-  pageVersion && template === 'splash' && (
+  displayBanner && template === 'splash' && (
     <div>
       This content is for {pageVersion.label ?? `the ${pageVersion.slug} version`}. Switch to the
       {/* prettier-ignore */}
