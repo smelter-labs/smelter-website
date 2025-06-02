@@ -5,12 +5,12 @@ sidebar:
 slug: http-api/0.4.x/http-api/guides/basic-layouts
 ---
 
-import { Steps, Aside } from '@astrojs/starlight/components';
-import Step1Image from '../../../../../assets/guides/basic-layouts-1.mp4'
-import Step2Image from '../../../../../assets/guides/basic-layouts-2.mp4'
-import Step3Image from '../../../../../assets/guides/basic-layouts-3.mp4'
-import Step4Image from '../../../../../assets/guides/basic-layouts-4.mp4'
-import Step5Image from '../../../../../assets/guides/basic-layouts-5.mp4'
+import { Steps, Aside } from "@astrojs/starlight/components";
+import Step1Image from "@assets/guides/basic-layouts-1.mp4";
+import Step2Image from "@assets/guides/basic-layouts-2.mp4";
+import Step3Image from "@assets/guides/basic-layouts-3.mp4";
+import Step4Image from "@assets/guides/basic-layouts-4.mp4";
+import Step5Image from "@assets/guides/basic-layouts-5.mp4";
 
 In this guide, you'll learn how layouts in Smelter works and how to position and resize components.
 It includes examples and explanation how component size is calculated.
@@ -81,10 +81,10 @@ It includes examples and explanation how component size is calculated.
      <video autoplay loop muted src={Step3Image} alt="basic layouts - resize input" />
 
      <Aside>
-       The same effect (for single input) could be achieved by either:
-
-       * Setting `InputStream` as a root directly. It would only work if aspect ratio of input and output is the same.
-       * Replacing `View` component with a `Rescaler`.
+       The same effect (for single input) could be achieved by either: - Setting
+       `InputStream` as a root directly. It would only work if aspect ratio of
+       input and output is the same. - Replacing `View` component with a
+       `Rescaler`.
      </Aside>
 
   4. Show both inputs side-by-side.

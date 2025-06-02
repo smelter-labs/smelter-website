@@ -38,7 +38,7 @@ export async function copyDirectory(sourceDir: URL, destDir: URL, callback: Copy
       const content = await fs.readFile(entrySourceURL, 'utf8');
       const updatedContent = await callback({ type: 'file', content, url: entrySourceURL });
 
-      if(entry.name.includes('.tsx')) {
+      if(entry.name.includes('.tsx') || entry.name.includes('.wgsl') ) {
         await fs.writeFile(entryDestURL, content);
       }
       if (typeof updatedContent !== 'string') continue;
