@@ -142,27 +142,30 @@ Video encoder options.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoEncoderOptions = {
-  type: "ffmpeg_h264";
-  preset: 
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
-  ffmpegOptions?: Map<string, string>;
-} | {
-  type: "ffmpeg_vp8";
-  ffmpegOptions?: Map<string, string>;
-} | {
-  type: "ffmpeg_vp9";
-  ffmpegOptions?: Map<string, string>;
-}
+type RtpVideoEncoderOptions = 
+  | {
+      type: "ffmpeg_h264";
+      preset: 
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp8";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp9";
+      ffmpegOptions?: Map<string, string>;
+    };
 ```
 </CollapsibleDetails>
 

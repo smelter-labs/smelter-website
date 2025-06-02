@@ -40,10 +40,9 @@ void run();
 ```
 
 <Aside>
-Even if `video` field is not specified, the video decoder will still be automatically negotiated.
-The `audio` decoder is **always** automatically negotiated.
+If available from the source, the audio track is **always** used.
 
-In the following example, both audio and video decoders will be automatically negotiated:
+In the following example, both the audio and video tracks will be included if the source provides them:
 ```tsx
 await smelter.registerInput("example", {
   type: "whip",

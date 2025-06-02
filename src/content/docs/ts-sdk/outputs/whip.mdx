@@ -53,7 +53,7 @@ type RegisterWhipOutput = {
   endpointUrl: string;
   bearerToken?: string;
   video?: WhipVideoOptions;
-  audio?: true |  WhipAudioOptions;
+  audio?: true | WhipAudioOptions;
 };
 ```
 </CollapsibleDetails>
@@ -143,29 +143,33 @@ Behavior:
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipVideoEncoderOptions = {
-  type: "ffmpeg_h264";
-  preset?: 
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
-  ffmpegOptions?: Map<string, string>;
-} | {
-  type: "ffmpeg_vp8";
-  ffmpegOptions?: Map<string, string>;
-} | {
-  type: "ffmpeg_vp9";
-  ffmpegOptions?: Map<string, string>;
-} | {
-  type: "any"
-}
+type WhipVideoEncoderOptions = 
+  | {
+      type: "ffmpeg_h264";
+      preset?: 
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp8";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp9";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "any"
+    };
 ```
 </CollapsibleDetails>
 
