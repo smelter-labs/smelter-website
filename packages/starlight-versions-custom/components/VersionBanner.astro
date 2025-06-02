@@ -9,7 +9,7 @@ const { template } = Astro.locals.starlightRoute.entry.data
 
 const pageVersion = getVersionFromSlug(starlightVersionsConfig, starlightConfig, entry.slug)
 
-let displayBanner = true;
+let displayBanner = !!pageVersion;
 
 if(pageVersion) {
 

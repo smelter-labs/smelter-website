@@ -8,7 +8,7 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import starlightLinksValidator from "starlight-links-validator";
-// import starlightVersions from "starlight-versions";
+import starlightVersions from "starlight-versions";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
@@ -58,7 +58,28 @@ export default defineConfig({
     starlight({
       title: "Smelter",
       prerender: false,
-      plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
+      plugins: process.env.ENABLE_LINK_CHECKER
+        ? [
+            starlightLinksValidator(),
+            starlightVersions({
+              versions: [
+                {
+                  slug: "ts-sdk/0.2.x",
+                  label: "ts-sdk v0.2.x",
+                },
+              ],
+            }),
+          ]
+        : [
+            starlightVersions({
+              versions: [
+                {
+                  slug: "ts-sdk/0.2.x",
+                  label: "ts-sdk v0.2.x",
+                },
+              ],
+            }),
+          ],
       description:
         "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
       social: {
