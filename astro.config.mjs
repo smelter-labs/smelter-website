@@ -67,6 +67,10 @@ export default defineConfig({
                   slug: "ts-sdk/0.2.x",
                   label: "ts-sdk v0.2.x",
                 },
+                {
+                  slug: "http-api/0.4.x",
+                  label: "http-api v0.4.x",
+                },
               ],
             }),
           ]
@@ -77,6 +81,7 @@ export default defineConfig({
                   slug: "ts-sdk/0.2.x",
                   label: "ts-sdk v0.2.x",
                 },
+                { slug: "http-api/0.4.x", label: "http-api v0.4.x" },
               ],
             }),
           ],
@@ -101,7 +106,10 @@ export default defineConfig({
       head: [
         {
           tag: "meta",
-          attrs: { property: "og:image", content: "https://smelter.dev/og-image.png" },
+          attrs: {
+            property: "og:image",
+            content: "https://smelter.dev/og-image.png",
+          },
         },
         {
           tag: "meta",
@@ -137,7 +145,10 @@ export default defineConfig({
         },
         {
           tag: "meta",
-          attrs: { property: "twitter:image”", content: "https://smelter.dev/og-image.png" },
+          attrs: {
+            property: "twitter:image”",
+            content: "https://smelter.dev/og-image.png",
+          },
         },
       ],
       sidebar: [
