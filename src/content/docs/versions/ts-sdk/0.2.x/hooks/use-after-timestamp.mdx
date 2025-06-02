@@ -7,9 +7,9 @@ import { Aside, Code } from "@astrojs/starlight/components";
 import useAfterTimestampExample from "./examples/useAfterTimestamp.tsx?raw";
 import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
-`useAfterTimestmp` returns boolean that represents whether specified [timestamp](/ts-sdk/0.2.x/fundamentals/glossary#timestamp) already passed.
+`useAfterTimestmp` returns boolean that represents whether specified [timestamp](/fundamentals/glossary#timestamp) already passed.
 
-For [offline processing](/ts-sdk/0.2.x/fundamentals/glossary#offline-processing), you can't rely on real time clock to measure time. This hook replaces patterns
+For [offline processing](/fundamentals/glossary#offline-processing), you can't rely on real time clock to measure time. This hook replaces patterns
 where you would use `useEffect` + `setTimeout` in a live processing case.
 
 <Aside>
@@ -31,7 +31,7 @@ function useAfterTimestamp(timestampMs: number): boolean;
 
 ### timestampMs
 
-[Timestamp](/ts-sdk/0.2.x/fundamentals/glossary#timestamp) in milliseconds.
+[Timestamp](/fundamentals/glossary#timestamp) in milliseconds.
 
 * **Type**: `number`
 

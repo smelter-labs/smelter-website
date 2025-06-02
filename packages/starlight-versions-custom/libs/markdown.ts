@@ -186,7 +186,7 @@ function handleImports(node: MdxjsEsm, file: VFile) {
 
 function addVersionToLink(link: string, file: VFile) {
 
-  const [versionName] = file.data.version?.slug.split('/') ?? ''
+  const [versionName, _versionNumber] = file.data.version?.slug.split('/') ?? ''
 
   assert(file.data.version, 'A version must be provided to add a version to an Astro asset.')
 
@@ -198,7 +198,7 @@ function addVersionToLink(link: string, file: VFile) {
   }
 
   const segments = link.split('/')
-  segments.splice(1, 0, file.data.version.slug)
+  // segments.splice(1, 0, file.data.version.slug)
 
   if (hasBase) {
     segments.splice(1, 0, stripLeadingSlash(base))
