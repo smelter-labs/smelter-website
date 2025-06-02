@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [".vercel", "dist"]
+    "ignore": [".vercel", "dist", "packages"]
   },
   "formatter": {
     "enabled": true,
@@ -41,6 +41,12 @@
   "overrides": [
     {
       "include": ["src/content/docs/ts-sdk/**/examples/**/*.tsx"],
+      "formatter": {
+        "lineWidth": 75
+      }
+    },
+    {
+      "include": ["src/content/docs/versions/**/*/examples/**/*.tsx"],
       "formatter": {
         "lineWidth": 75
       }

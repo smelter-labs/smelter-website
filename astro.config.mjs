@@ -8,13 +8,14 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import starlightLinksValidator from "starlight-links-validator";
+// import starlightVersions from "starlight-versions";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
 
-import vercel from "@astrojs/vercel";
-
 import react from "@astrojs/react";
+
+import vercel from "@astrojs/vercel";
 
 const require = createRequire(import.meta.url);
 
@@ -31,6 +32,8 @@ export default defineConfig({
     "/http-api/renderers": "/http-api/renderers/overview",
   },
   prefetch: true,
+  output: "server",
+
   vite: {
     plugins: [
       viteStaticCopy({
@@ -50,9 +53,11 @@ export default defineConfig({
       include: ["@swmansion/smelter-web-wasm > pino"],
     },
   },
+
   integrations: [
     starlight({
       title: "Smelter",
+      prerender: false,
       plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
       description:
         "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
@@ -246,5 +251,9 @@ export default defineConfig({
     ],
   },
 
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
 });

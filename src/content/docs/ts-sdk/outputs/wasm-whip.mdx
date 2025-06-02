@@ -1,8 +1,9 @@
 ---
 title: WHIP (Web API)
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+import { Aside, Code, Badge } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 <Badge text="Browser (WASM)" variant="tip" size="large" />
 
@@ -41,11 +42,12 @@ type RegisterWhipOutput = {
   type: "whip";
   endpointUrl: string;
   bearerToken?: string;
-  iceServers?: RTCConfiguration['iceServers'];
+  iceServers?: RTCConfiguration["iceServers"];
   video: WhipOutputVideo;
   audio?: boolean;
 };
 ```
+
 </CollapsibleDetails>
 
 ## Properties
@@ -76,6 +78,7 @@ List of ICE servers that should be added to `RTCPeerConnection`
 ---
 
 ### video
+
 Parameters of an output video.
 
 - **Type**: [`WhipOutputVideo`](#whipoutputvideo)
@@ -86,27 +89,30 @@ Parameters of an output video.
 
 If `true` `MediaStream` returned from a register call will include audio track.
 
-- **Type**: `boolean` 
+- **Type**: `boolean`
 - **Defaults to**: `false`
 
 ## WhipOutputVideo
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type RegisterCanvasOutput = {
     resolution: { width: number; height: number; }
     maxBitrate?: number;
 };
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 ### Properties
 
-#### maxBitrate 
+#### maxBitrate
 
 Max bitrate of a stream.
 
-- **Type**: `number` 
+- **Type**: `number`
 
 #### resolution
 

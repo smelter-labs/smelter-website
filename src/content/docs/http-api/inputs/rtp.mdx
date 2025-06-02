@@ -1,8 +1,9 @@
 ---
 title: RTP
 ---
-import { Aside, Badge, Code } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+import { Aside, Badge, Code } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 An input type that allows streaming video and audio to the Smelter server over RTP. It supports both streaming over UDP and TCP (Smelter works as a TCP server).
 
@@ -28,6 +29,7 @@ Content-Type: application/json
   }
 }
 ```
+
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
@@ -38,15 +40,16 @@ See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn 
 
 ```tsx
 type RtpInput = {
-  type: "rtp_stream"
+  type: "rtp_stream";
   port: string | u16;
   transport_protocol?: "udp" | "tcp_server";
   video?: InputRtpVideoOptions;
   audio?: InputRtpAudioOptions;
   required?: bool;
   offset_ms?: f64;
-}
+};
 ```
+
 </CollapsibleDetails>
 
 Parameters for registering an RTP stream as an input.
@@ -56,6 +59,7 @@ Parameters for registering an RTP stream as an input.
 ## Properties
 
 ### port
+
 A port number or a port range in format `START:END`. If range is specified, a port from that
 range will be returned from [`register-input` request](/http-api/routes#register-input).
 
@@ -64,16 +68,18 @@ range will be returned from [`register-input` request](/http-api/routes#register
 ---
 
 ### transport_protocol
+
 Transport protocol.
 
 - **Type**: `"udp" | "tcp_server"`
 - **Supported values**:
-    - `udp` - UDP protocol.
-    - `tcp_server` - TCP protocol where Smelter is the server side of the connection.
+  - `udp` - UDP protocol.
+  - `tcp_server` - TCP protocol where Smelter is the server side of the connection.
 
 ---
 
 ### video
+
 Parameters of a video included in the RTP stream.
 
 - **Type**: [`InputRtpVideoOptions`](#inputrtpvideooptions)
@@ -81,6 +87,7 @@ Parameters of a video included in the RTP stream.
 ---
 
 ### audio
+
 Parameters of an audio source included in the RTP stream.
 
 - **Type**: [`InputRtpAudioOptions`](#inputrtpaudiooptions)
@@ -88,6 +95,7 @@ Parameters of an audio source included in the RTP stream.
 ---
 
 ### required
+
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
 - **Type**: `bool`
@@ -96,36 +104,41 @@ Determines if the input stream is essential for output frame production. If set 
 ---
 
 ### offset_ms
+
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `f64`
 
 ## InputRtpVideoOptions
+
 ```typescript
 type InputRtpVideoOptions = {
   decoder: "ffmpeg_h264" | "vulkan_video";
-}
+};
 ```
+
 ### Properties
 
 #### decoder
+
 Video decoder.
 
 - **Type**: `"ffmpeg_h264" | "vulkan_video"`
 - **Supported values**:
   - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
   - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
-    
+
     This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
     support it.
-    
+
     This requires hardware that supports Vulkan Video. Another requirement is this program has
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
 
 ## InputRtpAudioOptions
+
 ```typescript
-type InputRtpAudioOptions = 
+type InputRtpAudioOptions =
   | {
       decoder: "opus";
       forward_error_correction?: bool;
@@ -134,11 +147,13 @@ type InputRtpAudioOptions =
       decoder: "aac";
       audio_specific_config: string;
       rtp_mode?: "low_bitrate" | "high_bitrate";
-    }
+    };
 ```
+
 ### Properties (`decoder: "opus"`)
 
 #### forward_error_correction
+
 Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
 
 - **Type**: `bool`
@@ -147,11 +162,13 @@ Specifies whether the stream uses forward error correction. It's specific for th
 ### Properties (`decoder: "aac"`)
 
 #### audio_specific_config
+
 Configuration encoded in the format described in <a href='https://datatracker.ietf.org/doc/html/rfc3640#section-4.1' target='_blank'>RFC 3640</a>.
 
 - **Type**: `string`
 
 For detailed instructions on obtaining this value, refer to the information provided in the table below:
+
 <table>
   <thead>
     <tr>
@@ -162,24 +179,44 @@ For detailed instructions on obtaining this value, refer to the information prov
   </thead>
   <tbody>
     <tr>
-      <td><strong>FFmpeg Streaming</strong></td>
+      <td>
+        <strong>FFmpeg Streaming</strong>
+      </td>
       <td>SDP file</td>
-      <td>Use the <code>-sdp_file FILENAME</code> option when streaming to a Smelter to generate an SDP file containing the ASC.</td>
+      <td>
+        Use the <code>-sdp_file FILENAME</code> option when streaming to a
+        Smelter to generate an SDP file containing the ASC.
+      </td>
     </tr>
     <tr>
-      <td><strong>MP4 Files</strong></td>
-      <td>Inside the <code>esds</code> box</td>
-      <td>The ASC is embedded as part of the <code>esds</code> box, not the entire box. Applies to regular MP4 and fragmented MP4s (used in HLS playlists with MP4 files).</td>
+      <td>
+        <strong>MP4 Files</strong>
+      </td>
+      <td>
+        Inside the <code>esds</code> box
+      </td>
+      <td>
+        The ASC is embedded as part of the <code>esds</code> box, not the entire
+        box. Applies to regular MP4 and fragmented MP4s (used in HLS playlists
+        with MP4 files).
+      </td>
     </tr>
     <tr>
-      <td><strong>FLV Files / RTMP</strong></td>
-      <td>Inside the <code>AACAUDIODATA</code> tag</td>
-      <td>The ASC is contained within the <code>AACAUDIODATA</code> tag.</td>
+      <td>
+        <strong>FLV Files / RTMP</strong>
+      </td>
+      <td>
+        Inside the <code>AACAUDIODATA</code> tag
+      </td>
+      <td>
+        The ASC is contained within the <code>AACAUDIODATA</code> tag.
+      </td>
     </tr>
   </tbody>
 </table>
 
 #### rtp_mode
+
 Specifies the RFC 3640 mode that should be used when depacketizing this stream. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc3640#section-3.3.1' target='_blank'>RFC specification</a>
 
 - **Type**: `"low_bitrate" | "high_bitrate"`

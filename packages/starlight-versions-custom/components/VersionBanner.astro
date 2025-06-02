@@ -1,0 +1,71 @@
+---
+import starlightConfig from 'virtual:starlight/user-config'
+import starlightVersionsConfig from 'virtual:starlight-versions-config'
+
+import { getVersionFromSlug, getVersionURL } from '../libs/versions'
+
+const { entry } = Astro.locals.starlightRoute
+const { template } = Astro.locals.starlightRoute.entry.data
+
+const pageVersion = getVersionFromSlug(starlightVersionsConfig, starlightConfig, entry.slug)
+
+let displayBanner = true;
+
+if(pageVersion) {
+
+  const [versionName] = pageVersion.slug.split('/')
+  const versionsBySlug = Object.keys(starlightVersionsConfig.versionsBySlug).filter((versionSlug) => versionSlug.includes(versionName))
+  const currentVersion = versionsBySlug.sort().slice(-1)[0]
+  
+  displayBanner = pageVersion && currentVersion !== pageVersion.slug
+}
+---
+
+{
+  displayBanner && template === 'splash' && (
+    <div>
+      This content is for {pageVersion.label ?? `the ${pageVersion.slug} version`}. Switch to the
+      {/* prettier-ignore */}
+      <a id="version-switch-link" href={`${getVersionURL(starlightVersionsConfig, starlightConfig, Astro.url, undefined).pathname}?bannerRedirect`}>latest version</a>
+      for up-to-date documentation.
+    </div>
+  )
+}
+
+<style>
+  div {
+    background-color: var(--sl-color-orange-low);
+    box-shadow: var(--sl-shadow-sm);
+    color: var(--sl-color-orange-high);
+    line-height: var(--sl-line-height-headings);
+    padding: var(--sl-nav-pad-y) var(--sl-nav-pad-x);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  div a {
+    color: var(--sl-color-orange-high);
+  }
+</style>
+
+<script>
+  import { navigate } from 'astro:transitions/client'
+
+  const handleNewVersion = (href: string | null) => {
+    if (href) {
+      document.cookie = 'selectedVersion=current; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+      navigate(href)
+    }
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const link = document.getElementById('version-switch-link')
+    if (link) {
+      const href = link.getAttribute('href')
+      link.removeEventListener('click', () => handleNewVersion(href))
+      link.addEventListener('click', () => {
+        handleNewVersion(href)
+      })
+    }
+  })
+</script>
