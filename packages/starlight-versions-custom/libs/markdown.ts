@@ -186,14 +186,8 @@ function handleImports(node: MdxjsEsm, file: VFile) {
 
 function addVersionToLink(link: string, file: VFile) {
 
-  const [versionName, versionNumber] = file.data.version?.slug.split('/') ?? ''
+  const [versionName] = file.data.version?.slug.split('/') ?? ''
 
-  // if(link.includes('smelter#registerinput')) {
-  //   console.log('LINK DATA BASE ', JSON.stringify(file.data.base))
-  //   console.log('LINK SEGMENTS', link.split('/'))
-  //   console.log('LINK DATA VERSION', JSON.stringify(file.data.version, null, 2))
-
-  // }
   assert(file.data.version, 'A version must be provided to add a version to an Astro asset.')
 
   const base = file.data.base ?? ''
@@ -209,10 +203,6 @@ function addVersionToLink(link: string, file: VFile) {
   if (hasBase) {
     segments.splice(1, 0, stripLeadingSlash(base))
   }
-
-  // if(link.includes('smelter#registerinput')) {
-  //   console.log('LINK SEGMENTS 2', segments)
-  // }
 
   if(versionName && link.includes(versionName) ) {
     return link.replace(versionName, file.data.version.slug )

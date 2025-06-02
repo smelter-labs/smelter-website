@@ -125,7 +125,7 @@ const httpVersions = versions.filter((version) => version.slug.includes('http-ap
 
 <script>
   import { navigate } from 'astro:transitions/client'
-  const versionRegex = /\/[0-9]+(\.[0-9]+)?\//g
+  const versionRegex = /\/([0-9]+(\.[0-9]+|\.[x]|[0-9]*)?(\.x)?)\//g;
 
   customElements.define(
     'starlight-version-select',
