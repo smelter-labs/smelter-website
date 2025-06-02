@@ -28,12 +28,8 @@ async function run() {
     bearerToken: "<TOKEN>",
     video: {
       encoderPreferences: [
-        {
-          type: "ffmpeg_h264",
-        }, 
-        {
-          type: "any",
-        }
+        { type: "ffmpeg_h264" },
+        { type: "any" },
       ],
       resolution: { width: 1920, height: 1080 },
     },
@@ -143,10 +139,10 @@ Behavior:
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipVideoEncoderOptions = 
+type WhipVideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
-      preset?: 
+      preset?:
         | "ultrafast"
         | "superfast"
         | "veryfast"
@@ -168,7 +164,7 @@ type WhipVideoEncoderOptions =
       ffmpegOptions?: Map<string, string>;
     }
   | {
-      type: "any"
+      type: "any";
     };
 ```
 </CollapsibleDetails>
