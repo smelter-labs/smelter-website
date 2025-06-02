@@ -12,6 +12,8 @@ configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smel
 To connect new input, register it first with [`register-input` request](/http-api/routes#register-input)
 and then establish WHIP connection.
 
+The `bearer token` will be returned as response to the input registration.
+
 ## Usage
 
 To use WHIP Input you must register it first. You can do it by sending a request like this:
@@ -32,10 +34,7 @@ Content-Type: application/json
 </CollapsibleDetails>
 
 <Aside>
-Even if `video` field is not specified, the video decoder will still be automatically negotiated.
-The `audio` decoder is **always** automatically negotiated.
-
-In the following example, both audio and video decoders will be automatically negotiated:
+In the following example, both the audio and video will be used if the source provides audio and video tracks:
 ```http
 POST: /api/input/:input_id/register
 Content-Type: application/json
@@ -91,7 +90,7 @@ Parameters of a video source included in the WHIP stream.
 ```tsx
 type InputWhipVideoOptions = {
     decoder_preferences?: WhipVideoDecoder[];
-}
+};
 ```
 </CollapsibleDetails>
 
@@ -116,21 +115,26 @@ Video decoder type.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipVideoDecoder = "ffmpeg_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "vulkan_h264" | "any"
+type WhipVideoDecoder =
+  | "ffmpeg_h264"
+  | "ffmpeg_vp8"
+  | "ffmpeg_vp9"
+  | "vulkan_h264"
+  | "any";
 ```
 </CollapsibleDetails>
 
 - **Type**: "ffmpeg_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "vulkan_h264" | "any"
 - **Supported values**:
-  - `"ffmpeg_h264"` - Software H264 decoder based on ffmpeg.
+  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
   - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder based on Vulkan Video.
     
-    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
+    This should be faster and more scalable than the FFmpeg decoder, if the hardware and OS
     support it.
     
     This requires hardware that supports Vulkan Video. Another requirement is this program has
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
-  - `"ffmpeg_vp8"` - Software VP8 decoder based on ffmpeg.
-  - `"ffmpeg_vp9"` - Software VP9 decoder based on ffmpeg.
+  - `"ffmpeg_vp8"` - Software VP8 decoder based on FFmpeg.
+  - `"ffmpeg_vp9"` - Software VP9 decoder based on FFmpeg.
   - `"any"` - Automatically selects any video decoder supported by Smelter.
