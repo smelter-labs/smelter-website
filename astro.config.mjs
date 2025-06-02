@@ -31,7 +31,6 @@ export default defineConfig({
     "/http-api": "/http-api/overview",
     "/http-api/renderers": "/http-api/renderers/overview",
   },
-
   prefetch: true,
   output: "server",
 
@@ -74,6 +73,9 @@ export default defineConfig({
         dark: "./src/assets/navigation/smelter-logo-docs.svg",
         alt: "Smelter logo",
         replacesTitle: true,
+      },
+      components: {
+        PageFrame: "./src/components/starlight-overrides/PageFrame.astro",
       },
       head: [
         {

@@ -72,33 +72,4 @@ const CAPABILITIES = [
   </div>
 </section>
 
-<script is:inline data-astro-rerun>
-  document.addEventListener("astro:page-load", function () {
-    const capabilitiesBlur = document.getElementById("capabilitiesBlur");
-    const capabilitiesWave = document.getElementById("capabilitiesWave");
-
-    const parentSection = capabilitiesBlur?.closest("section");
-
-    const handleScroll = () => {
-      if (!parentSection) return;
-      const sectionBottom = parentSection.getBoundingClientRect().bottom;
-      const scrollY = window.screenY;
-      const sectionBottomToPageTop = scrollY + sectionBottom;
-      const relativeBottom =
-        scrollY - sectionBottomToPageTop + window.innerHeight;
-
-      if (
-        relativeBottom > -window.innerHeight &&
-        sectionBottom < window.innerHeight
-      ) {
-        const translateY = relativeBottom;
-        capabilitiesBlur.style.transform = `translateY(-${translateY * 0.7}px) translateX(-50%)`;
-        capabilitiesWave.style.transform = `translateY(${translateY * 0.4}px)`;
-      }
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-  });
-</script>
+<script src="./capabilitiesSection.ts" is:inline data-astro-rerun />

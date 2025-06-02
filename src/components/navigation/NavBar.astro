@@ -35,6 +35,12 @@ const smelterLogoSmallImage = await getImage({
   width: 31,
   height: 17,
 });
+const newScreenSmallImage = await getImage({
+  src: newScreen,
+  format: "svg",
+  width: 24,
+  height: 24,
+});
 
 interface Props {
   rootHref?: string;
@@ -52,6 +58,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={githubLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
+    <link rel="preload" href={newScreenSmallImage.src} as="image" />
     <link rel="preload" href={cross.src} as="image" />
     <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
@@ -139,7 +146,13 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
             target="_blank"
           >
             Docs
-            <Image src={newScreen} alt="newscreen" />
+            <Image
+              width={64}
+              height={64}
+              class="aspect-square w-6 h-6"
+              src={newScreen}
+              alt="newscreen"
+            />
           </a>
           <div class="flex gap-x-4 w-full justify-end py-2">
             <a
@@ -223,59 +236,45 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
   </nav>
 </header>
 
-<script is:inline data-astro-rerun>
-  document.addEventListener("astro:page-load", function () {
-    const header = document.getElementById("pageHeader");
+<script src="./navBar.ts" />
 
-    function handleOpacity() {
+<script is:inline data-astro-rerun>
+  function toggleMobileMenu() {
+  const menu = document.getElementById("mobile-menu");
+  const hamburger = document.getElementById("nav-hamburger");
+  const close = document.getElementById("nav-close");
+  const navbar = document.getElementById("pageHeader");
+
+  if(!menu || !hamburger || !close || !navbar) return
+  if (menu?.classList.contains("hidden")) {
+    menu.classList.remove("hidden");
+
+    
+    hamburger.style.opacity = "0";
+    close.style.opacity = "1";
+    const alphaHex = Math.round(235).toString(16).padStart(2, "0");
+    navbar.style.backgroundColor = `#161127${alphaHex}`;
+
+    setTimeout(() => {
+      menu.style.opacity = "1";
+    }, 100);
+  } else {
+    menu.style.opacity = "0";
+    hamburger.style.opacity = "1";
+    close.style.opacity = "0";
+
+    setTimeout(() => {
+      menu.classList.add("hidden");
       const scrollDistanceLimit = 150;
       const alphaDecimal = Math.min(
         235,
         (window.scrollY / scrollDistanceLimit) * 235
       );
       const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
-      if (header) header.style.backgroundColor = `#161127${alphaHex}`;
-    }
-
-    handleOpacity();
-
-    window.addEventListener("scroll", handleOpacity);
-  });
-
-  function toggleMobileMenu() {
-    const menu = document.getElementById("mobile-menu");
-    const hamburger = document.getElementById("nav-hamburger");
-    const close = document.getElementById("nav-close");
-    const navbar = document.getElementById("pageHeader");
-
-    if (menu.classList.contains("hidden")) {
-      console.log("TOGGLE");
-      menu.classList.remove("hidden");
-
-      hamburger.style.opacity = "0";
-      close.style.opacity = "1";
-      const alphaHex = Math.round(235).toString(16).padStart(2, "0");
       navbar.style.backgroundColor = `#161127${alphaHex}`;
-
-      setTimeout(() => {
-        menu.style.opacity = "1";
-      }, 100);
-    } else {
-      menu.style.opacity = "0";
-      hamburger.style.opacity = "1";
-      close.style.opacity = "0";
-
-      setTimeout(() => {
-        menu.classList.add("hidden");
-        const scrollDistanceLimit = 150;
-        const alphaDecimal = Math.min(
-          235,
-          (window.scrollY / scrollDistanceLimit) * 235
-        );
-        const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
-        navbar.style.backgroundColor = `#161127${alphaHex}`;
-        menu.style.opacity = "1";
-      }, 300);
-    }
+      menu.style.opacity = "1";
+    }, 300);
   }
+}
 </script>
+
