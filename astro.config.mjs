@@ -20,7 +20,7 @@ const require = createRequire(import.meta.url);
 
 export default defineConfig({
   site: "https://smelter.dev",
-
+  output: 'server',
   redirects: {
     "/docs": "/fundamentals/getting-started", // TODO: temporary to avoid empty page
     "/fundamentals": "/fundamentals/getting-started",
