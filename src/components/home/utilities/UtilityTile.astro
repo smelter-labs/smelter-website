@@ -9,23 +9,25 @@ type Props = {
 const { title, icon } = Astro.props;
 ---
 
-<div
-  class="px-4 py-4 h-full border border-solid border-ai-border rounded-2xl"
->
-  <div class="flex flex-row items-center gap-x-4">
-    <div
-      class="flex aspect-square w-12 h-12 max-w-12 max-h-12 rounded-xl border border-capabilities-border overflow-clip md:w-12 md:h-12 md:max-w-12 md:max-h-12"
-    >
-      <div class="gradient-red-1 w-full h-full aspect-square">
-        <div class="flex items-center justify-center p-2.5 md:p-2.5">
-          <Image
-            src={icon}
-            alt="capability icon"
-            class="w-full h-full object-cover"
-          />
+<a href="/#contact" class="contact-link">
+  <div
+    class="px-4 py-4 border border-solid border-ai-border rounded-2xl w-max cursor-pointer"
+  >
+    <div class="flex flex-row items-center gap-x-4">
+      <div
+        class="flex aspect-square w-12 h-12 max-w-12 max-h-12 rounded-xl border border-capabilities-border overflow-clip md:w-12 md:h-12 md:max-w-12 md:max-h-12"
+      >
+        <div class="gradient-red-1 w-full h-full aspect-square">
+          <div class="flex items-center justify-center p-2.5 md:p-2.5">
+            <Image
+              src={icon}
+              alt="capability icon"
+              class="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
+      <h3 class="text-white">{title}</h3>
     </div>
-    <h3 class="text-white">{title}</h3>
   </div>
-</div>
+</a>

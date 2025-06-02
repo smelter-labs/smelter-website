@@ -1,4 +1,5 @@
 ---
+import { getOrigQueryParams } from "astro/assets/utils";
 import Select from "./base/Select.astro";
 import TextArea from "./base/TextArea.astro";
 import TextInput from "./base/TextInput.astro";
@@ -9,13 +10,15 @@ import ArrowRight from "/public/images/arrow-right.svg";
 
 <section
   id="contact"
-  class="mx-4 my-20 flex gap-x-28 rounded-4xl border border-form-border bg-mainBackground flex-col p-10 sm:mx-8 xl:mx-40 lg:flex-row"
+  class="mx-4 my-20 flex gap-x-28 rounded-4xl border border-form-border bg-mainBackground flex-col p-10 sm:mx-8 xl:mx-40 lg:flex-row contact-scroll-margin"
 >
   <div>
     <h2 class="shrink-0 text-form-header md:mb-4">
-      Do you want to use<br/>Smelter?
+      Do you want to use<br />Smelter?
     </h2>
-    <p class="text-form-subtitle">Tell us about your needs and we’ll get back to you in 48 hours</p>
+    <p class="text-form-subtitle">
+      Tell us about your needs and we’ll get back to you in 48 hours
+    </p>
   </div>
   <form class="flex w-full flex-col gap-y-10 mt-12 sm:mt-0" method="POST">
     <TextInput
@@ -25,7 +28,7 @@ import ArrowRight from "/public/images/arrow-right.svg";
       placeholder="user@smelter.dev"
       required
     />
-    <Select label="Type of inquiry" name="inquiry">
+    <Select id="contact-select" label="Type of inquiry" name="inquiry">
       <option value="demo-request"
         >I'm interested in a demo/trial to see how Smelter works</option
       >
@@ -53,6 +56,17 @@ import ArrowRight from "/public/images/arrow-right.svg";
     </PrimaryButton>
   </form>
 </section>
+
+<style>
+  .contact-scroll-margin {
+    scroll-margin-top: 15vh;
+  }
+  @supports (scroll-margin-top;: 15dvh) {
+    .contact-scroll-margin {
+      scroll-margin-top: 15dvh;
+    }
+  }
+</style>
 
 <script>
   import { actions } from "astro:actions";

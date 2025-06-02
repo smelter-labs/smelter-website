@@ -20,50 +20,51 @@ const UTILITIES = [
       "Automate **real-time transformations** like **AI-powered blurring**, redaction, or custom filters for live video.",
   },
   {
-    title: "AR Avatars",
-    icon: star,
-    description:
-      "Integrate **real-time AR avatars** and virtual characters directly into **live video streams** for interactive use cases.",
-  },
-  {
     title: "Collab Streaming",
     icon: costream,
     description:
       "Effortlessly combine multiple **live video feeds** from remote participants into a single, cohesive **collaborative stream**.",
   },
+  {
+    title: "AR Avatars",
+    icon: star,
+    description:
+      "Integrate **real-time AR avatars** and virtual characters directly into **live video streams** for interactive use cases.",
+  },
 ] as const;
 ---
 
 <section
+  id="utilities"
   class="px-4 my-40 flex flex-row justify-center items-center w-full relative sm:px-12 sm:pb-14 2xl:pb-20 2xl:h-fit scroll-mt-[30svh]"
 >
   <div class="flex flex-row">
     <div class="flex flex-col w-full px-12">
       <div class="flex gap-8">
-        <div class="flex flex-1 flex-col gap-4 text-start">
+        <div class="flex flex-2 min-w-[520px] flex-col gap-4 text-start">
           <div class="flex">
             <h2 class="text-ai-header">Flexible live stream utilities</h2>
-            <span
-              class="ml-2 px-3 h-fit py-1 rounded-full text-xs font-medium border"
+            <div
+              class="ml-2 px-3 h-fit py-1 rounded-full text-xs font-medium border text-nowrap"
               style={{
                 backgroundColor: "#C2B1E0",
                 color: "#302555",
                 borderColor: "#624BAA",
-              }}>Available soon</span
+              }}
             >
+              Available soon
+            </div>
           </div>
           <p class="text-useCases-tileSubheader">
             Build powerful live stream experiences. Our programmable toolkit
             gives developers ultimate control over real-time video composition
             and dynamic content integration directly into their applications.
           </p>
-          <div class="scroller" data-direction="right" data-speed="slow">
-            <div class="scroller__inner">
-              {UTILITIES.map((utility) => <UtilityTile {...utility} />)}
-            </div>
+          <div class="flex gap-4 flex-wrap">
+            {UTILITIES.map((utility) => <UtilityTile {...utility} />)}
           </div>
         </div>
-        <div class="relative flex flex-1 aspect-video">
+        <div class="relative flex flex-3 aspect-video">
           <video
             id="videoBottom"
             class="absolute top-0 left-0 aspect-video rounded-xl object-cover"
@@ -88,18 +89,6 @@ const UTILITIES = [
           </video>
         </div>
       </div>
-      <!-- <div class="flex mt-4">
-        <div class="flex-1">
-          <div
-            class="border border-solid border-ai-border w-fit flex flex-1.5 rounded-xl p-px h-14"
-          >
-            <div
-              class="relative z-0 flex h-full flex-col justify-center px-6 sm:px-7"
-            >
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </section>
@@ -175,29 +164,19 @@ const UTILITIES = [
 </style>
 
 <script is:inline>
-  document.addEventListener("astro:page-load", () => {
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      addAnimation();
-    }
-    function addAnimation() {
-      const scroller = document.querySelector(".scroller");
-      scroller.setAttribute("data-animated", true);
-
-      const scrollerInner = scroller.querySelector(".scroller__inner");
-      const scrollerContent = Array.from(scrollerInner.children);
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        duplicatedItem.setAttribute("aria-hidden", "true");
-        scrollerInner.appendChild(duplicatedItem);
-      });
-
-      scroller.addEventListener("mouseover", () => {
-        scroller.setAttribute("data-animated", false);
-      });
-
-      scroller.addEventListener("mouseout", () => {
-        scroller.setAttribute("data-animated", true);
-      });
-    }
+  document.querySelectorAll('.contact-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault(); // Stop the link from navigating as usual
+      const selectElement = document.getElementById('contact-select');
+      if (selectElement) {
+        selectElement.value = 'feature-request'; // Update the select value
+        selectElement.dispatchEvent(new Event('change')); // If needed, trigger the 'change' event
+      }
+      // Optionally, add smooth scroll to the contact section
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   });
 </script>
