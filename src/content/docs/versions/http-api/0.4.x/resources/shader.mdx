@@ -1,0 +1,28 @@
+---
+title: Shader
+slug: http-api/0.4.x/http-api/resources/shader
+---
+
+import { Code } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+
+Represents compiled shader. It can be used by a [Shader component](/http-api/0.4.x/components/shader).
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
+type Shader = { source: string; }
+`}
+    lang="tsx"
+  />
+</CollapsibleDetails>
+
+## Properties
+
+### source
+
+Shader source code. [Learn more.](/fundamentals/concepts/shaders)
+
+* **Type**: `string`

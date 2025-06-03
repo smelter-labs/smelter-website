@@ -1,8 +1,9 @@
 ---
 title: MediaStream (Web API)
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+import { Aside, Code, Badge } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 <Badge text="Browser (WASM)" variant="tip" size="large" />
 
@@ -43,11 +44,13 @@ type RegisterStreamOutput = {
   audio?: boolean;
 };
 ```
+
 </CollapsibleDetails>
 
 ## Properties
 
 ### video
+
 Parameters of a video track that will be part of `MediaStream`.
 
 - **Type**: [`StreamOutputVideo`](#streamoutputvideo)
@@ -58,17 +61,20 @@ Parameters of a video track that will be part of `MediaStream`.
 
 If `true` `MediaStream` returned from a register call will include audio track.
 
-- **Type**: `boolean` 
+- **Type**: `boolean`
 - **Defaults to**: `false`
 
 ## StreamOutputVideo
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type RegisterCanvasOutput = {
     resolution: { width: number; height: number; }
 };
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 ### Properties

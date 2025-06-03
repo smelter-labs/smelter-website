@@ -3,8 +3,9 @@ title: MP4
 sidebar:
   order: 2
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+import { Aside, Code, Badge } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 <Badge text="Node.js" variant="tip" size="large" />
 
@@ -28,13 +29,13 @@ async function run() {
     video: {
       encoder: { type: "ffmpeg_h264" },
       resolution: { width: 1920, height: 1080 },
-    }
+    },
   });
 }
 void run();
 ```
 
-## Reference 
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
@@ -44,8 +45,9 @@ type RegisterMp4Output = {
   serverPath: string;
   video?: Mp4VideoOptions;
   audio?: Mp4AudioOptions;
-}
+};
 ```
+
 </CollapsibleDetails>
 
 Parameters for registering an output that writes composed video/audio to MP4 file.
@@ -55,6 +57,7 @@ Parameters for registering an output that writes composed video/audio to MP4 fil
 ## Properties
 
 ### serverPath
+
 Path to the MP4 file, specifying its location on the server where Smelter is deployed.
 
 - **Type**: `string`
@@ -62,6 +65,7 @@ Path to the MP4 file, specifying its location on the server where Smelter is dep
 ---
 
 ### video
+
 Video track configuration.
 
 - **Type**: [`Mp4VideoOptions`](#mp4videooptions)
@@ -69,14 +73,16 @@ Video track configuration.
 ---
 
 ### audio
+
 Audio track configuration.
 
 - **Type**: [`Mp4AudioOptions`](#mp4audiooptions)
 
 ## Mp4VideoOptions
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type Mp4VideoOptions = {
     resolution: {
       width: number;
@@ -86,7 +92,9 @@ type Mp4VideoOptions = {
     encoder: Mp4VideoEncoderOptions;
     root: React.ReactElement;
 }
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 Video track configuration options.
@@ -94,6 +102,7 @@ Video track configuration options.
 ### Properties
 
 #### resolution
+
 Output resolution in pixels.
 
 - **Type**: `{ width: number; height: number;}`
@@ -101,6 +110,7 @@ Output resolution in pixels.
 ---
 
 #### sendEosWhen
+
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
 - **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
@@ -108,6 +118,7 @@ Condition for termination of the output stream based on the input streams states
 ---
 
 #### encoder
+
 Video encoder options.
 
 - **Type**: [`Mp4VideoEncoderOptions`](/ts-sdk/outputs/mp4#mp4videoencoderoptions)
@@ -115,14 +126,16 @@ Video encoder options.
 ---
 
 #### root
+
 Root of a component tree/scene that should be rendered for the output.
 
 - **Type**: `ReactNode`
 
 ## Mp4VideoEncoderOptions
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type Mp4VideoEncoderOptions = {
       type: "ffmpeg_h264";
       preset: 
@@ -138,7 +151,9 @@ type Mp4VideoEncoderOptions = {
         | "placebo";
       ffmpegOptions?: Map<string, string>;
     }
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 Configuration for the video encoder, based on the selected codec.
@@ -146,39 +161,44 @@ Configuration for the video encoder, based on the selected codec.
 ### Properties (type: “ffmpeg_h264”)
 
 #### preset
+
 Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
 - **Default value**: `fast`
 - **Supported values**:
-    - `ultrafast`
-    - `superfast`
-    - `veryfast`
-    - `faster`
-    - `fast`
-    - `medium`
-    - `slow`
-    - `slower`
-    - `veryslow`
-    - `placebo`
+  - `ultrafast`
+  - `superfast`
+  - `veryfast`
+  - `faster`
+  - `fast`
+  - `medium`
+  - `slow`
+  - `slower`
+  - `veryslow`
+  - `placebo`
 
 ---
 
 #### ffmpegOptions
+
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `Map<string, string>`
 
 ## Mp4AudioOptions
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type Mp4AudioOptions = {
     mixingStrategy?: "sum_clip" | "sum_scale";
     sendEosWhen?: OutputEndCondition;
     encoder: Mp4AudioEncoderOptions;
 }
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 Parameters of an audio source included in the stream.
@@ -186,17 +206,19 @@ Parameters of an audio source included in the stream.
 ### Properties
 
 #### mixingStrategy
+
 Specifies how audio should be mixed.
 
 - **Type**: `"sum_clip" | "sum_scale"`
 - **Default value**: `"sum_clip"`
 - **Supported values**:
-    - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
-    - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+  - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
 
 ---
 
 #### sendEosWhen
+
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
 - **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
@@ -204,20 +226,24 @@ Condition for termination of the output stream based on the input streams states
 ---
 
 #### encoder
+
 Audio encoder options.
 
 - **Type**: [`Mp4AudioEncoderOptions`](/ts-sdk/outputs/mp4#mp4audioencoderoptions)
 
 ## Mp4AudioEncoderOptions
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type Mp4AudioEncoderOptions = {
     type: "aac";
     channels: "mono" | "stereo";
     sampleRate?: number;
 }
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
 Configuration for the audio encoder, based on the selected codec.
@@ -225,12 +251,13 @@ Configuration for the audio encoder, based on the selected codec.
 ### Properties(type: "aac")
 
 #### channels
+
 Channels configuration
 
 - **Type**: `"mono" | "stereo"`
 - **Supported values**:
-    - `mono` - Mono audio (single channel).
-    - `stereo` - Stereo audio (two channels).
+  - `mono` - Mono audio (single channel).
+  - `stereo` - Stereo audio (two channels).
 
 #### sampleRate
 
@@ -238,31 +265,34 @@ Channels configuration
 - **Default value**: `44100`
 - **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`
 
-
 ## OutputEndCondition
 
-<CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  <Code
+    code={`
 type OutputEndCondition = 
     | { anyOf: string[]; }
     | { allOf: string[]; }
     | { anyInput: boolean; }
     | { allInputs: boolean; };
-`} lang='tsx' />
+`}
+    lang="tsx"
+  />
 </CollapsibleDetails>
 
-Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
+Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time.
 
 By default, the input stream is considered finished/ended when:
+
 - TCP connection was dropped/closed.
 - RTCP Goodbye packet (BYE) was received.
 - MP4 track has ended.
 - Input was unregistered already (or never registered).
 
-
 ### Properties
 
 #### anyOf
+
 List of the input streams. The output stream will terminate if any stream in the list finishes.
 
 - **Type**: `string[]`
@@ -270,6 +300,7 @@ List of the input streams. The output stream will terminate if any stream in the
 ---
 
 #### allOf
+
 List of the input streams. The output stream will terminate when all streams in the list finish.
 
 - **Type**: `string[]`
@@ -277,6 +308,7 @@ List of the input streams. The output stream will terminate when all streams in 
 ---
 
 #### anyInput
+
 Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
 
 - **Type**: `boolean`
@@ -284,7 +316,7 @@ Terminate the output stream if any of the input streams end, including streams a
 ---
 
 #### allInputs
+
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `boolean`
-

@@ -6,7 +6,7 @@ type Props = {
 const { variant = "page" } = Astro.props;
 ---
 
-<div id="cookie-consent" class="z-[10000]">
+<div id="cookie-consent">
   <div
     id="cookie-banner"
     class:list={["cookie-banner", variant === "docs" ? "docs-theme" : ""]}
@@ -100,6 +100,12 @@ const { variant = "page" } = Astro.props;
     max-width: 700px;
     padding: 1.5rem;
     display: none;
+    z-index: 100000;
+    @media (max-width: 40rem) {
+      bottom: 0;
+      right: 0;
+      margin: 0 1rem 0.5rem 1rem;
+    }
   }
 
   .cookie-banner.docs-theme,
@@ -111,6 +117,9 @@ const { variant = "page" } = Astro.props;
   .banner-text-wrapper {
     display: flex;
     gap: 1.5rem;
+    @media (max-width: 40rem) {
+      flex-direction: column;
+    }
   }
 
   .banner-buttons {
@@ -140,6 +149,12 @@ const { variant = "page" } = Astro.props;
       0 10px 10px -5px #16112740;
     animation: slideInUp 0.4s ease-out;
     display: none;
+    z-index: 100000;
+    @media (max-width: 40rem) {
+      bottom: 0;
+      right: 0;
+      margin: 0 1rem 0.5rem 1rem;
+    }
   }
 
   @keyframes slideInUp {
@@ -327,7 +342,7 @@ const { variant = "page" } = Astro.props;
   }
 
   .docs-theme .button-primary {
-    background-color: #848b9e;
+    background-color: #8471C1;
     color: white;
   }
 

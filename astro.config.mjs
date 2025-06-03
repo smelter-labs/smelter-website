@@ -8,13 +8,14 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import starlightLinksValidator from "starlight-links-validator";
+import starlightVersions from "starlight-versions";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 import sitemap from "@astrojs/sitemap";
 
-import vercel from "@astrojs/vercel";
-
 import react from "@astrojs/react";
+
+import vercel from "@astrojs/vercel";
 
 const require = createRequire(import.meta.url);
 
@@ -31,6 +32,8 @@ export default defineConfig({
     "/http-api/renderers": "/http-api/renderers/overview",
   },
   prefetch: true,
+  output: "server",
+
   vite: {
     plugins: [
       viteStaticCopy({
@@ -50,10 +53,38 @@ export default defineConfig({
       include: ["@swmansion/smelter-web-wasm > pino"],
     },
   },
+
   integrations: [
     starlight({
       title: "Smelter",
-      plugins: process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : [],
+      prerender: false,
+      plugins: process.env.ENABLE_LINK_CHECKER
+        ? [
+            starlightLinksValidator(),
+            starlightVersions({
+              versions: [
+                {
+                  slug: "ts-sdk/0.2.x",
+                  label: "SDK (TypeScript) 0.2.x",
+                },
+                {
+                  slug: "http-api/0.4.x",
+                  label: "Server (HTTP API) 0.4.x",
+                },
+              ],
+            }),
+          ]
+        : [
+            starlightVersions({
+              versions: [
+                {
+                  slug: "ts-sdk/0.2.x",
+                  label: "SDK (TypeScript) 0.2.x",
+                },
+                { slug: "http-api/0.4.x", label: "Server (HTTP API) 0.4.x" },
+              ],
+            }),
+          ],
       description:
         "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
       social: {
@@ -75,7 +106,10 @@ export default defineConfig({
       head: [
         {
           tag: "meta",
-          attrs: { property: "og:image", content: "https://smelter.dev/og-image.png" },
+          attrs: {
+            property: "og:image",
+            content: "https://smelter.dev/og-image.png",
+          },
         },
         {
           tag: "meta",
@@ -111,7 +145,10 @@ export default defineConfig({
         },
         {
           tag: "meta",
-          attrs: { property: "twitter:image”", content: "https://smelter.dev/og-image.png" },
+          attrs: {
+            property: "twitter:image”",
+            content: "https://smelter.dev/og-image.png",
+          },
         },
       ],
       sidebar: [
@@ -188,7 +225,7 @@ export default defineConfig({
           ],
         },
         {
-          label: "HTTP API",
+          label: "Server - HTTP API",
           items: [
             { label: "Overview", slug: "http-api/overview" },
             { label: "Routes", slug: "http-api/routes" },
@@ -246,5 +283,9 @@ export default defineConfig({
     ],
   },
 
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
 });

@@ -1,9 +1,10 @@
 ---
 title: Rescaler
 ---
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import { Aside } from '@astrojs/starlight/components';
-import ExampleImage from '../../../../assets/guides/component-rescaler-example.webp';
+
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import { Aside } from "@astrojs/starlight/components";
+import ExampleImage from "@assets/guides/component-rescaler-example.webp";
 
 A layout component that will resize its children to match its own size. It will always preserve
 aspect ratio while resizing.
@@ -36,13 +37,15 @@ Content-Type: application/json
   }
 }
 ```
+
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Example output'>
+<CollapsibleDetails summaryTitle="Example output">
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
 ## Positioning
+
 ### Absolute
 
 A component is absolutely positioned if it defines fields like top, left, right, bottom, or rotation.
@@ -92,6 +95,7 @@ type Rescaler = {
 ## Properties
 
 ### id
+
 ID of a component.
 
 - **Type**: `string`
@@ -99,6 +103,7 @@ ID of a component.
 ---
 
 ### child
+
 Exactly one child component.
 
 - **Type**: `Component`
@@ -106,17 +111,19 @@ Exactly one child component.
 ---
 
 ### mode
+
 Content resize mode.
 
 - **Type**: `"fit" | "fill"`
 - **Default value**: `"fit"`
 - **Supported values**:
-    - `"fit"` - Resizes the component to match one dimension of the parent while ensuring it remains fully visible.
-    - `"fill"` - Resizes the component to cover the entire area of the parent by matching at least one dimension; excess is clipped.
+  - `"fit"` - Resizes the component to match one dimension of the parent while ensuring it remains fully visible.
+  - `"fill"` - Resizes the component to cover the entire area of the parent by matching at least one dimension; excess is clipped.
 
 ---
 
 ### horizontal_align
+
 Horizontal alignment.
 
 - **Type**: `"left" | "right" | "justified" | "center"`
@@ -125,6 +132,7 @@ Horizontal alignment.
 ---
 
 ### vertical_align
+
 Vertical alignment.
 
 - **Type**: `"top" | "center" | "bottom" | "justified"`
@@ -133,32 +141,41 @@ Vertical alignment.
 ---
 
 ### width
+
 Width of a component in pixels.
 
 - **Type**: `f32`
 
-<Aside type='caution'>
-The behavior of the `Rescaler` component varies depending on the type of its parent component:
-- **Non-layout parent** - When the parent is not a [layout component](/fundamentals/concepts/layouts), the `width` property is **required**.
-- **Layout parent** - For parents that are [layout components](/fundamentals/concepts/layouts), please refer to the relevant component documentation.
+<Aside type="caution">
+  The behavior of the `Rescaler` component varies depending on the type of its
+  parent component: - **Non-layout parent** - When the parent is not a [layout
+  component](/fundamentals/concepts/layouts), the `width` property is
+  **required**. - **Layout parent** - For parents that are [layout
+  components](/fundamentals/concepts/layouts), please refer to the relevant
+  component documentation.
 </Aside>
 
 ---
 
 ### height
+
 Height of a component in pixels.
 
 - **Type**: `f32`
 
-<Aside type='caution'>
-The behavior of the `Rescaler` component varies depending on the type of its parent component:
-- **Non-layout parent** - When the parent is not a [layout component](/fundamentals/concepts/layouts), the `height` property is **required**.
-- **Layout parent** - For parents that are [layout components](/fundamentals/concepts/layouts), please refer to the relevant component documentation.
+<Aside type="caution">
+  The behavior of the `Rescaler` component varies depending on the type of its
+  parent component: - **Non-layout parent** - When the parent is not a [layout
+  component](/fundamentals/concepts/layouts), the `height` property is
+  **required**. - **Layout parent** - For parents that are [layout
+  components](/fundamentals/concepts/layouts), please refer to the relevant
+  component documentation.
 </Aside>
 
 ---
 
 ### top
+
 Specifies the distance in pixels from the top edge of this component to the top edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -166,6 +183,7 @@ Specifies the distance in pixels from the top edge of this component to the top 
 ---
 
 ### left
+
 Specifies the distance in pixels from the left edge of this component to the left edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -173,6 +191,7 @@ Specifies the distance in pixels from the left edge of this component to the lef
 ---
 
 ### bottom
+
 Specifies the distance in pixels from the bottom edge of this component to the bottom edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -180,6 +199,7 @@ Specifies the distance in pixels from the bottom edge of this component to the b
 ---
 
 ### right
+
 Specifies the distance in pixels from the right edge of this component to the right edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -187,6 +207,7 @@ Specifies the distance in pixels from the right edge of this component to the ri
 ---
 
 ### rotation
+
 Specifies the rotation of a component, measured in degrees. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -194,12 +215,15 @@ Specifies the rotation of a component, measured in degrees. If this attribute is
 ---
 
 ### transition
+
 Defines how this component will behave during a scene update. This will only have an effect if the previous scene already contained a `Rescaler` component with the same id.
+
 - **Type**: [`Transition`](#transition-1)
 
 ---
 
 ### border_radius
+
 Radius of a rounded corner.
 
 - **Type**: `f32`
@@ -208,6 +232,7 @@ Radius of a rounded corner.
 ---
 
 ### border_width
+
 Border width.
 
 - **Type**: `f32`
@@ -216,6 +241,7 @@ Border width.
 ---
 
 ### border_color
+
 Border color in a `"#RRGGBBAA"` format.
 
 - **Type**: `string`
@@ -224,21 +250,24 @@ Border color in a `"#RRGGBBAA"` format.
 ---
 
 ### box_shadow
+
 List of box shadows.
 
 - **Type**: [`BoxShadow[]`](#boxshadow)
 
-
 ## Transition
+
 ```typescript
 type Transition = {
   duration_ms: f64;
   easing_function?: EasingFunction;
-}
+};
 ```
+
 ### Properties
 
 #### duration_ms
+
 Duration of a transition in milliseconds.
 
 - **Type**: `f64`
@@ -246,23 +275,27 @@ Duration of a transition in milliseconds.
 ---
 
 #### easing_function
-Easing functions are used to interpolate between two values over time during transition. 
+
+Easing functions are used to interpolate between two values over time during transition.
 
 - **Type**: [`EasingFunction`](#easingfunction)
 - **Default value**: `"linear"`
 
 ## BoxShadow
+
 ```typescript
 type BoxShadow = {
   offset_x?: f32;
   offset_y?: f32;
   color?: string;
   blur_radius?: f32;
-}
+};
 ```
+
 ### Properties
 
 #### offset_x
+
 Specifies the horizontal offset on the x-axis. Positive values move the element to the right, negative values move it to the left.
 
 - **Type**: `f32`
@@ -271,6 +304,7 @@ Specifies the horizontal offset on the x-axis. Positive values move the element 
 ---
 
 #### offset_y
+
 Specifies the vertical offset on the y-axis. Positive values move the element downward, negative values move it upward.
 
 - **Type**: `f32`
@@ -279,6 +313,7 @@ Specifies the vertical offset on the y-axis. Positive values move the element do
 ---
 
 #### color
+
 Color in a `"#RRGGBBAA"` format.
 
 - **Type**: `string`
@@ -287,21 +322,24 @@ Color in a `"#RRGGBBAA"` format.
 ---
 
 #### blur_radius
+
 Defines the radius of the blur effect.
 
 - **Type**: `f32`
 - **Default value**: `0.0`
 
 ## EasingFunction
+
 ```typescript
-type EasingFunction = 
-  | { function_name: "linear"; }
-  | { function_name: "bounce"; }
+type EasingFunction =
+  | { function_name: "linear" }
+  | { function_name: "bounce" }
   | {
       function_name: "cubic_bezier";
       points: [f64, f64, f64, f64];
-    }
+    };
 ```
+
 Easing functions are used to interpolate between two values over time.
 
 Custom easing functions can be implemented with cubic Bézier.
@@ -311,17 +349,20 @@ You can find example control point configurations [here](https://easings.net/).
 ### Properties
 
 #### function_name
+
 Duration of a transition in milliseconds.
 
 - **Type**: `linear | bounce | cubic_bezier`
 - **Default value**: `linear`
 - **Supported values**:
-    - `linear`
-    - `bounce`
-    - `cubic_bezier`
+  - `linear`
+  - `bounce`
+  - `cubic_bezier`
+
 ---
 
 #### points
+
 Four numerical values in `[0; 1]` range used for cubic Bézier. The result is clamped to the range `[0; 1]`.
 
 - **Type**: `[f64, f64, f64, f64]`
