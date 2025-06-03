@@ -65,11 +65,11 @@ export default defineConfig({
               versions: [
                 {
                   slug: "ts-sdk/0.2.x",
-                  label: "ts-sdk v0.2.x",
+                  label: "TS SDK 0.2.x",
                 },
                 {
                   slug: "http-api/0.4.x",
-                  label: "http-api v0.4.x",
+                  label: "HTTP API 0.4.x",
                 },
               ],
             }),
@@ -79,9 +79,9 @@ export default defineConfig({
               versions: [
                 {
                   slug: "ts-sdk/0.2.x",
-                  label: "ts-sdk v0.2.x",
+                  label: "TS SDK 0.2.x",
                 },
-                { slug: "http-api/0.4.x", label: "http-api v0.4.x" },
+                { slug: "http-api/0.4.x", label: "HTTP API 0.4.x" },
               ],
             }),
           ],
