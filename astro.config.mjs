@@ -266,7 +266,7 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     sitemap({
       changefreq: "weekly",
-      lastmod: new Date("2025-04-17"),
+      lastmod: new Date("2025-06-03"),
     }),
     react(),
   ],
