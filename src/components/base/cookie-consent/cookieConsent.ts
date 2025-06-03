@@ -91,7 +91,7 @@ class CookieConsent {
       timestamp: Date.now(),
     };
 
-    window.clarity('consent');
+    window.clarity("consent");
     this.saveConsent(consent);
     this.applyCookieSettings(consent);
     this.hideConsentBanner();
@@ -104,7 +104,7 @@ class CookieConsent {
       timestamp: Date.now(),
     };
 
-    window.clarity('consent', false)
+    window.clarity("consent", false);
     this.saveConsent(consent);
     this.applyCookieSettings(consent);
     this.hideConsentBanner();
@@ -118,8 +118,8 @@ class CookieConsent {
       timestamp: Date.now(),
     };
 
-    if(!(document.getElementById("analytics-cookies") as HTMLInputElement)?.checked) {
-      window.clarity('consent', false)
+    if (!(document.getElementById("analytics-cookies") as HTMLInputElement)?.checked) {
+      window.clarity("consent", false);
     }
 
     this.saveConsent(consent);
