@@ -163,10 +163,6 @@ export async function getVersionedSidebar(
 
 
 export function getVersionSidebar(version: Version | undefined, sidebar: StarlightSidebar): StarlightSidebar {
-  if(version?.slug === 'ts-sdk/1.0') {
-    // console.log('VERSION ', version)
-    // console.log('SIDEBAR ', JSON.stringify(sidebar, null, 2))
-  }
   const sidebarVersionGroup = sidebar.find(
     (item) => item.label === (version?.slug ?? currentVersionSidebarGroupLabel.toString()),
   )
@@ -188,7 +184,7 @@ export function getVersionSidebar(version: Version | undefined, sidebar: Starlig
 function removeVersion(url: string) {
   const urlSegments = url.split('/');
 
-  const versionRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
+  const versionRegex = /^[-+]?[0-9]+\.([0-9]+|x)(\.([0-9]+|x))?$/;
   const filteredSegments = urlSegments.filter(segment => !versionRegex.test(segment));
 
   return filteredSegments.join('/');
@@ -300,7 +296,7 @@ export function getVersionFromSlug(
   
   if (!versionOrLocaleSegment) return undefined
   
-  const fullVersionSegment = /^[-+]?[0-9]*\.?[0-9]+$/.test(versionOrLocaleSegment) ? versionOrLocaleSegment : `${segments[0]}/${segments[1]}`
+  const fullVersionSegment = /^(([-+]?[0-9]*\.?[0-9]+)|(x))$/.test(versionOrLocaleSegment) ? versionOrLocaleSegment : `${segments[0]}/${segments[1]}`
   
   const version = config.versions.find((version) => version.slug === fullVersionSegment)
   
@@ -369,7 +365,6 @@ export function getVersionFromPaginationLink(
 async function getSidebarVersionGroup(version: Version, srcDir: URL) {
   const versionConfig = await getVersionConfig(version, srcDir)
   
-  // console.log('CURRENT SIDEBAR ', JSON.stringify(versionConfig, null, 2))
   if (!versionConfig.sidebar) {
     return {
       label: version.slug,
@@ -382,7 +377,6 @@ async function getSidebarVersionGroup(version: Version, srcDir: URL) {
     items: addPrefixToSidebarConfig(version.slug, versionConfig.sidebar),
   }
   
-  // console.log('TEST ', JSON.stringify(test, null, 2))
   return test
 }
 

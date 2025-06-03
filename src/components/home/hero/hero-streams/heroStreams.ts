@@ -1,22 +1,5 @@
 import { throttle } from "@utils/misc";
 
-function hexToRgb(hex: string) {
-  // Remove the hash at the front, if there
-  let processedHex = hex.replace(/^\s*#|\s*$/g, "");
-
-  // Parse the digits
-  if (processedHex.length === 3) {
-    processedHex = hex.replace(/(.)/g, "$1$1"); // Convert shorthand form (e.g., "abc") to full form ("aabbcc")
-  }
-
-  const bigint = Number.parseInt(processedHex, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-
-  return { r, g, b };
-}
-
 document.addEventListener("astro:page-load", () => {
   const snapInThreshold = 220;
   const snapOutThreshold = 220;

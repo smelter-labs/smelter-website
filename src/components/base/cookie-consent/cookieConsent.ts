@@ -70,7 +70,6 @@ class CookieConsent {
     const bannerContent = document.getElementById("cookie-banner");
     const preferences = document.getElementById("cookie-preferences");
 
-    console.log("PREFERENCES ", preferences);
     bannerContent?.style.setProperty("display", "block");
     preferences?.style.setProperty("display", "none");
   }
@@ -146,20 +145,20 @@ class CookieConsent {
 
     if (analyticsCheckbox) analyticsCheckbox.checked = consent.analytics;
 
-    if (consent.analytics) {
-      this.enableAnalytics();
-    } else {
-      this.disableAnalytics();
-    }
+    // if (consent.analytics) {
+    //   this.enableAnalytics();
+    // } else {
+    //   this.disableAnalytics();
+    // }
   }
 
-  enableAnalytics() {
-    console.log("Analytics cookies enabled");
-  }
+  // enableAnalytics() {
+  //   console.log("Analytics cookies enabled");
+  // }
 
-  disableAnalytics() {
-    console.log("Analytics cookies disabled");
-  }
+  // disableAnalytics() {
+  //   console.log("Analytics cookies disabled");
+  // }
 
   static isAllowed(cookieType: ConsentCookies) {
     try {
