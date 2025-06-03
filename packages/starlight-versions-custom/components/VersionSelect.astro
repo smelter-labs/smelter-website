@@ -1,63 +1,90 @@
 ---
-import { Icon } from '@astrojs/starlight/components'
-import type { StarlightIcon } from '@astrojs/starlight/types'
-import starlightConfig from 'virtual:starlight/user-config'
-import starlightVersionsConfig from 'virtual:starlight-versions-config'
+import { Icon } from "@astrojs/starlight/components";
+import type { StarlightIcon } from "@astrojs/starlight/types";
+import starlightConfig from "virtual:starlight/user-config";
+import starlightVersionsConfig from "virtual:starlight-versions-config";
 
-import { getVersionURL } from '../libs/versions'
+import { getVersionURL } from "../libs/versions";
 
-const cookieVersion = Astro.cookies.get('selectedVersion')?.value || ''
-// const parsedCookies = cookies
-
-// const initialVersion = parsedCookies.selectedVersion
+const cookieVersion = Astro.cookies.get("selectedVersion")?.value || "";
 
 const activeVersion = cookieVersion
-  .split('/')
-  .filter((part) => part !== '')
+  .split("/")
+  .filter((part) => part !== "")
   .slice(0, 2)
-  .join('/')
+  .join("/");
 
 interface Props {
-  iconName: StarlightIcon
+  iconName: StarlightIcon;
 }
 
-const { iconName } = Astro.props
+const { iconName } = Astro.props;
 
-const versions = starlightVersionsConfig.versions
+const versions = starlightVersionsConfig.versions;
 
-const tsVersions = versions.filter((version) => version.slug.includes('ts-sdk/'))
-const httpVersions = versions.filter((version) => version.slug.includes('http-api/'))
+const tsVersions = versions.filter((version) =>
+  version.slug.includes("ts-sdk/")
+);
+const httpVersions = versions.filter((version) =>
+  version.slug.includes("http-api/")
+);
 ---
 
 <starlight-version-select class="version-select">
   <label style="width: 100%;">
     <span class="sr-only">Select version</span>
     <Icon name={iconName} class="icon label-icon" />
-    <select value={activeVersion ?? 'current'} autocomplete="off">
-      <option selected={activeVersion === undefined} value={'current'}>{starlightVersionsConfig.current.label}</option>
-      {(tsVersions.length > 0 || httpVersions.length > 0) && <option disabled>──────────</option>}
+    <select value={activeVersion ?? "current"} autocomplete="off">
+      <option selected={activeVersion === undefined} value={"current"}
+        >{starlightVersionsConfig.current.label}</option
+      >
+      {
+        (tsVersions.length > 0 || httpVersions.length > 0) && (
+          <option disabled>──────────</option>
+        )
+      }
 
       {
-        tsVersions.map((version) => (
-          <option
-            selected={version.slug === activeVersion}
-            value={getVersionURL(starlightVersionsConfig, starlightConfig, Astro.url, version).pathname}
-          >
-            {version.label ?? version.slug}
-          </option>
-        ))
+        tsVersions.map((version) => {
+          return (
+            <option
+              selected={version.slug === activeVersion}
+              value={
+                getVersionURL(
+                  starlightVersionsConfig,
+                  starlightConfig,
+                  Astro.url,
+                  version
+                ).pathname
+              }
+            >
+              {version.label ?? version.slug}
+            </option>
+          );
+        })
       }
-      {tsVersions.length > 0 && httpVersions.length > 0 && <option disabled>──────────</option>}
+      {
+        tsVersions.length > 0 && httpVersions.length > 0 && (
+          <option disabled>──────────</option>
+        )
+      }
       {
         httpVersions.map((version) => {
           return (
             <option
               selected={version.slug === activeVersion}
-              value={getVersionURL(starlightVersionsConfig, starlightConfig, Astro.url, version).pathname}
+              value={
+                getVersionURL(
+                  starlightVersionsConfig,
+                  starlightConfig,
+                  Astro.url,
+                  version
+                ).pathname
+              }
             >
               {version.label ?? version.slug}
             </option>
-          )
+          );
         })
       }
     </select>
@@ -67,7 +94,7 @@ const httpVersions = versions.filter((version) => version.slug.includes('http-ap
 
 <style>
   .version-select {
-    width: 10rem;
+    width: 12rem;
   }
 
   label {
@@ -128,50 +155,60 @@ const httpVersions = versions.filter((version) => version.slug.includes('http-ap
 </style>
 
 <script>
-  import { navigate } from 'astro:transitions/client'
+  import { navigate } from "astro:transitions/client";
   const versionRegex = /\/([0-9]+(\.[0-9]+|\.[x]|[0-9]*)?(\.x)?)\//g;
 
   customElements.define(
-    'starlight-version-select',
+    "starlight-version-select",
     class StarlightVersionSelect extends HTMLElement {
       constructor() {
-        super()
+        super();
 
-        const select = this.querySelector('select')
+        const select = this.querySelector("select");
         if (!select) {
-          return
+          return;
         }
 
-        select?.addEventListener('change', async (event) => {
-          const version = (event.currentTarget as HTMLSelectElement | null)?.value
+        select?.addEventListener("change", async (event) => {
+          const version = (event.currentTarget as HTMLSelectElement | null)
+            ?.value;
 
           const selectedValue = version
             ? version
-                .split('/')
-                .filter((part: string) => part !== '')
+                .split("/")
+                .filter((part: string) => part !== "")
                 .slice(0, 2)
-                .join('/')
-            : 'current'
+                .join("/")
+            : "current";
 
-          if (selectedValue !== 'current' && selectedValue.includes('versionless:')) {
-            document.cookie = `selectedVersion=${selectedValue.replace('versionless:', '')}; path=/; Secure; SameSite=Strict;`
-            navigate(window.location.pathname)
-            return
+          if (
+            selectedValue !== "current" &&
+            selectedValue.includes("versionless:")
+          ) {
+            document.cookie = `selectedVersion=${selectedValue.replace("versionless:", "")}; path=/; Secure; SameSite=Strict;`;
+            navigate(window.location.pathname);
+            return;
           }
 
-          if (selectedValue !== 'current' && selectedValue.includes('incompatible:')) {
-            document.cookie = `selectedVersion=${selectedValue.replace('incompatible:', '')}; path=/; Secure; SameSite=Strict;`
-            navigate('/fundamentals/getting-started')
-            return
+          if (
+            selectedValue !== "current" &&
+            selectedValue.includes("incompatible:")
+          ) {
+            document.cookie = `selectedVersion=${selectedValue.replace("incompatible:", "")}; path=/; Secure; SameSite=Strict;`;
+            navigate("/fundamentals/getting-started");
+            return;
           }
 
-          document.cookie = `selectedVersion=${selectedValue}; path=/; Secure; SameSite=Strict;`
-          let currentPath = window.location.pathname
-          let newPath = version === 'current' ? currentPath.replace(versionRegex, '/') : version
+          document.cookie = `selectedVersion=${selectedValue}; path=/; Secure; SameSite=Strict;`;
+          let currentPath = window.location.pathname;
+          let newPath =
+            version === "current"
+              ? currentPath.replace(versionRegex, "/")
+              : version;
 
-          if (newPath) navigate(newPath)
-        })
+          if (newPath) navigate(newPath);
+        });
       }
     }
-  )
+  );
 </script>
