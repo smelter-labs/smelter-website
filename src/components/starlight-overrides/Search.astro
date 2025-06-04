@@ -74,9 +74,9 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 	})();
 </script>
 
-<script>
+<script is:inline>
 	import { pagefindUserConfig } from 'virtual:starlight/pagefind-config';
-
+    import PagefindUI from '@pagefind/default-ui';
 	class SiteSearch extends HTMLElement {
 		constructor() {
 			super();
@@ -137,8 +137,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				if (import.meta.env.DEV) return;
 				const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
 				onIdle(async () => {
-					// @ts-expect-error — Missing types for @pagefind/default-ui package.
-					const { PagefindUI } = await import('@pagefind/default-ui');
+	
 					new PagefindUI({
 						...pagefindUserConfig,
 						element: '#starlight__search',
