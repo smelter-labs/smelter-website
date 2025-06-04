@@ -102,6 +102,7 @@ export default defineConfig({
       },
       components: {
         PageFrame: "./src/components/starlight-overrides/PageFrame.astro",
+        Search: "./src/components/starlight-overrides/Search.astro",
       },
       head: [
         {
