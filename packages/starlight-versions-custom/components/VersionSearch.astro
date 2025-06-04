@@ -9,7 +9,7 @@ import '@pagefind/default-ui/css/ui.css'
 import project from 'virtual:starlight/project-context'
 import starlightConfig from 'virtual:starlight/user-config'
 import starlightVersionsConfig from 'virtual:starlight-versions-config'
-
+import { PagefindUI } from '@pagefind/default-ui'
 import { getVersionFromSlug, getVersionIdentifier, getVersionURL } from '../libs/versions'
 
 const { entry } = Astro.locals.starlightRoute
@@ -161,7 +161,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
         const onIdle = globalThis.requestIdleCallback || ((cb) => setTimeout(cb, 1))
         onIdle(async () => {
           // @ts-expect-error — Missing types for @pagefind/default-ui package.
-          const { PagefindUI } = await import('@pagefind/default-ui')
+          
           const search = new PagefindUI({
             element: '#starlight__search',
             baseUrl: import.meta.env.BASE_URL,
