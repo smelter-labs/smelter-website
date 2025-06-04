@@ -34,7 +34,7 @@ Content-Type: application/json
 
 ```typescript
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "whip"
+  type: "rtp_stream" | "mp4" | "whip" | "rtmp_client"
   ... // output specific options
 }
 ```
@@ -44,6 +44,7 @@ Register external destination that can be used as a Smelter output. See outputs 
 - [RTP](/http-api/outputs/rtp)
 - [MP4](/http-api/outputs/mp4)
 - [WHIP](/http-api/outputs/whip)
+- [RTMP](/http-api/outputs/rtmp)
 
 ### Unregister output
 

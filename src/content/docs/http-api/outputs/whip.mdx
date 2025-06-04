@@ -2,7 +2,7 @@
 title: WHIP
 hide_table_of_contents: true
 ---
-import { Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from Smelter over WHIP.
@@ -22,15 +22,19 @@ Content-Type: application/json
   "bearer_token": "<TOKEN>",
   "video": {
     "resolution": { "width": 1280, "height": 720 },
-    "encoder": { "type": "ffmpeg_h264" },
+    "encoder_preferences": [
+      { "type": "ffmpeg_h264", "preset": "ultrafast" },
+      { "type": "ffmpeg_vp8" },
+      { "type": "any" }
+    ],
     "initial": {
       "root": {
-        "type": "view",
+        "type": "view"
       }
     }
   },
   "audio": {
-    "encoder": { "type": "opus", "channels": "stereo" },
+    "channels": "stereo",
     "initial": {
       "inputs": [{ "input_id": "input_1", "volume": 1 }]
     }
@@ -38,6 +42,17 @@ Content-Type: application/json
 }
 ```
 </CollapsibleDetails>
+
+<Aside>
+To enable compatibility with Twitch `video.encoder_preferences` must contain only a single `ffmpeg_h264` entry: 
+```http
+"encoder_preferences": [
+  { 
+    "type": "ffmpeg_h264"
+  }
+]
+```
+</Aside>
 
 ## Reference 
 
@@ -72,7 +87,7 @@ Token used for authentication when connecting to the WHIP endpoint.
 ### video
 Parameters of a video included in the WHIP stream.
 
-- **Type**: [`VideoOptions`](#whipvideooptions)
+- **Type**: [`WhipVideoOptions`](#whipvideooptions)
 
 ---
 
@@ -85,17 +100,17 @@ Parameters of an audio included in the WHIP stream.
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type WhipVideoOptions = {
-    resolution: {
-      width: u32;
-      height: u32;
-    };
-    send_eos_when?: OutputEndCondition;
-    encoder: WhipVideoEncoderOptions;
-    initial: { root: Component; };
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  send_eos_when?: OutputEndCondition;
+  encoder_preferences?: WhipVideoEncoderOptions[];
+  initial: { root: Component; };
 };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -114,10 +129,22 @@ Condition for termination of the output stream based on the input streams states
 
 ---
 
-#### encoder
-Video encoder options.
+#### encoder_preferences
+An ordered list of preferred video encoders. The first element in the list has the highest priority during WHIP negotiation.
 
-- **Type**: [`WhipVideoEncoderOptions`](#whipvideoencoderoptions)
+- **Type**: [`WhipVideoEncoderOptions`](#whipvideoencoderoptions)[]
+- **Default value**: `[{ type: "any" }]`
+
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+- If "any" is not included:
+  - Only the encoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
+
 
 ---
 
@@ -131,23 +158,35 @@ Root of a component tree/scene that should be rendered for the output.
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
-type WhipVideoEncoderOptions = {
-    type: "ffmpeg_h264";
-    preset: 
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
-    ffmpeg_options?: Map<string, string>;
-}
-`} lang='tsx' />
+```tsx
+type WhipVideoEncoderOptions = 
+  | {
+      type: "ffmpeg_h264";
+      preset?: 
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp8";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp9";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "any"
+    };
+```
 </CollapsibleDetails>
 
 ### Properties (type: “ffmpeg_h264”)
@@ -158,16 +197,16 @@ Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
 - **Default value**: `fast`
 - **Supported values**:
-    - `ultrafast`
-    - `superfast`
-    - `veryfast`
-    - `faster`
-    - `fast`
-    - `medium`
-    - `slow`
-    - `slower`
-    - `veryslow`
-    - `placebo`
+  - `ultrafast`
+  - `superfast`
+  - `veryfast`
+  - `faster`
+  - `fast`
+  - `medium`
+  - `slow`
+  - `slower`
+  - `veryslow`
+  - `placebo`
 
 ---
 
@@ -176,20 +215,37 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
+### Properties (type: “ffmpeg_vp8”)
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “ffmpeg_vp9”)
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: "any")
+Specifies that any video encoder supported by Smelter can be used. If `"any"` is not included in the `encoder_preferences` list, Smelter will only use the encoders explicitly listed in the preferences.
 
 
 ## WhipAudioOptions
 Parameters of an audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type WhipAudioOptions = {
-    mixing_strategy?: "sum_clip" | "sum_scale";
-    send_eos_when?: OutputEndCondition;
-    encoder: WhipAudioEncoderOptions;
-    initial: { inputs: InputAudio[]; };
+  mixing_strategy?: "sum_clip" | "sum_scale";
+  send_eos_when?: OutputEndCondition;
+  encoder_preferences?: WhipAudioEncoderOptions[];
+  channels?: "mono" | "stereo";
+  initial: { inputs: InputAudio[]; };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -200,8 +256,8 @@ Specifies how audio should be mixed.
 - **Type**: `"sum_clip" | "sum_scale"`
 - **Default value**: `"sum_clip"`
 - **Supported values**:
-    - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
-    - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+  - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
 
 ---
 
@@ -212,10 +268,31 @@ Condition for termination of the output stream based on the input streams states
 
 ---
 
-#### encoder
-Audio encoder options.
+#### encoder_preferences
+An ordered list of preferred audio encoders. The first element in the list has the highest priority during WHIP negotiation.
+- **Type**: [`WhipAudioEncoderOptions`](#whipaudioencoderoptions)[]
+- **Default value**: `[{ type: "any" }]`
 
-- **Type**: [`WhipAudioEncoderOptions`](#whipaudioencoderoptions)
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+- If "any" is not included:
+  - Only the encoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
+
+---
+
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+    - `mono` - Mono audio (single channel).
+    - `stereo` - Stereo audio (two channels).
 
 ---
 
@@ -225,30 +302,21 @@ Initial audio mixer configuration for output.
 - **Type**: `{ inputs: InputAudio[]; }`
 
 ## WhipAudioEncoderOptions
-Configuration for the audio encoder, based on the selected codec.
+Configuration for the audio encoder.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type WhipAudioEncoderOptions = {
-    type: "opus";
-    channels: "mono" | "stereo";
-    preset?: "quality" | "voip" | "lowest_latency";
-    sample_rate?: u32
+  type: "opus";
+  preset?: "quality" | "voip" | "lowest_latency";
+  sample_rate?: u32
+} | {
+  type: "any";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties(type: "opus")
-
-#### channels
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Supported values**:
-    - `mono` - Mono audio (single channel).
-    - `stereo` - Stereo audio (two channels).
-
----
 
 #### preset
 Audio output encoder preset.
@@ -267,14 +335,19 @@ Sample rate for audio encoder.
 - **Default value**: `48000`
 - **Supported values**: `8000`, `16000`, `24000`, `48000`.
 
+---
+
+### Properties(type: "any")
+Specifies that any audio encoder supported by Smelter can be used. If `"any"` is not included in the `encoder_preferences` list, Smelter will only use the encoders explicitly listed in the preferences.
+
 ## InputAudio
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputAudio = {
-    input_id: string;
-    volume?: f32;
+  input_id: string;
+  volume?: f32;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -301,13 +374,13 @@ By default, the input stream is considered finished/ended when:
 - Input was unregistered already (or never registered).
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type OutputEndCondition = 
-    | { any_of: string[]; }
-    | { all_of: string[]; }
-    | { any_input: bool; }
-    | { all_inputs: bool; };
-`} lang='tsx' />
+  | { any_of: string[]; }
+  | { all_of: string[]; }
+  | { any_input: bool; }
+  | { all_inputs: bool; };
+```
 </CollapsibleDetails>
 
 ### Properties

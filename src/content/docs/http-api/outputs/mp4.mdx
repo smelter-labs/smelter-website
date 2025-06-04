@@ -1,7 +1,6 @@
 ---
 title: MP4
 ---
-import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that allows saving video and audio from Smelter to MP4 file.
@@ -28,7 +27,8 @@ Content-Type: application/json
     }
   },
   "audio": {
-    "encoder": { "type": "aac", "channels": "stereo" },
+    "encoder": { "type": "aac" },
+    "channels": "stereo",
     "initial": {
       "inputs": [{ "input_id": "input_1", "volume": 1 }]
     }
@@ -77,17 +77,17 @@ Audio track configuration.
 ## Mp4VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type Mp4VideoOptions = {
-    resolution: {
-      width: u32;
-      height: u32;
-    };
-    send_eos_when?: OutputEndCondition;
-    encoder: Mp4VideoEncoderOptions;
-    initial: { root: Component; };
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  send_eos_when?: OutputEndCondition;
+  encoder: Mp4VideoEncoderOptions;
+  initial: { root: Component; };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -121,23 +121,23 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 ## Mp4VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type VideoEncoderOptions = {
-    type: "ffmpeg_h264";
-    preset?:
-      | "ultrafast"
-      | "superfast"
-      | "veryfast"
-      | "faster"
-      | "fast"
-      | "medium"
-      | "slow"
-      | "slower"
-      | "veryslow"
-      | "placebo";
-    ffmpeg_options?: Map<string, string>;
+  type: "ffmpeg_h264";
+  preset?:
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  ffmpeg_options?: Map<string, string>;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties (`type: "ffmpeg_h264"`)
@@ -148,16 +148,16 @@ Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
 - **Default value**: `fast`
 - **Supported values**:
-    - `ultrafast`
-    - `superfast`
-    - `veryfast`
-    - `faster`
-    - `fast`
-    - `medium`
-    - `slow`
-    - `slower`
-    - `veryslow`
-    - `placebo`
+  - `ultrafast`
+  - `superfast`
+  - `veryfast`
+  - `faster`
+  - `fast`
+  - `medium`
+  - `slow`
+  - `slower`
+  - `veryslow`
+  - `placebo`
 
 ---
 
@@ -168,14 +168,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 ## Mp4AudioOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type Mp4AudioOptions = {
-    mixing_strategy?: "sum_clip" | "sum_scale";
-    send_eos_when?: OutputEndCondition;
-    encoder: Mp4AudioEncoderOptions;
-    initial: { inputs: InputAudio[]; };
+  mixing_strategy?: "sum_clip" | "sum_scale";
+  send_eos_when?: OutputEndCondition;
+  encoder: Mp4AudioEncoderOptions;
+  channels?: "mono" | "stereo";
+  initial: { inputs: InputAudio[]; };
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -186,8 +187,8 @@ Specifies how audio should be mixed.
 - **Type**: `"sum_clip" | "sum_scale"`
 - **Default value**: `"sum_clip"`
 - **Supported values**:
-    - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
-    - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+  - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
 
 ---
 
@@ -203,6 +204,15 @@ Audio encoder options.
 
 - **Type**: [`Mp4AudioEncoderOptions`](#mp4audioencoderoptions)
 
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+  - `mono` - Mono audio (single channel).
+  - `stereo` - Stereo audio (two channels).
+
 #### initial
 Initial audio mixer configuration for output.
 
@@ -212,24 +222,15 @@ Initial audio mixer configuration for output.
 ## Mp4AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type Mp4AudioEncoderOptions = {
-    type: "aac";
-    channels: "mono" | "stereo";
-    sample_rate?: u32;
+  type: "aac";
+  sample_rate?: u32;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties(type: "aac")
-
-#### channels
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Supported values**:
-    - `mono` - Mono audio (single channel).
-    - `stereo` - Stereo audio (two channels).
 
 #### sample_rate
 Sample rate.
@@ -241,12 +242,12 @@ Sample rate.
 
 ## InputAudio
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type InputAudio = {
-    input_id: string;
-    volume?: f32;
+  input_id: string;
+  volume?: f32;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -272,14 +273,14 @@ Unless specified otherwise the input stream is considered finished/ended when:
 - Input was unregistered already (or never registered).
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type OutputEndCondition = {
-    any_of?: string[];
-    all_of?: string[];
-    any_input?: bool;
-    all_inputs?: bool;
+  any_of?: string[];
+  all_of?: string[];
+  any_input?: bool;
+  all_inputs?: bool;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties

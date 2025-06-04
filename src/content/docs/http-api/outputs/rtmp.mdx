@@ -1,14 +1,13 @@
 ---
-title: RTP
+title: RTMP
 ---
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
-An output type that allows streaming video and audio from Smelter over RTP.
+An output type that allows streaming video and audio from Smelter over RTMP.
 
 ## Usage
 
-To use RTP Output you must register it first. You can do it by sending a request like this:
-
+To use RTMP Output you need to register it first.
 <CollapsibleDetails summaryTitle='Example request' open>
 
 ```http
@@ -16,9 +15,8 @@ POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-  "type": "rtp_stream",
-  "transport_protocol": "tcp_server",
-  "port": 9003,
+  "type": "rtmp_client",
+  "url": "https://example.com/rtmp",
   "video": {
     "resolution": { "width": 1280, "height": 720 },
     "encoder": { "type": "ffmpeg_h264" },
@@ -29,10 +27,10 @@ Content-Type: application/json
     }
   },
   "audio": {
-    "encoder": { "type": "opus" },
+    "encoder": { "type": "aac" },
     "channels": "stereo",
     "initial": {
-      "inputs": [{ "input_id": "input_1", "volume": 1 }]
+      "inputs": [{ "input_id": "input_1" }]
     }
   }
 }
@@ -41,73 +39,52 @@ Content-Type: application/json
 
 See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn more about managing outputs.
 
-## References
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type RtpOutput = {
-  type: "rtp_stream";
-  port: string | u16;
-  ip?: string;
-  transport_protocol?: "udp" | "tcp_server";
-  video?: RtpVideoOptions;
-  audio?: RtpAudioOptions;
+type RtmpClientOutput = {
+  type: "rtmp_client";
+  url: string;
+  video?: RtmpClientVideoOptions;
+  audio?: RtmpClientAudioOptions;
 }
 ```
 </CollapsibleDetails>
 
 ## Properties
 
-### port
-Depends on the value of the `transport_protocol` field:
-  - `udp` - An UDP port number that RTP packets will be sent to.
-  - `tcp_server` - A local TCP port number or a port range that Smelter will listen for incoming connections.l TCP port number or a range of ports that Smelter will listen to for incoming connections.
-
-- **Type**: `string | u16`
-
----
-
-### ip
-IP address to which RTP packets should be sent. This field is only valid if `transport_protocol` field is set to `udp`.
+### url
+RTMP endpoint url.
 
 - **Type**: `string`
 
 ---
 
-### transport_protocol
-Transport layer protocol that will be used to send RTP packets.
-
-- **Type**: `"udp" | "tcp_server"`
-- **Default value**: `udp`
-- **Supported values**:
-    - `udp` - UDP protocol.
-    - `tcp_server` - TCP protocol where Smelter is the server side of the connection.
-
----
-
 ### video
-Parameters of a video included in the RTP stream.
+Video track configuration.
 
-- **Type**: [`RtpVideoOptions`](#rtpvideooptions)
+- **Type**: [`RtmpClientVideoOptions`](#rtmpclientvideooptions)
 
 ---
 
 ### audio
-Parameters of an audio included in the RTP stream.
+Audio track configuration.
 
-- **Type**: [`RtpAudioOptions`](#rtpaudiooptions)
+- **Type**: [`RtmpClientAudioOptions`](#rtmpclientaudiooptions)
 
-## RtpVideoOptions
+## RtmpClientVideoOptions
+
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoOptions = {
+type RtmpClientVideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: RtpVideoEncoderOptions;
+  encoder: RtmpClientVideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -132,7 +109,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](#rtpvideoencoderoptions)
+- **Type**: [`RtmpClientVideoEncoderOptions`](#rtmpclientvideoencoderoptions)
 
 ---
 
@@ -141,34 +118,25 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 - **Type**: `{ root: Component; }`
 
+## RtmpClientVideoEncoderOptions
 
-## RtpVideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoEncoderOptions = 
-  | {
-      type: "ffmpeg_h264";
-      preset?:
-        | "ultrafast"
-        | "superfast"
-        | "veryfast"
-        | "faster"
-        | "fast"
-        | "medium"
-        | "slow"
-        | "slower"
-        | "veryslow"
-        | "placebo";
-      ffmpegOptions?: Map<string, string>;
-    }
-  | {
-      type: "ffmpeg_vp8";
-      ffmpegOptions?: Map<string, string>;
-    }
-  | {
-      type: "ffmpeg_vp9";
-      ffmpegOptions?: Map<string, string>;
-    };
+type VideoEncoderOptions = {
+  type: "ffmpeg_h264";
+  preset?:
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  ffmpeg_options?: Map<string, string>;
+}
 ```
 </CollapsibleDetails>
 
@@ -198,28 +166,13 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-### Properties (`type: "ffmpeg_vp8"`)
-
-#### ffmpeg_options
-Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `Map<string, string>`
-
-### Properties (`type: "ffmpeg_vp9"`)
-
-#### ffmpeg_options
-Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `Map<string, string>`
-
-## RtpAudioOptions
-
+## RtmpClientAudioOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpAudioOptions = {
+type RtmpClientAudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: RtpAudioEncoderOptions;
+  encoder: RtmpClientAudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -249,9 +202,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](#rtpaudioencoderoptions)
-
----
+- **Type**: [`RtmpClientAudioEncoderOptions`](#rtmpclientaudioencoderoptions)
 
 #### channels
 Channels configuration
@@ -262,47 +213,34 @@ Channels configuration
   - `mono` - Mono audio (single channel).
   - `stereo` - Stereo audio (two channels).
 
-
 #### initial
 Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
 
-## RtpAudioEncoderOptions
+
+## RtmpClientAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpAudioEncoderOptions = {
-  type: "opus";
-  preset?: "quality" | "voip" | "lowest_latency";
+type RtmpClientAudioEncoderOptions = {
+  type: "aac";
   sample_rate?: u32;
 }
 ```
 </CollapsibleDetails>
 
-### Properties(type: "opus")
-
-#### preset
-Audio output encoder preset.
-
-- **Type**: `"quality" | "voip" | "lowest_latency"`
-- **Default value**: `voip`
-- **Supported values**:
-  - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
-  - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
-  - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
-
----
+### Properties(type: "aac")
 
 #### sample_rate
 Sample rate.
 
 - **Type**: `u32`
-- **Default value**: `48000`
-- **Supported values**: `8000`, `16000`, `24000`, `48000`
+- **Default value**: `44100`
+- **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`
+
 
 ## InputAudio
-
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type InputAudio = {
@@ -372,3 +310,4 @@ Terminate the output stream if any of the input streams end, including streams a
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `bool`
+

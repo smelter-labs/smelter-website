@@ -1,7 +1,7 @@
 ---
 title: RTP
 ---
-import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An input type that allows streaming video and audio to the Smelter server over RTP. It supports both streaming over UDP and TCP (Smelter works as a TCP server).
@@ -103,7 +103,7 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 ## InputRtpVideoOptions
 ```typescript
 type InputRtpVideoOptions = {
-  decoder: "ffmpeg_h264" | "vulkan_h264";
+  decoder: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9";
 }
 ```
 ### Properties
@@ -111,17 +111,19 @@ type InputRtpVideoOptions = {
 #### decoder
 Video decoder.
 
-- **Type**: `"ffmpeg_h264" | "vulkan_h264"`
+- **Type**: `"ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9"`
 - **Supported values**:
-  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
+  - `"ffmpeg_h264"` - Use the software H264 decoder based on FFmpeg.
   - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
     
-    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
+    This should be faster and more scalable than the FFmpeg decoder, if the hardware and OS
     support it.
     
     This requires hardware that supports Vulkan Video. Another requirement is this program has
     to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
     support Vulkan, i.e. non-Apple operating systems and not the web).
+  - `"ffmpeg_vp8"` - Use the software VP8 decoder based on FFmpeg.
+  - `"ffmpeg_vp9"` - Use the software VP9 decoder based on FFmpeg.
 
 ## InputRtpAudioOptions
 ```typescript
