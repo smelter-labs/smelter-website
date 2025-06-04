@@ -1,6 +1,7 @@
 ---
 import Default from "@astrojs/starlight/components/PageFrame.astro";
-import CookieConsent from "@components/base/cookie-consent/CookieConsent.astro";
+// import CookieConsent from "@components/base/cookie-consent/CookieConsent.astro";
+import CookieConsent from "@components/base/cookie-consent/CookieConsentTest";
 ---
 
 <Default {...Astro.props}>
@@ -10,4 +11,6 @@ import CookieConsent from "@components/base/cookie-consent/CookieConsent.astro";
   <slot />
 </Default>
 
-<CookieConsent variant="docs" />
+<CookieConsent client:load />
+
+<!-- <CookieConsent type="module" variant="docs" client:load /> -->
