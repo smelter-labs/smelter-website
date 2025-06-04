@@ -34,7 +34,7 @@ const dataAttributes: DOMStringMap = {
 if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash'] = ''
 ---
 
-<site-search class={Astro.props['class']} {...dataAttributes}>
+<site-search class={Astro.props['class']} {...dataAttributes} is:client>
   <button data-open-modal disabled>
     <Icon name="magnifier" />
     <span class="sl-hidden md:sl-block" aria-hidden="true">{Astro.locals.t('search.label')}</span>
