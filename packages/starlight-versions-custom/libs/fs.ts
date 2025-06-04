@@ -2,14 +2,9 @@ import type { Dirent, PathLike } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-import { ensureTrailingSlash } from './path'
-
 export function listDirectory(directory: URL) {
   return fs.readdir(directory, {recursive: true, withFileTypes: true})
 }
-
-import { promises as fs } from 'fs';
-import { dirname, join } from 'path';
 
 export async function copyDirectory(sourceDir: URL, destDir: URL, callback: CopyDirectoryCallback, isRoot = true) {
   const dirEntries = await fs.readdir(new URL(sourceDir).pathname, { withFileTypes: true });
@@ -21,8 +16,8 @@ export async function copyDirectory(sourceDir: URL, destDir: URL, callback: Copy
   await ensureDirectory(destDir);
 
   for (const entry of dirEntries) {
-    const sourceEntryPath = join(sourceDir.pathname, entry.name);
-    const destEntryPath = join(destDir.pathname, entry.name);
+    const sourceEntryPath = path.join(sourceDir.pathname, entry.name);
+    const destEntryPath = path.join(destDir.pathname, entry.name);
     const entrySourceURL = new URL(`file://${sourceEntryPath}`);
     let entryDestURL = new URL(`file://${destEntryPath}`);
 
