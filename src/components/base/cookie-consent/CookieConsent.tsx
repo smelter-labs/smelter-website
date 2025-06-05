@@ -11,8 +11,8 @@ export default function CookieConsent({ variant = "page" }: { variant?: "page" |
 
   useEffect(() => {
     clarity.clarity.init("rr6q6gt4xx");
-    const cookiePreferences = localStorage.getItem("cookiePreferences")
-    const savedPreferences =  cookiePreferences ? JSON.parse(cookiePreferences) : false ;
+    const cookiePreferences = localStorage.getItem("cookiePreferences");
+    const savedPreferences = cookiePreferences ? JSON.parse(cookiePreferences) : false;
     if (savedPreferences) {
       setPreferences(savedPreferences);
       setMode("hidden");
