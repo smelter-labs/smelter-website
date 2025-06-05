@@ -57,7 +57,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
-      prerender: true,
+      prerender: false,
       plugins: process.env.ENABLE_LINK_CHECKER
         ? [
             starlightLinksValidator(),
