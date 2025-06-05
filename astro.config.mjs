@@ -3,6 +3,7 @@ import path from "node:path";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import starlight from "@astrojs/starlight";
+import starlightDocSearch from "@astrojs/starlight-docsearch";
 import tailwind from "@astrojs/tailwind";
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -61,6 +62,11 @@ export default defineConfig({
       plugins: process.env.ENABLE_LINK_CHECKER
         ? [
             starlightLinksValidator(),
+            starlightDocSearch({
+              appId: "YOUR_APP_ID",
+              apiKey: "YOUR_SEARCH_API_KEY",
+              indexName: "YOUR_INDEX_NAME",
+            }),
             starlightVersions({
               versions: [
                 {
@@ -75,6 +81,11 @@ export default defineConfig({
             }),
           ]
         : [
+            starlightDocSearch({
+              appId: "YOUR_APP_ID",
+              apiKey: "YOUR_SEARCH_API_KEY",
+              indexName: "YOUR_INDEX_NAME",
+            }),
             starlightVersions({
               versions: [
                 {
