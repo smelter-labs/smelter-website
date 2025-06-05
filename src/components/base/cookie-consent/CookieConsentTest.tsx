@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import clarity from "react-microsoft-clarity";
-import "../../../../styles/global.scss";
+import styles from "./cookie-consent.module.css";
 
-export default function CookieConsent() {
-  const [isVisible, setIsVisible] = useState(false);
+export default function CookieConsent({ variant = "page" }: { variant: "page" | "docs" }) {
+  const [mode, setMode] = useState<"consent" | "details" | "hidden">("hidden");
   const [preferences, setPreferences] = useState({
     essential: true,
     analytics: false,
@@ -15,9 +15,9 @@ export default function CookieConsent() {
     const savedPreferences = JSON.parse(localStorage.getItem("cookiePreferences"));
     if (savedPreferences) {
       setPreferences(savedPreferences);
-      setIsVisible(false);
+      setMode("hidden");
     } else {
-      setIsVisible(true);
+      setMode("consent");
     }
   }, []);
 
@@ -34,7 +34,7 @@ export default function CookieConsent() {
         analytics: true,
       })
     );
-    setIsVisible(false);
+    setMode("hidden");
   };
 
   const handleRejectAll = () => {
@@ -50,57 +50,121 @@ export default function CookieConsent() {
         analytics: false,
       })
     );
-    setIsVisible(false);
+    setMode("hidden");
   };
 
   const handleSavePreferences = () => {
     localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
-    setIsVisible(false);
+    setMode("hidden");
   };
 
   const handleManagePreferences = () => {
-    setIsVisible(true);
+    setMode("details");
   };
-
-  const variant = "docs";
 
   return (
     <div
       id="cookie-consent"
-      className="fixed right-8 bottom-0 max-w-lg rounded-xl border border-[#493880] bg-[#161127]/90 p-6 shadow-xl backdrop-blur-lg transition-all duration-300"
-      style={{ display: isVisible ? "block" : "none" }}>
+      className={`${mode === "hidden" ? "hidden" : "block"} transition-all duration-300 ${variant === "docs" ? "docs-theme" : ""}`}>
       <div
         id="cookie-banner"
-        className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-        <div className="flex-1 text-white">
-          <h3>We use cookies</h3>
-          <p>
-            We use cookies to persist your settings and analyze our traffic. Please select your
-            preferences.
-          </p>
-        </div>
-        <div className="flex flex-col space-y-2">
-          <div className="flex space-x-2">
+        className={`fixed right-8 bottom-8 z-50 max-w-[675px] rounded-2xl border border-solid p-6 ${
+          variant === "docs" ? "border-[#bec2cc] bg-[#212635]" : "border-[#493880] bg-[#161127]"
+        } ${mode === "consent" ? "block" : "hidden"}`}>
+        <div id="banner-text-wrapper" className="flex gap-6">
+          <div id="cookie-text" className="flex-1">
+            <h3 className="mb-2 text-white text-xl">We use cookies</h3>
+            <p className="text-[#ffffffbf] text-sm leading-6">
+              We use cookies to persist your settings and analyze our traffic. Please select your
+              preferences.
+            </p>
+          </div>
+          <div id="banner-buttons" className="flex flex-1 flex-col gap-3">
+            <div id="banner-buttons-top" className="flex flex-1 gap-3">
+              <button
+                type="button"
+                onClick={() => handleRejectAll()}
+                id="reject-all"
+                className="button button-primary">
+                Deny non-essential
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAcceptAll()}
+                id="accept-all"
+                className="button button-primary">
+                Accept all
+              </button>
+            </div>
             <button
               type="button"
-              onClick={handleRejectAll}
-              className="bg-[#624baa] hover:bg-[#493880] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Deny non-essential
-            </button>
-            <button
-              type="button"
-              onClick={handleAcceptAll}
-              className="bg-[#624baa] hover:bg-[#493880] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Accept all
+              onClick={() => handleManagePreferences()}
+              id="manage-preferences"
+              className="button button-secondary">
+              Manage Individual preferences
             </button>
           </div>
+        </div>
+      </div>
+
+      <div
+        id="cookie-preferences"
+        className={`fixed right-8 bottom-8 z-50 max-w-[480px] rounded-2xl border border-solid p-6 ${variant === "docs" ? "border-[#bec2cc] bg-[#212635]" : "border-[#493880] bg-[#161127]"}`}
+        style={{ display: mode === "details" ? "block" : "none" }}>
+        <div className={styles.preferencesHeader}>
+          <h3>Cookie Preferences</h3>
           <button
             type="button"
-            onClick={() => setIsVisible(!isVisible)}
-            className="bg-[#302555] hover:bg-[#493880] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Manage Individual preferences
+            onClick={() => {
+              setMode("consent");
+            }}
+            id="close-preferences"
+            className="close-button">
+            ×
           </button>
         </div>
+        <div className="mb-6">
+          <div className="cookie-category">
+            <label className="cookie-label">
+              <div>
+                <h4 className="text-white">Essential Cookies</h4>
+                <p className="text-[#ffffffbf] text-sm">
+                  Required for basic site functionality. These cannot be disabled.
+                </p>
+              </div>
+              <div className="toggle-wrapper">
+                <input type="checkbox" id="analytics-cookies" checked disabled />
+                <span className="toggle essential" />
+              </div>
+            </label>
+          </div>
+          <div className="cookie-category">
+            <label className="cookie-label">
+              <div>
+                <h4 className="text-white">Analytics Cookies</h4>
+                <p className="text-[#ffffffbf] text-sm">
+                  Help us understand how visitors interact with our website.
+                </p>
+              </div>
+              <div className="toggle-wrapper">
+                <input
+                  onChange={(e) => {
+                    setPreferences((prevPreferences) => ({
+                      ...prevPreferences,
+                      analytics: e.target.checked,
+                    }));
+                  }}
+                  type="checkbox"
+                  id="analytics-cookies"
+                />
+                <span className="toggle" />
+              </div>
+            </label>
+          </div>
+        </div>
+        <button type="button" onClick={handleSavePreferences} className="button button-primary">
+          Save Preferences
+        </button>
       </div>
     </div>
   );
