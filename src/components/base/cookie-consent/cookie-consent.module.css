@@ -1,6 +1,114 @@
-/* @tailwind base; */
-/* @tailwind components; */
-@tailwind utilities;
+.cookieBanner {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #161127;
+  border: 1px solid #493880;
+  border-radius: 1rem;
+  --tw-shadow: 0 13px 26px -7px rgba(0, 0, 0, 0.3);
+  --tw-shadow-colored: 0 13px 26px -7px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  max-width: 700px;
+  padding: 1.5rem;
+  display: none;
+  z-index: 100000;
+  @media (max-width: 40rem) {
+    bottom: 0;
+    right: 0;
+    margin: 0 1rem 0.5rem 1rem;
+  }
+}
+
+.cookieBanner.docsTheme,
+.cookiePreferences.docsTheme {
+  background-color: #212635;
+  border: 1px solid #bec2cc;
+}
+
+.bannerTextWrapper {
+  display: flex;
+  gap: 1.5rem;
+  @media (max-width: 40rem) {
+    flex-direction: column;
+  }
+}
+
+.bannerButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.bannerButtonsTop {
+  display: flex;
+  gap: 0.75rem;
+}
+.cookiePreferences {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #161127;
+  border: 1px solid #493880;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 480px;
+  max-height: 600px;
+  overflow-y: auto;
+  box-shadow:
+    0 20px 25px -5px #16112740,
+    0 10px 10px -5px #16112740;
+  animation: slideInUp 0.4s ease-out;
+  display: none;
+  z-index: 100000;
+  @media (max-width: 40rem) {
+    bottom: 0;
+    right: 0;
+    margin: 0 1rem 0.5rem 1rem;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cookieText {
+  flex: 1;
+}
+
+.cookieText h3 {
+  color: #ffffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.cookieText p {
+  color: #ffffffbf;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.preferencesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid #302555;
+}
+.docsTheme .preferencesHeader {
+  border-bottom: 0.5px solid #848b9e;
+}
 
 .preferencesHeader h3 {
   color: #ffffffff;
@@ -9,7 +117,7 @@
   margin: 0;
 }
 
-.close-button {
+.closeButton {
   background: none;
   border: none;
   color: #ffffffbf;
@@ -25,49 +133,62 @@
   transition: all 0.2s ease;
 }
 
-.close-button:hover {
+.closeButton:hover {
   background-color: #302555;
   color: #ffffffff;
 }
 
-.cookie-category {
+.preferencesContent {
+  margin-bottom: 1.5rem;
+}
+
+.cookieCategory {
   margin-bottom: 1.25rem;
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid #302555;
   transition: border-color 0.2s ease;
-  cursor: pointer;
 }
 
-.docs-theme .cookie-category {
+.docsTheme .cookieCategory {
   border: 0.5px solid #848b9e;
 }
 
-.cookie-category:hover {
+.cookieCategory:hover {
   border-color: #493880;
 }
 
-.docs-theme .cookie-category:hover {
-  border-color: #624baa;
-}
-
-.cookie-category:last-child {
+.cookieCategory:last-child {
   margin-bottom: 0;
 }
 
-.cookie-label {
+.cookieLabel {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
   cursor: pointer;
+  gap: 1rem;
 }
 
-.toggle-wrapper {
+.cookieInfo h4 {
+  color: #ffffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem 0;
+}
+
+.cookieInfo p {
+  color: #ffffffbf;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.toggleWrapper {
   flex-shrink: 0;
 }
 
-.toggle-wrapper input[type="checkbox"] {
+.toggleWrapper input[type="checkbox"] {
   display: none;
 }
 
@@ -82,7 +203,7 @@
   transition: all 0.3s ease;
 }
 
-.docs-theme .toggle {
+.docsTheme .toggle {
   background-color: #ffffffbf;
 }
 
@@ -125,59 +246,54 @@ input[type="checkbox"]:checked + .toggle::after {
   cursor: pointer;
   transition: all 0.2s ease;
   flex: 1;
-  width: 100%;
 }
 
-.button-primary {
+.buttonPrimary {
   background-color: #624baa;
   color: #ffffffff;
 }
 
-.docs-theme .button-primary {
-  background-color: #8471c1;
+.docsTheme .buttonPrimary {
+  background-color: #8471C1;
   color: white;
 }
 
-.button-primary:hover {
+.buttonPrimary:hover {
   background-color: #493880;
 }
 
-.docs-theme .button-primary:hover {
+.docsTheme .buttonPrimary:hover {
   background-color: #bec2cc;
 }
 
-.button-secondary {
+.buttonSecondary {
   background-color: #302555;
   color: #ffffff;
   border: 1px solid #493880;
 }
 
-.docs-theme .button-secondary {
+.docsTheme .buttonSecondary {
   background-color: #323848;
   color: #ffffff;
   border: none;
 }
 
-.button-secondary:hover {
+.buttonSecondary:hover {
   background-color: #493880;
 }
 
-.docs-theme .button-secondary:hover {
+.docsTheme .buttonSecondary:hover {
   background-color: #525869;
 }
 
-.preferences-actions .button {
+.preferencesActions .button {
   width: 100%;
 }
 
-.preferences-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 0.5px solid #302555;
+.hidden {
+  display: none;
 }
-.docs-theme .preferences-header {
-  border-bottom: 0.5px solid #848b9e;
+
+.block {
+  display: block;
 }

@@ -4,7 +4,7 @@ import Analytics from "@vercel/analytics/astro";
 import Footer from "../components/base/Footer.astro";
 import FooterMobile from "../components/base/FooterMobile.astro";
 import Snackbar from "../components/base/Snackbar.astro";
-import CookieConsent from "../components/base/cookie-consent/CookieConsent.astro";
+import CookieConsent from "../components/base/cookie-consent/CookieConsent";
 import NavBar from "../components/navigation/NavBar.astro";
 import ReactNavBar from "../components/navigation/ReactNavBar.astro";
 
@@ -139,10 +139,9 @@ const {
       content="Thank you for your inquiry. We will contact you as soon as possible."
     />
     <Analytics />
-    <CookieConsent />
-  </body>
-  <style is:global>
-    @import '../../styles/font-face.scss';
-    @import '../../styles/global.scss';
+    <CookieConsent client:load />
+  </body><style is:global>
+    @import "../../styles/font-face.scss";
+    @import "../../styles/global.scss";
   </style>
 </html>
