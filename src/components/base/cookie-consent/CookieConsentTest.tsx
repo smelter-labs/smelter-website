@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import clarity from "react-microsoft-clarity";
+import "../../../../styles/global.scss";
 
 export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false);
@@ -9,7 +10,7 @@ export default function CookieConsent() {
   });
 
   useEffect(() => {
-    clarity.clarity.init("rr6q6gt4xx")
+    clarity.clarity.init("rr6q6gt4xx");
     // Emulating fetching user's saved cookie preferences from local storage
     const savedPreferences = JSON.parse(localStorage.getItem("cookiePreferences"));
     if (savedPreferences) {
@@ -61,53 +62,45 @@ export default function CookieConsent() {
     setIsVisible(true);
   };
 
+  const variant = "docs";
+
   return (
     <div
       id="cookie-consent"
-      style={{
-        display: isVisible ? "block" : "none",
-        width: "600px",
-        height: "300px",
-        backgroundColor: "red",
-        position: "fixed",
-        bottom: 0,
-        right: 0,
-      }}>
-      <div id="cookie-banner">
-        <h3>We use cookies</h3>
-        <p>
-          We use cookies to persist your settings and analyze our traffic. Please select your
-          preferences.
-        </p>
-        <button type="button" onClick={handleRejectAll}>
-          Deny non-essential
-        </button>
-        <button type="button" onClick={handleAcceptAll}>
-          Accept all
-        </button>
-        <button type="button" onClick={() => setIsVisible(!isVisible)}>
-          Manage Individual preferences
-        </button>
-      </div>
-
-      <div id="cookie-preferences" style={{ display: isVisible ? "block" : "none" }}>
-        <h3>Cookie Preferences</h3>
-        <button type="button" onClick={() => setIsVisible(false)}>
-          Close
-        </button>
-        <div>
-          <label>
-            <span>Analytics Cookies</span>
-            <input
-              type="checkbox"
-              checked={preferences.analytics}
-              onChange={(e) => setPreferences({ ...preferences, analytics: e.target.checked })}
-            />
-          </label>
+      className="fixed right-8 bottom-0 max-w-lg rounded-xl border border-[#493880] bg-[#161127]/90 p-6 shadow-xl backdrop-blur-lg transition-all duration-300"
+      style={{ display: isVisible ? "block" : "none" }}>
+      <div
+        id="cookie-banner"
+        className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+        <div className="flex-1 text-white">
+          <h3>We use cookies</h3>
+          <p>
+            We use cookies to persist your settings and analyze our traffic. Please select your
+            preferences.
+          </p>
         </div>
-        <button type="button" onClick={handleSavePreferences}>
-          Save Preferences
-        </button>
+        <div className="flex flex-col space-y-2">
+          <div className="flex space-x-2">
+            <button
+              type="button"
+              onClick={handleRejectAll}
+              className="bg-[#624baa] hover:bg-[#493880] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Deny non-essential
+            </button>
+            <button
+              type="button"
+              onClick={handleAcceptAll}
+              className="bg-[#624baa] hover:bg-[#493880] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Accept all
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsVisible(!isVisible)}
+            className="bg-[#302555] hover:bg-[#493880] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Manage Individual preferences
+          </button>
+        </div>
       </div>
     </div>
   );
