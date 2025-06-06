@@ -9,24 +9,32 @@ import UtilityTile from "./UtilityTile.astro";
 const UTILITIES = [
   {
     title: "Ads Embedding",
+    slug: "ads",
+    video: "/example-video-red.mp4",
     icon: megaphone,
     description:
       "Seamlessly embed targeted **commercials** and branded content directly into **live video streams**.",
   },
   {
     title: "AI Effects",
+    slug: "ai",
+    video: "/example-video-green.mp4",
     icon: chip,
     description:
       "Automate **real-time transformations** like **AI-powered blurring**, redaction, or custom filters for live video.",
   },
   {
     title: "Collab Streaming",
+    slug: "collab",
+    video: "/example-video-blue.mp4",
     icon: costream,
     description:
       "Effortlessly combine multiple **live video feeds** from remote participants into a single, cohesive **collaborative stream**.",
   },
   {
     title: "AR Avatars",
+    slug: "ar",
+    video: "/example-video-purple.mp4",
     icon: star,
     description:
       "Integrate **real-time AR avatars** and virtual characters directly into **live video streams** for interactive use cases.",
@@ -65,28 +73,21 @@ const UTILITIES = [
           </div>
         </div>
         <div class="relative flex flex-3 aspect-video">
-          <video
-            id="videoBottom"
-            class="absolute top-0 left-0 aspect-video rounded-xl object-cover"
-            playsinline
-            autoplay
-            muted
-            loop
-          >
-            <source src="/example-video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <video
-            id="videoTop"
-            class="absolute top-0 left-0 aspect-video rounded-xl object-cover"
-            playsinline
-            autoplay
-            muted
-            loop
-          >
-            <source src="/example-video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          {
+            UTILITIES.map(({video, slug}, index) => (
+              <video
+                id={`utility-video-${slug}`}
+                class:list={["absolute top-0 left-0 aspect-video rounded-xl object-cover opacity-0 utility-video", index === 0 && "opacity-100"]}
+                playsinline
+                autoplay
+                muted
+                loop
+              >
+                <source src={video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -164,19 +165,40 @@ const UTILITIES = [
 </style>
 
 <script is:inline>
-  document.querySelectorAll('.contact-link').forEach(link => {
-    link.addEventListener('click', function(event) {
+  document.querySelectorAll(".contact-link").forEach((link) => {
+    link.addEventListener("click", function (event) {
       event.preventDefault(); // Stop the link from navigating as usual
-      const selectElement = document.getElementById('contact-select');
+      const selectElement = document.getElementById("contact-select");
       if (selectElement) {
-        selectElement.value = 'feature-request'; // Update the select value
-        selectElement.dispatchEvent(new Event('change')); // If needed, trigger the 'change' event
+        selectElement.value = "feature-request"; // Update the select value
+        selectElement.dispatchEvent(new Event("change")); // If needed, trigger the 'change' event
       }
       // Optionally, add smooth scroll to the contact section
-      const contactSection = document.getElementById('contact');
+      const contactSection = document.getElementById("contact");
       if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+        contactSection.scrollIntoView({ behavior: "smooth" });
       }
     });
+  });
+</script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    const videos = document.querySelectorAll('.utility-video');
+    let index = 0;
+
+    function updateVideos() {
+      videos.forEach((video) => {
+        video.style.opacity = '0';
+        video.pause();
+        video.currentTime = 0;
+      });
+      videos[index].style.opacity = '1';
+      videos[index].play();
+      index = (index + 1) % videos.length;
+    }
+
+    updateVideos();
+    setInterval(updateVideos, 8000);
   });
 </script>
