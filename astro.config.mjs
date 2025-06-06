@@ -3,6 +3,7 @@ import path from "node:path";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import starlight from "@astrojs/starlight";
+import starlightDocSearch from "@astrojs/starlight-docsearch";
 import tailwind from "@astrojs/tailwind";
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -58,33 +59,26 @@ export default defineConfig({
     starlight({
       title: "Smelter",
       prerender: false,
-      plugins: process.env.ENABLE_LINK_CHECKER
-        ? [
-            starlightLinksValidator(),
-            starlightVersions({
-              versions: [
-                {
-                  slug: "ts-sdk/0.2.x",
-                  label: "SDK (TypeScript) 0.2.x",
-                },
-                {
-                  slug: "http-api/0.4.x",
-                  label: "Server (HTTP API) 0.4.x",
-                },
-              ],
-            }),
-          ]
-        : [
-            starlightVersions({
-              versions: [
-                {
-                  slug: "ts-sdk/0.2.x",
-                  label: "SDK (TypeScript) 0.2.x",
-                },
-                { slug: "http-api/0.4.x", label: "Server (HTTP API) 0.4.x" },
-              ],
-            }),
+      plugins: [
+        ...(process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : []),
+        starlightDocSearch({
+          appId: "RQGSDUI2B0",
+          apiKey: "401cb98bf67c11c44695d30bbba97794",
+          indexName: "smelter",
+        }),
+        starlightVersions({
+          versions: [
+            {
+              slug: "ts-sdk/0.2.x",
+              label: "SDK (TypeScript) 0.2.x",
+            },
+            {
+              slug: "http-api/0.4.x",
+              label: "Server (HTTP API) 0.4.x",
+            },
           ],
+        }),
+      ],
       description:
         "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
       social: {

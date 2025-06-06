@@ -20,7 +20,7 @@
     "@astrojs/react": "^4.2.0",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/starlight": "0.32.0",
-    "@astrojs/starlight-docsearch": "^0.5.0",
+    "@astrojs/starlight-docsearch": "^0.6.0",
     "@astrojs/tailwind": "^5.1.5",
     "@astrojs/vercel": "^8.1.4",
     "@expressive-code/plugin-collapsible-sections": "^0.38.3",

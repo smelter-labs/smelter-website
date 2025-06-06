@@ -35,8 +35,8 @@ importers:
         specifier: 0.32.0
         version: 0.32.0(patch_hash=qt5lyclq44rhgzvlh3cdgxxg74)(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0))
       '@astrojs/starlight-docsearch':
-        specifier: ^0.5.0
-        version: 0.5.0(@algolia/client-search@5.25.0)(@astrojs/starlight@0.32.0(patch_hash=qt5lyclq44rhgzvlh3cdgxxg74)(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0)))(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)
+        specifier: ^0.6.0
+        version: 0.6.0(@algolia/client-search@5.25.0)(@astrojs/starlight@0.32.0(patch_hash=qt5lyclq44rhgzvlh3cdgxxg74)(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0)))(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)
       '@astrojs/tailwind':
         specifier: ^5.1.5
         version: 5.1.5(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0))(tailwindcss@3.4.17)
@@ -265,10 +265,10 @@ packages:
   '@astrojs/sitemap@3.4.0':
     resolution: {integrity: sha512-C5m/xsKvRSILKM3hy47n5wKtTQtJXn8epoYuUmCCstaE9XBt20yInym3Bz2uNbEiNfv11bokoW0MqeXPIvjFIQ==}
 
-  '@astrojs/starlight-docsearch@0.5.0':
-    resolution: {integrity: sha512-GaNAnyafW4pCBTPXjL5PLViZ9XRCb85uZgpUCChBXrNjtqEORQxiZ3bH6dsuuYHEaNtGHdR9mC4xFo1PzXdsTg==}
+  '@astrojs/starlight-docsearch@0.6.0':
+    resolution: {integrity: sha512-jTW/6SVU98/birzDCrYLVEKrgzdRzLlevGIhG6EDRmieLCAUnsKUk0q856fOJ7RJcuVLTlzg80rkwAgRINpyZQ==}
     peerDependencies:
-      '@astrojs/starlight': '>=0.30.0'
+      '@astrojs/starlight': '>=0.32.0'
 
   '@astrojs/starlight@0.32.0':
     resolution: {integrity: sha512-RJ+zPeTBlfgZJA3cWl3Nml9RLQhYUupnE0obL3iVxvVKhoCwUJnxmKicPp9EBxSML0TK8X4CUpnEwiC7OtfYwg==}
@@ -3977,7 +3977,7 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.25.36
 
-  '@astrojs/starlight-docsearch@0.5.0(@algolia/client-search@5.25.0)(@astrojs/starlight@0.32.0(patch_hash=qt5lyclq44rhgzvlh3cdgxxg74)(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0)))(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)':
+  '@astrojs/starlight-docsearch@0.6.0(@algolia/client-search@5.25.0)(@astrojs/starlight@0.32.0(patch_hash=qt5lyclq44rhgzvlh3cdgxxg74)(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0)))(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)':
     dependencies:
       '@astrojs/starlight': 0.32.0(patch_hash=qt5lyclq44rhgzvlh3cdgxxg74)(astro@5.8.0(@types/node@22.15.24)(jiti@1.21.7)(rollup@4.41.1)(sass-embedded@1.89.0)(typescript@5.8.3)(yaml@2.8.0))
       '@docsearch/css': 3.9.0
