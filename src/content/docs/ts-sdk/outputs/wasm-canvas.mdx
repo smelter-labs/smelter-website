@@ -1,8 +1,9 @@
 ---
 title: Canvas (Web API)
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
+
+import { Aside, Code, Badge } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 <Badge text="Browser (WASM)" variant="tip" size="large" />
 
@@ -28,9 +29,9 @@ async function run() {
       resolution: { width: 1920, height: 1080 },
     },
     audio: true,
-  })
+  });
 }
-void run()
+void run();
 ```
 
 ## Reference
@@ -44,11 +45,13 @@ type RegisterCanvasOutput = {
   audio?: boolean;
 };
 ```
+
 </CollapsibleDetails>
 
 ## Properties
 
 ### video
+
 Parameters of an output video.
 
 - **Type**: [`CanvasOutputVideo`](#canvasoutputvideo)
@@ -59,7 +62,7 @@ Parameters of an output video.
 
 If `true` output audio will be played in the browser tab.
 
-- **Type**: `boolean` 
+- **Type**: `boolean`
 - **Defaults to**: `false`
 
 ## CanvasOutputVideo
@@ -68,19 +71,20 @@ If `true` output audio will be played in the browser tab.
 
 ```tsx
 type RegisterCanvasOutput = {
-  canvas: HTMLCanvasElement,
-  resolution: { width: number; height: number; }
+  canvas: HTMLCanvasElement;
+  resolution: { width: number; height: number };
 };
 ```
+
 </CollapsibleDetails>
 
 ### Properties
 
-#### canvas 
+#### canvas
 
 Canvas element that video should be rendered on.
 
-- **Type**: `HTMLCanvasElement` 
+- **Type**: `HTMLCanvasElement`
 
 #### resolution
 

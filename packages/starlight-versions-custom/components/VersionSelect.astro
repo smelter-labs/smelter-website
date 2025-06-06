@@ -1,0 +1,214 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import type { StarlightIcon } from "@astrojs/starlight/types";
+import starlightConfig from "virtual:starlight/user-config";
+import starlightVersionsConfig from "virtual:starlight-versions-config";
+
+import { getVersionURL } from "../libs/versions";
+
+const cookieVersion = Astro.cookies.get("selectedVersion")?.value || "";
+
+const activeVersion = cookieVersion
+  .split("/")
+  .filter((part) => part !== "")
+  .slice(0, 2)
+  .join("/");
+
+interface Props {
+  iconName: StarlightIcon;
+}
+
+const { iconName } = Astro.props;
+
+const versions = starlightVersionsConfig.versions;
+
+const tsVersions = versions.filter((version) =>
+  version.slug.includes("ts-sdk/")
+);
+const httpVersions = versions.filter((version) =>
+  version.slug.includes("http-api/")
+);
+---
+
+<starlight-version-select class="version-select">
+  <label style="width: 100%;">
+    <span class="sr-only">Select version</span>
+    <Icon name={iconName} class="icon label-icon" />
+    <select value={activeVersion ?? "current"} autocomplete="off">
+      <option selected={activeVersion === undefined} value={"current"}
+        >{starlightVersionsConfig.current.label}</option
+      >
+      {
+        (tsVersions.length > 0 || httpVersions.length > 0) && (
+          <option disabled>──────────</option>
+        )
+      }
+
+      {
+        tsVersions.map((version) => {
+          return (
+            <option
+              selected={version.slug === activeVersion}
+              value={
+                getVersionURL(
+                  starlightVersionsConfig,
+                  starlightConfig,
+                  Astro.url,
+                  version
+                ).pathname
+              }
+            >
+              {version.label ?? version.slug}
+            </option>
+          );
+        })
+      }
+      {
+        tsVersions.length > 0 && httpVersions.length > 0 && (
+          <option disabled>──────────</option>
+        )
+      }
+      {
+        httpVersions.map((version) => {
+          return (
+            <option
+              selected={version.slug === activeVersion}
+              value={
+                getVersionURL(
+                  starlightVersionsConfig,
+                  starlightConfig,
+                  Astro.url,
+                  version
+                ).pathname
+              }
+            >
+              {version.label ?? version.slug}
+            </option>
+          );
+        })
+      }
+    </select>
+    <Icon name="down-caret" class="icon caret-icon" />
+  </label>
+</starlight-version-select>
+
+<style>
+  .version-select {
+    width: 12rem;
+  }
+
+  label {
+    --sl-versions-label-icon-size: 0.875rem;
+    --sl-versions-caret-icon-size: 1.25rem;
+
+    align-items: center;
+    color: var(--sl-color-gray-1);
+    display: flex;
+    gap: 0.25rem;
+    position: relative;
+  }
+
+  label:hover {
+    color: var(--sl-color-gray-2);
+  }
+
+  .icon {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .label-icon {
+    font-size: var(--sl-versions-label-icon-size);
+    inset-inline-start: 0;
+  }
+
+  .caret-icon {
+    font-size: var(--sl-versions-caret-icon-size);
+    inset-inline-end: 0;
+  }
+
+  select {
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    padding-block: 0.625rem;
+    padding-inline: calc(var(--sl-versions-label-icon-size) + 0.375rem)
+      calc(var(--sl-versions-caret-icon-size) + 0.25rem);
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  option {
+    background-color: var(--sl-color-bg-nav);
+    color: var(--sl-color-gray-1);
+  }
+
+  @media (min-width: 50rem) {
+    select {
+      font-size: var(--sl-text-sm);
+    }
+  }
+</style>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+  const versionRegex = /\/([0-9]+(\.[0-9]+|\.[x]|[0-9]*)?(\.x)?)\//g;
+
+  customElements.define(
+    "starlight-version-select",
+    class StarlightVersionSelect extends HTMLElement {
+      constructor() {
+        super();
+
+        const select = this.querySelector("select");
+        if (!select) {
+          return;
+        }
+
+        select?.addEventListener("change", async (event) => {
+          const version = (event.currentTarget as HTMLSelectElement | null)
+            ?.value;
+
+          const selectedValue = version
+            ? version
+                .split("/")
+                .filter((part: string) => part !== "")
+                .slice(0, 2)
+                .join("/")
+            : "current";
+
+          if (
+            selectedValue !== "current" &&
+            selectedValue.includes("versionless:")
+          ) {
+            document.cookie = `selectedVersion=${selectedValue.replace("versionless:", "")}; path=/; Secure; SameSite=Strict;`;
+            navigate(window.location.pathname);
+            return;
+          }
+
+          if (
+            selectedValue !== "current" &&
+            selectedValue.includes("incompatible:")
+          ) {
+            document.cookie = `selectedVersion=${selectedValue.replace("incompatible:", "")}; path=/; Secure; SameSite=Strict;`;
+            navigate("/fundamentals/getting-started");
+            return;
+          }
+
+          document.cookie = `selectedVersion=${selectedValue}; path=/; Secure; SameSite=Strict;`;
+          let currentPath = window.location.pathname;
+          let newPath =
+            version === "current"
+              ? currentPath.replace(versionRegex, "/")
+              : version;
+
+          if (newPath) navigate(newPath);
+        });
+      }
+    }
+  );
+</script>

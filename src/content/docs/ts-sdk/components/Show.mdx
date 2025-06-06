@@ -1,10 +1,11 @@
 ---
 title: Show
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
-import showExample from './examples/Show.tsx?raw';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import ExampleImage from '../../../../assets/guides/component-show-example.mp4';
+
+import { Aside, Code } from "@astrojs/starlight/components";
+import showExample from "./examples/Show.tsx?raw";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import ExampleImage from "@assets/guides/component-show-example.mp4";
 
 A simple component that allows scheduling when element should be added. It allows specifying
 timestamp or delay after mount.
@@ -14,9 +15,14 @@ For live cases the same functionality can be easily reproduced with `useEffect`+
 
 ## Usage
 
-<Code code={showExample} title='ShowExample.tsx' lang='tsx' collapse={["20-39"]} />
+<Code
+  code={showExample}
+  title="ShowExample.tsx"
+  lang="tsx"
+  collapse={["20-39"]}
+/>
 
-<CollapsibleDetails summaryTitle='Example output'>
+<CollapsibleDetails summaryTitle="Example output">
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
@@ -28,9 +34,10 @@ For live cases the same functionality can be easily reproduced with `useEffect`+
 type ShowProps = {
   children: ReactNode;
   timeRangeMs?: { start?: number; end?: number };
-  delayMs?: number
-}
+  delayMs?: number;
+};
 ```
+
 </CollapsibleDetails>
 
 ## Props
@@ -38,11 +45,13 @@ type ShowProps = {
 Either `timeRangeMs` or `delayMs` has to be specified.
 
 ### children
+
 Content to be displayed if condition specified by `timeRangeMs` or `delayMs` are met.
 
 - **Type**: `ReactNode`
 
 ### timeRangeMs
+
 Time range defined by `start` and `end` [timestamps](/fundamentals/glossary#timestamp). At least on of them
 needs to be defined.
 
@@ -51,9 +60,9 @@ needs to be defined.
 ---
 
 ### delayMs
+
 Duration after `Show` component is mounted when children components
 will be visible.
 
 - **Type**: `number`
 - **Default value**: 1
-

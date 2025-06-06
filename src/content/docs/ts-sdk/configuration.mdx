@@ -1,7 +1,8 @@
 ---
 title: Project configuration
 ---
-import CollapsibleDetails from '../../../components/CollapsibleDetails.astro';
+
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 Configuration instructions and compatibility table for TypeScript SDK
 on different runtimes.
@@ -42,11 +43,13 @@ Node.js SDK requires
         `react-reconciler@0.29.2`
       </td>
     </tr>
+
   </tbody>
 </table>
 
-And of course you need to remember about requirements of the actual Smelter server too. See 
+And of course you need to remember about requirements of the actual Smelter server too. See
 Smelter server deployment options:
+
 - [Docker](/deployment/variants/docker/)
 - [Binaries](/deployment/variants/binaries/)
 
@@ -84,9 +87,9 @@ is done fully in-browser by Smelter code compiled to WASM.
         `react-reconciler@0.29.2`
       </td>
     </tr>
+
   </tbody>
 </table>
-
 
 ### Configuration
 
@@ -94,23 +97,25 @@ In the Smelter repository you can find [few example projects](https://github.com
 
 We are working on examples of other configurations, but here are steps you need to follow
 to configure that yourself:
+
 - `@swmansion/smelter-browser-render` includes `smelter.wasm` that needs to hosted on your site.
 - You need to call `setWasmBundleUrl` with URL to `smelter.wasm` before starting any Smelter instances.
 - Smelter code will be started in a Web Worker. Your project bundler needs to be able to handle following
-syntax in a library code.
+  syntax in a library code.
   ```js
-  new Worker(new URL('../esm/runWorker.mjs', import.meta.url), {
-    type: 'module'
+  new Worker(new URL("../esm/runWorker.mjs", import.meta.url), {
+    type: "module",
   });
   ```
 
 <CollapsibleDetails summaryTitle='Configuring Next.js project'>
 
 With below configuration, somewhere in your code you need to call:
+
 ```ts
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 
-setWasmBundleUrl('/smelter.wasm')
+setWasmBundleUrl("/smelter.wasm");
 ```
 
 ```json title="package.json" ins={12-13, 15-16, 27} collapse={2-10, 19-25}
@@ -140,27 +145,29 @@ setWasmBundleUrl('/smelter.wasm')
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-    "copy-webpack-plugin": "12.0.2",
+    "copy-webpack-plugin": "12.0.2"
   }
 }
 ```
 
 ```js title="next.config.mjs"
-import path from 'node:path';
-import { createRequire } from 'node:module';
-import CopyPlugin from 'copy-webpack-plugin';
+import path from "node:path";
+import { createRequire } from "node:module";
+import CopyPlugin from "copy-webpack-plugin";
 
 const require = createRequire(import.meta.url);
 
-const nextConfig =  {
+const nextConfig = {
   webpack: (config, { isServer }) => {
     config.plugins.push(
       new CopyPlugin({
         patterns: [
           {
             from: path.join(
-              path.dirname(require.resolve('@swmansion/smelter-browser-render')),
-              'smelter.wasm'
+              path.dirname(
+                require.resolve("@swmansion/smelter-browser-render")
+              ),
+              "smelter.wasm"
             ),
             to: path.join(import.meta.dirname, "public"),
           },
@@ -174,7 +181,7 @@ const nextConfig =  {
 
     if (isServer) {
       config.externals = config.externals || [];
-      config.externals.push('@swmansion/smelter-web-wasm');
+      config.externals.push("@swmansion/smelter-web-wasm");
     }
 
     return config;
@@ -183,15 +190,17 @@ const nextConfig =  {
 
 export default nextConfig;
 ```
+
 </CollapsibleDetails>
 
 <CollapsibleDetails summaryTitle='Configuring Vite projects'>
 
 With below configuration, somewhere in your code you need to call:
+
 ```ts
 import { setWasmBundleUrl } from "@swmansion/smelter-web-wasm";
 
-setWasmBundleUrl('/assets/smelter.wasm')
+setWasmBundleUrl("/assets/smelter.wasm");
 ```
 
 ```json title="package.json" ins={13-16, 31} collapse={2-11, 19-29}
@@ -231,11 +240,11 @@ setWasmBundleUrl('/assets/smelter.wasm')
 ```
 
 ```js title="vite.config.ts"
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import { viteStaticCopy } from 'vite-plugin-static-copy';
-import { createRequire } from 'node:module';
-import path from 'node:path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import { viteStaticCopy } from "vite-plugin-static-copy";
+import { createRequire } from "node:module";
+import path from "node:path";
 
 const require = createRequire(import.meta.url);
 
@@ -246,18 +255,19 @@ export default defineConfig({
       targets: [
         {
           src: path.join(
-            path.dirname(require.resolve('@swmansion/smelter-browser-render')),
-            'smelter.wasm'
+            path.dirname(require.resolve("@swmansion/smelter-browser-render")),
+            "smelter.wasm"
           ),
-          dest: 'assets',
+          dest: "assets",
         },
       ],
     }),
   ],
   optimizeDeps: {
-    exclude: ['@swmansion/smelter-web-wasm'],
-    include: ['@swmansion/smelter-web-wasm > pino']
+    exclude: ["@swmansion/smelter-web-wasm"],
+    include: ["@swmansion/smelter-web-wasm > pino"],
   },
 });
 ```
+
 </CollapsibleDetails>

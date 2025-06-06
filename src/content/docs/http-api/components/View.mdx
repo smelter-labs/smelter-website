@@ -1,9 +1,10 @@
 ---
 title: View
 ---
-import { Aside } from '@astrojs/starlight/components';
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import ExampleImage from '../../../../assets/guides/component-view-example.webp';
+
+import { Aside } from "@astrojs/starlight/components";
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import ExampleImage from "@assets/guides/component-view-example.webp";
 
 The `View` component serves as the core layout mechanism in the Smelter API, similar to the `<div>` tag in HTML. It acts as a container that offers basic styling options and can be further customized and composed.
 
@@ -15,24 +16,25 @@ POST: /api/output/example_output/update
 Content-Type: application/json
 
 {
-  "video": {
-    "root": {
-      "type": "view",
-      "children": [
-        {
-          "type": "view",
-          "direction": "column",
-          "children": [
-            { "type": "view", "background_color": "red", "height": 200 },
-            { "type": "view", "background_color": "blue" }
-          ]
-        },
-        { "type": "view", "background_color": "green" }
-      ]
-    }
-  }
+"video": {
+"root": {
+"type": "view",
+"children": [
+{
+"type": "view",
+"direction": "column",
+"children": [
+{ "type": "view", "background_color": "red", "height": 200 },
+{ "type": "view", "background_color": "blue" }
+]
+},
+{ "type": "view", "background_color": "green" }
+]
 }
-```
+}
+}
+
+````
 </CollapsibleDetails>
 
 <CollapsibleDetails summaryTitle='Example output'>
@@ -101,59 +103,72 @@ type View = {
   padding_bottom?: f32;
   padding_left?: f32;
 }
-```
+````
+
 </CollapsibleDetails>
 
 ## Properties
 
 ### id
+
 ID of component.
 
 - **Type**: `string`
 
 ### children
+
 List of component's children.
 
 - **Type**: `Component[]`
 
 ### width
+
 Width of a component in pixels.
 
 - **Type**: `f32`
 
-<Aside type='caution'>
-The behavior of the `View` component varies depending on the type of its parent component:
-- **Non-layout parent** - When the parent is not a [layout component](/fundamentals/concepts/layouts), the `width` property is **required**.
-- **Layout parent** - For parents that are [layout components](/fundamentals/concepts/layouts), please refer to the relevant component documentation.
+<Aside type="caution">
+  The behavior of the `View` component varies depending on the type of its
+  parent component: - **Non-layout parent** - When the parent is not a [layout
+  component](/fundamentals/concepts/layouts), the `width` property is
+  **required**. - **Layout parent** - For parents that are [layout
+  components](/fundamentals/concepts/layouts), please refer to the relevant
+  component documentation.
 </Aside>
 
 ---
 
 ### height
+
 Height of a component in pixels.
 
 - **Type**: `f32`
 
-<Aside type='caution'>
-The behavior of the `View` component varies depending on the type of its parent component:
-- **Non-layout parent** - When the parent is not a [layout component](/fundamentals/concepts/layouts), the `height` property is **required**.
-- **Layout parent** - For parents that are [layout components](/fundamentals/concepts/layouts), please refer to the relevant component documentation.
+<Aside type="caution">
+  The behavior of the `View` component varies depending on the type of its
+  parent component: - **Non-layout parent** - When the parent is not a [layout
+  component](/fundamentals/concepts/layouts), the `height` property is
+  **required**. - **Layout parent** - For parents that are [layout
+  components](/fundamentals/concepts/layouts), please refer to the relevant
+  component documentation.
 </Aside>
 
 ---
 
 ### direction
+
 Defines how static children are positioned inside a View component.
 
 - **Type**: `"row" | "column"`
 - **Default value**: `"row"`
 - **Supported values**:
-    - `"row"` - Children are positioned from left to right.
-    - `"column"` - Children are positioned from top to bottom.
+  - `"row"` - Children are positioned from left to right.
+  - `"column"` - Children are positioned from top to bottom.
 
 ---
 
 ### top
+
 Specifies the distance in pixels from the top edge of a component to the top edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -161,6 +176,7 @@ Specifies the distance in pixels from the top edge of a component to the top edg
 ---
 
 ### left
+
 Specifies the distance in pixels from the left edge of a component to the left edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -168,6 +184,7 @@ Specifies the distance in pixels from the left edge of a component to the left e
 ---
 
 ### bottom
+
 Specifies the distance in pixels from the bottom edge of a component to the bottom edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -175,6 +192,7 @@ Specifies the distance in pixels from the bottom edge of a component to the bott
 ---
 
 ### right
+
 Specifies the distance in pixels from the right edge of a component to the right edge of its parent component. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -182,6 +200,7 @@ Specifies the distance in pixels from the right edge of a component to the right
 ---
 
 ### rotation
+
 Specifies the rotation of a component, measured in degrees. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `f32`
@@ -189,6 +208,7 @@ Specifies the rotation of a component, measured in degrees. If this attribute is
 ---
 
 ### transition
+
 Defines how this component will behave during a scene update. This will only have an effect if the previous scene already contained a `View` component with the same id.
 
 - **Type**: [`Transition`](#transition-1)
@@ -196,22 +216,30 @@ Defines how this component will behave during a scene update. This will only hav
 ---
 
 ### overflow
+
 Controls the behaviour of the content exceeding the area size.
 
 - **Type**: `"visible" | "hidden" | "fit"`
 - **Default value**: `"hidden"`
 - **Supported values**:
-    - `"visible"` - Render everything, including content that extends beyond their parent.
-    - `"hidden"` - Render only parts of the children that are inside their parent area.
-    - `"fit"` - If children components are too big to fit inside the parent, resize everything inside to fit.
+  - `"visible"` - Render everything, including content that extends beyond their parent.
+  - `"hidden"` - Render only parts of the children that are inside their parent area.
+  - `"fit"` - If children components are too big to fit inside the parent, resize everything inside to fit.
 
-<Aside>When using `fit`, components with unknown sizes are treated as if they had a size of 0 when calculating the scaling factor.</Aside>
+<Aside>
+  When using `fit`, components with unknown sizes are treated as if they had a
+  size of 0 when calculating the scaling factor.
+</Aside>
 
-<Aside type="caution">`fit` will resize everything inside the parent, including absolutely positioned elements.</Aside>
+<Aside type="caution">
+  `fit` will resize everything inside the parent, including absolutely
+  positioned elements.
+</Aside>
 
 ---
 
 ### background_color
+
 Background color in `#RRGGBBAA` format.
 
 - **Type**: `string`
@@ -220,6 +248,7 @@ Background color in `#RRGGBBAA` format.
 ---
 
 ### border_radius
+
 Radius of a rounded corner.
 
 - **Type**: `f32`
@@ -228,6 +257,7 @@ Radius of a rounded corner.
 ---
 
 ### border_width
+
 Border width.
 
 - **Type**: `f32`
@@ -236,6 +266,7 @@ Border width.
 ---
 
 ### border_color
+
 Border color in a `"#RRGGBBAA"` format.
 
 - **Type**: `string`
@@ -244,6 +275,7 @@ Border color in a `"#RRGGBBAA"` format.
 ---
 
 ### box_shadow
+
 List of box shadows.
 
 - **Type**: [`BoxShadow[]`](#boxshadow)
@@ -251,6 +283,7 @@ List of box shadows.
 ---
 
 ### padding
+
 Specifies the padding for each side of a component.
 
 - **Type**: `f32`
@@ -259,6 +292,7 @@ Specifies the padding for each side of a component.
 ---
 
 ### padding_vertical
+
 Specifies the padding for the top and bottom side of a component.
 
 - **Type**: `f32`
@@ -267,6 +301,7 @@ Specifies the padding for the top and bottom side of a component.
 ---
 
 ### padding_horizontal
+
 Specifies the padding for the left and right side of a component.
 
 - **Type**: `f32`
@@ -275,6 +310,7 @@ Specifies the padding for the left and right side of a component.
 ---
 
 ### padding_top
+
 Specifies the padding for the top side of a component.
 
 - **Type**: `f32`
@@ -283,6 +319,7 @@ Specifies the padding for the top side of a component.
 ---
 
 ### padding_right
+
 Specifies the padding for the right side of a component.
 
 - **Type**: `f32`
@@ -291,6 +328,7 @@ Specifies the padding for the right side of a component.
 ---
 
 ### padding_bottom
+
 Specifies the padding for the bottom side of a component.
 
 - **Type**: `f32`
@@ -299,6 +337,7 @@ Specifies the padding for the bottom side of a component.
 ---
 
 ### padding_left
+
 Specifies the padding for the left side of a component.
 
 - **Type**: `f32`
@@ -307,15 +346,18 @@ Specifies the padding for the left side of a component.
 ---
 
 ## Transition
+
 ```typescript
 type Transition = {
   duration_ms: f64;
   easing_function?: EasingFunction;
-}
+};
 ```
+
 ### Properties
 
 #### duration_ms
+
 Duration of a transition in milliseconds.
 
 - **Type**: `f64`
@@ -323,23 +365,27 @@ Duration of a transition in milliseconds.
 ---
 
 #### easing_function
-Easing functions are used to interpolate between two values over time during transition. 
+
+Easing functions are used to interpolate between two values over time during transition.
 
 - **Type**: [`EasingFunction`](#easingfunction)
 - **Default value**: `"linear"`
 
 ## BoxShadow
+
 ```typescript
 type BoxShadow = {
   offset_x?: f32;
   offset_y?: f32;
   color?: string;
   blur_radius?: f32;
-}
+};
 ```
+
 ### Properties
 
 #### offset_x
+
 Specifies the horizontal offset on the x-axis. Positive values move the element to the right, negative values move it to the left.
 
 - **Type**: `f32`
@@ -348,6 +394,7 @@ Specifies the horizontal offset on the x-axis. Positive values move the element 
 ---
 
 #### offset_y
+
 Specifies the vertical offset on the y-axis. Positive values move the element downward, negative values move it upward.
 
 - **Type**: `f32`
@@ -356,6 +403,7 @@ Specifies the vertical offset on the y-axis. Positive values move the element do
 ---
 
 #### color
+
 Color in a `"#RRGGBBAA"` format.
 
 - **Type**: `string`
@@ -364,21 +412,24 @@ Color in a `"#RRGGBBAA"` format.
 ---
 
 #### blur_radius
+
 Defines the radius of the blur effect.
 
 - **Type**: `f32`
 - **Default value**: `0.0`
 
 ## EasingFunction
+
 ```typescript
-type EasingFunction = 
-  | { function_name: "linear"; }
-  | { function_name: "bounce"; }
+type EasingFunction =
+  | { function_name: "linear" }
+  | { function_name: "bounce" }
   | {
       function_name: "cubic_bezier";
       points: [f64, f64, f64, f64];
-    }
+    };
 ```
+
 Easing functions are used to interpolate between two values over time.
 
 Custom easing functions can be implemented with cubic Bézier.
@@ -388,17 +439,20 @@ You can find example control point configurations [here](https://easings.net/).
 ### Properties
 
 #### function_name
+
 Duration of a transition in milliseconds.
 
 - **Type**: `linear | bounce | cubic_bezier`
 - **Default value**: `linear`
 - **Supported values**:
-    - `linear`
-    - `bounce`
-    - `cubic_bezier`
+  - `linear`
+  - `bounce`
+  - `cubic_bezier`
+
 ---
 
 #### points
+
 Four numerical values in `[0; 1]` range used for cubic Bézier. The result is clamped to the range `[0; 1]`.
 
 - **Type**: `[f64, f64, f64, f64]`

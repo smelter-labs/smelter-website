@@ -1,0 +1,89 @@
+diff --git a/utils/createPathFormatter.ts b/utils/createPathFormatter.ts
+index 52c9527c6d8c6756125c2f746cf14d055ed1e3ef..8dd709f556b94a578636835ea9a9382921dfe3eb 100644
+--- a/utils/createPathFormatter.ts
++++ b/utils/createPathFormatter.ts
+@@ -37,9 +37,15 @@ function formatPath(
+ 	href: string,
+ 	{ format = 'directory', trailingSlash = 'ignore' }: FormatPathOptions
+ ) {
++	const segments = href.split('/');
+ 	const formatStrategy = formatStrategies[format];
+ 	const trailingSlashStrategy = trailingSlashStrategies[trailingSlash];
+ 
++	if (segments[1] === segments[3]) {
++	  segments.splice(3, 1);
++	  href = segments.join('/')
++	}	
++
+ 	// Handle extension
+ 	href = formatStrategy.handleExtension(href);
+ 
+diff --git a/utils/navigation.ts b/utils/navigation.ts
+index cfcd2e837d328fb0f15c7706862f115a184e2ff3..681fab5ebc5c7e046e81374e5676cbc3e32b447c 100644
+--- a/utils/navigation.ts
++++ b/utils/navigation.ts
+@@ -224,10 +224,32 @@ function getRoutePathRelativeToCollectionRoot(route: Route, locale: string | und
+ 			localizedId(route.entry.filePath.replace(`${docsCollectionPathFromRoot}/`, ''), locale);
+ }
+ 
++function cleanSegment(path: string): string {
++    let segments = path.split('/');
++    if (segments[0] === segments[2]) {
++        segments.splice(2, 1);  // Remove the third segment (index 2)
++    }
++    return segments.join('/');  // Join the segments back into a string
++}
++
+ /** Turn a flat array of routes into a tree structure. */
+ function treeify(routes: Route[], locale: string | undefined, baseDir: string): Dir {
+ 	const treeRoot: Dir = makeDir(baseDir);
+-	routes
++
++	const testRoutes = routes.map(item => {
++		let newItem = {...item, entry: {...item.entry}};
++		if (newItem.id) newItem.id = cleanSegment(newItem.id);
++		if (newItem.slug) newItem.slug = cleanSegment(newItem.slug);
++		// Also handle id and slug inside entry if it exists
++		if (newItem.entry) {
++		    newItem.entry = { ...newItem.entry };
++		    newItem.entry.id = cleanSegment(newItem.entry.id);
++		    newItem.entry.slug = cleanSegment(newItem.entry.slug);
++		}
++		return newItem; 
++	}) 
++
++	testRoutes
+ 		// Remove any entries that should be hidden
+ 		.filter((doc) => !doc.entry.data.sidebar.hidden)
+ 		// Compute the path of each entry from the root of the collection ahead of time.
+diff --git a/utils/routing/index.ts b/utils/routing/index.ts
+index 460d15a778f3ea47e8df62bf8d217edf4b482e34..ade4b607baba4dda24f7f1dbdd79f185dac9b8a6 100644
+--- a/utils/routing/index.ts
++++ b/utils/routing/index.ts
+@@ -46,13 +46,21 @@ const docs: StarlightDocsEntry[] = (
+ 	})) ?? []
+ ).map(normalizeCollectionEntry);
+ 
++function cleanSegment(path: string): string {
++  let segments = path.split("/");
++  if (segments[0] === segments[2]) {
++    segments.splice(2, 1); // Remove the third segment (index 2)
++  }
++  return segments.join("/"); // Join the segments back into a string
++}
++
+ function getRoutes(): Route[] {
+ 	const routes: Route[] = docs.map((entry) => ({
+-		entry,
+-		slug: entry.slug,
+-		id: entry.id,
+-		entryMeta: slugToLocaleData(entry.slug),
+-		...slugToLocaleData(entry.slug),
++	  entry: {...entry, id: cleanSegment(entry.id), slug: cleanSegment(entry.slug)},
++	  slug: cleanSegment(entry.slug),
++	  id: cleanSegment(entry.id),
++	  entryMeta: slugToLocaleData(cleanSegment(entry.slug)),
++	  ...slugToLocaleData(cleanSegment(entry.slug)),
+ 	}));
+ 
+ 	// In multilingual sites, add required fallback routes.

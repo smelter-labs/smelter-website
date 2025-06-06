@@ -1,8 +1,9 @@
 ---
 title: Text
 ---
-import CollapsibleDetails from '../../../../components/CollapsibleDetails.astro';
-import ExampleImage from '../../../../assets/guides/component-text-example.webp';
+
+import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import ExampleImage from "@assets/guides/component-text-example.webp";
 
 A component for rendering text.
 
@@ -10,7 +11,7 @@ A component for rendering text.
 
 <CollapsibleDetails summaryTitle='Update request' open>
 
-```http 
+```http
 POST: /api/output/example_output/update
 Content-Type: application/json
 
@@ -44,9 +45,10 @@ Content-Type: application/json
   }
 }
 ```
+
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle='Example output'>
+<CollapsibleDetails summaryTitle="Example output">
   <img src={ExampleImage.src} />
 </CollapsibleDetails>
 
@@ -86,6 +88,7 @@ type Text = {
 ## Properties
 
 ### id
+
 ID of a component.
 
 - **Type**: `string`
@@ -93,6 +96,7 @@ ID of a component.
 ---
 
 ### text
+
 Text that will be rendered.
 
 - **Type**: `string`
@@ -100,6 +104,7 @@ Text that will be rendered.
 ---
 
 ### width
+
 Width of a texture that text will be rendered on. If not provided, the resulting texture will be sized based on the defined text but limited to `max_width` value.
 
 - **Type**: `f32`
@@ -107,6 +112,7 @@ Width of a texture that text will be rendered on. If not provided, the resulting
 ---
 
 ### height
+
 Height of a texture that text will be rendered on. If not provided, the resulting texture will be sized based on the defined text but limited to `max_height` value. It's an error to provide `height` if `width` is not defined.
 
 - **Type**: `f32`
@@ -114,6 +120,7 @@ Height of a texture that text will be rendered on. If not provided, the resultin
 ---
 
 ### max_width
+
 Maximal `width`. Limits the width of the texture that the text will be rendered on. Value is ignored if `width` is defined.
 
 - **Type**: `f32`
@@ -122,6 +129,7 @@ Maximal `width`. Limits the width of the texture that the text will be rendered 
 ---
 
 ### max_height
+
 Maximal `height`. Limits the height of the texture that the text will be rendered on. Value is ignored if height is defined.
 
 - **Type**: `f32`
@@ -130,6 +138,7 @@ Maximal `height`. Limits the height of the texture that the text will be rendere
 ---
 
 ### font_size
+
 Font size in pixels.
 
 - **Type**: `f32`
@@ -137,6 +146,7 @@ Font size in pixels.
 ---
 
 ### line_height
+
 Distance between lines in pixels.
 
 - **Type**: `f32`
@@ -145,6 +155,7 @@ Distance between lines in pixels.
 ---
 
 ### color
+
 Font color in `#RRGGBBAA` format.
 
 - **Type**: `string`
@@ -153,6 +164,7 @@ Font color in `#RRGGBBAA` format.
 ---
 
 ### background_color
+
 Background color in `#RRGGBBAA` format.
 
 - **Type**: `string`
@@ -161,6 +173,7 @@ Background color in `#RRGGBBAA` format.
 ---
 
 ### font_family
+
 Font family. Provide [family-name](https://www.w3.org/TR/2018/REC-css-fonts-3-20180920/#family-name-value) for a specific font. "generic-family" values like e.g. "sans-serif" will not work.
 
 - **Type**: `string`
@@ -169,6 +182,7 @@ Font family. Provide [family-name](https://www.w3.org/TR/2018/REC-css-fonts-3-20
 ---
 
 ### style
+
 Font style. The selected font needs to support the specified style.
 
 - **Type**: `"normal" | "italic" | "oblique"`
@@ -177,6 +191,7 @@ Font style. The selected font needs to support the specified style.
 ---
 
 ### align
+
 Text align
 
 - **Type**: `"left" | "right" | "justified" | "center"`
@@ -185,6 +200,7 @@ Text align
 ---
 
 ### wrap
+
 Text wrapping options.
 
 - **Type**: `"none" | "glyph" | "word"`
@@ -197,17 +213,18 @@ Text wrapping options.
 ---
 
 ### weight
+
 Font weight. The selected font needs to support the specified weight. Font weight, based on the [OpenType specification](https://learn.microsoft.com/en-gb/typography/opentype/spec/os2#usweightclass).
 
 - **Type**: `"thin"
-      | "extra_light"
-      | "light"
-      | "normal"
-      | "medium"
-      | "semi_bold"
-      | "bold"
-      | "extra_bold"
-      | "black"`
+    | "extra_light"
+    | "light"
+    | "normal"
+    | "medium"
+    | "semi_bold"
+    | "bold"
+    | "extra_bold"
+    | "black"`
 - **Default value**: `"normal"`
 - **Supported values**:
   - `"thin"` - Weight 100.
