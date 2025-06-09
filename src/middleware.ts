@@ -16,22 +16,19 @@ export const onRequest = defineMiddleware((context, next) => {
       secure: true,
       path: "/",
     });
-    const test = `${pathname.replace("?bannerRedirect", "")}`;
-    return context.redirect(test);
+    const cleanedPath = `${pathname.replace("?bannerRedirect", "")}`;
+    return context.redirect(cleanedPath);
   }
 
   if (isPathVersionless && selectedVersion && selectedVersion.value !== "current") {
-    const [versionName] = selectedVersion.value.split("/");
     context.cookies.delete("selectedVersion");
-    context.cookies.set("selectedVersion", selectedVersion.value, {
+    context.cookies.set("selectedVersion", "current", {
       sameSite: "strict",
       secure: true,
       path: "/",
     });
-    const test = `${pathname.replace(versionName, selectedVersion.value)}`;
 
-    if (pathname === test) return next();
-    return context.redirect(test);
+    return next();
   }
 
   if (versionRegex.test(pathname)) {
@@ -44,11 +41,6 @@ export const onRequest = defineMiddleware((context, next) => {
         path: "/",
       });
     }
-    context.cookies.set("selectedVersion", "current", {
-      sameSite: "strict",
-      secure: true,
-      path: "/",
-    });
   }
 
   return next();
