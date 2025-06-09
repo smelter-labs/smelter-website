@@ -29,6 +29,8 @@ export const onRequest = defineMiddleware((context, next) => {
       path: "/",
     });
     const test = `${pathname.replace(versionName, selectedVersion.value)}`;
+
+    if(pathname === test) return next()
     return context.redirect(test);
   }
 

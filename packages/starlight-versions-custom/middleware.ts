@@ -24,42 +24,42 @@ function filterGroups(groups: any[], regex: RegExp): any[] {
     return groups.filter(group => !containsHref(group.entries, regex));
 }
 
-export const onRequest = defineRouteMiddleware(async (context, next) => {
-  const { starlightRoute } = context.locals
-  const { entry, locale, pagination, sidebar } = starlightRoute
+// export const onRequest = defineRouteMiddleware(async (context, next) => {
+//   const { starlightRoute } = context.locals
+//   const { entry, locale, pagination, sidebar } = starlightRoute
 
-  const uriVersion = entry.slug.split('/').splice(0,2).join('/')
-  const selectedVersion = context.cookies.get('selectedVersion')
+//   const uriVersion = entry.slug.split('/').splice(0,2).join('/')
+//   const selectedVersion = context.cookies.get('selectedVersion')
   
-  const version = versionRegex.test(uriVersion) ? uriVersion : selectedVersion?.value
+//   const version = versionRegex.test(uriVersion) ? uriVersion : selectedVersion?.value
 
-  const currentSidebarEntries = filterGroups(getVersionSidebar(
-    getVersionFromSlug(starlightVersionsConfig, starlightConfig, ''),
-    sidebar,
-  ), versionRegex)
+//   const currentSidebarEntries = filterGroups(getVersionSidebar(
+//     getVersionFromSlug(starlightVersionsConfig, starlightConfig, ''),
+//     sidebar,
+//   ), versionRegex)
 
-  const baseSidebarEntries = filterGroups(currentSidebarEntries, versionedSectionRegex)
+//   const baseSidebarEntries = filterGroups(currentSidebarEntries, versionedSectionRegex)
 
-  const versionSidebarEntries = version ? getVersionSidebar(
-    getVersionFromSlug(starlightVersionsConfig, starlightConfig, version),
-    sidebar,
-  ) : []
+//   const versionSidebarEntries = version ? getVersionSidebar(
+//     getVersionFromSlug(starlightVersionsConfig, starlightConfig, version),
+//     sidebar,
+//   ) : []
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  starlightRoute.sidebar =  version && getVersionFromSlug(starlightVersionsConfig, starlightConfig, version) ? [...baseSidebarEntries, ...versionSidebarEntries] : currentSidebarEntries
+//   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+//   starlightRoute.sidebar =  version && getVersionFromSlug(starlightVersionsConfig, starlightConfig, version) ? [...baseSidebarEntries, ...versionSidebarEntries] : currentSidebarEntries
   
-  const pageVersion = getVersionFromSlug(starlightVersionsConfig, starlightConfig, entry.slug)
+//   const pageVersion = getVersionFromSlug(starlightVersionsConfig, starlightConfig, entry.slug)
 
-  starlightRoute.pagination.prev = getPaginationLink(locale, pageVersion, pagination.prev)
-  starlightRoute.pagination.next = getPaginationLink(locale, pageVersion, pagination.next)
+//   starlightRoute.pagination.prev = getPaginationLink(locale, pageVersion, pagination.prev)
+//   starlightRoute.pagination.next = getPaginationLink(locale, pageVersion, pagination.next)
 
-  if(versionRegex.test(entry.slug) && (!selectedVersion || selectedVersion.value === 'current') ) {
-    context.cookies.delete('selectedVersion')
-    context.cookies.set('selectedVersion', uriVersion, { sameSite: 'strict', secure: true, path: '/'})
-  }
+//   if(versionRegex.test(entry.slug) && (!selectedVersion || selectedVersion.value === 'current') ) {
+//     context.cookies.delete('selectedVersion')
+//     context.cookies.set('selectedVersion', uriVersion, { sameSite: 'strict', secure: true, path: '/'})
+//   }
 
-  return next()
-})
+//   return next()
+// })
 
 function getPaginationLink(locale: string | undefined, currentVersion: Version | undefined, link: PaginationLink) {
   if (!link) return undefined
