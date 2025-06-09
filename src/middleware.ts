@@ -1,6 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 
-export const versionRegex = /(?:ts-sdk|http-api)\/\d+(\.\d+)*/;
+export const versionRegex = /(?:ts-sdk|http-api)\/\d+(\.(\d+|x))?(\.(\d+|x))?/;
 export const versionedSectionRegex = /(?:ts-sdk|http-api)\//;
 
 export const onRequest = defineMiddleware((context, next) => {
@@ -29,9 +29,23 @@ export const onRequest = defineMiddleware((context, next) => {
       path: "/",
     });
     const test = `${pathname.replace(versionName, selectedVersion.value)}`;
-
-    if (pathname === test) return next();
+  
+    if(pathname === test) return next()
     return context.redirect(test);
+  }
+
+  if(versionRegex.test(pathname) ) {
+    const pathnameVersion = pathname.match(versionRegex)
+    console.log('PATHNAME VERSION ', pathnameVersion)
+    if(pathnameVersion) {
+
+      context.cookies.delete("selectedVersion");
+      context.cookies.set("selectedVersion", pathnameVersion[0], {
+        sameSite: "strict",
+        secure: true,
+        path: "/",
+      });
+    }
   }
 
   return next();
