@@ -30,7 +30,7 @@ export const onRequest = defineMiddleware((context, next) => {
     });
     const test = `${pathname.replace(versionName, selectedVersion.value)}`;
 
-    if(pathname === test) return next()
+    if (pathname === test) return next();
     return context.redirect(test);
   }
 
