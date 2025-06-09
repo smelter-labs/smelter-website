@@ -31,7 +31,7 @@ export function useFakeMessages(): Message[] {
   const [loopCount, setLoopCount] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = window.setInterval(() => {
       if (index < normalizedStart.length) {
         const currentLoopIteration = loopCount * normalizedStart.length;
         const newMessage = {

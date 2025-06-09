@@ -45,7 +45,7 @@ export default function SmelterSection() {
       });
     });
 
-    const intervalParticipants = setInterval(async () => {
+    const intervalParticipants = window.setInterval(async () => {
       CONFERENCE_PARTICIPANTS.map(async (participant) => {
         await smelter?.unregisterInput(participant.id).catch(() => {});
         await smelter?.registerInput(participant.id, {

@@ -21,7 +21,7 @@ export default function SmelterSection() {
     }
 
     void smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
-    const interval = setInterval(async () => {
+    const interval = window.setInterval(async () => {
       await smelter?.unregisterInput("stream").catch(() => {});
       await smelter?.registerInput("stream", { url: CommercialMp4, type: "mp4" });
     }, 36000);
