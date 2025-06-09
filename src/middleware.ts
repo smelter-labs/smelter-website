@@ -36,14 +36,19 @@ export const onRequest = defineMiddleware((context, next) => {
 
   if (versionRegex.test(pathname)) {
     const pathnameVersion = pathname.match(versionRegex);
+    context.cookies.delete("selectedVersion");
     if (pathnameVersion) {
-      context.cookies.delete("selectedVersion");
       context.cookies.set("selectedVersion", pathnameVersion[0], {
         sameSite: "strict",
         secure: true,
         path: "/",
       });
     }
+    context.cookies.set("selectedVersion", "current", {
+      sameSite: "strict",
+      secure: true,
+      path: "/",
+    });
   }
 
   return next();
