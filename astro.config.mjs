@@ -12,8 +12,6 @@ import starlightLinksValidator from "starlight-links-validator";
 import starlightVersions from "starlight-versions";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
-import sitemap from "@astrojs/sitemap";
-
 import react from "@astrojs/react";
 
 import vercel from "@astrojs/vercel";
@@ -258,10 +256,6 @@ export default defineConfig({
     }),
     mdx(),
     tailwind({ applyBaseStyles: false }),
-    sitemap({
-      changefreq: "weekly",
-      lastmod: new Date("2025-06-03"),
-    }),
     react(),
   ],
 
