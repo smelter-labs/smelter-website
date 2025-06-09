@@ -33,7 +33,7 @@ export default function SmelterSection() {
 
     void smelter?.registerInput("broadcast", { url: BroadcastMp4, type: "mp4" });
 
-    const intervalBroadcast = setInterval(async () => {
+    const intervalBroadcast = window.setInterval(async () => {
       await smelter?.unregisterInput("broadcast").catch(() => {});
       await smelter?.registerInput("broadcast", { url: BroadcastMp4, type: "mp4" });
     }, 20000);

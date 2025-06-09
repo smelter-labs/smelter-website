@@ -28,12 +28,12 @@ export default function StreamSection() {
     void smelter?.registerInput("stream", { url: RaceMp4, type: "mp4" });
     void smelter?.registerInput("streamer-placeholder", { url: StreamerMp4, type: "mp4" });
 
-    const intervalStream = setInterval(async () => {
+    const intervalStream = window.setInterval(async () => {
       await smelter?.unregisterInput("stream").catch(() => {});
       await smelter?.registerInput("stream", { url: RaceMp4, type: "mp4" });
     }, 18000);
 
-    const intervalStreamerPalceholder = setInterval(async () => {
+    const intervalStreamerPalceholder = window.setInterval(async () => {
       await smelter?.unregisterInput("streamer-placeholder").catch(() => {});
       await smelter?.registerInput("streamer-placeholder", { url: StreamerMp4, type: "mp4" });
     }, 7000);
