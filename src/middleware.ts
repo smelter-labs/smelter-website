@@ -36,7 +36,6 @@ export const onRequest = defineMiddleware((context, next) => {
 
   if(versionRegex.test(pathname) ) {
     const pathnameVersion = pathname.match(versionRegex)
-    console.log('PATHNAME VERSION ', pathnameVersion)
     if(pathnameVersion) {
 
       context.cookies.delete("selectedVersion");
