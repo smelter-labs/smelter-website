@@ -26,11 +26,19 @@ type ImageProps = {
     id?: string;
     imageId?: string;
     source?: string;
+    width?: number;
+    height?: number;
 }
 ```
 </CollapsibleDetails>
 
 <Aside>Exactly one of `imageId` and `source` has to be defined.</Aside>
+
+<Aside>
+  - If you don't specify a `width` or `height`, the texture will match the original image size.
+  - If you set just one dimension, the other will adjust to keep the image's aspect ratio.
+  - If you set both, the image will fit those dimensions, changing its shape if needed.
+</Aside>
 
 ## Props
 
@@ -55,3 +63,16 @@ ID of a component.
 - **Type**: `string`
 - **Default value**: Value produced by `useId` hook
 
+---
+
+### width
+Width of the texture onto which the image will be rendered.
+
+- **Type**: `number`
+
+---
+
+### height
+Height of the texture onto which the image will be rendered.
+
+- **Type**: `number`
