@@ -17,6 +17,7 @@ export default {
   //   }
   // },
   transformItems: (items) => {
+    console.log('ITEM ', items)
     const test = items.map((item) => {
       const snippetResult = item._snippetResult;
       const urlObject = new URL(item.url);
@@ -42,11 +43,12 @@ export default {
 
       return {
         ...item,
-        content: item.content || purgedUrl,
+        content: purgedUrl,
         _snippetResult: { ...snippetResult, hierarchy: newHierarchy },
       };
     });
 
+    // console.log('TEST ', test )
     return test;
   },
 } satisfies DocSearchClientOptions;
