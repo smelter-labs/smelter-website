@@ -1,13 +1,11 @@
 ---
-import { Image, getImage } from "astro:assets";
-
-import newScreen from "@assets/newscreen.svg";
-import cross from "../../assets/navigation/cross.svg";
-import discordLogo from "../../assets/navigation/discord-logo.svg";
-import githubLogo from "../../assets/navigation/github-logo.svg";
-import hamburger from "../../assets/navigation/hamburger.svg";
-import smelterLogoSmall from "../../assets/navigation/smelter-logo-small.svg";
-import smelterLogo from "../../assets/navigation/smelter-logo.svg";
+import Cross from "@assets/navigation/cross.svg";
+import DiscordLogo from "@assets/navigation/discord-logo.svg";
+import GithubLogo from "@assets/navigation/github-logo.svg";
+import Hamburger from "@assets/navigation/hamburger.svg";
+import NewScreen from "@assets/navigation/newscreen.svg";
+import SmelterLogoSmall from "@assets/navigation/smelter-logo-small.svg";
+import SmelterLogo from "@assets/navigation/smelter-logo.svg";
 
 import NavButton from "../base/buttons/NavButton.astro";
 
@@ -36,18 +34,8 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
       class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 xl:px-10"
     >
       <a href={rootHref}>
-        <Image
-          src={smelterLogo}
-          alt="Smelter logo"
-          class="hidden md:block"
-          loading="eager"
-        />
-        <Image
-          src={smelterLogoSmall}
-          alt="Smelter logo"
-          class="md:hidden"
-          loading="eager"
-        />
+        <SmelterLogo class="hidden md:block" />
+        <SmelterLogoSmall class="md:hidden" />
       </a>
 
       <div class="xl:hidden flex justify-between items-center min-w-8 min-h-8">
@@ -56,19 +44,13 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
           aria-label="Toggle navigation"
           onclick="toggleMobileMenu()"
         >
-          <Image
+          <Cross
             id="nav-close"
-            src={cross}
-            alt="close menu"
-            class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-0"
-            loading="eager"
+            class="absolute inset-0 aspect-square w-8 opacity-0 self-center"
           />
-          <Image
+          <Hamburger
             id="nav-hamburger"
-            src={hamburger}
-            alt="menu"
-            class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-1"
-            loading="eager"
+            class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-1 self-center"
           />
         </button>
       </div>
@@ -111,17 +93,11 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
           <a
             href="/docs"
             onclick="toggleMobileMenu()"
-            class="py-2 hover:underline text-nav-link w-full flex flex-row gap-2"
+            class="py-2 hover:underline text-nav-link w-full flex flex-row gap-2 items-center"
             target="_blank"
           >
             Docs
-            <Image
-              width={64}
-              height={64}
-              class="aspect-square w-6 h-6"
-              src={newScreen}
-              alt="newscreen"
-            />
+            <NewScreen />
           </a>
           <div class="flex gap-x-4 w-full justify-end py-2">
             <a
@@ -129,24 +105,14 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
               onclick="toggleMobileMenu()"
               target="_blank"
             >
-              <Image
-                src={discordLogo}
-                alt="Discord logo"
-                class="fill-nav-icon aspect-square w-5 md:w-6"
-                loading="eager"
-              />
+              <DiscordLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
             </a>
             <a
               href="https://github.com/software-mansion/smelter"
               onclick="toggleMobileMenu()"
               target="_blank"
             >
-              <Image
-                src={githubLogo}
-                alt="Github logo"
-                class="fill-nav-icon aspect-square w-5 md:w-6"
-                loading="eager"
-              />
+              <GithubLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
             </a>
           </div>
         </div>
@@ -169,33 +135,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
               target="_blank"
             >
               Docs
-              <img src={newScreen.src} width={newScreen.width} height={newScreen.height} class="h-6 w-auto" alt="newscreen" />
-              <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20.1972 4.9248L10.1973 14.9248"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-                <path
-                  d="M20.1973 10.9248L20.1972 4.92481L14.1973 4.9248"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-                <path
-                  d="M10.1973 4.9248H4.19727V20.9248H20.1973V14.9248"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </svg>
+              <NewScreen class="self-center" />
             </a>
           </div>
           <div class="flex gap-x-2 md:gap-x-4 mr-6 md:mr-8">
@@ -210,20 +150,10 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
 
         <div class="flex gap-x-4">
           <a href="https://discord.com/invite/Cxj3rzTTag" target="_blank">
-            <Image
-              src={discordLogo}
-              alt="Discord logo"
-              class="fill-nav-icon aspect-square w-5 md:w-6"
-              loading="eager"
-            />
+            <DiscordLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
           </a>
           <a href="https://github.com/software-mansion/smelter" target="_blank">
-            <Image
-              src={githubLogo}
-              alt="Github logo"
-              class="fill-nav-icon aspect-square w-5 md:w-6"
-              loading="eager"
-            />
+            <GithubLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
           </a>
         </div>
       </div>

@@ -19,8 +19,8 @@ h1 {
 	line-height: 130%;
 
 	@media (min-width: 48rem) {
-			font-size: 2.5rem;
-			line-height: 130%;
+		font-size: 2.5rem;
+		line-height: 130%;
 	}
 
 	@media (min-width: 1024px) {
@@ -206,8 +206,8 @@ body {
 
 .gradient-light-6 {
 	background: linear-gradient(170deg,
-		theme("colors.gradient.redLight") 0%,
-		#FBC6CF66 100%)
+			theme("colors.gradient.redLight") 0%,
+			#FBC6CF66 100%)
 }
 
 
@@ -278,7 +278,7 @@ input[type="color"]::-webkit-color-swatch {
 // #cc-main {
 // 	--cc-font-family: Aeonik;
 // 	--cc-bg: #FFFFFF40;
-	
+
 // 	--cc-btn-primary-bg: #000000;
 // 	--cc-btn-primary-border-color: #000000;
 // 	--cc-btn-primary-hover-bg: #444444;
@@ -337,4 +337,15 @@ input[type="color"]::-webkit-color-swatch {
 	--cc-footer-bg: var(--cc-btn-secondary-bg);
 	--cc-footer-color: var(--cc-secondary-color);
 	--cc-footer-border-color: #e4eaed;
+
+	// UseCasesSection gradient fallback
+	--start-r: 255;
+	--start-g: 255;
+	--start-b: 255;
+	--start-a: 0.25098039215686274;
+	--end-r: 255;
+	--end-g: 255;
+	--end-b: 255;
+	--end-a: 0.25098039215686274;
+
 }

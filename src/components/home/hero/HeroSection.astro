@@ -4,8 +4,8 @@ import Image from "astro/components/Image.astro";
 import HeroStreams from "./hero-streams/HeroStreams.astro";
 
 import heroGradient from "@assets/hero/gradient.webp";
-import ArrowRight from "/public/images/arrow-right.svg";
-import swmLogo from "/public/images/swm-logo.svg";
+import ArrowRight from "public/images/arrow-right.svg";
+import SwmLogo from "public/images/swm-logo.svg";
 
 import "./heroSection.scss";
 import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
@@ -14,6 +14,9 @@ import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
 <section
   class="px-4 sm:px-12 xl:pl-20 flex h-screen flex-row justify-center sm:py-14 items-center relative 2xl:h-fit 2xl:py-80"
 >
+  <Fragment slot="head">
+    <link rel="preload" href={heroGradient.src} as="image" />
+  </Fragment>
   <div id="descriptionLayer" class="flex-1">
     <div class="flex gap-x-2 py-2 sm:px-4 mb-4 xl:mb-8">
       <p class="par-xs text-hero-authorLabel">Created by</p>
@@ -22,12 +25,7 @@ import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
         href="https://swmansion.com/"
         target="_blank"
       >
-        <Image
-          src={swmLogo}
-          alt="SoftwareMansion logo"
-          class="fill-hero-authorLabel"
-          loading="eager"
-        />
+        <SwmLogo class="fill-hero-authorLabel" />
       </a>
     </div>
     <div class="mb-14 flex flex-col gap-y-4">
@@ -64,4 +62,4 @@ import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
   />
 </section>
 
-<script src="./hero-streams/heroStreams.ts" />
+<script src="./hero-streams/heroStreams.ts"></script>

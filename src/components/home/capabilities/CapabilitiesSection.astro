@@ -1,73 +1,72 @@
 ---
-import { Image } from "astro:assets";
 import CapabilitiesItem from "./CapabilitiesItem.astro";
 
-import chevronLeft from "/public/images/chevron-left.svg";
-import chevronRight from "/public/images/chevron-right.svg";
-import api from "../../../assets/capabilities/api.svg";
-import bolt from "../../../assets/capabilities/bolt.svg";
-import capabilitiesBlur from "../../../assets/capabilities/capabilities-blur2.svg";
-import wavePattern from "../../../assets/capabilities/capabilities-wave.svg";
-import cog from "../../../assets/capabilities/cog.svg";
-import flexbility from "../../../assets/capabilities/flexbility.svg";
-import multiSource from "../../../assets/capabilities/multi-source.svg";
-import offline from "../../../assets/capabilities/offline.svg";
-import rocket from "../../../assets/capabilities/rocket.svg";
-import wand from "../../../assets/capabilities/wand.svg";
+import Api from "@assets/capabilities/api.svg";
+import Bolt from "@assets/capabilities/bolt.svg";
+import CapabilitiesBlur from "@assets/capabilities/capabilities-blur2.svg";
+import WavePattern from "@assets/capabilities/capabilities-wave.svg";
+import Cog from "@assets/capabilities/cog.svg";
+import Flexbility from "@assets/capabilities/flexbility.svg";
+import MultiSource from "@assets/capabilities/multi-source.svg";
+import Offline from "@assets/capabilities/offline.svg";
+import Rocket from "@assets/capabilities/rocket.svg";
+import Wand from "@assets/capabilities/wand.svg";
+import ChevronLeft from "/public/images/chevron-left.svg";
+import ChevronRight from "/public/images/chevron-right.svg";
 import CapabilitiesItemSmall from "./CapabilitiesItemSmall.astro";
 
 const CAPABILITIES = [
   {
     label: "Ultra-low latency",
     text: "Compose and stream your videos with minimal delay. Smelter means seamless experience for use cases that demand immediate responsiveness.",
-    icon: bolt,
+    icon: Bolt,
   },
   {
     label: "Multi-source support",
     text: "Combine live feeds, screen recordings, and pre-recorded videos into a single composition. Mix multiple inputs at the same time without any frame drops.",
-    icon: multiSource,
+    icon: MultiSource,
   },
   {
     label: "Dynamic overlays",
     text: "Add text, animations, transitions, and graphics seamlessly — both to live and to recorded videos. Change layouts on the fly.",
-    icon: wand,
+    icon: Wand,
   },
   {
     label: "Browser-based experience",
     text: "Run high-performance video processing directly in the browser with WASM. Also, leverage GPU processing by rendering with WebGL or WebGPU.",
-    icon: cog,
+    icon: Cog,
   },
   {
     label: "Simple API",
     text: "Thanks to the declarative API, Smelter is quick to pick up for anyone familiar with web development. Which means you can customize it in no time.",
-    icon: api,
+    icon: Api,
   },
   {
     label: "Tech-stack flexibility",
     text: "You can use Smelter with TypeScript (React), Elixir (Membrane Framework) or just HTTP API with any language. Also, you need no deep video expertise.",
-    icon: flexbility,
+    icon: Flexbility,
   },
   {
     label: "Easy deployment",
     text: "We provide pre-built binaries and publish images to the Docker registry. This way, you can set up Smelter in just a few steps.",
-    icon: rocket,
+    icon: Rocket,
   },
   {
     label: "Offline processing available",
     text: "It’s not only about real-time streaming. With Smelter, you can also process data offline and then save the result as a file.",
-    icon: offline,
+    icon: Offline,
   },
 ] as const;
 ---
 
 <section id="features" class="md:px-4 relative mb-28 text-center lg:px-8 xl:px-10 capabilities-scroll-margin">
-  <Image id="capabilitiesWave" src={wavePattern} alt="wave pattern" class="absolute -right-56 opacity-45 sm:top-36 sm:-right-40 -z-10" />
-  <Image id="capabilitiesBlur" src={capabilitiesBlur} alt="gradient" class="absolute bottom-40 sm:-bottom-52 sm:-left-40 -translate-x-1/2 -z-10" />
+  <WavePattern class="absolute -right-56 opacity-45 sm:top-36 sm:-right-40 -z-10" />
+  <CapabilitiesBlur class="absolute bottom-40 sm:-bottom-52 sm:-left-40 -translate-x-1/2 -z-10" />
   <h2 class="mb-2 text-capabilities-header">The only video<br />compositing software you need</h2>
 
   <div class="carousel-container sm:hidden relative mt-8">
     <button id="prevButton" class="absolute left-0 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300">
-      <Image id="capabilitiesBlur" src={chevronLeft} alt="previous" class="w-10 h-10 aspect-square"/>
+      <ChevronLeft class="w-10 h-10 aspect-square"/>
     </button>
     <div id="carouselTrack" class="gap-x-4 px-4 md:px-0">
       {CAPABILITIES.map((capability) => (
@@ -77,7 +76,7 @@ const CAPABILITIES = [
       ))}
     </div>
     <button id="nextButton" class="absolute right-0 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300">
-      <Image id="capabilitiesBlur" src={chevronRight} alt="previous" class="w-10 h-10 aspect-square"/>
+      <ChevronRight class="w-10 h-10 aspect-square"/>
     </button>
   </div>
   

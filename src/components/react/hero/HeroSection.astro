@@ -1,9 +1,7 @@
 ---
 import PrimaryButton from "@components/base/buttons/PrimaryButton.astro";
-import Image from "astro/components/Image.astro";
-
 import ArrowRight from "/public/images/arrow-right.svg";
-import swmLogo from "/public/images/swm-logo.svg";
+import SwmLogo from "/public/images/swm-logo.svg";
 
 import "./heroSection.scss";
 import TertiaryButton from "@components/base/buttons/TertiaryButton.astro";
@@ -24,12 +22,7 @@ import Example from "./Example.astro";
             href="https://swmansion.com/"
             target="_blank"
           >
-            <Image
-              src={swmLogo}
-              alt="SoftwareMansion logo"
-              class="fill-hero-authorLabel"
-              loading="eager"
-            />
+            <SwmLogo class="fill-hero-authorLabel" />
           </a>
         </div>
         <div class="mb-8 flex flex-col gap-y-4">

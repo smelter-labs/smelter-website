@@ -2,10 +2,10 @@
 import Image from "astro/components/Image.astro";
 import TestimonialItem from "./TestimonialItem.astro";
 
-import chevronLeft from "/public/images/chevron-left.svg";
-import chevronRight from "/public/images/chevron-right.svg";
-import Deric from "../../../assets/testimonials/deric.avif";
-import Michael from "../../../assets/testimonials/michael.jpeg";
+import Deric from "@assets/testimonials/deric.avif";
+import Michael from "@assets/testimonials/michael.jpeg";
+import ChevronLeft from "/public/images/chevron-left.svg";
+import ChevronRight from "/public/images/chevron-right.svg";
 
 export type Testimonial = {
   avatar: ImageMetadata;
@@ -46,10 +46,7 @@ const TESTIMONIALS = [
           id="testimonialsPrevButton"
           class="z-50 absolute hidden sm:block left-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
         >
-          <Image
-            id="capabilitiesBlur"
-            src={chevronLeft}
-            alt="previous"
+          <ChevronLeft
             class="w-10 h-10 aspect-square"
           />
         </button>
@@ -62,10 +59,7 @@ const TESTIMONIALS = [
           id="testimonialsNextButton"
           class="absolute hidden sm:block right-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
         >
-          <Image
-            id="capabilitiesBlur"
-            src={chevronRight}
-            alt="previous"
+          <ChevronRight
             class="w-10 h-10 aspect-square"
           />
         </button>

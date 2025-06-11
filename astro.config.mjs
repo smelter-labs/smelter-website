@@ -31,8 +31,6 @@ export default defineConfig({
     "/http-api/renderers": "/http-api/renderers/overview",
   },
   prefetch: true,
-  output: "server",
-
   vite: {
     plugins: [
       viteStaticCopy({
