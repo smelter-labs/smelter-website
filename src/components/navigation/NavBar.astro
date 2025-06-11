@@ -1,7 +1,7 @@
 ---
 import { Image, getImage } from "astro:assets";
 
-import newScreen from "/public/images/newscreen.svg";
+import newScreen from "@assets/navigation/newscreen.svg";
 import cross from "../../assets/navigation/cross.svg";
 import discordLogo from "../../assets/navigation/discord-logo.svg";
 import githubLogo from "../../assets/navigation/github-logo.svg";
@@ -35,12 +35,6 @@ const smelterLogoSmallImage = await getImage({
   width: 31,
   height: 17,
 });
-const newScreenSmallImage = await getImage({
-  src: newScreen,
-  format: "svg",
-  width: 24,
-  height: 24,
-});
 
 interface Props {
   rootHref?: string;
@@ -58,7 +52,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
     <link rel="preload" href={githubLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
-    <link rel="preload" href={newScreenSmallImage.src} as="image" />
+    <!-- <link rel="preload" href={newScreenSmallImage.src} type="image/svg+xml" /> -->
     <link rel="preload" href={cross.src} as="image" />
     <link rel="preload" href={hamburger.src} as="image" />
   </Fragment>
@@ -200,7 +194,33 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
               target="_blank"
             >
               Docs
-              <Image src={newScreen} alt="newscreen" />
+              <img src={newScreen.src} width={newScreen.width} height={newScreen.height} alt="newscreen" />
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 25 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20.1972 4.9248L10.1973 14.9248"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M20.1973 10.9248L20.1972 4.92481L14.1973 4.9248"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M10.1973 4.9248H4.19727V20.9248H20.1973V14.9248"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
             </a>
           </div>
           <div class="flex gap-x-2 md:gap-x-4 mr-6 md:mr-8">
@@ -236,45 +256,43 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
   </nav>
 </header>
 
-<script src="./navBar.ts" />
+<script src="./navBar.ts"></script>
 
 <script is:inline data-astro-rerun>
   function toggleMobileMenu() {
-  const menu = document.getElementById("mobile-menu");
-  const hamburger = document.getElementById("nav-hamburger");
-  const close = document.getElementById("nav-close");
-  const navbar = document.getElementById("pageHeader");
+    const menu = document.getElementById("mobile-menu");
+    const hamburger = document.getElementById("nav-hamburger");
+    const close = document.getElementById("nav-close");
+    const navbar = document.getElementById("pageHeader");
 
-  if(!menu || !hamburger || !close || !navbar) return
-  if (menu?.classList.contains("hidden")) {
-    menu.classList.remove("hidden");
+    if (!menu || !hamburger || !close || !navbar) return;
+    if (menu?.classList.contains("hidden")) {
+      menu.classList.remove("hidden");
 
-    
-    hamburger.style.opacity = "0";
-    close.style.opacity = "1";
-    const alphaHex = Math.round(235).toString(16).padStart(2, "0");
-    navbar.style.backgroundColor = `#161127${alphaHex}`;
-
-    setTimeout(() => {
-      menu.style.opacity = "1";
-    }, 100);
-  } else {
-    menu.style.opacity = "0";
-    hamburger.style.opacity = "1";
-    close.style.opacity = "0";
-
-    setTimeout(() => {
-      menu.classList.add("hidden");
-      const scrollDistanceLimit = 150;
-      const alphaDecimal = Math.min(
-        235,
-        (window.scrollY / scrollDistanceLimit) * 235
-      );
-      const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
+      hamburger.style.opacity = "0";
+      close.style.opacity = "1";
+      const alphaHex = Math.round(235).toString(16).padStart(2, "0");
       navbar.style.backgroundColor = `#161127${alphaHex}`;
-      menu.style.opacity = "1";
-    }, 300);
-  }
-}
-</script>
 
+      setTimeout(() => {
+        menu.style.opacity = "1";
+      }, 100);
+    } else {
+      menu.style.opacity = "0";
+      hamburger.style.opacity = "1";
+      close.style.opacity = "0";
+
+      setTimeout(() => {
+        menu.classList.add("hidden");
+        const scrollDistanceLimit = 150;
+        const alphaDecimal = Math.min(
+          235,
+          (window.scrollY / scrollDistanceLimit) * 235
+        );
+        const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
+        navbar.style.backgroundColor = `#161127${alphaHex}`;
+        menu.style.opacity = "1";
+      }, 300);
+    }
+  }
+</script>
