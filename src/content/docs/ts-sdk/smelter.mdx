@@ -3,17 +3,23 @@ title: Smelter
 ---
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 The primary element required to start using the Smelter TypeScript SDK is the `Smelter` class. This class is crucial
 for initializing and managing the Smelter server instance.
 
 It is available in 3 variants for different runtimes:
-- Node.js 
-  <Code code={`import Smelter from "@swmansion/smelter-node"`} lang="tsx" />
-- Browser (WASM)
-  <Code code={`import Smelter from "@swmansion/smelter-web-wasm"`} lang="tsx" />
-- Browser (Client)
-  <Code code={`import Smelter from "@swmansion/smelter-web-client"`} lang="tsx" />
+<Tabs syncKey="smelter-variants">
+  <TabItem label="Node">
+    <Code code={`import Smelter from "@swmansion/smelter-node"`} lang="tsx" />
+  </TabItem>
+  <TabItem label="Browser (Node)">
+    <Code code={`import Smelter from "@swmansion/smelter-web-wasm"`} lang="tsx" />
+  </TabItem>
+  <TabItem label="Browser (Client)">
+    <Code code={`import Smelter from "@swmansion/smelter-web-client"`} lang="tsx" />
+  </TabItem>
+</Tabs>
 
 ## new Smelter()
 Creates a new Smelter instance. You have to call [init()](#init) first before this object can be used.
@@ -73,16 +79,16 @@ See [WebWasmSmelterOptions](/ts-sdk/managers/web-wasm/#webwasmsmelteroptions) to
 
 ### Runtime: Browser (Client)
 
-<Code code={`new Smelter(options: WebWasmSmelterOptions)`} lang="tsx" />
+<Code code={`new Smelter(options: SmelterInstanceOptions)`} lang="tsx" />
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
   type SmelterInstanceOptions = {
-    framerate?: Framerate | number;
+    url: string | URL;
   };
 `} lang='tsx' />
 </CollapsibleDetails>
 
-See [WebWasmSmelterOptions](/ts-sdk/managers/web-wasm/#webwasmsmelteroptions) to learn more.
+See [SmelterInstanceOptions](/ts-sdk/managers/web-client#smelterinstanceoptions) to learn more.
 
 ## init()
 <Code code={`Smelter.init(): Promise<void>`} lang="tsx" />
@@ -152,7 +158,7 @@ export type RegisterOutput =
 
 Register external destination that can be used as a smelter output. Visit output documentation to learn more.
 
-`@swmansion/smelter-node`:
+`@swmansion/smelter-node` and `@swmansion/smelter-web-client`
 - [RTP](/ts-sdk/outputs/rtp)
 - [MP4](/ts-sdk/outputs/mp4)
 - [WHIP](/ts-sdk/outputs/whip)
@@ -202,7 +208,7 @@ type RegisterInput =
 
 Register external source that can be used as a smelter input. Visit input documentation to learn more.
 
-`@swmansion/smelter-node`
+`@swmansion/smelter-node` and `@swmansion/smelter-web-client`
 - [RTP](/ts-sdk/inputs/rtp)
 - [MP4](/ts-sdk/inputs/mp4)
 - [WHIP](/ts-sdk/inputs/whip)
