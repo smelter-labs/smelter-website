@@ -7,11 +7,13 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 The primary element required to start using the Smelter TypeScript SDK is the `Smelter` class. This class is crucial
 for initializing and managing the Smelter server instance.
 
-It is available in 2 variants for different runtimes:
+It is available in 3 variants for different runtimes:
 - Node.js 
   <Code code={`import Smelter from "@swmansion/smelter-node"`} lang="tsx" />
 - Browser (WASM)
   <Code code={`import Smelter from "@swmansion/smelter-web-wasm"`} lang="tsx" />
+- Browser (Client)
+  <Code code={`import Smelter from "@swmansion/smelter-web-client"`} lang="tsx" />
 
 ## new Smelter()
 Creates a new Smelter instance. You have to call [init()](#init) first before this object can be used.
@@ -63,6 +65,19 @@ Configures how the client code will connect and manage a Smelter server. Smelter
   type WebWasmSmelterOptions = {
     framerate?: Framerate | number;
     streamFallbackTimeoutMs: number;
+  };
+`} lang='tsx' />
+</CollapsibleDetails>
+
+See [WebWasmSmelterOptions](/ts-sdk/managers/web-wasm/#webwasmsmelteroptions) to learn more.
+
+### Runtime: Browser (Client)
+
+<Code code={`new Smelter(options: WebWasmSmelterOptions)`} lang="tsx" />
+<CollapsibleDetails summaryTitle='Type definitions'>
+<Code code={`
+  type SmelterInstanceOptions = {
+    framerate?: Framerate | number;
   };
 `} lang='tsx' />
 </CollapsibleDetails>

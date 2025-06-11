@@ -1,53 +1,35 @@
 ---
-title: Browser - remote Smelter client
+title: Browser - Remote Smelter client
 ---
 import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
-When running in-browser WASM build of Smelter there is only one possible SmelterManager, and it 
-does not have to be created explicitly
+Connects to remotely running Smelter instance from a browser.
 
-<Code title='WebWasmExample.tsx' code={`
-import Smelter, { setWasmBundleUrl } from "@swmansion/smelter-web-wasm"
-
-// URL where you are hosting smelter wasm bundle
-setWasmBundleUrl('/assets/smelter.wasm');
+<Code title='RemoteSmelterExample.tsx' code={`
+import Smelter from "@swmansion/smelter-web-client"
 
 async function run() {
-    const smelter = new Smelter({ framerate: 30 });
+    const smelter = new Smelter({ url: 'http://192.168.1.33:8081' });
     await smelter.init();
 }
 void run();
 `} lang="tsx" />
 
-## WebWasmSmelterOptions
+## SmelterInstanceOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
-  type Framerate = {
-    num: number;
-    den: number;
-  };
-  type WebWasmSmelterOptions = {
-    framerate?: Framerate | number;
-    streamFallbackTimeoutMs?: number;
+  type SmelterInstanceOptions = {
+    url: string | URL;
   };
 `} lang='tsx' />
 </CollapsibleDetails>
 
 ### Properties
 
-#### framerate
+#### url
 
-Output framerate defined as a number or a ratio.
+Address of a running smelter server. Protocol used in the address also implies protocol of a WebSocket connection (`http -> ws` and `https -> wss`).
 
-- **Type**: `number | { num: number, den: number }`
-
----
-
-#### streamFallbackTimeoutMs 
-
-Timeout duration (in ms) that specifies when Smelter should switch to a fallback option if the input stream ceases to send frames.
-
-- **Type**: `number`
-- **Default value**: `500`
+- **Type**: `string | URL`
