@@ -1,7 +1,7 @@
 ---
 import { Image, getImage } from "astro:assets";
 
-import newScreen from "@assets/navigation/newscreen.svg";
+import newScreen from "@assets/newscreen.svg";
 import cross from "../../assets/navigation/cross.svg";
 import discordLogo from "../../assets/navigation/discord-logo.svg";
 import githubLogo from "../../assets/navigation/github-logo.svg";
@@ -10,31 +10,6 @@ import smelterLogoSmall from "../../assets/navigation/smelter-logo-small.svg";
 import smelterLogo from "../../assets/navigation/smelter-logo.svg";
 
 import NavButton from "../base/buttons/NavButton.astro";
-
-const discordLogoImage = await getImage({
-  src: discordLogo,
-  format: "svg",
-  width: 24,
-  height: 24,
-});
-const githubLogoImage = await getImage({
-  src: githubLogo,
-  format: "svg",
-  width: 24,
-  height: 24,
-});
-const smelterLogoImage = await getImage({
-  src: smelterLogo,
-  format: "svg",
-  width: 130,
-  height: 17,
-});
-const smelterLogoSmallImage = await getImage({
-  src: smelterLogoSmall,
-  format: "svg",
-  width: 31,
-  height: 17,
-});
 
 interface Props {
   rootHref?: string;
@@ -48,13 +23,13 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
   class="fixed z-50 w-screen max-w-screen bg-transparent transition-all ease-in-out duration-300"
 >
   <Fragment slot="head">
-    <link rel="preload" href={discordLogoImage.src} as="image" />
+    <!-- <link rel="preload" href={discordLogoImage.src} as="image" />
     <link rel="preload" href={githubLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoImage.src} as="image" />
-    <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
+    <link rel="preload" href={smelterLogoSmallImage.src} as="image" /> -->
     <!-- <link rel="preload" href={newScreenSmallImage.src} type="image/svg+xml" /> -->
-    <link rel="preload" href={cross.src} as="image" />
-    <link rel="preload" href={hamburger.src} as="image" />
+    <!-- <link rel="preload" href={cross.src} as="image" />
+    <link rel="preload" href={hamburger.src} as="image" /> -->
   </Fragment>
   <nav class="flex h-18 md:h-20">
     <div
@@ -194,7 +169,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
               target="_blank"
             >
               Docs
-              <img src={newScreen.src} width={newScreen.width} height={newScreen.height} alt="newscreen" />
+              <img src={newScreen.src} width={newScreen.width} height={newScreen.height} class="h-6 w-auto" alt="newscreen" />
               <svg
                 width="25"
                 height="25"
