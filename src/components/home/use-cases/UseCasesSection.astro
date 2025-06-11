@@ -1,32 +1,31 @@
 ---
-import { Image } from "astro:assets";
 import UseCaseTile from "./UseCaseTile.astro";
 
-import useCase1Image from "../../../assets/use-cases/use-case1.webp";
-import useCase2Image from "../../../assets/use-cases/use-case2.webp";
-import useCase3Image from "../../../assets/use-cases/use-case3.webp";
-import useCasesWave from "../../../assets/use-cases/use-cases-wave.svg";
+import UseCase1Image from "@assets/use-cases/use-case1.webp";
+import UseCase2Image from "@assets/use-cases/use-case2.webp";
+import UseCase3Image from "@assets/use-cases/use-case3.webp";
+import UseCasesWave from "@assets/use-cases/use-cases-wave.svg";
 
 const USE_CASES = [
   {
     header: "Live-streaming",
     subHeader:
       "Compose and mix video streams in real time with ultra-low latency. Supports live and pre-recorded inputs, overlays, and transitions.",
-    image: useCase3Image,
+    image: UseCase1Image,
     uri: "/demos/streaming-app-setup",
   },
   {
     header: "Broadcasting",
     subHeader:
       "Seamlessly blend multiple video sources for professional broadcasts. Leverage GPU-powered rendering and hardware decoding.",
-    image: useCase2Image,
+    image: UseCase2Image,
     uri: "/demos/broadcast",
   },
   {
     header: "Video conferencing",
     subHeader:
       "Stream or record with real-time compositing, multi-camera setups, and dynamic overlays. Perfect for interactive webinars and meetings.",
-    image: useCase1Image,
+    image: UseCase3Image,
     uri: "/demos/video-conference",
   },
 ] as const;
@@ -45,9 +44,7 @@ const USE_CASES = [
             <h2 class="mb-8 text-useCases-header">
               One toolkit, many use cases
             </h2>
-            <Image
-              src={useCasesWave}
-              alt="wave pattern"
+            <UseCasesWave
               class="absolute -left-40 top-6 opacity-45 sm:opacity-1 sm:top-56 -z-10"
             />
           </div>

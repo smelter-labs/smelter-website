@@ -1,24 +1,9 @@
 ---
-import { Image, getImage } from "astro:assets";
-
-import swmLogo from "/public/images/swm-logo.svg";
-import footerWave from "../../assets/footer-small.svg";
-
-const footerWaveImage = await getImage({
-  src: footerWave,
-  format: "svg",
-});
+import FooterWave from "@assets/footer-small.svg";
+import SwmLogo from "/public/images/swm-logo.svg";
 ---
 
 <footer class="relative flex overflow-hidden footer-size sm:hidden">
-  <Fragment slot="head">
-    <link rel="preload" href={footerWaveImage.src} as="image" />
-  </Fragment>
-  <Image
-    src={footerWave}
-    alt="Decorative wave"
-    class="w-full h-full absolute"
-  />
   <div
     class="px-2 py-8 h-full w-full flex items-center justify-centere self-end"
   >
@@ -81,7 +66,7 @@ const footerWaveImage = await getImage({
           target="_blank"
           class="text-footer-text flex flex-col justify-between items-center w-full"
         >
-          <Image src={swmLogo} alt="SoftwareMansion logo" class="w-24 mb-4" />
+          <SwmLogo class="w-24 h-14 mb-4" />
           <h3 class="font-medium text-md">Created by Software Mansion</h3>
         </a>
       </div>
@@ -102,6 +87,7 @@ const footerWaveImage = await getImage({
       </div>
     </div>
   </div>
+  <FooterWave class="w-full h-full absolute -z-50" />
 </footer>
 
 <style>
