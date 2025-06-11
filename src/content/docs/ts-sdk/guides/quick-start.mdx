@@ -30,9 +30,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
 
     async function start() {
       const manager = new ExistingInstanceManager({
-        ip: "127.0.0.1",
-        port: 8000,
-        protocol: 'http',
+        url: 'http://127.0.0.1:8000'
       });
       const smelter = new Smelter(manager);
       await smelter.init();
