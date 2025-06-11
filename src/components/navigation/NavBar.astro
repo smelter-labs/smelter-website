@@ -1,46 +1,13 @@
 ---
-import { Image, getImage } from "astro:assets";
-
-import newScreen from "/public/images/newscreen.svg";
-import cross from "../../assets/navigation/cross.svg";
-import discordLogo from "../../assets/navigation/discord-logo.svg";
-import githubLogo from "../../assets/navigation/github-logo.svg";
-import hamburger from "../../assets/navigation/hamburger.svg";
-import smelterLogoSmall from "../../assets/navigation/smelter-logo-small.svg";
-import smelterLogo from "../../assets/navigation/smelter-logo.svg";
+import Cross from "@assets/navigation/cross.svg";
+import DiscordLogo from "@assets/navigation/discord-logo.svg";
+import GithubLogo from "@assets/navigation/github-logo.svg";
+import Hamburger from "@assets/navigation/hamburger.svg";
+import NewScreen from "@assets/navigation/newscreen.svg";
+import SmelterLogoSmall from "@assets/navigation/smelter-logo-small.svg";
+import SmelterLogo from "@assets/navigation/smelter-logo.svg";
 
 import NavButton from "../base/buttons/NavButton.astro";
-
-const discordLogoImage = await getImage({
-  src: discordLogo,
-  format: "svg",
-  width: 24,
-  height: 24,
-});
-const githubLogoImage = await getImage({
-  src: githubLogo,
-  format: "svg",
-  width: 24,
-  height: 24,
-});
-const smelterLogoImage = await getImage({
-  src: smelterLogo,
-  format: "svg",
-  width: 130,
-  height: 17,
-});
-const smelterLogoSmallImage = await getImage({
-  src: smelterLogoSmall,
-  format: "svg",
-  width: 31,
-  height: 17,
-});
-const newScreenSmallImage = await getImage({
-  src: newScreen,
-  format: "svg",
-  width: 24,
-  height: 24,
-});
 
 interface Props {
   rootHref?: string;
@@ -54,31 +21,21 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
   class="fixed z-50 w-screen max-w-screen bg-transparent transition-all ease-in-out duration-300"
 >
   <Fragment slot="head">
-    <link rel="preload" href={discordLogoImage.src} as="image" />
+    <!-- <link rel="preload" href={discordLogoImage.src} as="image" />
     <link rel="preload" href={githubLogoImage.src} as="image" />
     <link rel="preload" href={smelterLogoImage.src} as="image" />
-    <link rel="preload" href={smelterLogoSmallImage.src} as="image" />
-    <link rel="preload" href={newScreenSmallImage.src} as="image" />
-    <link rel="preload" href={cross.src} as="image" />
-    <link rel="preload" href={hamburger.src} as="image" />
+    <link rel="preload" href={smelterLogoSmallImage.src} as="image" /> -->
+    <!-- <link rel="preload" href={newScreenSmallImage.src} type="image/svg+xml" /> -->
+    <!-- <link rel="preload" href={cross.src} as="image" />
+    <link rel="preload" href={hamburger.src} as="image" /> -->
   </Fragment>
   <nav class="flex h-18 md:h-20">
     <div
       class="flex justify-between items-center max-w-[1800px] w-full m-auto px-4 xl:px-10"
     >
       <a href={rootHref}>
-        <Image
-          src={smelterLogo}
-          alt="Smelter logo"
-          class="hidden md:block"
-          loading="eager"
-        />
-        <Image
-          src={smelterLogoSmall}
-          alt="Smelter logo"
-          class="md:hidden"
-          loading="eager"
-        />
+        <SmelterLogo class="hidden md:block" />
+        <SmelterLogoSmall class="md:hidden" />
       </a>
 
       <div class="xl:hidden flex justify-between items-center min-w-8 min-h-8">
@@ -87,19 +44,13 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
           aria-label="Toggle navigation"
           onclick="toggleMobileMenu()"
         >
-          <Image
+          <Cross
             id="nav-close"
-            src={cross}
-            alt="close menu"
-            class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-0"
-            loading="eager"
+            class="absolute inset-0 aspect-square w-8 opacity-0 self-center"
           />
-          <Image
+          <Hamburger
             id="nav-hamburger"
-            src={hamburger}
-            alt="menu"
-            class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-1"
-            loading="eager"
+            class="absolute inset-0 fill-nav-icon aspect-square w-8 opacity-1 self-center"
           />
         </button>
       </div>
@@ -142,17 +93,11 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
           <a
             href="/docs"
             onclick="toggleMobileMenu()"
-            class="py-2 hover:underline text-nav-link w-full flex flex-row gap-2"
+            class="py-2 hover:underline text-nav-link w-full flex flex-row gap-2 items-center"
             target="_blank"
           >
             Docs
-            <Image
-              width={64}
-              height={64}
-              class="aspect-square w-6 h-6"
-              src={newScreen}
-              alt="newscreen"
-            />
+            <NewScreen />
           </a>
           <div class="flex gap-x-4 w-full justify-end py-2">
             <a
@@ -160,24 +105,14 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
               onclick="toggleMobileMenu()"
               target="_blank"
             >
-              <Image
-                src={discordLogo}
-                alt="Discord logo"
-                class="fill-nav-icon aspect-square w-5 md:w-6"
-                loading="eager"
-              />
+              <DiscordLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
             </a>
             <a
               href="https://github.com/software-mansion/smelter"
               onclick="toggleMobileMenu()"
               target="_blank"
             >
-              <Image
-                src={githubLogo}
-                alt="Github logo"
-                class="fill-nav-icon aspect-square w-5 md:w-6"
-                loading="eager"
-              />
+              <GithubLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
             </a>
           </div>
         </div>
@@ -200,7 +135,7 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
               target="_blank"
             >
               Docs
-              <Image src={newScreen} alt="newscreen" />
+              <NewScreen class="self-center" />
             </a>
           </div>
           <div class="flex gap-x-2 md:gap-x-4 mr-6 md:mr-8">
@@ -215,20 +150,10 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
 
         <div class="flex gap-x-4">
           <a href="https://discord.com/invite/Cxj3rzTTag" target="_blank">
-            <Image
-              src={discordLogo}
-              alt="Discord logo"
-              class="fill-nav-icon aspect-square w-5 md:w-6"
-              loading="eager"
-            />
+            <DiscordLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
           </a>
           <a href="https://github.com/software-mansion/smelter" target="_blank">
-            <Image
-              src={githubLogo}
-              alt="Github logo"
-              class="fill-nav-icon aspect-square w-5 md:w-6"
-              loading="eager"
-            />
+            <GithubLogo class="fill-nav-icon aspect-square w-5 md:w-6" />
           </a>
         </div>
       </div>
@@ -236,45 +161,43 @@ const { rootHref = "https://smelter.dev/" } = Astro.props;
   </nav>
 </header>
 
-<script src="./navBar.ts" />
+<script src="./navBar.ts"></script>
 
 <script is:inline data-astro-rerun>
   function toggleMobileMenu() {
-  const menu = document.getElementById("mobile-menu");
-  const hamburger = document.getElementById("nav-hamburger");
-  const close = document.getElementById("nav-close");
-  const navbar = document.getElementById("pageHeader");
+    const menu = document.getElementById("mobile-menu");
+    const hamburger = document.getElementById("nav-hamburger");
+    const close = document.getElementById("nav-close");
+    const navbar = document.getElementById("pageHeader");
 
-  if(!menu || !hamburger || !close || !navbar) return
-  if (menu?.classList.contains("hidden")) {
-    menu.classList.remove("hidden");
+    if (!menu || !hamburger || !close || !navbar) return;
+    if (menu?.classList.contains("hidden")) {
+      menu.classList.remove("hidden");
 
-    
-    hamburger.style.opacity = "0";
-    close.style.opacity = "1";
-    const alphaHex = Math.round(235).toString(16).padStart(2, "0");
-    navbar.style.backgroundColor = `#161127${alphaHex}`;
-
-    setTimeout(() => {
-      menu.style.opacity = "1";
-    }, 100);
-  } else {
-    menu.style.opacity = "0";
-    hamburger.style.opacity = "1";
-    close.style.opacity = "0";
-
-    setTimeout(() => {
-      menu.classList.add("hidden");
-      const scrollDistanceLimit = 150;
-      const alphaDecimal = Math.min(
-        235,
-        (window.scrollY / scrollDistanceLimit) * 235
-      );
-      const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
+      hamburger.style.opacity = "0";
+      close.style.opacity = "1";
+      const alphaHex = Math.round(235).toString(16).padStart(2, "0");
       navbar.style.backgroundColor = `#161127${alphaHex}`;
-      menu.style.opacity = "1";
-    }, 300);
-  }
-}
-</script>
 
+      setTimeout(() => {
+        menu.style.opacity = "1";
+      }, 100);
+    } else {
+      menu.style.opacity = "0";
+      hamburger.style.opacity = "1";
+      close.style.opacity = "0";
+
+      setTimeout(() => {
+        menu.classList.add("hidden");
+        const scrollDistanceLimit = 150;
+        const alphaDecimal = Math.min(
+          235,
+          (window.scrollY / scrollDistanceLimit) * 235
+        );
+        const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
+        navbar.style.backgroundColor = `#161127${alphaHex}`;
+        menu.style.opacity = "1";
+      }, 300);
+    }
+  }
+</script>
