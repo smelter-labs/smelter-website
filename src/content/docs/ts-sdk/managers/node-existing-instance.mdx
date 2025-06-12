@@ -13,9 +13,7 @@ import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
 
 async function run() {
     const manager = new ExistingInstanceManager({
-        ip: "127.0.0.1",
-        port: 8000,
-        protocol: 'https',
+        url: 'http://127.0.0.1:8000'
     });
     const smelter = new Smelter(manager);
     await smelter.init()
@@ -28,33 +26,15 @@ void run();
 <CollapsibleDetails summaryTitle='Type definitions' open>
 <Code code={`
   type ExistingInstanceOptions = {
-    port: number;
-    ip: string;
-    protocol: 'http' | 'https';
+    url: string | URL;
   };
 `} lang='tsx' />
 </CollapsibleDetails>
 
 ### Properties
 
-#### ip
+#### url
 
-IP of a running smelter server.
+Address of a running smelter server. Protocol used in the address also implies protocol of a WebSocket connection (`http -> ws` and `https -> wss`).
 
-- **Type**: `string`
-
----
-
-#### port
-
-Port number where smelter API endpoint is exposed.
-
-- **Type**: `number`
-
----
-
-#### protocol
-
-Protocol for connection. It also implies protocol of a WebSocket connection (`http -> ws` and `https -> wss`).
-
-- **Type**: `'http' | 'https'`
+- **Type**: `string | URL`
