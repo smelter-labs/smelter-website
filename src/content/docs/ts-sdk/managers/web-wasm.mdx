@@ -9,16 +9,16 @@ When running in-browser WASM build of Smelter there is only one possible Smelter
 does not have to be created explicitly
 
 <Code title='WebWasmExample.tsx' code={`
-import Smelter, { setWasmBundleUrl } from "@swmansion/smelter-web-wasm"
+  import Smelter, { setWasmBundleUrl } from "@swmansion/smelter-web-wasm"
 
-// URL where you are hosting smelter wasm bundle
-setWasmBundleUrl('/assets/smelter.wasm');
+  // URL where you are hosting smelter wasm bundle
+  setWasmBundleUrl('/assets/smelter.wasm');
 
-async function run() {
-const smelter = new Smelter({ framerate: 30 });
-await smelter.init();
-}
-void run();
+  async function run() {
+    const smelter = new Smelter({ framerate: 30 });
+    await smelter.init();
+  }
+  void run();
 `} lang="tsx" />
 
 ## WebWasmSmelterOptions

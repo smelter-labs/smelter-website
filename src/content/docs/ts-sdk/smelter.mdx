@@ -31,18 +31,18 @@ Creates a new Smelter instance. You have to call [init()](#init) first before th
     body?: object;
   };
 
-type MultipartRequest = {
-method: 'POST';
-route: string;
-body: any;
-};
+  type MultipartRequest = {
+    method: 'POST';
+    route: string;
+    body: any;
+  };
 
-type SmelterManager = {
-setupInstance(): Promise<void>;
-sendRequest(request: ApiRequest): Promise<object>;
-sendMultipartRequest(request: MultipartRequest): Promise<object>;
-registerEventListener(cb: (event: unknown) => void): void;
-}
+  type SmelterManager = {
+    setupInstance(): Promise<void>;
+    sendRequest(request: ApiRequest): Promise<object>;
+    sendMultipartRequest(request: MultipartRequest): Promise<object>;
+    registerEventListener(cb: (event: unknown) => void): void;
+  }
 `} lang='tsx' />
 
 </CollapsibleDetails>
@@ -106,16 +106,16 @@ Smelter.registerOutput(
 
 <CollapsibleDetails summaryTitle='Type definitions @swmnasion/smelter-node'>
 <Code code={`
-import {
+  import {
     RegisterRtpOutput,
     RegisterMp4Output,
     RegisterWhipOutput
-} from "@swmasnion/smelter"
+  } from "@swmasnion/smelter"
 
-type RegisterOutput =
-| ({ type: 'rtp_stream' } & RegisterRtpOutput)
-| ({ type: 'mp4' } & RegisterMp4Output)
-| ({ type: 'whip' } & RegisterWhipOutput);
+  type RegisterOutput =
+    | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+    | ({ type: 'mp4' } & RegisterMp4Output)
+    | ({ type: 'whip' } & RegisterWhipOutput);
 `} lang='tsx' />
 
 </CollapsibleDetails>
@@ -182,26 +182,26 @@ Unregister previously registered output.
 
 <Code
   code={`
-Smelter.registerInput(
+  Smelter.registerInput(
     inputId: string,
     input: RegisterInput
-): Promise<object>
+  ): Promise<object>
 `}
   lang="tsx"
 />
 
 <CollapsibleDetails summaryTitle='Type definitions @swmnasion/smelter-node'>
 <Code code={`
-import {
+  import {
     RegisterRtpInput,
     RegisterMp4Input,
     RegisterWhipInput
-} from "@swmasnion/smelter"
+  } from "@swmasnion/smelter"
 
-type RegisterInput =
-| ({ type: "rtp_stream" } & RegisterRtpInput)
-| ({ type: "mp4" } & RegisterMp4Input)
-| ({ type: "whip" } & RegisterWhipInput);
+  type RegisterInput =
+    | ({ type: "rtp_stream" } & RegisterRtpInput)
+    | ({ type: "mp4" } & RegisterMp4Input)
+    | ({ type: "whip" } & RegisterWhipInput);
 `} lang='tsx' />
 
 </CollapsibleDetails>
@@ -209,7 +209,7 @@ type RegisterInput =
 <CollapsibleDetails summaryTitle="Type definitions @swmansion/smelter-web-wasm">
   <Code
     code={`
-type RegisterInput =
+  type RegisterInput =
     | { type: 'mp4'; url: string }
     | { type: 'camera' }
     | { type: 'screen_capture' }
@@ -246,12 +246,13 @@ Unregister previously registered input.
 ## registerImage()
 
 <Code code={`
-import { Renderers } from "@swmansion/smelter"
+  import { Renderers } from "@swmansion/smelter"
 
-Smelter.registerImage(
-imageId: string,
-image: Renderers.RegisterImage,
-): Promise<void>`} lang="tsx" />
+  Smelter.registerImage(
+    imageId: string,
+    image: Renderers.RegisterImage,
+  ): Promise<void>
+`} lang="tsx" />
 
 Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn more.
 
@@ -267,12 +268,13 @@ Unregister a previously registered image asset.
 ## registerShader()
 
 <Code code={`
-import { Renderers } from "@swmnasion/smelter"
+  import { Renderers } from "@swmnasion/smelter"
 
-Smelter.registerShader(
-shaderId: string,
-shader: Renderers.RegisterShader,
-): Promise<void>`} lang="tsx" />
+  Smelter.registerShader(
+    shaderId: string,
+    shader: Renderers.RegisterShader,
+  ): Promise<void>
+`} lang="tsx" />
 
 Register a shader. See [RegisterShader](/ts-sdk/resources/shader) to learn more.
 
@@ -288,12 +290,13 @@ Unregister a previously registered shader.
 ## registerWebRenderer()
 
 <Code code={`
-import { Renderers } from "@swmansion/smelter"
+  import { Renderers } from "@swmansion/smelter"
 
-Smelter.registerWebRenderer(
-instanceId: string,
-instance: Renderers.RegisterWebRenderer,
-): Promise<object>`} lang="tsx" />
+  Smelter.registerWebRenderer(
+    instanceId: string,
+    instance: Renderers.RegisterWebRenderer,
+  ): Promise<object>
+`} lang="tsx" />
 
 Register a web renderer instance. See [RegisterWebRenderer](/ts-sdk/resources/web-renderer) to learn more.
 
@@ -314,9 +317,8 @@ Unregister a previously registered web renderer.
 />
 
 <CollapsibleDetails summaryTitle="Type definitions @swmnasion/smelter-node">
-  <Code
-    code={`
-type FontSource =
+  <Code code={`
+  type FontSource =
     | 'string' // URL
     | ArrayBuffer
 `}

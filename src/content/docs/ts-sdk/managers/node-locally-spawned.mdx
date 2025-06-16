@@ -13,16 +13,16 @@ This is a default manager for smelter on Node.js.
 ## Reference
 
 <Code title='LocallySpawnedInstanceManagerExample.tsx' code={`
-import Smelter, { LocallySpawnedInstanceManager } from "@swmansion/smelter-node"
+  import Smelter, { LocallySpawnedInstanceManager } from "@swmansion/smelter-node"
 
-async function run() {
-const manager = new LocallySpawnedInstanceManager({
-port: 8000
-});
-const smelter = new Smelter(manager);
-await smelter.init()
-}
-void run();
+  async function run() {
+    const manager = new LocallySpawnedInstanceManager({
+      port: 8000
+    });
+    const smelter = new Smelter(manager);
+    await smelter.init()
+  }
+  void run();
 `} lang="tsx" />
 
 ## ExistingInstanceOptions
