@@ -10,18 +10,18 @@ to already running smelter server. This manager assumes that it is the only inst
 connects to a specific smelter server.
 
 <Code title='ExistingInstanceManagerExample.tsx' code={`
-import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
+  import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
 
-async function run() {
-const manager = new ExistingInstanceManager({
-ip: "127.0.0.1",
-port: 8000,
-protocol: 'https',
-});
-const smelter = new Smelter(manager);
-await smelter.init()
-}
-void run();
+  async function run() {
+    const manager = new ExistingInstanceManager({
+      ip: "127.0.0.1",
+      port: 8000,
+      protocol: 'https',
+    });
+    const smelter = new Smelter(manager);
+    await smelter.init()
+  }
+  void run();
 `} lang="tsx" />
 
 ## ExistingInstanceOptions

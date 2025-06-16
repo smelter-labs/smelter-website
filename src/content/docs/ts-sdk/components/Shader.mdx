@@ -108,15 +108,15 @@ Resolution of the texture where shader will be executed.
 
 <Code
   code={`
-type ShaderParam = 
-  | { type: "f32"; value: f32; }
-  | { type: "u32"; value: u32; }
-  | { type: "i32"; value: i32; }
-  | { type: "list"; value: ShaderParam[]; }
-  | {
-      type: "struct";
-      value: ShaderParamStructField[];
-    }
+  type ShaderParam = 
+    | { type: "f32"; value: f32; }
+    | { type: "u32"; value: u32; }
+    | { type: "i32"; value: i32; }
+    | { type: "list"; value: ShaderParam[]; }
+    | {
+        type: "struct";
+        value: ShaderParamStructField[];
+      }
 `}
   lang="tsx"
 />
@@ -125,20 +125,20 @@ type ShaderParam =
 
 <Code
   code={`
-type ShaderParamStructField = 
-  | { field_name: string; type: "f32"; value: f32; }
-  | { field_name: string; type: "u32"; value: u32; }
-  | { field_name: string; type: "i32"; value: i32; }
-  | {
-      field_name: string;
-      type: "list";
-      value: ShaderParam[];
-    }
-  | {
-      field_name: string;
-      type: "struct";
-      value: ShaderParamStructField[];
-    }
+  type ShaderParamStructField = 
+    | { field_name: string; type: "f32"; value: f32; }
+    | { field_name: string; type: "u32"; value: u32; }
+    | { field_name: string; type: "i32"; value: i32; }
+    | {
+        field_name: string;
+        type: "list";
+        value: ShaderParam[];
+      }
+    | {
+        field_name: string;
+        type: "struct";
+        value: ShaderParamStructField[];
+      }
 `}
   lang="tsx"
 />

@@ -27,18 +27,18 @@ Creates a new offline smelter instance. You have to call [`init()`](#init) first
     body?: object;
   };
 
-type MultipartRequest = {
-method: 'POST';
-route: string;
-body: any;
-};
+  type MultipartRequest = {
+    method: 'POST';
+    route: string;
+    body: any;
+  };
 
-type SmelterManager = {
-setupInstance(): Promise<void>;
-sendRequest(request: ApiRequest): Promise<object>;
-sendMultipartRequest(request: MultipartRequest): Promise<object>;
-registerEventListener(cb: (event: unknown) => void): void;
-}
+  type SmelterManager = {
+    setupInstance(): Promise<void>;
+    sendRequest(request: ApiRequest): Promise<object>;
+    sendMultipartRequest(request: MultipartRequest): Promise<object>;
+    registerEventListener(cb: (event: unknown) => void): void;
+  }
 `} lang='tsx' />
 
 </CollapsibleDetails>
@@ -67,25 +67,26 @@ After `init()` you can start connecting inputs/outputs or register other element
 ## render()
 
 <Code code={`
-import React from "react";
+  import React from "react";
 
-Smelter.render(
-root: React.ReactElement,
-output: RegisterOutput,
-): Promise<object>`} lang="tsx" />
+  Smelter.render(
+    root: React.ReactElement,
+    output: RegisterOutput,
+  ): Promise<object>
+`} lang="tsx" />
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
-import {
+  import {
     RegisterRtpOutput,
     RegisterMp4Output,
     RegisterWhipOutput
-} from "@swmasnion/smelter"
+  } from "@swmasnion/smelter"
 
-type RegisterOutput =
-| ({ type: 'rtp_stream' } & RegisterRtpOutput)
-| ({ type: 'mp4' } & RegisterMp4Output)
-| ({ type: 'whip' } & RegisterWhipOutput);
+  type RegisterOutput =
+    | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+    | ({ type: 'mp4' } & RegisterMp4Output)
+    | ({ type: 'whip' } & RegisterWhipOutput);
 `} lang='tsx' />
 
 </CollapsibleDetails>
@@ -105,25 +106,26 @@ Register external destination that can be used as a smelter output. Visit output
 ## registerInput()
 
 <Code code={`
-import { Inputs } from "@swmasnion/smelter"
+  import { Inputs } from "@swmasnion/smelter"
 
-Smelter.registerInput(
-inputId: string,
-input: Inputs.RegisterInput,
-): Promise<object>`} lang="tsx" />
+  Smelter.registerInput(
+    inputId: string,
+    input: Inputs.RegisterInput,
+  ): Promise<object>
+`} lang="tsx" />
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 <Code code={`
-import {
+  import {
     RegisterRtpInput,
     RegisterMp4Input,
     RegisterWhipInput
-} from "@swmasnion/smelter"
+  } from "@swmasnion/smelter"
 
-type RegisterInput =
-| ({ type: "rtp_stream" } & RegisterRtpInput)
-| ({ type: "mp4" } & RegisterMp4Input)
-| ({ type: "whip" } & RegisterWhipInput);
+  type RegisterInput =
+    | ({ type: "rtp_stream" } & RegisterRtpInput)
+    | ({ type: "mp4" } & RegisterMp4Input)
+    | ({ type: "whip" } & RegisterWhipInput);
 `} lang='tsx' />
 
 </CollapsibleDetails>
@@ -143,24 +145,26 @@ Register external source that can be used as a smelter input. Visit input docume
 ## registerImage()
 
 <Code code={`
-import { Renderers } from "@swmansion/smelter"
+  import { Renderers } from "@swmansion/smelter"
 
-Smelter.registerImage(
-imageId: string,
-image: Renderers.RegisterImage,
-): Promise<void>`} lang="tsx" />
+  Smelter.registerImage(
+    imageId: string,
+    image: Renderers.RegisterImage,
+  ): Promise<void>
+`} lang="tsx" />
 
 Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn more.
 
 ## registerShader()
 
 <Code code={`
-import { Renderers } from "@swmnasion/smelter"
+  import { Renderers } from "@swmnasion/smelter"
 
-Smelter.registerShader(
-shaderId: string,
-shader: Renderers.RegisterShader,
-): Promise<void>`} lang="tsx" />
+  Smelter.registerShader(
+    shaderId: string,
+    shader: Renderers.RegisterShader,
+  ): Promise<void>
+`} lang="tsx" />
 
 Register a shader. See [RegisterShader](/ts-sdk/resources/shader) to learn more.
 
