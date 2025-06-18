@@ -71,12 +71,6 @@ type Image = {
 ```
 </CollapsibleDetails>
 
-<Aside>
-  - If you don't specify a `width` or `height`, the texture will match the original image size.
-  - If you set just one dimension, the other will adjust to keep the image's aspect ratio.
-  - If you set both, the image will fit those dimensions, changing its shape if needed.
-</Aside>
-
 ## Properties
 
 ### id
@@ -94,14 +88,14 @@ ID of an image. It identifies an image registered using a [register image](/http
 ---
 
 ### width
-Width of the texture onto which the image will be rendered.
+Width of the texture onto which the image will be rendered. If `height` is not explicitly provided, the image will automatically adjust its height to maintain its original aspect ratio relative to the width.
 
 - **Type**: `usize`
 
 ---
 
 ### height
-Height of the texture onto which the image will be rendered.
+Height of the texture onto which the image will be rendered. If `width` is not explicitly provided, the image will automatically adjust its height to maintain its original aspect ratio relative to the height.
 
 - **Type**: `usize`
 
