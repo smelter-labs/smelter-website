@@ -1,77 +1,56 @@
 ---
-title: Quick start - Node.js
+title: Quick start
 sidebar:
     order: 0
 ---
-import { Steps, Code } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 import QuickStartImage from '@assets/guides/quick-start.mp4';
 
-In this guide, you'll learn how to create a basic Smelter setup in Node.js using TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
+In this guide, you'll learn how to create a basic Smelter setup using HTTP API. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
 
 <Steps>
 
-1. Create Smelter object and initialize it.
-    ```tsx
-    import Smelter from "@swmansion/smelter-node"
+1. Start the Smelter server ([learn more](/deployment/setup#standalone-server)). Check out [configuration page](/deployment/configuration) for available configuration options.
 
-    async function start() {
-      const smelter = new Smelter();
-      await smelter.init();
-    }
-    ```
+2. Register an output stream and send start request.
 
-    It will download appropriate binaries and start the Smelter server locally.
+    ```http
+    POST: /api/output/output_1/register
+    Content-Type: application/json
 
-    <CollapsibleDetails summaryTitle='Alternatively, you can connect to an existing instance.'>
-
-    ```tsx
-    import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
-
-    async function start() {
-      const manager = new ExistingInstanceManager({
-        ip: "127.0.0.1",
-        port: 8000,
-        protocol: 'http',
-      });
-      const smelter = new Smelter(manager);
-      await smelter.init();
-    }
-    ```
-    </CollapsibleDetails>
-
-2. Register an output stream and call `Smelter.start()`.
-
-    ```tsx
-    import { View } from "@swmansion/smelter"
-    import Smelter from "@swmansion/smelter-node"
-
-    async function start() {
-      const smelter = new Smelter();
-      await smelter.init();
-
-      await smelter.registerOutput("output", <View />, {
-        type: "rtp_stream",
-        transportProtocol: "udp",
-        port: 9004,
-        ip: "127.0.0.1",
-        video: {
-          resolution: { width: 1280, height: 720 },
-          encoder: { type: "ffmpeg_h264" },
-        },
-        audio: {
-          encoder: { type: "opus", channels: "stereo" },
+    {
+      "type": "rtp_stream",
+      "transport_protocol": "udp",
+      "port": 9004,
+      "ip": "127.0.0.1", 
+      "video": {
+        "resolution": { "width": 1280, "height": 720 },
+        "encoder": { "type": "ffmpeg_h264" },
+        "initial": {
+          "root": { "type": "view" }
         }
-      });
-
-      await smelter.start();
+      },
+      "audio": {
+        "encoder": { "type": "opus", "channels": "stereo" },
+        "initial": {
+          "inputs": []
+        }
+      }
     }
     ```
 
-    This step creates an output that renders just an empty `<View />` component. Resulting
+    ```http
+    POST: /api/start
+    Content-Type: application/json
+
+    {}
+    ```
+
+    This step creates an output that renders just an empty `View` component. Resulting
     blank image is encoded and sent over UDP to local port 9004 via RTP protocol.
 
-    Calling `smelter.start()` will cause all registered outputs to start producing frames. All user-facing
+    Sending [start request](/http-api/routes#start-request) will cause all registered outputs to start producing frames. All user-facing
     timestamp or offset are relative to this start call.
 
     <CollapsibleDetails summaryTitle='How to receive and display this stream?'>
@@ -81,11 +60,11 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
       #### GStreamer
       To view the output stream with GStreamer run the following command:
       ```sh frame=none
-      gst-launch-1.0 rtpptdemux name=demux \\
-        udpsrc port=9004 ! \"application/x-rtp\" ! queue ! demux. \\
-        demux.src_96 ! \"application/x-rtp,media=video,clock-rate=90000,encoding-name=H264\" ! queue \\
-        ! rtph264depay ! decodebin ! videoconvert ! autovideosink \\
-        demux.src_97 ! \"application/x-rtp,media=audio,clock-rate=48000,encoding-name=OPUS\" ! queue \\
+      gst-launch-1.0 rtpptdemux name=demux \
+        udpsrc port=9004 ! "application/x-rtp" ! queue ! demux. \
+        demux.src_96 ! "application/x-rtp,media=video,clock-rate=90000,encoding-name=H264" ! queue \
+        ! rtph264depay ! decodebin ! videoconvert ! autovideosink \
+        demux.src_97 ! "application/x-rtp,media=audio,clock-rate=48000,encoding-name=OPUS" ! queue \
         ! rtpopusdepay ! decodebin ! audioconvert ! autoaudiosink sync=false
       ```
 
@@ -103,7 +82,9 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
         a=rtcp-mux
         ```
       - Run the following command
-        <Code code={`ffplay -protocol_whitelist "file,rtp,udp" output.sdp`} lang="sh" frame="none"/>
+        ```sh frame="none"
+        ffplay -protocol_whitelist "file,rtp,udp" output.sdp
+        ```
       Note: FFmpeg does not support multiplexing audio and video on the same port, so this example
       will only work with video.
     </CollapsibleDetails>
@@ -111,28 +92,27 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     Or checkout other alternative protocols:
     <CollapsibleDetails summaryTitle='Option 1: WHIP output'>
     With WHIP output you can send it e.g. to Twitch.
-    ```tsx
-    import { View } from "@swmansion/smelter"
-    import Smelter from "@swmansion/smelter-node"
+    ```http
+    POST: /api/output/output_1/register
+    Content-Type: application/json
 
-    async function start() {
-      const smelter = new Smelter();
-      await smelter.init();
-
-      await smelter.registerOutput("output", <View />, {
-        type: "whip",
-        endpointUrl: "https://g.webrtc.live-video.net:4443/v2/offer",
-        bearerToken: "<YOUR STREAM TOKEN>",
-        video: {
-          resolution: { width: 1280, height: 720 },
-          encoder: { type: "ffmpeg_h264" },
-        },
-        audio: {
-          encoder: { type: "opus", channels: "stereo" },
+    {
+      "type": "whip",
+      "endpoint_url": "https://g.webrtc.live-video.net:4443/v2/offer",
+      "bearer_token": "<YOUR STREAM TOKEN>",
+      "video": {
+        "resolution": { "width": 1280, "height": 720 },
+        "encoder": { "type": "ffmpeg_h264" },
+        "initial": {
+          "root": { "type": "view" }
         }
-      });
-
-      await smelter.start();
+      },
+      "audio": {
+        "encoder": { "type": "opus", "channels": "stereo" },
+        "initial": {
+          "inputs": []
+        }
+      }
     }
     ```
     </CollapsibleDetails>
@@ -140,35 +120,35 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
     <CollapsibleDetails summaryTitle='Option 2: MP4 output'>
     With mp4 output you can record the output to file.
 
-    ```tsx
-    import { View } from "@swmansion/smelter"
-    import Smelter from "@swmansion/smelter-node"
+    ```http
+    POST: /api/output/output_1/register
+    Content-Type: application/json
 
-    async function start() {
-      const smelter = new Smelter();
-      await smelter.init();
-
-      await smelter.registerOutput("output", <View />, {
-        type: "mp4",
-        serverPath: "output.mp4",
-        video: {
-          resolution: { width: 1280, height: 720 },
-          encoder: { type: "ffmpeg_h264" },
-        },
-        audio: {
-          encoder: { type: "aac", channels: "stereo" },
+    {
+      "type": "mp4",
+      "path": "output.mp4",
+      "video": {
+        "resolution": { "width": 1280, "height": 720 },
+        "encoder": { "type": "ffmpeg_h264" },
+        "initial": {
+          "root": { "type": "view" }
         }
-      });
-
-      await smelter.start();
+      },
+      "audio": {
+        "encoder": { "type": "aac", "channels": "stereo" },
+        "initial": {
+          "inputs": []
+        }
+      }
     }
     ```
 
     Note that mp4 must be gracefully terminated to write metadata,
     so if you just kill the application the file will be corrupted.
-    When you want to finish recording, run:
-    ```tsx
-    await smelter.unregisterOutput('output');
+    When you want to finish recording, send [unregister request](/http-api/routes#unregister-output):
+    ```http
+    POST: /api/output/output_1/unregister
+    Content-Type: application/json
     ```
     </CollapsibleDetails>
 
@@ -176,143 +156,81 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
 3. Register 2 input streams.
 
     For simplicity, in this example that will be two mp4 files, but the same
-    logic would apply for any other [input type](/ts-sdk/overview#inputs).
+    logic would apply for any other [input type](/http-api/overview#inputs).
 
-    ```tsx collapse={19-29}
-    import { View } from "@swmansion/smelter"
-    import Smelter from "@swmansion/smelter-node"
+    ```http
+    POST: /api/input/input_1/register
+    Content-Type: application/json
 
-    async function start() {
-      const smelter = new Smelter();
-      await smelter.init();
-
-      await smelter.registerInput("input_1", {
-        type: "mp4",
-        serverPath: "input1.mp4"
-      });
-
-      await smelter.registerInput("input_2", {
-        type: "mp4",
-        serverPath: "input2.mp4"
-      });
-
-      await smelter.registerOutput("output", <View />, {
-        type: "rtp_stream",
-        transportProtocol: "udp",
-        port: 9004,
-        ip: "127.0.0.1",
-        video: {
-          resolution: { width: 1280, height: 720 },
-          encoder: { type: "ffmpeg_h264" },
-        },
-        audio: {
-          encoder: { type: "opus", channels: "stereo" },
-        }
-      });
-
-      await smelter.start();
+    {
+      "type": "mp4",
+      "path": "https://example.com/input1.mp4"
     }
     ```
 
-    If you run this example now, you will see the same output as in the previous step. Input streams
-    are registered, but they are not used anywhere in the scene definition yet.
+    ```http
+    POST: /api/input/input_2/register
+    Content-Type: application/json
 
-4. Render one of the registered input streams on the output.
-
-    In the earlier steps we passed `<View />` to the `registerOutput` call. Now let's switch that to
-    something more complex. We are defining here new React component called `App`, and using it as
-    an output.
-
-    ```tsx {4-6, 22} collapse={10-20} collapse={24-33}
-    import { Tiles, InputStream } from "@swmansion/smelter"
-    import Smelter from "@swmansion/smelter-node"
-
-    function App() {
-      return <InputStream inputId="input_1" volume={0.9} />
+    {
+      "type": "mp4",
+      "path": "https://example.com/input2.mp4"
     }
+    ```
 
-    async function start() {
-      const smelter = new Smelter();
-      await smelter.init();
+    Those 2 request will register input streams `input_1` and `input2`. However, new streams are not used anywhere
+    in the scene definition yet, so it will not change the image produced on an output stream from the previous step.
 
-      await smelter.registerInput("input_1", {
-        type: "mp4",
-        serverPath: "input1.mp4"
-      });
+4. Update output to show one of the input streams.
 
-      await smelter.registerInput("input_2", {
-        type: "mp4",
-        serverPath: "input2.mp4"
-      })
+    ```http
+    POST: /api/output/output_1/update
+    Content-Type: application/json
 
-      await smelter.registerOutput("output", <App />, {
-        type: "rtp_stream",
-        transportProtocol: "udp",
-        port: 9004,
-        ip: "127.0.0.1",
-        video: {
-          resolution: { width: 1280, height: 720 },
-          encoder: { type: "ffmpeg_h264" },
-        },
-        audio: {
-          encoder: { type: "opus", channels: "stereo" },
+    {
+      "video": {
+        "root": {
+          "type": "input_stream",
+          "input_id": "input_1"
         }
-      });
-
-      await smelter.start();
+      },
+      "audio": {
+        "inputs": [
+          { "input_id": "input_1", "volume": 0.9 }
+        ]
+      }
     }
     ```
 
     Resulting output stream will show `input_1` input stream and play the audio from that source
     with slightly lowered volume. (If input has a different resolution it won't be automatically rescaled).
 
-5. Modify the components to display both inputs.
+5. Update output to show both of the input streams. 
 
-    [`Tiles`](/ts-sdk/components/tiles) component is a simple way to display element in
+    [`Tiles`](/http-api/components/tiles) component is a simple way to display element in
     a layout that uses available space efficiently (similar to stream layout in most video call apps).
 
-    ```tsx collapse={13-60}
-    import { Tiles, InputStream } from "@swmansion/smelter"
-    import Smelter from "@swmansion/smelter-node"
+    ```http
+    POST: /api/output/output_1/update
+    Content-Type: application/json
 
-    function App() {
-      return (
-        <Tiles style={{ backgroundColor: "#4d4d4d" }}>
-          <InputStream inputId="input_1" volume={0.9} />
-          <InputStream inputId="input_2" />
-        </Tiles>
-      )
-    }
-
-    async function start() {
-        const smelter = new Smelter();
-        await smelter.init();
-
-        await smelter.registerInput("input_1", {
-          type: "mp4",
-          serverPath: "input1.mp4"
-        });
-
-        await smelter.registerInput("input_2", {
-          type: "mp4",
-          serverPath: "input2.mp4"
-        })
-
-        await smelter.registerOutput("output", <App />, {
-          type: "rtp_stream",
-          transportProtocol: "udp",
-          port: 9004,
-          ip: "127.0.0.1",
-          video: {
-            resolution: { width: 1280, height: 720 },
-            encoder: { type: "ffmpeg_h264" },
-          },
-          audio: {
-            encoder: { type: "opus", channels: "stereo" },
-          }
-        });
-
-        await smelter.start();
+    {
+      "video": {
+        "root": {
+          "type": "tiles",
+          "background_color": "#4d4d4d",
+          "children": [
+            { "type": "input_stream", "input_id": "input_1" },
+            { "type": "input_stream", "input_id": "input_2" }
+          ]
+        }
+      },
+      "audio": {
+        "inputs": [
+          { "input_id": "input_1", "volume": 0.9 },
+          { "input_id": "input_2" }
+        ]
+      }
     }
     ```
 

@@ -126,16 +126,16 @@ Resolution of the texture where shader will be executed.
 <Code
   code={`
   type ShaderParamStructField = 
-    | { field_name: string; type: "f32"; value: f32; }
-    | { field_name: string; type: "u32"; value: u32; }
-    | { field_name: string; type: "i32"; value: i32; }
+    | { fieldName: string; type: "f32"; value: f32; }
+    | { fieldName: string; type: "u32"; value: u32; }
+    | { fieldName: string; type: "i32"; value: i32; }
     | {
-        field_name: string;
+        fieldName: string;
         type: "list";
         value: ShaderParam[];
       }
     | {
-        field_name: string;
+        fieldName: string;
         type: "struct";
         value: ShaderParamStructField[];
       }
