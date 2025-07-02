@@ -26,6 +26,7 @@ type ImageProps = {
     id?: string;
     imageId?: string;
     source?: string;
+    style?: ImageStyleProps;
 }
 ```
 </CollapsibleDetails>
@@ -55,3 +56,33 @@ ID of a component.
 - **Type**: `string`
 - **Default value**: Value produced by `useId` hook
 
+---
+
+### style
+Image styling properties.
+
+- **Type**: [`ImageStyleProps`](#imagestyleprops)
+
+
+## ImageStyleProps
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type ImageStyleProps = {
+    width?: number;
+    height?: number;
+}
+```
+</CollapsibleDetails>
+
+### width
+Width of the image in pixels. If `height` is not explicitly provided, the image will automatically adjust its height to maintain its original aspect ratio relative to the width.
+
+- **Type**: `number`
+
+---
+
+### height
+Height of the image in pixels. If `width` is not explicitly provided, the image will automatically adjust its width to maintain its original aspect ratio relative to the height.
+
+- **Type**: `number`

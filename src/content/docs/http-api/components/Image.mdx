@@ -65,10 +65,11 @@ Content-Type: application/json
 type Image = {
   id?: string;
   image_id: string;
+  width?: f32;
+  height?: f32;
 }
 ```
 </CollapsibleDetails>
-
 
 ## Properties
 
@@ -83,3 +84,19 @@ ID of a component.
 ID of an image. It identifies an image registered using a [register image](/http-api/routes#register-image) request.
 
 - **Type**: `string`
+
+---
+
+### width
+Width of the image in pixels. If `height` is not explicitly provided, the image will automatically adjust its height to maintain its original aspect ratio relative to the width.
+
+- **Type**: `f32`
+
+---
+
+### height
+Height of the image in pixels. If `width` is not explicitly provided, the image will automatically adjust its width to maintain its original aspect ratio relative to the height.
+
+- **Type**: `f32`
+
+
