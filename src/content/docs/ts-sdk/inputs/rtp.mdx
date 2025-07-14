@@ -142,7 +142,6 @@ Video decoder.
 type InputRtpAudioOptions =
   | {
       decoder: "opus";
-      forwardErrorCorrection?: bool;
     }
   | {
       decoder: "aac";
@@ -155,12 +154,6 @@ type InputRtpAudioOptions =
 Parameters of an audio source included in the RTP stream.
 
 ### Properties (decoder: "opus")
-
-#### forwardErrorCorrection
-Specifies whether the stream uses forward error correction. It's specific for the `Opus` codec. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7' target='_blank'>RFC specification</a>.
-
-- **Type**: `boolean`
-- **Default value**: `false`
 
 ### Properties (decoder: "aac")
 
