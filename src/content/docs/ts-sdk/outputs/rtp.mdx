@@ -295,6 +295,7 @@ Audio encoder options.
 type RtpAudioEncoderOptions = {
     type: "opus";
     preset?: "quality" | "voip" | "lowest_latency";
+    sampleRate?: u32;
     forwardErrorCorrection?: boolean;
     expectedPacketLoss?: number;
   }
@@ -316,6 +317,15 @@ Audio output encoder preset.
     - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
 --- 
+
+#### sampleRate
+Sample rate.
+
+- **Type**: `u32`
+- **Default value**: `48000`
+- **Supported values**: `8000`, `16000`, `24000`, `48000`
+
+---
 
 #### forwardErrorCorrection
 Specifies whether the stream uses forward error correction. It’s specific for the `Opus` codec. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
