@@ -328,7 +328,7 @@ Sample rate.
 ---
 
 #### forwardErrorCorrection
-Specifies whether the stream uses forward error correction. It’s specific for the `Opus` codec. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
+Configures whether the stream uses forward error correction. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
 and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
 
 - **Type**: `bool`
@@ -337,11 +337,12 @@ and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
 ---
 
 #### expectedPacketLoss
-Expected approximate packet loss percentage. When forward error correction is enabled this value should be greater than 0.
+Expected packet loss percentage. When forward error correction is enabled this value should be greater than 0. Higher values trigger more loss resistant behavior at the expense
+of quality at given bitrate in the absence of packet loss, but with greater quality under loss.
 
 - **Type**: `u32`
 - **Default value**: `0`
-- **Supported values**: `[0, 100]`
+- **Supported values**: `0-100`
 
 ## OutputEndCondition
 
