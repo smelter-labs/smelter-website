@@ -6,6 +6,7 @@ import LicenseSection from "../components/home/license/LicenseSection.astro";
 import TestimonialsSection from "../components/home/testimonials/TestimonialsSection.astro";
 import UsageSection from "../components/home/usage/UsageSection.astro";
 import UseCasesSection from "../components/home/use-cases/UseCasesSection.astro";
+import UtilitySection from "../components/home/utilities/UtilitySection.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 ---
 
@@ -17,8 +18,9 @@ import MainLayout from "../layouts/MainLayout.astro";
       <LicenseSection />
       <UsageSection />
       <UseCasesSection />
+      <UtilitySection />
       <TestimonialsSection />
-      <ContactForm />
+      <ContactForm server:defer />
     </div>
   </main>
 </MainLayout>

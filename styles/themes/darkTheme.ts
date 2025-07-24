@@ -6,6 +6,9 @@ export const DARK_THEME = {
     link: COLORS.red40,
     switchActive: COLORS.green100,
     loadingFill: COLORS.red60,
+    buttonTab: {
+      border: COLORS.purple20
+    },
     nav: {
       icon: COLORS.white100,
       searchContent: COLORS.white100,
@@ -83,6 +86,12 @@ export const DARK_THEME = {
       header: COLORS.white100,
       content: COLORS.purple20,
       caption: COLORS.white100,
+    },
+    ai: {
+      header: COLORS.white100,
+      content: COLORS.purple20,
+      caption: COLORS.white100,
+      border: COLORS.white25,
     },
     license: {
       content: COLORS.white100,
