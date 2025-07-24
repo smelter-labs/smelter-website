@@ -335,7 +335,8 @@ Configuration for the audio encoder.
 type WhipAudioEncoderOptions = {
   type: "opus";
   preset?: "quality" | "voip" | "lowest_latency";
-  sample_rate?: u32
+  sample_rate?: u32;
+  forward_error_correction?: bool;
 } | {
   type: "any";
 }
@@ -360,6 +361,13 @@ Sample rate for audio encoder.
 - **Type**: `u32`
 - **Default value**: `48000`
 - **Supported values**: `8000`, `16000`, `24000`, `48000`.
+
+#### forward_error_correction
+When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
+and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
+
+- **Type**: `bool`
+- **Default value**: `false`
 
 ---
 
