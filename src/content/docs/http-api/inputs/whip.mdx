@@ -53,6 +53,7 @@ Content-Type: application/json
 type WhipInput = {
   type: "whip";
   video?: InputWhipVideoOptions;
+  bearer_token?: string;
   required?: bool;
   offset_ms?: f64;
 };
@@ -69,6 +70,12 @@ Parameters of a video source included in the WHIP stream.
 - **Type**: [`InputWhipVideoOptions`](#inputwhipvideooptions)
 
 ---
+
+### bearer_token
+Authentication token. If not provided, a random token
+will be generated and returned in the response body.
+
+- **Type**: `string` 
 
 ### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
