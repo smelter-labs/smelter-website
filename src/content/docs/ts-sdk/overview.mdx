@@ -3,10 +3,10 @@ title: TypeScript SDK
 ---
 import { Aside, Code } from '@astrojs/starlight/components';
 
-TypeScript SDK is a library that provides a set of React components, hooks, and utility functions you can use to control how Smelter manipulates videos. In this section, we'll briefly describe its interface so you can get the general impression of how to process multimedia using Smelter TypeScript SDK. 
+TypeScript SDK is a library that provides a set of React components, hooks, and utility functions you can use to control how Smelter manipulates videos. In this section, we'll briefly describe its interface so you can get the general impression of how to process multimedia using Smelter TypeScript SDK.
 
 ### Smelter
-The primary element required to start using the Smelter TypeScript SDK is the `Smelter` class. This class is crucial for initializing and managing the Smelter server instance. You can import `Smelter` class from:    
+The primary element required to start using the Smelter TypeScript SDK is the `Smelter` class. This class is crucial for initializing and managing the Smelter server instance. You can import `Smelter` class from:
     - `@swmansion/smelter-node`
     - `@swmansion/smelter-web-wasm`
 
@@ -27,7 +27,7 @@ Smelter TypeScript SDK draws heavy inspiration from React Native in terms of the
 - [WebView](/ts-sdk/components/webview)
 
 #### Styling
-Smelter components can be customized in a way similar to React inline styling. Most of the components accept `style` prop - an object defining custom visual aspects. However, some of the animation-related customizations, such as `transition` are handled by specific dedicated props. 
+Smelter components can be customized in a way similar to React inline styling. Most of the components accept `style` prop - an object defining custom visual aspects. However, some of the animation-related customizations, such as `transition` are handled by specific dedicated props.
 
 <Aside type="caution">Despite some of the component names overlapping with React Native, the supported styles differ. Visit a specific component section to see supported styles.</Aside>
 
@@ -47,7 +47,7 @@ Node.js:
 - [MP4](/ts-sdk/inputs/mp4)
 - [RTP](/ts-sdk/inputs/rtp)
 - [WHIP](/ts-sdk/inputs/whip)
-- [RTMP](/ts-sdk/inputs/rtmp)
+- [HLS](/ts-sdk/inputs/hls)
 
 Browser (WASM):
 - [Camera (Web API)](/ts-sdk/inputs/wasm-camera)
@@ -55,7 +55,7 @@ Browser (WASM):
 - [MediaStream (Web API)](/ts-sdk/inputs/wasm-stream)
 - [MP4](/ts-sdk/inputs/mp4) (limited API compared to Node.js)
 
-After registering the stream, you can use it in composition by using [InputStream](/ts-sdk/components/inputstream) component. 
+After registering the stream, you can use it in composition by using [InputStream](/ts-sdk/components/inputstream) component.
 
 <Code code={`<InputStream inputId="example_input" />`} lang="tsx" />
 
@@ -66,6 +66,8 @@ Node.js:
 - [MP4](/ts-sdk/outputs/mp4)
 - [RTP](/ts-sdk/outputs/rtp)
 - [WHIP](/ts-sdk/outputs/whip)
+- [RTMP](/ts-sdk/outputs/rtmp)
+- [HLS](/ts-sdk/outputs/hls)
 
 Browser (WASM)
 - [Canvas (Web APi)](/ts-sdk/outputs/wasm-canvas)
