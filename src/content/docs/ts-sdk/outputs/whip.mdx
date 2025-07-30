@@ -311,6 +311,7 @@ type WhipAudioEncoderOptions = {
   type: "opus";
   preset?: "quality" | "voip" | "lowest_latency";
   sampleRate?: number;
+  forwardErrorCorrection?: boolean;
 } | {
   type: "any";
 }
@@ -337,6 +338,13 @@ Sample rate for audio encoder.
 - **Type**: `number`
 - **Default value**: `48000`
 - **Supported values**: `8000`, `16000`, `24000`, `48000`.
+
+#### forwardErrorCorrection
+When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
+and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
+
+- **Type**: `bool`
+- **Default value**: `false`
 
 ### Properties(type: "any")
 Specifies that any audio encoder supported by Smelter can be used. If `"any"` is not included in the `encoderPreferences` list, Smelter will only use the encoders explicitly listed in the preferences.
