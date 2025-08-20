@@ -5,25 +5,29 @@ import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RescalerStyleProps = {
-    mode?: "fit" | "fill";
+    rescaleMode?: "fit" | "fill";
     horizontalAlign?: "left" | "right" | "justified" | "center";
     verticalAlign?: "top" | "center" | "bottom" | "justified";
     width?: number;
     height?: number;
     top?: number;
-    left?: number;
-    bottom?: number;
     right?: number;
+    bottom?: number;
+    left?: number;
     rotation?: number;
+    borderRadius?: number;
+    borderWidth?: number;
+    borderColor?: string;
+    boxShadow?: BoxShadow[];
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties
 
-### mode
+### rescaleMode
 Content resize mode.
 
 - **Type**: `"fit" | "fill"`
@@ -31,6 +35,22 @@ Content resize mode.
 - **Supported values**:
     - `"fit"` - Resizes the component to match one dimension of the parent while ensuring it remains fully visible.
     - `"fill"` - Resizes the component to cover the entire area of the parent by matching at least one dimension; excess is clipped.
+
+---
+
+### horizontalAlign
+Horizontal alignment.
+
+- **Type**: `"left" | "right" | "justified" | "center"`
+- **Default value**: `"center"`
+
+---
+
+### verticalAlign
+Vertical alignment.
+
+- **Type**: `"top" | "center" | "bottom" | "justified"`
+- **Default value**: `"center"`
 
 ---
 
@@ -88,23 +108,78 @@ Specifies the distance in pixels from the left edge of this component to the lef
 
 ---
 
-### horizontalAlign
-Horizontal alignment.
-
-- **Type**: `"left" | "right" | "justified" | "center"`
-- **Default value**: `"center"`
-
----
-
-### verticalAlign
-Vertical alignment.
-
-- **Type**: `"top" | "center" | "bottom" | "justified"`
-- **Default value**: `"center"`
-
----
-
 ### rotation
 Specifies the rotation of a component, measured in degrees. If this attribute is set, the element will be positioned absolutely, overriding any layout constraints imposed by its parent.
 
 - **Type**: `number`
+
+
+### borderRadius
+Radius of a rounded corner.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### borderWidth
+Border width.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### borderColor
+Border color in a `"#RRGGBBAA"` format.
+
+- **Type**: `string`
+- **Default value**: `"#00000000"`
+
+---
+
+### boxShadow
+List of box shadows.
+
+- **Type**: [`BoxShadow[]`](#boxshadow)
+
+## BoxShadow
+```typescript
+type BoxShadow = {
+  offsetX?: number;
+  offsetY?: number;
+  color?: string;
+  blurRadius?: number;
+}
+```
+### Properties
+
+#### offsetX
+Specifies the horizontal offset on the x-axis. Positive values move the element to the right, negative values move it to the left.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+#### offsetY
+Specifies the vertical offset on the y-axis. Positive values move the element downward, negative values move it upward.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+#### color
+Color in a `"#RRGGBBAA"` format.
+
+- **Type**: `string`
+- **Default value**: `#FFFFFFFF`
+
+---
+
+#### blurRadius
+Defines the radius of the blur effect.
+
+- **Type**: `number`
+- **Default value**: `0.0`
