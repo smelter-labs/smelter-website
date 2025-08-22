@@ -80,12 +80,10 @@ type RegisterOutput =
 
 Register external destination that can be used as a smelter output. Visit output documentation to learn more:
 - [MP4](/ts-sdk/outputs/mp4)
-- [RTP](/ts-sdk/outputs/rtp)
-- [WHIP](/ts-sdk/outputs/whip)
 
-<Aside type="caution">
-Remember that in this mode compositor will produce frames as fast as possible. Protocols like RTP or WHIP
-can technically be used as output, but in most cases it would not make sense.
+<Aside type="note">
+[WHIP](/ts-sdk/outputs/whip), [WHEP](/ts-sdk/outputs/whep) and [RTP](/ts-sdk/outputs/rtp) are also supported,
+but since the compositor produces frames as fast as possible, these real-time protocols, in most cases, would not make sense.
 </Aside>
 
 ## registerInput()

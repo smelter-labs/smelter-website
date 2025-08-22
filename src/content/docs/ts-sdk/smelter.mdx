@@ -94,12 +94,14 @@ Smelter.registerOutput(
 import {
     RegisterRtpOutput,
     RegisterMp4Output,
+    RegisterWhepOutput
     RegisterWhipOutput
 } from "@swmasnion/smelter"
 
 type RegisterOutput =
     | ({ type: 'rtp_stream' } & RegisterRtpOutput)
     | ({ type: 'mp4' } & RegisterMp4Output)
+    | ({ type: 'whep' } & RegisterWhepOutput)
     | ({ type: 'whip' } & RegisterWhipOutput);
 `} lang='tsx' />
 </CollapsibleDetails>
@@ -141,6 +143,7 @@ Register external destination that can be used as a smelter output. Visit output
 `@swmansion/smelter-node`:
 - [RTP](/ts-sdk/outputs/rtp)
 - [MP4](/ts-sdk/outputs/mp4)
+- [WHEP](/ts-sdk/outputs/whep)
 - [WHIP](/ts-sdk/outputs/whip)
 
 `@swmansion/smelter-web-wasm`
