@@ -3,7 +3,7 @@ title: WHEP
 ---
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
-An output type that allows streaming video and audio from Smelter over WHEP.
+An output type that provides a WHEP server endpoint. It allows broadcasting a media stream to multiple clients simultaneously.
 
 Smelter exposes WHEP endpoint on port 9000 under `/whep/:output_id` route. A different port can be
 configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smelter_whip_whep_server_port).
