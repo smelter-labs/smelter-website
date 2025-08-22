@@ -5,7 +5,7 @@ import { Aside, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type ViewStyleProps = {
     width?: number;
     height?: number;
@@ -17,8 +17,19 @@ type ViewStyleProps = {
     rotation?: number;
     overflow?: "visible" | "hidden" | "fit";
     backgroundColor?: string;
+    borderRadius?: number;
+    borderWidth?: number;
+    borderColor?: string;
+    boxShadow?: BoxShadow[];
+    padding?: number;
+    paddingVertical?: number;
+    paddingHorizontal?: number;
+    paddingTop?: number;
+    paddingRight?: number;
+    paddingBottom?: number;
+    paddingLeft?: number;
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties
@@ -165,3 +176,131 @@ Background color in `#RRGGBBAA` or `#RRGGBB` format.
 
 - **Type**: `string`
 - **Default value**: `#00000000`
+
+---
+
+### borderRadius
+Radius of a rounded corner.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### borderWidth
+Border width.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### borderColor
+Border color in a `"#RRGGBBAA"` format.
+
+- **Type**: `string`
+- **Default value**: `"#00000000"`
+
+---
+
+### boxShadow
+List of box shadows.
+
+- **Type**: [`BoxShadow[]`](#boxshadow)
+
+---
+
+### padding
+Specifies the padding for each side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### paddingVertical
+Specifies the padding for the top and bottom side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### paddingHorizontal
+Specifies the padding for the left and right side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### paddingTop
+Specifies the padding for the top side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### paddingRight
+Specifies the padding for the right side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### paddingBottom
+Specifies the padding for the bottom side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+### paddingLeft
+Specifies the padding for the left side of a component.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+## BoxShadow
+```typescript
+type BoxShadow = {
+  offsetX?: number;
+  offsetyY?: number;
+  color?: string;
+  blurRadius?: number;
+}
+```
+### Properties
+
+#### offsetX
+Specifies the horizontal offset on the x-axis. Positive values move the element to the right, negative values move it to the left.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+#### offsetY
+Specifies the vertical offset on the y-axis. Positive values move the element downward, negative values move it upward.
+
+- **Type**: `number`
+- **Default value**: `0.0`
+
+---
+
+#### color
+Color in a `"#RRGGBBAA"` format.
+
+- **Type**: `string`
+- **Default value**: `#FFFFFFFF`
+
+---
+
+#### blurRadius
+Defines the radius of the blur effect.
+
+- **Type**: `number`
+- **Default value**: `0.0`
