@@ -13,7 +13,7 @@ An input that lets you connect to a WHEP server endpoint to receive a live media
 
 ## Usage
 
-```tsx title=whepInputExample.tsx
+```tsx title=whepClientInputExample.tsx
 import Smelter from "@swmansion/smelter-web-wasm";
 import { View } from "@swmansion/smelter";
 
@@ -21,7 +21,7 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
   await smelter.registerInput('example', <View />, {
-    type: 'whep',
+    type: 'whep_client',
     endpointUrl: 'https://example.com/whep',
     bearerToken: 'example_token'
   });
@@ -34,8 +34,8 @@ void run()
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type RegisterWhepInput = {
-  type: "whep";
+type RegisterWhepClientInput = {
+  type: "whep_client";
   endpointUrl: string;
   bearerToken?: string;
 };

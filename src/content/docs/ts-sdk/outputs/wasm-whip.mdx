@@ -13,7 +13,7 @@ An output that sends the output stream via WHIP protocol.
 
 ## Usage
 
-```tsx title=whipOutputExample.tsx
+```tsx title=whipClientOutputExample.tsx
 import Smelter from "@swmansion/smelter-web-wasm";
 import { View } from "@swmansion/smelter";
 
@@ -21,7 +21,7 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
   await smelter.registerOutput('example', <View />, {
-    type: 'whip',
+    type: 'whip_client',
     endpointUrl: 'https://example.com/whip',
     video: {
       resolution: { width: 1920, height: 1080 },
@@ -37,12 +37,12 @@ void run()
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type RegisterWhipOutput = {
-  type: "whip";
+type RegisterWhipClientOutput = {
+  type: "whip_client";
   endpointUrl: string;
   bearerToken?: string;
   iceServers?: RTCConfiguration['iceServers'];
-  video: WhipOutputVideo;
+  video: WhipClientOutputVideo;
   audio?: boolean;
 };
 ```
@@ -78,7 +78,7 @@ List of ICE servers that should be added to `RTCPeerConnection`
 ### video
 Parameters of an output video.
 
-- **Type**: [`WhipOutputVideo`](#whipoutputvideo)
+- **Type**: [`WhipClientOutputVideo`](#whipclientoutputvideo)
 
 ---
 
@@ -89,15 +89,15 @@ If `true` `MediaStream` returned from a register call will include audio track.
 - **Type**: `boolean` 
 - **Defaults to**: `false`
 
-## WhipOutputVideo
+## WhipClientOutputVideo
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+```tsx
 type RegisterCanvasOutput = {
     resolution: { width: number; height: number; }
     maxBitrate?: number;
 };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties

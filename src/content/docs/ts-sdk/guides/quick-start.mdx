@@ -118,7 +118,7 @@ In this guide, you'll learn how to create a basic Smelter setup in Node.js using
       await smelter.init();
 
       await smelter.registerOutput("output", <View />, {
-        type: "whip",
+        type: "whip_client",
         endpointUrl: "https://g.webrtc.live-video.net:4443/v2/offer",
         bearerToken: "<YOUR STREAM TOKEN>",
         video: {
