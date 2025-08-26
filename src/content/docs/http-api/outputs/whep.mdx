@@ -22,7 +22,7 @@ POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-  "type": "whep",
+  "type": "whep_server",
   "video": {
     "resolution": { "width": 1280, "height": 720 },
     "encoder": { "type": "ffmpeg_h264" },
@@ -50,11 +50,11 @@ See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type WhepOutput = {
-  type: "whep";
+type WhepServer = {
+  type: "whep_server";
   bearer_token?: string;
-  video?: WhepVideoOptions;
-  audio?: WhepAudioOptions;
+  video?: OutputWhepServerVideoOptions;
+  audio?: OutputWhepServerAudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -71,25 +71,25 @@ Authentication token. If not provided, authentication is not required.
 ### video
 Parameters of a video included in the WHEP stream.
 
-- **Type**: [`WhepVideoOptions`](#whepvideooptions)
+- **Type**: [`OutputWhepServerVideoOptions`](#outputwhepservervideooptions)
 
 ---
 
 ### audio
 Parameters of an audio included in the WHEP stream.
 
-- **Type**: [`WhepAudioOptions`](#whepaudiooptions)
+- **Type**: [`OutputWhepServerAudioOptions`](#outputwhepserveraudiooptions)
 
-## WhepVideoOptions
+## OutputWhepServerVideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhepVideoOptions = {
+type OutputWhepServerVideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: WhepVideoEncoderOptions;
+  encoder: WhepServerVideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -114,7 +114,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`WhepVideoEncoderOptions`](#whepvideoencoderoptions)
+- **Type**: [`WhepServerVideoEncoderOptions`](#whepServervideoencoderoptions)
 
 ---
 
@@ -124,10 +124,10 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 - **Type**: `{ root: Component; }`
 
 
-## WhepVideoEncoderOptions
+## WhepServerVideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhepVideoEncoderOptions =
+type WhepServerVideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
       preset?:
@@ -220,14 +220,14 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## WhepAudioOptions
+## OutputWhepServerAudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhepAudioOptions = {
+type OutputWhepServerAudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: WhepAudioEncoderOptions;
+  encoder: WhepServerAudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -257,7 +257,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`WhepAudioEncoderOptions`](#whepaudioencoderoptions)
+- **Type**: [`WhepServerAudioEncoderOptions`](#whepserveraudioencoderoptions)
 
 ---
 
@@ -276,11 +276,11 @@ Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
 
-## WhepAudioEncoderOptions
+## WhepServerAudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhepAudioEncoderOptions = {
+type WhepServerAudioEncoderOptions = {
   type: "opus";
   preset?: "quality" | "voip" | "lowest_latency";
   sample_rate?: u32;

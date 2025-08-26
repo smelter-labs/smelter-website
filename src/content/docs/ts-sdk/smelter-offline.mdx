@@ -15,7 +15,7 @@ Creates a new offline smelter instance. You have to call [`init()`](#init) first
 <Code code={`new OfflineSmelter(manager?: SmelterManager)`} lang="tsx" />
 
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
   type ApiRequest = {
     method: 'GET' | 'POST';
     route: string;
@@ -34,7 +34,7 @@ Creates a new offline smelter instance. You have to call [`init()`](#init) first
     sendMultipartRequest(request: MultipartRequest): Promise<object>;
     registerEventListener(cb: (event: unknown) => void): void;
   }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Parameters
@@ -56,62 +56,74 @@ Initialize the Smelter instance. This might spawn a new instance or just establi
 After `init()` you can start connecting inputs/outputs or register other elements. However, no output stream will be produced until `start()` method is called.
 
 ## render()
-<Code code={`
+```tsx
 import React from "react";
 
 Smelter.render(
     root: React.ReactElement,
     output: RegisterOutput,
-): Promise<object>`} lang="tsx" />
+): Promise<object>
+```
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 import {
     RegisterRtpOutput,
     RegisterMp4Output,
-    RegisterWhipOutput
+    RegisterHlsOutput,
+    RegisterWhipClientOutput,
+    RegisterWhepServerOutput,
+    RegisterRtmpClientOutput,
 } from "@swmasnion/smelter"
 
 type RegisterOutput =
     | ({ type: 'rtp_stream' } & RegisterRtpOutput)
     | ({ type: 'mp4' } & RegisterMp4Output)
-    | ({ type: 'whip' } & RegisterWhipOutput);
-`} lang='tsx' />
+    | ({ type: 'hls' } & RegisterHlsOutput)
+    | ({ type: 'whip_client' } & RegisterWhipClientOutput)
+    | ({ type: 'whep_server' } & RegisterWhepServerOutput)
+    | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+```
 </CollapsibleDetails>
 
 Register external destination that can be used as a smelter output. Visit output documentation to learn more:
 - [MP4](/ts-sdk/outputs/mp4)
+- [HLS](/ts-sdk/outputs/hls)
 
 <Aside type="note">
-[WHIP](/ts-sdk/outputs/whip), [WHEP](/ts-sdk/outputs/whep) and [RTP](/ts-sdk/outputs/rtp) are also supported,
+[WHIP](/ts-sdk/outputs/whip), [WHEP](/ts-sdk/outputs/whep), [RTMP](/ts-sdk/outputs/rtmp) and [RTP](/ts-sdk/outputs/rtp) are also supported,
 but since the compositor produces frames as fast as possible, these real-time protocols, in most cases, would not make sense.
 </Aside>
 
 ## registerInput()
-<Code code={`
+```tsx
 import { Inputs } from "@swmasnion/smelter"
 
 Smelter.registerInput(
     inputId: string,
     input: Inputs.RegisterInput,
-): Promise<object>`} lang="tsx" />
+): Promise<object>
+```
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+```tsx
 import {
     RegisterRtpInput,
     RegisterMp4Input,
-    RegisterWhipInput
+    RegisterHlsInput,
+    RegisterWhipServerInput,
 } from "@swmasnion/smelter"
 
 type RegisterInput =
-    | ({ type: "rtp_stream" } & RegisterRtpInput)
-    | ({ type: "mp4" } & RegisterMp4Input)
-    | ({ type: "whip" } & RegisterWhipInput);
-`} lang='tsx' />
+    | ({ type: 'rtp_stream' } & RegisterRtpInput)
+    | ({ type: 'mp4' } & RegisterMp4Input)
+    | ({ type: 'hls' } & RegisterHlsInput)
+    | ({ type: 'whip_server' } & RegisterWhipServerInput)
+```
 </CollapsibleDetails>
 
 Register external source that can be used as a smelter input. Visit input documentation to learn more:
-- [MP4](/ts-sdk/inputs/mp4)
 - [RTP](/ts-sdk/inputs/rtp)
+- [MP4](/ts-sdk/inputs/mp4)
+- [HLS](/ts-sdk/inputs/hls)
 - [WHIP](/ts-sdk/inputs/whip)
 
 <Aside type="caution">
@@ -120,24 +132,26 @@ can technically be used as input, but in most cases it would limit processing ba
 </Aside>
 
 ## registerImage()
-<Code code={`
+```tsx
 import { Renderers } from "@swmansion/smelter"
 
 Smelter.registerImage(
     imageId: string,
     image: Renderers.RegisterImage,
-): Promise<void>`} lang="tsx" />
+): Promise<void>
+```
 
 Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn more.
 
 ## registerShader()
-<Code code={`
+```tsx
 import { Renderers } from "@swmnasion/smelter"
 
 Smelter.registerShader(
     shaderId: string,
     shader: Renderers.RegisterShader,
-): Promise<void>`} lang="tsx" />
+): Promise<void>
+```
 
 Register a shader. See [RegisterShader](/ts-sdk/resources/shader) to learn more.
 

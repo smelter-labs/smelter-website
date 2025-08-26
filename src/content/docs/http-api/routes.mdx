@@ -2,6 +2,7 @@
 title: Routes
 description: API routes to configure the Smelter.
 ---
+import { Code } from '@astrojs/starlight/components';
 
 API is served by default on the port 8081. Different port can be configured using [`SMELTER_API_PORT`](/deployment/configuration#smelter_api_port) environment variable.
 
@@ -12,7 +13,7 @@ POST: /api/start
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {}
 ```
 
@@ -32,9 +33,9 @@ POST: /api/output/:output_id/register
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "whep" | "whip" | "rtmp_client"
+  type: "rtp_stream" | "mp4" | "whep_server" | "whip_client" | "rtmp_client"
   ... // output specific options
 }
 ```
@@ -54,7 +55,7 @@ POST /api/output/:output_id/unregister
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {
   schedule_time_ms?: number;
 }
@@ -71,7 +72,7 @@ POST: /api/output/:output_id/update
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {
   video?: {
     root: Component
@@ -107,7 +108,7 @@ POST: /api/output/:output_id/request_keyframe
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {}
 ```
 
@@ -122,9 +123,9 @@ POST: /api/input/:input_id/register
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "decklink" | "whip";
+  type: "rtp_stream" | "mp4" | "decklink" | "whip_server";
   ... // input specific options
 }
 ```
@@ -143,7 +144,7 @@ POST: /api/input/:input_id/unregister
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {
   schedule_time_ms?: number;
 }
@@ -173,7 +174,7 @@ POST: /api/image/:image_id/unregister
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {}
 ```
 
@@ -195,7 +196,7 @@ POST: /api/shader/:shader_id/unregister
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {}
 ```
 
@@ -217,7 +218,7 @@ POST: /api/web-renderer/:instance_id/unregister
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type RequestBody = {}
 ```
 
@@ -240,7 +241,7 @@ GET: /status
 Content-Type: application/json
 ```
 
-```typescript
+```tsx
 type Response = {
   instance_id: string
 }
