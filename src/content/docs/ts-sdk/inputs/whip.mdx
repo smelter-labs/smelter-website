@@ -1,5 +1,5 @@
 ---
-title: WHIP
+title: WHIP server
 sidebar:
   order: 1
 ---
@@ -55,7 +55,7 @@ await smelter.registerInput("example", {
 ```tsx
 type RegisterWhipServerInput = {
   type: "whip_server";
-  video?: InputWhipServerVideoOptions;
+  video?: VideoOptions;
   bearerToken?: string;
   required?: boolean;
   offsetMs?: number;
@@ -70,7 +70,7 @@ Parameters for registering an WHIP endpoint as an input.
 ### video
 Parameters of a video included in the WHIP stream.
 
-- **Type**: [`InputWhipServerVideoOptions`](#inputwhipservervideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
@@ -95,15 +95,15 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 
 - **Type**: `number`
 
-## InputWhipServerVideoOptions
+## VideoOptions
 
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type InputWhipServerVideoOptions = {
-  decoderPreferences?: WhipServerVideoDecoder[];
+type VideoOptions = {
+  decoderPreferences?: VideoDecoder[];
 }
 ```
 </CollapsibleDetails>
@@ -112,7 +112,7 @@ type InputWhipServerVideoOptions = {
 
 #### decoderPreferences
 An ordered list of preferred video decoders. The first element in the list has the highest priority during WHIP negotiation.
-- **Type**: [`WhipServerVideoDecoder`](#whipservervideodecoder)[]
+- **Type**: [`VideoDecoder`](#videodecoder)[]
 - **Default value**: `[ "any" ]`
 
 Behavior:
@@ -123,11 +123,11 @@ Behavior:
   - Only the decoders listed will be considered.
   - If none are supported, no fallback will occur.
 
-## WhipServerVideoDecoder
+## VideoDecoder
 Video decoder type.
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipServerVideoDecoder = "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "any"
+type VideoDecoder = "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "any"
 ```
 </CollapsibleDetails>
 - **Type**: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "any"

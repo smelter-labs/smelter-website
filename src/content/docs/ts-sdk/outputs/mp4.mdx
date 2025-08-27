@@ -42,8 +42,8 @@ void run();
 type RegisterMp4Output = {
   type: "mp4";
   serverPath: string;
-  video?: Mp4VideoOptions;
-  audio?: Mp4AudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -64,26 +64,26 @@ Path to the MP4 file, specifying its location on the server where Smelter is dep
 ### video
 Video track configuration.
 
-- **Type**: [`Mp4VideoOptions`](#mp4videooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`Mp4AudioOptions`](#mp4audiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## Mp4VideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4VideoOptions = {
+type VideoOptions = {
   resolution: {
     width: number;
     height: number;
   };
   sendEosWhen?: OutputEndCondition;
-  encoder: Mp4VideoEncoderOptions;
+  encoder: VideoEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -102,21 +102,21 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`Mp4VideoEncoderOptions`](/ts-sdk/outputs/mp4#mp4videoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 
-## Mp4VideoEncoderOptions
+## VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4VideoEncoderOptions = {
+type VideoEncoderOptions = {
   type: "ffmpeg_h264";
   preset: 
     | "ultrafast"
@@ -175,15 +175,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Mp4AudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioOptions = {
+type AudioOptions = {
   channels?: "mono" | "stereo";
   mixingStrategy?: "sum_clip" | "sum_scale";
   sendEosWhen?: OutputEndCondition;
-  encoder: Mp4AudioEncoderOptions;
+  encoder: AudioEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -215,20 +215,20 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/mp4#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`Mp4AudioEncoderOptions`](/ts-sdk/outputs/mp4#mp4audioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
-## Mp4AudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "aac";
   sampleRate?: number;
 }

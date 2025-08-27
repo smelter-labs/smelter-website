@@ -47,8 +47,8 @@ type RegisterRtpOutput = {
   port: string | number;
   ip?: string;
   transportProtocol?: "udp" | "tcp_server";
-  video?: RtpVideoOptions;
-  audio?: RtpAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -90,26 +90,26 @@ IP address to which RTP packets should be sent. This field is only valid if `tra
 ### video
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`RtpVideoOptions`](/ts-sdk/outputs/rtp#rtpvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Parameters of an audio included in the RTP stream.
 
-- **Type**: [`RtpAudioOptions`](/ts-sdk/outputs/rtp#rtpaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## RtpVideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoOptions = {
+type VideoOptions = {
     resolution: {
       width: number;
       height: number;
     };
     sendEosWhen?: OutputEndCondition;
-    encoder: RtpVideoEncoderOptions;
+    encoder: VideoEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -128,21 +128,21 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](/ts-sdk/outputs/rtp#rtpvideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 
-## RtpVideoEncoderOptions
+## VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoEncoderOptions = 
+type VideoEncoderOptions = 
   | {
       type: "ffmpeg_h264";
       preset?: 
@@ -237,15 +237,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## RtpAudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpAudioOptions = {
+type AudioOptions = {
   channels?: "mono" | "stereo";
   mixingStrategy?: "sum_clip" | "sum_scale";
   sendEosWhen?: OutputEndCondition;
-  encoder: RtpAudioEncoderOptions;
+  encoder: AudioEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -279,20 +279,20 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/rtp#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](/ts-sdk/outputs/rtp#rtpaudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
-## RtpAudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpAudioEncoderOptions = {
+type AudioEncoderOptions = {
     type: "opus";
     preset?: "quality" | "voip" | "lowest_latency";
     sampleRate?: u32;
