@@ -1,5 +1,5 @@
 ---
-title: WHEP
+title: WHEP server
 ---
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
@@ -53,8 +53,8 @@ See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn
 type WhepServer = {
   type: "whep_server";
   bearer_token?: string;
-  video?: OutputWhepServerVideoOptions;
-  audio?: OutputWhepServerAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -71,25 +71,25 @@ Authentication token. If not provided, authentication is not required.
 ### video
 Parameters of a video included in the WHEP stream.
 
-- **Type**: [`OutputWhepServerVideoOptions`](#outputwhepservervideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Parameters of an audio included in the WHEP stream.
 
-- **Type**: [`OutputWhepServerAudioOptions`](#outputwhepserveraudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## OutputWhepServerVideoOptions
+## VideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type OutputWhepServerVideoOptions = {
+type VideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: WhepServerVideoEncoderOptions;
+  encoder: VideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -114,7 +114,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`WhepServerVideoEncoderOptions`](#whepServervideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 ---
 
@@ -124,10 +124,10 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 - **Type**: `{ root: Component; }`
 
 
-## WhepServerVideoEncoderOptions
+## VideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhepServerVideoEncoderOptions =
+type VideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
       preset?:
@@ -220,14 +220,14 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## OutputWhepServerAudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type OutputWhepServerAudioOptions = {
+type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: WhepServerAudioEncoderOptions;
+  encoder: AudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -257,7 +257,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`WhepServerAudioEncoderOptions`](#whepserveraudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
 ---
 
@@ -276,11 +276,11 @@ Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
 
-## WhepServerAudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhepServerAudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "opus";
   preset?: "quality" | "voip" | "lowest_latency";
   sample_rate?: u32;

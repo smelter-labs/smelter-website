@@ -48,8 +48,8 @@ type HlsOutput = {
   type: "hls";
   path: string;
   max_playlist_size?: number;
-  video?: HlsVideoOptions;
-  audio?: HlsAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -74,26 +74,26 @@ If not specified, no segments will removed.
 ### video
 Video track configuration.
 
-- **Type**: [`HlsVideoOptions`](#hlsvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`HlsAudioOptions`](#hlsaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## HlsVideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsVideoOptions = {
+type VideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: HlsVideoEncoderOptions;
+  encoder: VideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -118,7 +118,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`HlsVideoEncoderOptions`](#hlsvideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 ---
 
@@ -127,7 +127,7 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 - **Type**: `{ root: Component; }`
 
-## HlsVideoEncoderOptions
+## VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
@@ -188,13 +188,13 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## HlsAudioOptions
+## AudioOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsAudioOptions = {
+type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: HlsAudioEncoderOptions;
+  encoder: AudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -224,7 +224,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`HlsAudioEncoderOptions`](#hlsaudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
 #### channels
 Channels configuration
@@ -241,11 +241,11 @@ Initial audio mixer configuration for output.
 - **Type**: `{ inputs: InputAudio[]; }`
 
 
-## HlsAudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsAudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "aac";
   sample_rate?: u32;
 }
