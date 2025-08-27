@@ -55,8 +55,8 @@ type RegisterHlsOutput = {
   type: "hls";
   serverPath: string;
   maxPlaylistSize?: number;
-  video?: HlsVideoOptions;
-  audio?: HlsAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -81,26 +81,26 @@ If not specified, no segments will removed.
 ### video
 Video track configuration.
 
-- **Type**: [`HlsVideoOptions`](#hlsvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`HlsAudioOptions`](#hlsaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## HlsVideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsVideoOptions = {
+type VideoOptions = {
   resolution: {
     width: number;
     height: number;
   };
   sendEosWhen?: OutputEndCondition;
-  encoder: HlsVideoEncoderOptions;
+  encoder: VideoEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -119,21 +119,21 @@ Output resolution in pixels.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/hls#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Video encoder options.
 
-- **Type**: [`HlsVideoEncoderOptions`](/ts-sdk/outputs/hls#hlsvideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 
-## HlsVideoEncoderOptions
+## VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsVideoEncoderOptions = {
+type VideoEncoderOptions = {
   type: "ffmpeg_h264";
   preset:
     | "ultrafast"
@@ -192,15 +192,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## HlsAudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsAudioOptions = {
+type AudioOptions = {
   channels?: "mono" | "stereo";
   mixingStrategy?: "sum_clip" | "sum_scale";
   sendEosWhen?: OutputEndCondition;
-  encoder: HlsAudioEncoderOptions;
+  encoder: AudioEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -232,20 +232,20 @@ Specifies how audio should be mixed.
 #### sendEosWhen
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
-- **Type**: [`OutputEndCondition`](/ts-sdk/outputs/hls#outputendcondition)
+- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
 #### encoder
 Audio encoder options.
 
-- **Type**: [`HlsAudioEncoderOptions`](/ts-sdk/outputs/hls#hlsaudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
-## HlsAudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type HlsAudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "aac";
   sampleRate?: number;
 }

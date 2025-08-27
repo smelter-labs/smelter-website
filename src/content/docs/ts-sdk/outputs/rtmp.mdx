@@ -54,8 +54,8 @@ void run();
 type RegisterRtmpClientOutput = {
   type: "rtmp_client";
   url: string;
-  video?: RtmpClientVideoOptions;
-  audio?: RtmpClientAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -72,26 +72,26 @@ RTMP endpoint url.
 ### video
 Video track configuration.
 
-- **Type**: [`RtmpClientVideoOptions`](#rtmpclientvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`RtmpClientAudioOptions`](#rtmpclientaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## RtmpClientVideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtmpClientVideoOptions = {
+type VideoOptions = {
   resolution: {
     width: number;
     height: number;
   };
   sendEosWhen?: OutputEndCondition;
-  encoder: RtmpClientVideoEncoderOptions;
+  encoder: VideoEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -117,14 +117,14 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtmpClientVideoEncoderOptions`](#rtmpclientvideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 
-## RtmpClientVideoEncoderOptions
+## VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtmpClientVideoEncoderOptions = {
+type VideoEncoderOptions = {
   type: "ffmpeg_h264";
   preset: 
     | "ultrafast"
@@ -183,15 +183,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## RtmpClientAudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtmpClientAudioOptions = {
+type AudioOptions = {
   channels?: "mono" | "stereo";
   mixingStrategy?: "sum_clip" | "sum_scale";
   sendEosWhen?: OutputEndCondition;
-  encoder: RtmpClientAudioEncoderOptions;
+  encoder: AudioEncoderOptions;
 }
 ```
 </CollapsibleDetails>
@@ -230,13 +230,13 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtmpClientAudioEncoderOptions`](#rtmpclientaudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
-## RtmpClientAudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtmpClientAudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "aac";
   sampleRate?: number;
 }
