@@ -1,5 +1,5 @@
 ---
-title: WHIP
+title: WHIP server
 ---
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
@@ -52,7 +52,7 @@ Content-Type: application/json
 ```tsx
 type WhipServer = {
   type: "whip_server";
-  video?: InputWhipServerVideoOptions;
+  video?: VideoOptions;
   bearer_token?: string;
   required?: bool;
   offset_ms?: f64;
@@ -67,7 +67,7 @@ Parameters for registering an WHIP endpoint as an input.
 ### video
 Parameters of a video source included in the WHIP stream.
 
-- **Type**: [`InputWhipServerVideoOptions`](#inputwhipservervideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
@@ -90,13 +90,13 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 
 - **Type**: `f64`
 
-## InputWhipServerVideoOptions
+## VideoOptions
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type InputWhipServerVideoOptions = {
-    decoder_preferences?: WhipServerVideoDecoder[];
+type VideoOptions = {
+    decoder_preferences?: VideoDecoder[];
 };
 ```
 </CollapsibleDetails>
@@ -105,7 +105,7 @@ type InputWhipServerVideoOptions = {
 
 #### decoder_preferences
 An ordered list of preferred video decoders. The first element in the list has the highest priority during WHIP negotiation.
-- **Type**: [`WhipServerVideoDecoder`](#whipservervideodecoder)[]
+- **Type**: [`VideoDecoder`](#videodecoder)[]
 - **Default value**: `[ "any" ]`
 
 Behavior:
@@ -117,12 +117,12 @@ Behavior:
   - Only the decoders listed will be considered.
   - If none are supported, no fallback will occur.
 
-## WhipServerVideoDecoder
+## VideoDecoder
 Video decoder type.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipServerVideoDecoder =
+type VideoDecoder =
   | "ffmpeg_h264"
   | "ffmpeg_vp8"
   | "ffmpeg_vp9"

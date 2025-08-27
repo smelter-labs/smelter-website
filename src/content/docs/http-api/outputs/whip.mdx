@@ -1,5 +1,5 @@
 ---
-title: WHIP
+title: WHIP client
 hide_table_of_contents: true
 ---
 import { Aside } from '@astrojs/starlight/components';
@@ -63,8 +63,8 @@ type WhipClient = {
   type: "whip_client";
   endpoint_url: string;
   bearer_token?: string;
-  video?: OutputWhipClientVideoOptions;
-  audio?: OutputWhipClientAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 };
 ```
 </CollapsibleDetails>
@@ -87,27 +87,27 @@ Token used for authentication when connecting to the WHIP endpoint.
 ### video
 Parameters of a video included in the WHIP stream.
 
-- **Type**: [`OutputWhipClientVideoOptions`](#outputwhipclientvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Parameters of an audio included in the WHIP stream.
 
-- **Type**: [`OutputWhipClientAudioOptions`](#outputwhipclientaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## OutputWhipClientVideoOptions
+## VideoOptions
 Parameters of a video source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type OutputWhipClientVideoOptions = {
+type VideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder_preferences?: WhipClientVideoEncoderOptions[];
+  encoder_preferences?: VideoEncoderOptions[];
   initial: { root: Component; };
 };
 ```
@@ -132,7 +132,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder_preferences
 An ordered list of preferred video encoders. The first element in the list has the highest priority during WHIP negotiation.
 
-- **Type**: [`WhipClientVideoEncoderOptions`](#whipclientvideoencoderoptions)[]
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)[]
 - **Default value**: `[{ type: "any" }]`
 
 Behavior:
@@ -154,12 +154,12 @@ Root of a component tree/scene that should be rendered for the output.
 - **Type**: `{ root: Component; }`
 
 
-## WhipClientVideoEncoderOptions
+## VideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipClientVideoEncoderOptions =
+type VideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
       preset?:
@@ -259,15 +259,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 Specifies that any video encoder supported by Smelter can be used. If `"any"` is not included in the `encoder_preferences` list, Smelter will only use the encoders explicitly listed in the preferences.
 
 
-## OutputWhipClientAudioOptions
+## AudioOptions
 Parameters of an audio source included in the WHIP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type OutputWhipClientAudioOptions = {
+type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder_preferences?: WhipClientAudioEncoderOptions[];
+  encoder_preferences?: AudioEncoderOptions[];
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -296,7 +296,7 @@ Condition for termination of the output stream based on the input streams states
 
 #### encoder_preferences
 An ordered list of preferred audio encoders. The first element in the list has the highest priority during WHIP negotiation.
-- **Type**: [`WhipClientAudioEncoderOptions`](#whipclientaudioencoderoptions)[]
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)[]
 - **Default value**: `[{ type: "any" }]`
 
 Behavior:
@@ -327,12 +327,12 @@ Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
 
-## WhipClientAudioEncoderOptions
+## AudioEncoderOptions
 Configuration for the audio encoder.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type WhipClientAudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "opus";
   preset?: "quality" | "voip" | "lowest_latency";
   sample_rate?: u32;

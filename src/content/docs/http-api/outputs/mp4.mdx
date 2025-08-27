@@ -47,8 +47,8 @@ See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn
 type Mp4Output = {
   type: "mp4";
   path: string;
-  video?: Mp4VideoOptions;
-  audio?: Mp4AudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -65,26 +65,26 @@ Path to output MP4 file.
 ### video
 Video track configuration.
 
-- **Type**: [`Mp4VideoOptions`](#mp4videooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Audio track configuration.
 
-- **Type**: [`Mp4AudioOptions`](#mp4audiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## Mp4VideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4VideoOptions = {
+type VideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: Mp4VideoEncoderOptions;
+  encoder: VideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -109,7 +109,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`Mp4VideoEncoderOptions`](#mp4videoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 ---
 
@@ -118,7 +118,7 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 - **Type**: `{ root: Component; }`
 
-## Mp4VideoEncoderOptions
+## VideoEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
@@ -179,13 +179,13 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## Mp4AudioOptions
+## AudioOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioOptions = {
+type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: Mp4AudioEncoderOptions;
+  encoder: AudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -215,7 +215,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`Mp4AudioEncoderOptions`](#mp4audioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
 #### channels
 Channels configuration
@@ -232,11 +232,11 @@ Initial audio mixer configuration for output.
 - **Type**: `{ inputs: InputAudio[]; }`
 
 
-## Mp4AudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type Mp4AudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "aac";
   sample_rate?: u32;
 }

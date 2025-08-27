@@ -51,8 +51,8 @@ type RtpOutput = {
   port: string | u16;
   ip?: string;
   transport_protocol?: "udp" | "tcp_server";
-  video?: RtpVideoOptions;
-  audio?: RtpAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 }
 ```
 </CollapsibleDetails>
@@ -89,25 +89,25 @@ Transport layer protocol that will be used to send RTP packets.
 ### video
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`RtpVideoOptions`](#rtpvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Parameters of an audio included in the RTP stream.
 
-- **Type**: [`RtpAudioOptions`](#rtpaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## RtpVideoOptions
+## VideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoOptions = {
+type VideoOptions = {
   resolution: {
     width: u32;
     height: u32;
   };
   send_eos_when?: OutputEndCondition;
-  encoder: RtpVideoEncoderOptions;
+  encoder: VideoEncoderOptions;
   initial: { root: Component; };
 }
 ```
@@ -132,7 +132,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](#rtpvideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
 
 ---
 
@@ -142,10 +142,10 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 - **Type**: `{ root: Component; }`
 
 
-## RtpVideoEncoderOptions
+## VideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpVideoEncoderOptions =
+type VideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
       preset?:
@@ -238,14 +238,14 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Map<string, string>`
 
-## RtpAudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpAudioOptions = {
+type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
   send_eos_when?: OutputEndCondition;
-  encoder: RtpAudioEncoderOptions;
+  encoder: AudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
 }
@@ -275,7 +275,7 @@ Condition for termination of the output stream based on the input streams states
 #### encoder
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](#rtpaudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
 ---
 
@@ -294,11 +294,11 @@ Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
 
-## RtpAudioEncoderOptions
+## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type RtpAudioEncoderOptions = {
+type AudioEncoderOptions = {
   type: "opus";
   preset?: "quality" | "voip" | "lowest_latency";
   sample_rate?: u32;

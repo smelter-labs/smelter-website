@@ -44,8 +44,8 @@ type RegisterRtpInput = {
   type: "rtp_stream";
   port: string | number;
   transportProtocol?: "udp" | "tcp_server";
-  video?: InputRtpVideoOptions;
-  audio?: InputRtpAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
   required?: bool;
   offsetMs?: number;
 }
@@ -79,14 +79,14 @@ Transport protocol.
 ### video
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`InputRtpVideoOptions`](/ts-sdk/inputs/rtp#inputrtpvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
 Parameters of an audio source included in the RTP stream.
 
-- **Type**: [`InputRtpAudioOptions`](/ts-sdk/inputs/rtp#inputrtpaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
 ---
 
@@ -103,11 +103,11 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 
 - **Type**: `number`
 
-## InputRtpVideoOptions
+## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type InputRtpVideoOptions = {
+type VideoOptions = {
     decoder: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9";
 }
 ```
@@ -135,11 +135,11 @@ Video decoder.
   - `"ffmpeg_vp8"` - Use the software VP8 decoder based on ffmpeg.
   - `"ffmpeg_vp9"` - Use the software VP9 decoder based on ffmpeg.
 
-## InputRtpAudioOptions
+## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type InputRtpAudioOptions =
+type AudioOptions =
   | {
       decoder: "opus";
     }
