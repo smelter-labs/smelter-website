@@ -40,6 +40,7 @@ type Mp4Input = {
   loop?: bool;
   required?: bool;
   offset_ms?: f64;
+  decoder_map?: DecoderMap;
 }
 ```
 </CollapsibleDetails>
@@ -84,3 +85,33 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 
 - **Type**: `f64`
 
+---
+
+### decoder_map
+Assigns which decoder should be used for media encoded with a specific codec.
+
+- **Type**: [`DecoderMap`](#decodermap)
+
+
+## DecoderMap
+Maps codecs to the provided decoders.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type DecoderMap = {
+  h264?: 'ffmpeg_h264' | 'vulkan_h264';
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+H264 decoder configuration.
+
+- **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+- **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
+- **Supported values**:
+  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder based on Vulkan Video.
+    Requires hardware that supports Vulkan Video.
