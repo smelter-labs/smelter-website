@@ -54,14 +54,14 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
 
     You can display the output stream with the following command:
     ```sh frame=none
-    ffmpeg -f flv -listen 1 -i rtmp://127.0.0.0:8002 -vcodec copy -f flv - | ffplay -f flv -i -
+    ffmpeg -f flv -listen 1 -i rtmp://127.0.0.1:8002 -vcodec copy -f flv - | ffplay -f flv -i -
     ```
 
     <Aside type="caution">
         This example sends stream to RTMP server, so you need to start it before registering the output.
     </Aside>
 
-    Or checkout other alternative protocols:
+    Or check out other alternative protocols:
 
     <CollapsibleDetails summaryTitle='Option 1: RTP output'>
 
@@ -159,7 +159,7 @@ In this guide, you'll learn how to create a basic Smelter setup using HTTP API. 
 
 3. Register 2 input streams.
 
-    For simplicity, in this example that will be using two mp4 files, but the same
+    For simplicity, in this example we will be using two mp4 files as inputs, but the same
     logic would apply for any other [input type](/http-api/overview#inputs).
 
     ```http
