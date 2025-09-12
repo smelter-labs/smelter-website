@@ -124,22 +124,27 @@ Video encoder options.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type VideoEncoderOptions = {
-  type: "ffmpeg_h264";
-  preset: 
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
-  pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
-  ffmpegOptions?: Map<string, string>;
-}
+type VideoEncoderOptions =
+  | {
+      type: "ffmpeg_h264";
+      preset:
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
+      ffmpegOptions?: Map<string, string>;
+    }
+  | {
+      type: "vulkan_h264";
+      bitrate: VulkanH264EncoderBitrate;
+    };
 ```
 </CollapsibleDetails>
 
@@ -182,6 +187,42 @@ Encoder pixel format
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `Map<string, string>`
+
+### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
+Hardware encoder based on Vulkan Video.
+
+This should be faster and more scalable than the FFmpeg encoder, if the hardware and OS
+support it.
+
+This requires hardware that supports Vulkan Video. Another requirement is this program has
+to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
+support Vulkan, i.e. non-Apple operating systems and not the web).
+
+#### bitrate
+Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
+
+- **Type**: [`VulkanH264EncoderBitrate`](#vulkanh264encoderbitrate)
+
+## VulkanH264EncoderBitrate
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VulkanH264EncoderBitrate = {
+  averageBitrate: number;
+  maxBitrate: number;
+}
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### averageBitrate
+Average bitrate measured in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+---
+
+#### maxBitrate
+Max bitrate measured in bits/second.
 
 ## AudioOptions
 
