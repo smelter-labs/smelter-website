@@ -174,7 +174,7 @@ type VideoEncoderOptions =
     }
   | {
       type: "vulkan_h264";
-      bitrate: VulkanH264EncoderBitrate;
+      bitrate: { average_bitrate: number; max_bitrate: number; } | number;
     };
 ```
 </CollapsibleDetails>
@@ -256,27 +256,20 @@ support Vulkan, i.e. non-Apple operating systems and not the web).
 #### bitrate
 Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
 
-- **Type**: [`VulkanH264EncoderBitrate`](#vulkanh264encoderbitrate)
-
-## VulkanH264EncoderBitrate
-
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
-type VulkanH264EncoderBitrate = {
-  average_bitrate: number;
-  max_bitrate: number;
-}
+type VulkanH264EncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
 ```
 </CollapsibleDetails>
 
-### Properties
+#### Properties
 
-#### average_bitrate
+##### average_bitrate
 Average bitrate measured in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
 
 ---
 
-#### max_bitrate
+##### max_bitrate
 Max bitrate measured in bits/second.
 
 ## AudioOptions
