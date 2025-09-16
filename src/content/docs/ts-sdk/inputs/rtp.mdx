@@ -124,14 +124,7 @@ Video decoder.
 - **Type**: `"ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9"`
 - **Supported values**:
   - `"ffmpeg_h264"` - Use the software H264 decoder based on ffmpeg.
-  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
-
-    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
-    support it.
-
-    This requires hardware that supports Vulkan Video. Another requirement is this program has
-    to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
-    support Vulkan, i.e. non-Apple operating systems and not the web).
+  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
   - `"ffmpeg_vp8"` - Use the software VP8 decoder based on ffmpeg.
   - `"ffmpeg_vp9"` - Use the software VP9 decoder based on ffmpeg.
 

@@ -189,14 +189,7 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 - **Type**: `Map<string, string>`
 
 ### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
-Hardware encoder based on Vulkan Video.
-
-This should be faster and more scalable than the FFmpeg encoder, if the hardware and OS
-support it.
-
-This requires hardware that supports Vulkan Video. Another requirement is this program has
-to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
-support Vulkan, i.e. non-Apple operating systems and not the web).
+Hardware encoder. Requires GPU that supports Vulkan Video encoding.
 
 #### bitrate
 Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
