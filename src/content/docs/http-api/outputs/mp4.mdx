@@ -150,7 +150,7 @@ type VideoEncoderOptions = {
       | "slower"
       | "veryslow"
       | "placebo";
-    ffmpeg_options?: Map<string, string>;
+    ffmpeg_options?: Record<string, string>;
 }
 `}
     lang="tsx"
@@ -183,7 +183,7 @@ Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/
 
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
-- **Type**: `Map<string, string>`
+- **Type**: `Record<string, string>`
 
 ## Mp4AudioOptions
 
