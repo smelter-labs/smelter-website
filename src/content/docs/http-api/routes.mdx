@@ -22,6 +22,21 @@ Starts the processing pipeline.
 If an output was registered before the start request, then actual output stream will start producing
 video/audio after this request.
 
+## Reset request
+
+```http
+POST: /api/reset
+Content-Type: application/json
+```
+
+```tsx
+type RequestBody = {}
+```
+
+Resets the Smelter state.
+
+This call discards the current pipeline and creates a new one using the initial configuration.
+
 ***
 
 ## Outputs configuration
