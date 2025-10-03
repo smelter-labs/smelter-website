@@ -72,6 +72,7 @@ After `init()` you can start connecting inputs/outputs or register other element
   Smelter.render(
     root: React.ReactElement,
     output: RegisterOutput,
+    durationMs?: number, 
   ): Promise<object>
 `} lang="tsx" />
 
@@ -91,14 +92,18 @@ After `init()` you can start connecting inputs/outputs or register other element
 
 </CollapsibleDetails>
 
-Register external destination that can be used as a smelter output. Visit output documentation to learn more:
+Register external destination that can be used as a smelter output. 
 
-- [MP4](/ts-sdk/outputs/mp4)
-- [RTP](/ts-sdk/outputs/rtp)
-- [WHIP](/ts-sdk/outputs/whip)
+- `root` - React component that controls composition layout on output.
+- `output` - Protocol and encoder options for the output. Visit output documentation to learn more:
+  - [MP4](/ts-sdk/outputs/mp4)
+  - [RTP](/ts-sdk/outputs/rtp)
+  - [WHIP](/ts-sdk/outputs/whip)
+- `durationMs` - Duration of the generated output in milliseconds. If not provided it will be calculated
+  based on duration of the content (based on lifetime of components like `<SlideShow>`, `<Show>`, or `<Mp4>`).
 
 <Aside type="caution">
-  Remember that in this mode compositor will produce frames as fast as possible.
+  Remember that in this mode Smelter will produce frames as fast as possible.
   Protocols like RTP or WHIP can technically be used as output, but in most
   cases it would not make sense.
 </Aside>
