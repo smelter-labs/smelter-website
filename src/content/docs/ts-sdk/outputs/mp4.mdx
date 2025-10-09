@@ -44,6 +44,7 @@ type RegisterMp4Output = {
   serverPath: string;
   video?: VideoOptions;
   audio?: AudioOptions;
+  ffmpegOptions?: Record<string, string>;
 }
 ```
 </CollapsibleDetails>
@@ -72,6 +73,15 @@ Video track configuration.
 Audio track configuration.
 
 - **Type**: [`AudioOptions`](#audiooptions)
+
+---
+
+### ffmpegOptions
+
+Raw FFmpeg muxer options. Visit <a href='https://ffmpeg.org/ffmpeg-formats.html' target='_blank'>FFmpeg docs</a> 
+to learn more. For codec specific options see `ffmpegOptions` in [`VideoEncoderOptions`](#videoencoderoptions).
+
+- **Type**: `Record<string, string>`
 
 ## VideoOptions
 
