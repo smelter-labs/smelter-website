@@ -157,16 +157,16 @@ type VideoEncoderOptions =
         | "veryslow"
         | "placebo";
       pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
-      ffmpegOptions?: Map<string, string>;
+      ffmpegOptions?: Record<string, string>;
     }
   | {
       type: "ffmpeg_vp8";
-      ffmpegOptions?: Map<string, string>;
+      ffmpegOptions?: Record<string, string>;
     }
   | {
       type: "ffmpeg_vp9";
       pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
-      ffmpegOptions?: Map<string, string>;
+      ffmpegOptions?: Record<string, string>;
     }
   | {
       type: "vulkan_h264";
@@ -213,14 +213,14 @@ Encoder pixel format
 #### ffmpegOptions
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
-- **Type**: `Map<string, string>`
+- **Type**: `Record<string, string>`
 
 ### Properties (type: “ffmpeg_vp8”)
 
 #### ffmpegOptions
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
-- **Type**: `Map<string, string>`
+- **Type**: `Record<string, string>`
 
 ### Properties (type: “ffmpeg_vp9”)
 
@@ -239,7 +239,7 @@ Encoder pixel format
 #### ffmpegOptions
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
-- **Type**: `Map<string, string>`
+- **Type**: `Record<string, string>`
 
 ### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
 Hardware encoder. Requires GPU that supports Vulkan Video encoding.
