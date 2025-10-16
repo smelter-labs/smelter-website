@@ -1,7 +1,7 @@
 ---
-title: WHIP server
+title: WHEP client
 sidebar:
-  order: 2
+  order: 1
 ---
 import { Aside, Badge, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
@@ -11,41 +11,31 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 <br />
 <br />
 
-An input type that provides a WHIP server endpoint. It allows you to stream media to the Smelter.
-
-Smelter exposes WHIP endpoint on port 9000 under `/whip/:input_id` route. A different port can be
-configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smelter_whip_whep_server_port).
-
-To connect new input, register it first with [`Smelter.registerInput`](/ts-sdk/smelter#registerinput) and
-then establish a WHIP connection.
+An input that lets you connect to a WHEP server endpoint to receive video and audio from it.
 
 ## Usage
 
-```tsx title=whipServerInputExample.tsx
+```tsx title=whepClientInputExample.tsx
 import Smelter from "@swmansion/smelter-node";
 
 async function run() {
   const smelter = new Smelter();
   await smelter.init();
   await smelter.registerInput("example", {
-      type: "whip_server",
+      type: "whep_client",
+      endpointUrl: "https://example.com/whep",
+      bearerToken: "<TOKEN>",
       video: {
         decoderPreferences: ["ffmpeg_h264", "any"],
       },
   });
-  // At this point you can establish WHIP connection to
-  // http://localhost:9000/whip/example
 }
 void run();
 ```
 
 <Aside>
-In the following example, both the audio and video will be used if the source provides audio and video tracks:
-```tsx
-await smelter.registerInput("example", {
-  type: "whip_server",
-});
-```
+- There are no decoder preferences for audio. Opus is the only supported audio codec and is always negotiated.
+- If no video decoder preferences are provided, Smelter automatically negotiates and uses one of the supported decoders (`ffmpeg_vp9`, `ffmpeg_vp8`, `ffmpeg_h264`, `vulkan_h264`).
 </Aside>
 
 ## Reference
@@ -53,32 +43,39 @@ await smelter.registerInput("example", {
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type RegisterWhipServerInput = {
-  type: "whip_server";
-  video?: VideoOptions;
+type RegisterWhepClientInput = {
+  type: "whep_client";
+  endpointUrl: string;
   bearerToken?: string;
+  video?: VideoOptions;
   required?: boolean;
   offsetMs?: number;
 };
 ```
 </CollapsibleDetails>
 
-Parameters for registering an WHIP endpoint as an input.
+Parameters for registering an WHEP client as an input.
 
 ## Properties
 
-### video
-Parameters of a video included in the WHIP stream.
+### endpointUrl
+WHEP endpoint URL from which to receive the media stream.
 
-- **Type**: [`VideoOptions`](#videooptions)
+ - **Type**: `string`
 
 ---
 
 ### bearerToken
-Authentication token. If not provided, a random token
-will be generated and returned from the register input call.
+Bearer token used for authentication with the WHEP endpoint.
 
 - **Type**: `string` 
+
+---
+
+### video
+Parameters of a video included in the WHEP stream.
+
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
@@ -97,7 +94,7 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 
 ## VideoOptions
 
-Parameters of a video source included in the WHIP stream.
+Parameters of a video source included in the WHEP stream.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
@@ -111,13 +108,13 @@ type VideoOptions = {
 ### Properties
 
 #### decoderPreferences
-An ordered list of preferred video decoders. The first element in the list has the highest priority during WHIP negotiation.
+An ordered list of preferred video decoders. The first element in the list has the highest priority during WHEP negotiation.
 - **Type**: [`VideoDecoder`](#videodecoder)[]
 - **Default value**: `[ "any" ]`
 
 Behavior:
 - If the list ends with "any":
-  - Smelter will first try the decoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - Smelter will first try the decoders explicitly listed (in order) and use the first one that is supported and negotiated in WHEP signaling.
   - If none of the listed decoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
 - If "any" is not included:
   - Only the decoders listed will be considered.

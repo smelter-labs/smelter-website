@@ -138,7 +138,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "decklink" | "whip_server";
+  type: "rtp_stream" | "mp4" | "decklink" | "whip_server" | "whep_client";
   ... // input specific options
 }
 ```
@@ -148,6 +148,7 @@ Register external source that can be used as a Smelter input. See inputs documen
 - [RTP](/http-api/inputs/rtp)
 - [MP4](/http-api/inputs/mp4)
 - [DeckLink](/http-api/inputs/decklink)
+- [WHEP](/http-api/inputs/whep)
 - [WHIP](/http-api/inputs/whip)
 
 ### Unregister input

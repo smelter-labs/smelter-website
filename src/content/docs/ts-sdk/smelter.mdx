@@ -178,6 +178,7 @@ import {
     RegisterMp4Input,
     RegisterHlsInput,
     RegisterWhipServerInput,
+    RegisterWhepClientInput,
 } from "@swmasnion/smelter"
 
 type RegisterInput =
@@ -185,6 +186,7 @@ type RegisterInput =
     | ({ type: 'mp4' } & RegisterMp4Input)
     | ({ type: 'hls' } & RegisterHlsInput)
     | ({ type: 'whip_server' } & RegisterWhipServerInput)
+    | ({ type: 'whep_client' } & RegisterWhepClientInput);
 ```
 </CollapsibleDetails>
 
@@ -206,6 +208,7 @@ Register external source that can be used as a smelter input. Visit input docume
 - [MP4](/ts-sdk/inputs/mp4)
 - [HLS](/ts-sdk/inputs/hls)
 - [WHIP](/ts-sdk/inputs/whip)
+- [WHEP](/ts-sdk/inputs/whep)
 
 `@swmansion/smelter-web-wasm`
 - [Camera (Web API)](/ts-sdk/inputs/wasm-camera)
