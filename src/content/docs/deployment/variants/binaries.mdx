@@ -27,14 +27,20 @@ support for it included.
 #### Runtime requirements
 
 For Linux:
-- FFmpeg 6 or higher
+- FFmpeg 6.0 or higher, version 6.1 recommended.
 - `glibc` 2.35 or higher (version used by Ubuntu 22.04)
 - MESA (e.g. `mesa-vulkan-drivers` package on Ubuntu)
   - `23.2.1` or higher for CPU based rendering
   - For GPU based rendering the lowest version we tested was `22.0.1`, but older version might also work.
 
 For macOS:
-- FFmpeg 6 or higher
+- `aarch64`: FFmpeg 6.0 or higher, version 8.0 recommended.
+- `x86_64`: FFmpeg 8.0 required.
+
+<Aside>
+If recommended version is not present, appropriate `libav` dependencies will be pulled by Smelter,
+except for `darwin_x86_64` version.
+</Aside>
 
 ### Building from source
 
