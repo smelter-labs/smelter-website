@@ -39,10 +39,10 @@ Timeout duration (in ms) that specifies when Smelter should switch to a fallback
 
 ### `SMELTER_LOGGER_LEVEL`
 Value or configuration string that specifies the granularity of log capture.
-- **Defaults to**: `info,wgpu_hal=warn,wgpu_core=warn`
+- **Defaults to**: `info`
 - **Supported values**:
     - `error`, `warn`, `info`, `debug`, `trace`
-    -  `string` containing tracing-subscriber configuration (see <a href='https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#example-syntax' target='_blank'>documentation</a> for more details)
+    - `string` containing tracing-subscriber configuration e.g. `debug,smelter_core::pipeline=trace,smelter_render=info` (see <a href='https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#example-syntax' target='_blank'>documentation</a> for more details)
 
 ### `SMELTER_LOGGER_FORMAT`
 Logger output format.
