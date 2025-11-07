@@ -26,7 +26,8 @@
         "useSortedClasses": "warn"
       },
       "complexity": {
-        "noBannedTypes": "warn"
+        "noBannedTypes": "warn",
+        "noForEach": "off"
       }
     }
   },
