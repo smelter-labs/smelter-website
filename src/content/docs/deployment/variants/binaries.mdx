@@ -37,9 +37,9 @@ For macOS:
 - FFmpeg 8.0.
 
 <Aside>
-If required FFmpeg version is not present, appropriate `libav` dependencies will be pulled by Smelter,
-except for `darwin_x86_64` version. Downloaded libraries require to have dependencies of FFmpeg
-installed.
+If required FFmpeg version is not detected, appropriate `libav*.so`/`libav*.dylib` dependencies will be
+downloaded on startup (except for macOS Intel version). However, you will need to make sure that dependencies
+of libav libraries are installed. In most cases it will work if you install any FFmpeg version.
 </Aside>
 
 ### Building from source
