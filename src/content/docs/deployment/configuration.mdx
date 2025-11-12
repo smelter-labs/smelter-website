@@ -33,6 +33,28 @@ If enabled, GPU will be required for rendering. If only CPU based adapters will 
     - `true` or `1`, to enable
     - `false` or `0`, to disable
 
+### `SMELTER_GPU_DEVICE_ID`
+Selects GPU device by ID.
+
+The IDs can be found in logs on startup (`device` field). In the example log fragment below, there is a list of 2 adapters with IDs `29822` and `5710`:
+```
+ 2025-09-30T12:14:48.113571Z  INFO smelter_core::graphics_context::vulkan_context Available adapters:
+ - AdapterInfo { name: "AMD Radeon RX 7800 XT (RADV NAVI32)", device_type: DISCRETE_GPU, api_version: "1.4.318" , driver: "radv", driver_info: "Mesa 25.2.4-arch1.1",  vendor: 4098, device: 29822, supports_decoding: true, supports_encoding: true }
+ - AdapterInfo { name: "AMD Radeon Graphics (RADV RAPHAEL_MENDOCINO)", device_type: INTEGRATED_GPU, api_version: "1.4.318" , driver: "radv", driver_info: "Mesa 25.2.4-arch1.1", vendor: 4098, device: 5710, supports_decoding: true, supports_encoding: true }
+```
+
+Can be used in combination with [`SMELTER_GPU_DEVICE_DRIVER`](#smelter_gpu_device_driver) if the same device is supported by multiple drivers (e.g. multiple MESA versions).
+
+### `SMELTER_GPU_DEVICE_DRIVER`
+Selects GPU device by the driver name or version.
+
+Information about the drivers can be found in logs on startup (`driver` and `driver_info` fields). In the example log fragment below, there is a list of 2 adapters. The first one could be matched by e.g. `Mesa 25.2.4-arch1.1`, or `25.2.4-arch1.1`, or just `25.2.4`. Specifying just `radv` would match both of them.
+```
+ 2025-09-30T12:14:48.113571Z  INFO smelter_core::graphics_context::vulkan_context Available adapters:
+ - AdapterInfo { name: "AMD Radeon RX 7800 XT (RADV NAVI32)", device_type: DISCRETE_GPU, api_version: "1.4.318" , driver: "radv", driver_info: "Mesa 25.2.4-arch1.1",  vendor: 4098, device: 29822, supports_decoding: true, supports_encoding: true }
+ - AdapterInfo { name: "AMD Radeon RX 7800 XT (RADV NAVI32)", device_type: DISCRETE_GPU, api_version: "1.4.318" , driver: "radv", driver_info: "Mesa 25.1.4-arch1.1",  vendor: 4098, device: 29822, supports_decoding: true, supports_encoding: true }
+```
+
 ### `SMELTER_STREAM_FALLBACK_TIMEOUT_MS`
 Timeout duration (in ms) that specifies when Smelter should switch to a fallback option if the input stream ceases to send frames.
 - **Defaults to**: `500`
