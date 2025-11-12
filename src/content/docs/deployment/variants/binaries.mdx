@@ -27,22 +27,20 @@ support for it included.
 #### Runtime requirements
 
 For Linux:
-- FFmpeg 6
+- FFmpeg 6.1.
 - `glibc` 2.35 or higher (version used by Ubuntu 22.04)
 - MESA (e.g. `mesa-vulkan-drivers` package on Ubuntu)
   - `23.2.1` or higher for CPU based rendering
   - For GPU based rendering the lowest version we tested was `22.0.1`, but older version might also work.
 
 For macOS:
-- FFmpeg 7 (this version will mostly follow a default version available in Homebrew)
+- FFmpeg 8.0.
 
 <Aside>
-Changing FFmpeg version on macOS might be troublesome, so we decided to produce binaries that will
-be easiest to use for most users, even if this means updating FFmpeg version in a minor or patch release.
-Changes like that might be considered unsafe, but in case of Smelter, the macOS platform will be used
-mostly for development, and it is highly unlikely to be used for a production deployment.
+If required FFmpeg version is not detected, appropriate `libav*.so`/`libav*.dylib` dependencies will be
+downloaded on startup (except for macOS Intel version). However, you will need to make sure that dependencies
+of libav libraries are installed. In most cases it will work if you install any FFmpeg version.
 </Aside>
-
 
 ### Building from source
 
@@ -73,10 +71,10 @@ See [their documentation](https://github.com/chromiumembedded/cef) for details o
 
 Building base version without web rendering support:
 ```sh frame=none
-cargo build --no-defatult-features
+cargo build -r --no-defatult-features
 ```
 
 Building version with web rendering support:
 ```sh frame=none
-cargo build
+cargo build -r
 ```
