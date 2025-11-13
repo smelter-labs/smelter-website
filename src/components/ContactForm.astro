@@ -40,13 +40,21 @@ import ArrowRight from "/public/images/arrow-right.svg";
         >I have a unique use case in mind and want to discuss it</option
       >
     </Select>
-    <TextArea
+    <div class="flex w-full flex-col">
+      <TextArea
       label="Tell us more about your needs"
       name="message"
       class="resize-none"
       rows="6"
       required
     />
+    <p class="text-form-border text-xs">
+      This site is protected by reCAPTCHA and the Google
+          <a class="text-form-border text-xs" href="https://policies.google.com/privacy">Privacy Policy</a> and
+          <a class="text-form-border text-xs" href="https://policies.google.com/terms">Terms of Service</a> apply.
+      </p>
+      
+    </div>
     <PrimaryButton type="submit" class="self-end w-full sm:w-fit">
       <p class="par-l">Send the message</p>
       <ArrowRight />
@@ -56,6 +64,7 @@ import ArrowRight from "/public/images/arrow-right.svg";
 
 <script>
   import { actions } from "astro:actions";
+  const publicRecaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 
   function closeSnackbar() {
     const snackbar = document.getElementById("successSnackbar");
@@ -74,6 +83,17 @@ import ArrowRight from "/public/images/arrow-right.svg";
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(form);
+
+    const token = await new Promise<string>((resolve) => {
+      grecaptcha.enterprise.ready(async () => {
+        const result = await grecaptcha.enterprise.execute(publicRecaptchaKey, {
+          action: "submit",
+        });
+        resolve(result);
+      });
+    });
+    formData.append("recaptchaToken", token);
+
     const { error } = await actions.submitContact(formData);
     if (!error) {
       form?.reset();

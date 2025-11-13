@@ -3,6 +3,7 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "packages/**/*", "src/components/starlight-overrides/*"],
   "compilerOptions": {
+    "types": ["astro/client"],
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
