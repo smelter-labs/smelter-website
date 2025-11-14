@@ -41,7 +41,8 @@ export const server = {
 
       try {
         const processedInquiry = inquiry.replace("-", " ");
-        const subject = `${processedInquiry[0].toUpperCase() + processedInquiry.slice(1)} from ${email.split("@")[0]}`;
+        const capitalized = processedInquiry[0].toUpperCase() + processedInquiry.slice(1);
+const subject = `${capitalized} from ${email.split("@")[0]}`;
 
         const msg = {
           to: "contact@smelter.dev",
