@@ -6,7 +6,7 @@ import starlight from "@astrojs/starlight";
 import starlightDocSearch from "@astrojs/starlight-docsearch";
 import tailwind from "@astrojs/tailwind";
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import starlightLinksValidator from "starlight-links-validator";
 import starlightVersions from "starlight-versions";
@@ -20,7 +20,14 @@ const require = createRequire(import.meta.url);
 
 export default defineConfig({
   site: "https://smelter.dev",
-
+  env: {
+    schema: {
+      PUBLIC_RECAPTCHA_SITE_KEY: envField.string({
+        access: "public",
+        context: "server",
+      }),
+    },
+  },
   redirects: {
     "/docs": "/fundamentals/getting-started", // TODO: temporary to avoid empty page
     "/fundamentals": "/fundamentals/getting-started",
