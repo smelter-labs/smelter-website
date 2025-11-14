@@ -26,7 +26,7 @@ export default defineConfig({
         access: "public",
         context: "server",
       }),
-    }
+    },
   },
   redirects: {
     "/docs": "/fundamentals/getting-started", // TODO: temporary to avoid empty page

@@ -3,10 +3,7 @@ export declare global {
     clarity: (command: string, value?: boolean) => void;
     grecaptcha?: {
       ready: (callback: () => void) => void;
-      execute: (
-        siteKey: string,
-        options: { action: string },
-      ) => Promise<string>;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
     };
   }
 

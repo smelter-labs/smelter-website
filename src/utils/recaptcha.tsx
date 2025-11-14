@@ -10,12 +10,9 @@ export interface CaptchaRef {
   execute: (action: string) => Promise<string>;
 }
 
-export const Captcha = forwardRef<CaptchaRef, CaptchaProps>(function (
-    { siteKey },
-    ref
-  ) {
-    const tokenRef = useRef("");
-    const isReadyRef = useRef(false);
+export const Captcha = forwardRef<CaptchaRef, CaptchaProps>(({ siteKey }, ref) => {
+  const tokenRef = useRef("");
+  const isReadyRef = useRef(false);
 
   useImperativeHandle(
     ref,
@@ -44,7 +41,7 @@ export const Captcha = forwardRef<CaptchaRef, CaptchaProps>(function (
         }
       },
     }),
-    [siteKey],
+    [siteKey]
   );
 
   useEffect(() => {
