@@ -51,7 +51,7 @@ export const server = {
           text: `${email}\n\n${message}`,
         };
 
-        // await sendGrid.send(msg);
+        await sendGrid.send(msg);
       } catch (error) {
         console.error(error);
         return { success: false, error: "Failed to send email" };
