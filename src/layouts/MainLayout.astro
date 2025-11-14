@@ -111,12 +111,11 @@ const {
     <script>
       // wait for reCAPTCHA to load the badge and hide it
       const hideBadge = () => {
-        const badge = document.querySelector('.grecaptcha-badge');
+        const badge = document.querySelector('.grecaptcha-badge') as HTMLElement | null;
         if (badge) {
           badge.style.opacity = '0';
           badge.style.visibility = 'hidden';
           badge.style.pointerEvents = 'none';
-          return;
         }
         requestAnimationFrame(hideBadge);
       };
