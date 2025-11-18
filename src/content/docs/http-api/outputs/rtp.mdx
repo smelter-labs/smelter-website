@@ -101,6 +101,7 @@ Parameters of an audio included in the RTP stream.
 
 ## VideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type VideoOptions = {
   resolution: {
@@ -149,26 +150,18 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 type VideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
-      preset?:
-        | "ultrafast"
-        | "superfast"
-        | "veryfast"
-        | "faster"
-        | "fast"
-        | "medium"
-        | "slow"
-        | "slower"
-        | "veryslow"
-        | "placebo";
+      keyframe_interval_ms?: u32;
       pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
       ffmpeg_options?: Map<string, string>;
     }
   | {
       type: "ffmpeg_vp8";
+      keyframe_interval_ms?: u32;
       ffmpeg_options?: Map<string, string>;
     }
   | {
       type: "ffmpeg_vp9";
+      keyframe_interval_ms?: u32;
       pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
       ffmpeg_options?: Map<string, string>;
     }
@@ -181,22 +174,11 @@ type VideoEncoderOptions =
 
 ### Properties (type: "ffmpeg_h264")
 
-#### preset
-Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
+#### keyframe_interval_ms
+Interval between keyframes
 
-- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
-- **Default value**: `fast`
-- **Supported values**:
-  - `ultrafast`
-  - `superfast`
-  - `veryfast`
-  - `faster`
-  - `fast`
-  - `medium`
-  - `slow`
-  - `slower`
-  - `veryslow`
-  - `placebo`
+- **Type**: `u32`
+- **Default value**: `5000`
 
 ---
 
@@ -219,12 +201,28 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 ### Properties (type: "ffmpeg_vp8")
 
+#### keyframe_interval_ms
+Interval between keyframes
+
+- **Type**: `u32`
+- **Default value**: `5000`
+
+---
+
 #### ffmpeg_options
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `Map<string, string>`
 
 ### Properties (type: "ffmpeg_vp9")
+
+#### keyframe_interval_ms
+Interval between keyframes
+
+- **Type**: `u32`
+- **Default value**: `5000`
+
+---
 
 #### pixel_format
 Encoder pixel format
