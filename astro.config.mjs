@@ -270,7 +270,7 @@ export default defineConfig({
       [
         rehypeAutolinkHeadings,
         {
-          behavior: "wrap",
+          behavior: "append",
         },
       ],
     ],
