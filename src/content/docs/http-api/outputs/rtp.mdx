@@ -150,17 +150,20 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 type VideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
+      bitrate?: u32;
       keyframe_interval_ms?: u32;
       pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
       ffmpeg_options?: Map<string, string>;
     }
   | {
       type: "ffmpeg_vp8";
+      bitrate?: u32;
       keyframe_interval_ms?: u32;
       ffmpeg_options?: Map<string, string>;
     }
   | {
       type: "ffmpeg_vp9";
+      bitrate?: u32;
       keyframe_interval_ms?: u32;
       pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
       ffmpeg_options?: Map<string, string>;
@@ -173,6 +176,15 @@ type VideoEncoderOptions =
 </CollapsibleDetails>
 
 ### Properties (type: "ffmpeg_h264")
+
+#### bitrate
+Bitrate of the output stream, in kb/s.
+
+- **Type**: `u32`
+- **Default value**: TODO: (@jbrs) It is encoder based. The *one that shall not be named* just uses crf mode with default of 23,
+                     openh264 just sets it to 2000k
+
+---
 
 #### keyframe_interval_ms
 Interval between keyframes
@@ -201,6 +213,14 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 ### Properties (type: "ffmpeg_vp8")
 
+#### bitrate
+Bitrate of the output stream, in kb/s.
+
+- **Type**: `u32`
+- **Default value**: TODO: This is even worse case than h264
+
+---
+
 #### keyframe_interval_ms
 Interval between keyframes
 
@@ -215,6 +235,14 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 - **Type**: `Map<string, string>`
 
 ### Properties (type: "ffmpeg_vp9")
+
+#### bitrate
+Bitrate of the output stream, in kb/s.
+
+- **Type**: `u32`
+- **Default value**: TODO: This is even worse case than h264
+
+---
 
 #### keyframe_interval_ms
 Interval between keyframes
