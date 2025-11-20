@@ -145,6 +145,7 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 ## VideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type VideoEncoderOptions =
   | {
@@ -174,7 +175,7 @@ type VideoEncoderOptions =
     }
   | {
       type: "vulkan_h264";
-      bitrate: { average_bitrate: number; max_bitrate: number; } | number;
+      bitrate?: { average_bitrate: u64; max_bitrate: u64; } | u64;
     };
 ```
 </CollapsibleDetails>
