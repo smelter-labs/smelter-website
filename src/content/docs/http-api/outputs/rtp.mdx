@@ -190,7 +190,7 @@ If unset the default value of the encoder is used.
 ---
 
 #### keyframe_interval_ms
-Interval between keyframes
+Interval between keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
@@ -198,7 +198,7 @@ Interval between keyframes
 ---
 
 #### preset
-Defines how to tune encoder.
+Defines encoder tuning.
 
 - **Type**: `EncoderPreset`
 - **Default value**: `low_latency_balanced`
@@ -225,14 +225,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 ### Properties (type: "ffmpeg_vp8")
 
 #### bitrate
-Bitrate of the output stream, in kb/s.
+Bitrate of the output stream, in bits per second [b/s].
+If unset the default value of the encoder is used.
 
 - **Type**: `EncoderBitrate`
 
 ---
 
 #### keyframe_interval_ms
-Interval between keyframes
+Interval between keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
@@ -240,7 +241,7 @@ Interval between keyframes
 ---
 
 #### preset
-Defines how to tune encoder.
+Defines encoder tuning.
 
 - **Type**: `EncoderPreset`
 - **Default value**: `low_latency_balanced`
@@ -255,14 +256,15 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 ### Properties (type: "ffmpeg_vp9")
 
 #### bitrate
-Bitrate of the output stream, in b/s.
+Bitrate of the output stream, in bits per second [b/s].
+If unset the default value of the encoder is used.
 
 - **Type**: `EncoderBitrate`
 
 ---
 
 #### keyframe_interval_ms
-Interval between keyframes
+Interval between keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
@@ -270,7 +272,7 @@ Interval between keyframes
 ---
 
 #### preset
-Defines how to tune encoder.
+Defines encoder tuning.
 
 - **Type**: `EncoderPreset`
 - **Default value**: `low_latency_balanced`
@@ -313,20 +315,20 @@ type EncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number
 ```
 </CollapsibleDetails>
 
-Bitrate measured in bits/second. If only the `number` is specified it is treated as average bitrate
+Bitrate in bits/second. If only the `number` is specified it is treated as average bitrate
 and max bitrate is set to 1.25 of the provided value.
 
 ### Properties
 
 #### average_bitrate
-Average bitrate measured in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+Average bitrate in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
 
 - **Type**: `number`
 
 ---
 
 #### max_bitrate
-Max bitrate measured in bits/second.
+Max bitrate in bits/second.
 
 - **Type**: `number`
 
@@ -340,7 +342,7 @@ Max bitrate measured in bits/second.
 type EncoderPreset = "quality" | "balanced" | "fast" | "low_latency_quality" | "low_latency_balanced" | "low_latency_fast";
 ```
 </CollapsibleDetails>
-Defines how to tune encoder.
+Encoder tuning presets.
 
 ### Properties
 
