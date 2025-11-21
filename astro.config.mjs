@@ -205,6 +205,11 @@ export default defineConfig({
               autogenerate: { directory: "http-api/outputs" },
             },
             {
+              label: "Options",
+              collapsed: true,
+              autogenerate: { directory: "http-api/options" },
+            },
+            {
               label: "Resources",
               collapsed: true,
               autogenerate: { directory: "http-api/resources" },
