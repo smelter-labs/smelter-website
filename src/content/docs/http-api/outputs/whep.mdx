@@ -87,6 +87,7 @@ Parameters of an audio included in the WHEP stream.
 
 ## VideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type VideoOptions = {
   resolution: {
@@ -131,10 +132,12 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 
 ## VideoEncoderOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type VideoEncoderOptions =
   | {
       type: "ffmpeg_h264";
+      bitrate?: { average_bitrate: number; max_bitrate: number; } | number;
       preset?:
         | "ultrafast"
         | "superfast"
@@ -151,21 +154,46 @@ type VideoEncoderOptions =
     }
   | {
       type: "ffmpeg_vp8";
+      bitrate?: { average_bitrate: number; max_bitrate: number; } | number;
       ffmpeg_options?: Map<string, string>;
     }
   | {
       type: "ffmpeg_vp9";
+      bitrate?: { average_bitrate: number; max_bitrate: number; } | number;
       pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
       ffmpeg_options?: Map<string, string>;
     }
   | {
       type: "vulkan_h264";
-      bitrate: { average_bitrate: number; max_bitrate: number; } | number;
+      bitrate?: { average_bitrate: number; max_bitrate: number; } | number;
     };
 ```
 </CollapsibleDetails>
 
 ### Properties (type: "ffmpeg_h264")
+
+#### bitrate
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VideoEncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
+```
+</CollapsibleDetails>
+
+Encoding bitrate. If not provided, the encoder default is used.
+
+#### Properties
+
+##### average_bitrate
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+---
+
+##### max_bitrate
+Max bitrate measured in bits per second.
+
+---
 
 #### preset
 Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
@@ -205,12 +233,58 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 ### Properties (type: "ffmpeg_vp8")
 
+#### bitrate
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VideoEncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
+```
+</CollapsibleDetails>
+
+Encoding bitrate. If not provided, the encoder default is used.
+
+#### Properties
+
+##### average_bitrate
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+---
+
+##### max_bitrate
+Max bitrate measured in bits per second.
+
+---
+
 #### ffmpeg_options
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `Map<string, string>`
 
 ### Properties (type: "ffmpeg_vp9")
+
+#### bitrate
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VideoEncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
+```
+</CollapsibleDetails>
+
+Encoding bitrate. If not provided, the encoder default is used.
+
+#### Properties
+
+##### average_bitrate
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+---
+
+##### max_bitrate
+Max bitrate measured in bits per second.
+
+---
 
 #### pixel_format
 Encoder pixel format
@@ -233,31 +307,35 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 Hardware encoder. Requires GPU that supports Vulkan Video encoding.
 
 #### bitrate
-Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
-type VulkanH264EncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
+type VideoEncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
 ```
 </CollapsibleDetails>
+
+Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate.
+For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
 
 #### Properties
 
 ##### average_bitrate
-Average bitrate measured in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
 
 ---
 
 ##### max_bitrate
-Max bitrate measured in bits/second.
+Max bitrate measured in bits per second.
 
 ## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
-  send_eos_when?: OutputEndCondition;
+  send_eos_when?: OutputEndConditiont;
   encoder: AudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
