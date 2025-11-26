@@ -184,7 +184,6 @@ Configuration for the video encoder, based on the selected codec.
 ### Properties (type: “ffmpeg_h264”)
 
 #### bitrate
-Encoding bitrate. If not provided, the encoder default is used.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
@@ -192,6 +191,8 @@ Encoding bitrate. If not provided, the encoder default is used.
 type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
 ```
 </CollapsibleDetails>
+
+Encoding bitrate. If not provided, the encoder default is used.
 
 #### Properties
 
@@ -244,7 +245,6 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 ### Properties (type: “ffmpeg_vp8”)
 
 #### bitrate
-Encoding bitrate. If not provided, the encoder default is used.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
@@ -252,6 +252,8 @@ Encoding bitrate. If not provided, the encoder default is used.
 type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
 ```
 </CollapsibleDetails>
+
+Encoding bitrate. If not provided, the encoder default is used.
 
 #### Properties
 
@@ -273,7 +275,6 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 ### Properties (type: “ffmpeg_vp9”)
 
 #### bitrate
-Encoding bitrate. If not provided, the encoder default is used.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
@@ -281,6 +282,8 @@ Encoding bitrate. If not provided, the encoder default is used.
 type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
 ```
 </CollapsibleDetails>
+
+Encoding bitrate. If not provided, the encoder default is used.
 
 #### Properties
 
@@ -315,7 +318,6 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 Hardware encoder. Requires GPU that supports Vulkan Video encoding.
 
 #### bitrate
-Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
@@ -323,6 +325,9 @@ Encoding bitrate. If not provided, bitrate is calculated based on resolution and
 type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
 ```
 </CollapsibleDetails>
+
+Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate.
+For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
 
 #### Properties
 
