@@ -156,7 +156,9 @@ const {
     />
     <Analytics />
     <CookieConsent client:load />
-    <Captcha siteKey={PUBLIC_RECAPTCHA_SITE_KEY} client:load/>
+    {
+      PUBLIC_RECAPTCHA_SITE_KEY && <Captcha siteKey={PUBLIC_RECAPTCHA_SITE_KEY} client:load/>
+    }
   </body><style is:global>
     @import "../../styles/font-face.scss";
     @import "../../styles/global.scss";

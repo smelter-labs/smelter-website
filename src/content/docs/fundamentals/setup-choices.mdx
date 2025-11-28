@@ -1,0 +1,125 @@
+---
+title: Setup Choices
+---
+
+import SetupChoiceLight from "@assets/fundamentals/setup-choice-light.svg";
+import SetupChoiceDark from "@assets/fundamentals/setup-choice-dark.svg";
+
+Smelter offers flexibility, but each choice comes with its own trade-offs. Before starting, you 
+need to decide:
+- What language you want to use? TypeScript, Elixir, or maybe something else?
+- Where do you want to process video streams (decode, render, and encode)? On the server or in the client browser?
+- Where do you want to define your video layout? In the client or server code?
+- If you are using the TypeScript SDK, do you want to run React on the same server in Node.js, or maybe
+you prefer to run it in the client browser?
+
+## Recommended approach
+
+For most use cases, the choice boils down to the decision tree below. The trade-offs of each choice are listed in the 
+next section.
+
+<img src={SetupChoiceLight.src} class="dark:sl-hidden"/>
+<img src={SetupChoiceDark.src} class="light:sl-hidden"/>
+
+## Configurations
+
+### Standalone
+
+Deploy the Smelter binary or a Docker image and communicate with the server via HTTP API using
+the language of your choice.
+
+This is the most flexible option, however it comes at the cost of quality-of-life features
+that other frameworks deliver.
+
+Trade-offs and limitations:
+- If you coordinate them correctly, you can send updates from multiple sources to the same instance.
+  It is not possible with other approaches.
+- You will need to operate on JSON values directly, without any type checking or editor completion support.
+
+### TypeScript SDK (Node.js)
+
+Use `@swmansion/smelter-node` NPM package to manage Smelter instance. Generator `pnpm create smelter-app`
+provides template projects that you can start with.
+
+In this approach:
+- Node.js process runs React code that defines your video layout.
+- On any React state change, the SDK code sends an HTTP request to smelter with the scene update.
+- Node.js does not need to be deployed on the same machine as the Smelter server. However, it is recommended,
+  both for ease of use and reliability.
+- Interactions with the end user could be implemented by exposing HTTP API in the Node.js process.
+  Request could modify some shared store, which would trigger React re-render.
+- The SDK will start a server for you locally, but you can override it and deploy somewhere else.
+
+Trade-offs and limitations:
+- This is a more secure approach, exposing Smelter API directly is not secure.
+- You have to use React to define the video layout. However, this does not affect what framework
+  you can use for your actual frontend code.
+- You can only have one process managing a specific Smelter instance.
+
+### TypeScript SDK (Browser)
+
+Use `@swmansion/smelter-web-client` NPM package (that runs in the browser) to manage Smelter instance running on the server.
+Check out this [example Vite project](https://github.com/software-mansion/smelter/tree/master/demos/vite-web-client) to get started.
+
+
+In this approach:
+- Browser runs React code.
+- React code for Smelter components runs separately from the React that runs the actual frontend.
+- On any React state change, the SDK code sends an HTTP request to smelter with the scene update.
+
+Trade-offs and limitations:
+- You need to use React for your website frontend. It might be possible work around that, but 
+  it is not trivial.
+- Higher security implications. Client browser in this scenario will have direct access to the Smelter server
+  API. For example, user can provide a shader code that could crash GPU and cause server restart. Or if you
+  enable web rendering, the Chromium sandbox we are using is not reliable protection. When using this approach,
+  you need to isolate Smelter instances running on your server from the rest of your infrastructure.
+- If the user closes the tab, the Smelter server will not receive updates. It won't affect you if layout changes
+  only in response to some user event. However, if you want to embed a timer or add some periodic animation
+  the streams would still play, but those effects would stop working.
+- When a browser tab is in the background, the JS code can be throttled.
+
+### TypeScript SDK + WASM
+
+Use `@swmansion/smelter-web-wasm` package to run Smelter inside the browser. Check out this
+[example Vite project](https://github.com/software-mansion/smelter/tree/master/demos/vite-web-wasm) 
+to get started.
+
+In this approach:
+- Browser runs React code.
+- React code for Smelter components runs separately from the React that runs actual frontend.
+- Smelter code compiled to WASM runs in the browser (in a Web Worker).
+- On any React state change, the SDK code will send a message to the Web Worker running Smelter code.
+
+This is an only way to run Smelter fully in the browser. So if you need to run client side, this is currently
+the only option.
+
+Trade-offs and limitations:
+- You need to use React.
+- Limited browser support. For now, we only support Chromium-based browsers. However, there is active work
+  on Firefox and Safari support.
+- GPU part of smelter implementation is translated to WebGL, so it is still a lot more performant that running
+  server version on CPU only. However, performance is significantly worse than in the server variant.
+- Availability of supported input/output protocols is very limited.
+- Rendering runs in a separate Web Worker. However, React still runs in the main context, so it might be throttled
+  by the browser.
+
+### Membrane Framework
+
+Membrane Framework allows you to build multimedia pipelines in Elixir. It provides elements that can handle wide
+range of protocols, codecs and convert between them. [Membrane Smelter Plugin](https://hexdocs.pm/membrane_smelter_plugin)
+is one of those elements that you can just drop inside your pipeline.
+
+In this approach:
+- You need to define your video layout in elixir. API maps 1-to-1 to standalone HTTP API.
+- Smelter server starts on the same machine as the Elixir code. The plugin will handle that for you.
+- Inputs and outputs are registered/unregistered automatically when you connect/disconnect elements in the
+  pipeline. All other interactions happen via messages.
+
+Trade-offs and limitations:
+- You are limited to Elixir. However, you can always expose your own HTTP server and control it from the language of your choice.
+- You can use wider range of protocols than Smelter supports on its own.
+- Smelter always transcodes the inputs. With Membrane, you can for example, route some of your media around to avoid performance cost.
+- You are operating on similar video API as in the standalone variant, so the same pros/cons apply.
+- Plugin inputs and outputs are more limited in terms of codec support than the standalone version.
+  You can easily convert it to desired format, but it might have a performance cost.

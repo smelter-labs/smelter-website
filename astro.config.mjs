@@ -25,6 +25,7 @@ export default defineConfig({
       PUBLIC_RECAPTCHA_SITE_KEY: envField.string({
         access: "public",
         context: "server",
+        optional: true,
       }),
     },
   },
@@ -153,6 +154,7 @@ export default defineConfig({
           label: "Fundamentals",
           items: [
             { label: "Getting started", slug: "fundamentals/getting-started" },
+            { label: "Setup Choices", slug: "fundamentals/setup-choices" },
             { label: "Glossary of terms", slug: "fundamentals/glossary" },
             {
               label: "Concepts",
