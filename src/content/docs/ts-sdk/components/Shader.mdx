@@ -13,7 +13,9 @@ import ExampleImage from '@assets/guides/component-shader-example.mp4';
 Component that represents output of a user provided WGSL shader. All children components are available as textures inside the shader code.
 For more information on using shaders in Smelter, please visit [Shaders documentation](/fundamentals/concepts/shaders).
 
-<Aside>To use this component, you need to first register the image with a matching `shaderId` using the [`Smelter.registerShader`](/ts-sdk/smelter#registershader) function.</Aside>
+<Aside>
+To use this component, you need to first register the image with a matching `shaderId` using the `Smelter.registerShader` function.
+</Aside>
 
 ## Usage
 
@@ -51,7 +53,7 @@ type ShaderProps = {
 ## Props
 
 ### shaderId
-ID of a shader. It identifies a shader registered using a [Smelter.registerShader](/ts-sdk/smelter#registershader) method.
+ID of a shader. It identifies a shader registered using a `Smelter.registerShader` method.
 
 - **Type**: `string`
 

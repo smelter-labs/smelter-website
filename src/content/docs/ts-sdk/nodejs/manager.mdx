@@ -1,0 +1,141 @@
+---
+title: SmelterManager
+---
+import { Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+`@swmansion/smelter-node` controls the Smelter server via `SmelterManager` interface.
+
+
+```tsx
+type SmelterManager = {
+  setupInstance(): Promise<void>;
+  sendRequest(request: ApiRequest): Promise<object>;
+  sendMultipartRequest(request: MultipartRequest): Promise<object>;
+  registerEventListener(cb: (event: unknown) => void): void;
+}
+```
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+type ApiRequest = {
+  method: 'GET' | 'POST';
+  route: string;
+  body?: object;
+};
+
+type MultipartRequest = {
+  method: 'POST';
+  route: string;
+  body: any;
+};
+```
+</CollapsibleDetails>
+
+## LocallySpawnedInstanceManager
+
+`LocallySpawnedInstanceManager` allows you to create a new `Smelter` instance that will
+download a smelter binaries and start a new server on the local machine.
+
+This is a default manager for smelter on Node.js.
+
+### Example
+
+```tsx title="example.tsx"
+import Smelter, { LocallySpawnedInstanceManager } from "@swmansion/smelter-node"
+
+async function run() {
+  const manager = new LocallySpawnedInstanceManager({ port: 8000 });
+  const smelter = new Smelter(manager);
+  await smelter.init()
+}
+void run();
+```
+
+### Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type LocallySpawnedInstanceOptions = {
+  port: number;
+  workingdir?: string;
+  executablePath?: string;
+  enableWebRenderer?: boolean;
+};
+```
+</CollapsibleDetails>
+
+#### port
+
+Port number where smelter API endpoint is exposed.
+
+- **Type**: `number`
+
+---
+
+#### workingdir
+
+Working directory that smelter instance will use:
+- For temporary downloads. See [`SMELTER_DOWNLOAD_DIR`](/deployment/configuration#smelter_download_dir).
+- To resolve relative paths for options that accept paths.
+- As a CWD of a smelter process.
+
+- **Type**: `string`
+
+---
+
+#### executablePath
+
+Path to the compositor executable. If provided compositor will use that instead of downloading official binaries.
+
+- **Type**: `string`
+
+---
+
+#### enableWebRenderer
+
+This option affects whether Web Renderer functionality will be enabled.
+- Based on that value appropriate compositor binaries are downloaded (with or without web rendering support).
+- It configures [`SMELTER_WEB_RENDERER_ENABLE`](/deployment/configuration#smelter_web_renderer_enable) environment variable.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+## ExistingInstanceManager
+
+`ExistingInstanceManager` allows you to create a new `Smelter` instance that will connect
+to already running smelter server. This manager assumes that it is the only instance that
+connects to a specific smelter server.
+
+### Example
+
+```tsx title="example.tsx"
+import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
+
+async function run() {
+  const manager = new ExistingInstanceManager({
+    url: 'http://127.0.0.1:8000'
+  });
+  const smelter = new Smelter(manager);
+  await smelter.init()
+}
+void run();
+```
+
+### Reference 
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
+  type ExistingInstanceOptions = {
+    url: string | URL;
+  };
+`} lang='tsx' />
+</CollapsibleDetails>
+
+
+#### url
+
+Address of a running smelter server. Protocol used in the address also implies protocol of a WebSocket connection (`http -> ws` and `https -> wss`).
+
+- **Type**: `string | URL`
