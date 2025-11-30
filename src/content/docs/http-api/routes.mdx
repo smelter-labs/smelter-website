@@ -138,7 +138,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "decklink" | "whip_server" | "whep_client";
+  type: "rtp_stream" | "mp4" | "decklink" | "whip_server" | "whep_client" | "rtmp_server";
   ... // input specific options
 }
 ```
@@ -150,6 +150,7 @@ Register external source that can be used as a Smelter input. See inputs documen
 - [DeckLink](/http-api/inputs/decklink)
 - [WHEP](/http-api/inputs/whep)
 - [WHIP](/http-api/inputs/whip)
+- [RTMP](/http-api/inputs/rtmp)
 
 ### Unregister input
 
@@ -192,7 +193,7 @@ Content-Type: application/json
 type RequestBody = {}
 ```
 
-Unregister a previously registered image asset with an id `:image_id`. 
+Unregister a previously registered image asset with an id `:image_id`.
 
 ### Register shader
 
@@ -200,7 +201,7 @@ Unregister a previously registered image asset with an id `:image_id`.
 POST: /api/shader/:shader_id/register
 Content-Type: application/json
 ```
-
+ 
 Register a shader. Request body is defined in the [shader](/http-api/resources/shader) docs.
 
 ### Unregister shader
