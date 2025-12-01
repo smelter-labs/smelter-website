@@ -1,0 +1,257 @@
+---
+title: Smelter
+sidebar:
+  order: 0
+---
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+```tsx
+import Smelter from "@swmansion/smelter-web-client"
+```
+
+`Smelter` class is a primary way of interacting with the Smelter server. 
+
+## Usage
+
+To use `Smelter` follow this life cycle:
+- Create instance `new Smelter()`.
+- Call `await smelter.init()`.
+- (optional) Register inputs, outputs or other resources.
+- Call `await smelter.start()`.
+- (optional) Register inputs, outputs or other resources.
+- At the end, call `await smelter.terminate()`
+
+<CollapsibleDetails summaryTitle='Example'>
+
+```tsx 
+import Smelter from "@swmansion/smelter-web-client"
+
+async function run() {
+  const smelter = new Smelter({ url: "http://127.0.0.1:8081" });
+  await smelter.init()
+
+  // register inputs, outputs, or other resources e.g.
+  await smelter.registerOutput("example", <View />, {
+    type: "rtmp_client",
+    url: "rtmp://example.com/app/stream_key",
+    video: {
+      encoder: { type: "ffmpeg_h264" },
+      resolution: { width: 1920, height: 1080 },
+    },
+    audio: {
+      channels: "stereo",
+      encoder: { type: "aac" },
+    }
+  });
+
+  await smelter.start()
+
+  // you can register additional input/outputs at any point
+}
+void run();
+```
+</CollapsibleDetails>
+
+## new Smelter()
+Creates a new Smelter instance. You have to call [init()](#init) first before this object can be used.
+
+```tsx
+new Smelter(options: SmelterOptions)
+```
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+type SmelterOptions = {
+  url: string
+}
+```
+</CollapsibleDetails>
+
+## init()
+```tsx
+smelter.init(): Promise<void>
+```
+
+Initialize the Smelter instance. It will establish a connection to the Smelter server and reset its state.
+
+After `init()` you can start connecting inputs/outputs or register other elements. However, no output
+stream will be produced until `start()` method is called.
+
+## start()
+```tsx
+smelter.start(): Promise<void>
+```
+
+Starts the processing pipeline. Any previously registered output will start producing the video/audio stream.
+
+## registerOutput()
+```tsx
+smelter.registerOutput(
+  outputId: string,
+  output: RegisterOutput,
+): Promise<object>
+```
+
+<CollapsibleDetails summaryTitle='Type definitions @swmnasion/smelter-web-client'>
+
+```tsx
+import {
+    RegisterRtpOutput,
+    RegisterMp4Output,
+    RegisterHlsOutput,
+    RegisterWhipClientOutput,
+    RegisterWhepServerOutput,
+    RegisterRtmpClientOutput,
+} from "@swmasnion/smelter"
+
+type RegisterOutput =
+    | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+    | ({ type: 'mp4' } & RegisterMp4Output)
+    | ({ type: 'hls' } & RegisterHlsOutput)
+    | ({ type: 'whip_client' } & RegisterWhipClientOutput)
+    | ({ type: 'whep_server' } & RegisterWhepServerOutput)
+    | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+```
+</CollapsibleDetails>
+
+Register external destination that can be used as a smelter output. Visit output documentation to learn more.
+
+- [RTP](/ts-sdk/outputs/rtp)
+- [MP4](/ts-sdk/outputs/mp4)
+- [HLS](/ts-sdk/outputs/hls)
+- [WHIP client](/ts-sdk/outputs/whip)
+- [WHEP server](/ts-sdk/outputs/whep)
+- [RTMP client](/ts-sdk/outputs/rtmp)
+
+## unregisterOutput()
+```tsx
+smelter.unregisterOutput(outputId: string): Promise<void>
+```
+
+Unregister previously registered output.
+
+## registerInput()
+```tsx
+smelter.registerInput(
+    inputId: string,
+    input: RegisterInput
+): Promise<object>
+```
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+import {
+    RegisterRtpInput,
+    RegisterMp4Input,
+    RegisterHlsInput,
+    RegisterWhipServerInput,
+    RegisterWhepClientInput,
+    RegisterRtmpServerInput,
+} from "@swmasnion/smelter"
+
+type RegisterInput =
+    | ({ type: 'rtp_stream' } & RegisterRtpInput)
+    | ({ type: 'mp4' } & RegisterMp4Input)
+    | ({ type: 'hls' } & RegisterHlsInput)
+    | ({ type: 'whip_server' } & RegisterWhipServerInput)
+    | ({ type: 'whep_client' } & RegisterWhepClientInput);
+    | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
+```
+</CollapsibleDetails>
+
+Register external source that can be used as a smelter input. Visit input documentation to learn more.
+
+- [RTP](/ts-sdk/inputs/rtp)
+- [MP4](/ts-sdk/inputs/mp4)
+- [HLS](/ts-sdk/inputs/hls)
+- [WHIP server](/ts-sdk/inputs/whip)
+- [WHEP client](/ts-sdk/inputs/whep)
+- [RTMP server](/ts-sdk/inputs/rtmp)
+
+## unregisterInput()
+```tsx
+smelter.unregisterInput(inputId: string): Promise<void>
+```
+
+Unregister previously registered input.
+
+## registerImage()
+```tsx
+import { Renderers } from "@swmansion/smelter"
+
+smelter.registerImage(
+    imageId: string,
+    image: Renderers.RegisterImage,
+): Promise<void>
+```
+
+Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn more.
+
+## unregisterImage()
+```tsx
+smelter.unregisterImage(imageId: string): Promise<void>
+```
+
+Unregister a previously registered image asset.
+
+## registerShader()
+```tsx
+import { Renderers } from "@swmnasion/smelter"
+
+Smelter.registerShader(
+    shaderId: string,
+    shader: Renderers.RegisterShader,
+): Promise<void>
+```
+
+Register a shader. See [RegisterShader](/ts-sdk/resources/shader) to learn more.
+
+## unregisterShader()
+```tsx
+smelter.unregisterShader(shaderId: string): Promise<void>
+```
+
+Unregister a previously registered shader.
+
+## registerWebRenderer()
+```tsx
+import { Renderers } from "@swmansion/smelter"
+
+Smelter.registerWebRenderer(
+    instanceId: string,
+    instance: Renderers.RegisterWebRenderer,
+): Promise<object>
+```
+
+Register a web renderer instance. See [RegisterWebRenderer](/ts-sdk/resources/web-renderer) to learn more.
+
+## unregisterWebRenderer()
+```tsx
+smelter.unregisterWebRenderer(instanceId: string): Promise<void>
+```
+
+Unregister a previously registered web renderer.
+
+## registerFont()
+```tsx
+smelter.registerFont(source: FontSource): Promise<void>
+```
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+```tsx
+type FontSource =
+    | 'string' // URL
+    | ArrayBuffer
+```
+</CollapsibleDetails>
+
+Register a new font, that can be used when rendering `<Text>` component.
+
+## terminate()
+```tsx
+smelter.terminate(): Promise<void>
+```
+
+Disconnect from the Smelter server instance.
