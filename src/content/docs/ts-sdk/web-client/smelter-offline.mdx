@@ -1,0 +1,190 @@
+---
+title: OfflineSmelter
+sidebar:
+  order: 1
+---
+import { Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+```tsx
+import { OfflineSmelter } from "@swmansion/smelter-web-client"
+```
+
+`OfflineSmelter` class is a primary way of interacting with the Smelter server for
+[offline processing](/fundamentals/glossary#offline-processing) e.g. if you need to combine few mp4 files
+together. It has simplified API compared to the [`Smelter`](/ts-sdk/web-client/smelter) class, optimized for
+rendering just one output file as a result.
+
+## Usage
+
+To use `Smelter` follow this life cycle:
+- Create instance `new Smelter()`.
+- Call `await smelter.init()`.
+- (optional) Register inputs, outputs or other resources.
+- Call `await smelter.render()`.
+
+<br/>
+
+<CollapsibleDetails summaryTitle='Example'>
+
+```tsx
+import { OfflineSmelter } from "@swmansion/smelter-web-client"
+
+async function run() {
+  const smelter = new OfflineSmelter({ url: "http://127.0.0.1:8081" });
+  await smelter.init()
+  // register inputs
+  await smelter.render(<View />, {
+    type: "mp4",
+    serverPath: "./output.mp4",
+    video: {
+      encoder: { type: "ffmpeg_h264" },
+      resolution: { width: 1920, height: 1080 },
+    },
+    audio: {
+      channels: "stereo",
+      encoder: { type: "aac" },
+    }           
+  });
+}
+void run();
+```
+</CollapsibleDetails>
+
+## new OfflineSmelter()
+Creates a new offline smelter instance. You have to call [`init()`](#init) first before this object can be used.
+
+```tsx
+new OfflineSmelter(manager?: SmelterManager);
+```
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+type SmelterOptions = {
+  url: string
+}
+```
+</CollapsibleDetails>
+
+## init()
+```tsx
+smelter.init(): Promise<void>
+```
+
+Initialize the Smelter instance. It will establish a connection to the Smelter server and reset its state.
+
+After `init()` you can start connecting inputs/outputs or register other elements. However, no output stream will be produced until `start()` method is called.
+
+## render()
+```tsx
+import React from "react";
+
+smelter.render(
+  root: React.ReactElement,
+  output: RegisterOutput,
+): Promise<object>
+```
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+import {
+  RegisterRtpOutput,
+  RegisterMp4Output,
+  RegisterHlsOutput,
+  RegisterWhipClientOutput,
+  RegisterWhepServerOutput,
+  RegisterRtmpClientOutput,
+} from "@swmasnion/smelter"
+
+type RegisterOutput =
+  | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+  | ({ type: 'mp4' } & RegisterMp4Output)
+  | ({ type: 'hls' } & RegisterHlsOutput)
+  | ({ type: 'whip_client' } & RegisterWhipClientOutput)
+  | ({ type: 'whep_server' } & RegisterWhepServerOutput)
+  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+```
+</CollapsibleDetails>
+
+Register external destination that can be used as a smelter output. Visit output documentation to learn more:
+- [MP4](/ts-sdk/outputs/mp4)
+- [HLS](/ts-sdk/outputs/hls)
+
+<Aside type="note">
+[WHIP](/ts-sdk/outputs/whip), [WHEP](/ts-sdk/outputs/whep), [RTMP](/ts-sdk/outputs/rtmp) and
+[RTP](/ts-sdk/outputs/rtp) are also supported. However, the Smelter produces frames as fast as
+possible in this mode, so these real-time protocols, might not make sense.
+</Aside>
+
+## registerInput()
+```tsx
+import { Inputs } from "@swmasnion/smelter"
+
+Smelter.registerInput(
+  inputId: string,
+  input: Inputs.RegisterInput,
+): Promise<object>
+```
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+import {
+  RegisterRtpInput,
+  RegisterMp4Input,
+  RegisterHlsInput,
+  RegisterWhipServerInput,
+  RegisterWhepClientInput,
+  RegisterRtmpServerInput,
+} from "@swmasnion/smelter"
+
+type RegisterInput =
+  | ({ type: 'rtp_stream' } & RegisterRtpInput)
+  | ({ type: 'mp4' } & RegisterMp4Input)
+  | ({ type: 'hls' } & RegisterHlsInput)
+  | ({ type: 'whip_server' } & RegisterWhipServerInput)
+  | ({ type: 'whep_client' } & RegisterWhepClientInput)
+  | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
+```
+</CollapsibleDetails>
+
+Register external source that can be used as a smelter input. Visit input documentation to learn more:
+- [MP4](/ts-sdk/inputs/mp4)
+- [HLS](/ts-sdk/inputs/hls)
+
+<Aside type="note">
+[WHIP](/ts-sdk/inputs/whip), [WHEP](/ts-sdk/inputs/whep), [RTMP](/ts-sdk/inputs/rtmp) and 
+[RTP](/ts-sdk/inputs/rtp) are also supported. However, the Smelter produces frames as fast as possible
+in this mode, so these real-time protocols, might not make sense.
+</Aside>
+
+## registerImage()
+```tsx
+import { Renderers } from "@swmansion/smelter"
+
+Smelter.registerImage(
+  imageId: string,
+  image: Renderers.RegisterImage,
+): Promise<void>
+```
+
+Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn more.
+
+## registerShader()
+```tsx
+import { Renderers } from "@swmnasion/smelter"
+
+Smelter.registerShader(
+  shaderId: string,
+  shader: Renderers.RegisterShader,
+): Promise<void>
+```
+
+Register a shader. See [RegisterShader](/ts-sdk/resources/shader) to learn more.
+
+## registerFont()
+```tsx
+smelter.registerFont(source: string | ArrayBuffer): Promise<void>
+```
+
+Register a new font, that can be used when rendering `<Text>` component.

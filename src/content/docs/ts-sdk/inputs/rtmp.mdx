@@ -1,0 +1,102 @@
+---
+title: RTMP Server
+sidebar:
+  order: 3
+---
+import { Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+
+<Badge text="Node.js" variant="tip" size="large" />
+<Badge text="Experimental" variant='caution' size="large" />
+
+<br />
+<br />
+
+An input type that allows Smelter to receive RTMP stream.
+
+## Usage
+```tsx title=rtmpServerInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "rtmp_server",
+      url: "rtmp://127.0.0.1:1935"
+  });
+}
+void run();
+```
+
+Once the RTMP server input is registered and Smelter is listening on the configured URL, you can push a stream to it using any RTMP-compatible broadcaster (f.e. OBS, FFmpeg).
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type RegisterRtmpServerInput = {
+  type: "rtmp_server";
+  url: string;
+  required?: bool;
+  offsetMs?: number;
+  decoderMap?: DecoderMap;
+}
+```
+</CollapsibleDetails>
+
+Parameters for registering an RTMP server input.
+
+## Properties
+
+### url
+URL where the RTMP server will listen for incoming stream.  
+Format: `rtmp://<ip_address>:<port>`
+
+- **Type**: `string`
+---
+
+### required
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+---
+
+### offsetMs
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `number`
+
+---
+
+### decoderMap
+Assigns which decoder should be used for media encoded with a specific codec.
+
+- **Type**: [`DecoderMap`](#decodermap)
+
+
+## DecoderMap
+Maps codecs to the provided decoders.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type DecoderMap = {
+  h264?: 'ffmpeg_h264' | 'vulkan_h264';
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+H264 decoder configuration.
+
+- **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+- **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
+- **Supported values**:
+  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.

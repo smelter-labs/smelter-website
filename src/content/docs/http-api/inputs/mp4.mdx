@@ -1,22 +1,13 @@
 ---
 title: MP4
 ---
-
-import { Aside, Badge, Code } from "@astrojs/starlight/components";
-import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An input type that allows Smelter to read static MP4 files.
 
-<Aside>
-  MP4 files can contain video and audio tracks encoded with various codecs. This
-  input type supports MP4 video tracks encoded with `h264` and audio tracks
-  encoded with `AAC`.
-</Aside>
-<Aside type="caution">
-  If the file contains multiple audio or video tracks, only the first audio
-  track and the first video track will be processed; all additional tracks will
-  be ignored.
-</Aside>
+<Aside>MP4 files can contain video and audio tracks encoded with various codecs. This input type supports MP4 video tracks encoded with `h264` and audio tracks encoded with `AAC`.</Aside>
+<Aside type='caution'>If the file contains multiple audio or video tracks, only the first audio track and the first video track will be processed; all additional tracks will be ignored.</Aside>
 
 ## Usage
 
@@ -33,7 +24,6 @@ Content-Type: application/json
   "url": "https://example.com/video.mp4"
 }
 ```
-
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
@@ -50,10 +40,9 @@ type Mp4Input = {
   loop?: bool;
   required?: bool;
   offset_ms?: f64;
-  video_decoder?: "ffmpeg_h264" | "vulkan_video";
-};
+  decoder_map?: DecoderMap;
+}
 ```
-
 </CollapsibleDetails>
 
 Parameters for registering an MP4 file as an input.
@@ -63,7 +52,6 @@ Parameters for registering an MP4 file as an input.
 ## Properties
 
 ### url
-
 URL of the MP4 file.
 
 - **Type**: `string`
@@ -71,7 +59,6 @@ URL of the MP4 file.
 ---
 
 ### path
-
 Path to the MP4 file.
 
 - **Type**: `string`
@@ -79,7 +66,6 @@ Path to the MP4 file.
 ---
 
 ### loop
-
 Specifies whether the input should be played in a loop.
 
 - **Type**: `bool`
@@ -88,36 +74,43 @@ Specifies whether the input should be played in a loop.
 ---
 
 ### required
-
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
-
 - **Type**: `bool`
 - **Default value**: `false`
 
 ---
 
 ### offset_ms
-
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
 
 - **Type**: `f64`
 
 ---
 
-### video_decoder
+### decoder_map
+Assigns which decoder should be used for media encoded with a specific codec.
 
-The decoder to use for decoding video.
+- **Type**: [`DecoderMap`](#decodermap)
 
-- **Type**: `"ffmpeg_h264" | "vulkan_video"`
-- **Default value**: `ffmpeg_h264`
+
+## DecoderMap
+Maps codecs to the provided decoders.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type DecoderMap = {
+  h264?: 'ffmpeg_h264' | 'vulkan_h264';
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+H264 decoder configuration.
+
+- **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+- **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
 - **Supported values**:
-
-  - `"ffmpeg_h264"` - Use the software decoder based on ffmpeg.
-  - `"vulkan_video"` (<Badge text="Required feature:vk-video" variant="note" />) - Use hardware decoder based on Vulkan Video.
-
-    This should be faster and more scalable than the ffmpeg decoder, if the hardware and OS
-    support it.
-
-    This requires hardware that supports Vulkan Video. Another requirement is this program has
-    to be compiled with the `vk-video` feature enabled (enabled by default on platforms which
-    support Vulkan, i.e. non-Apple operating systems and not the web).
+  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.

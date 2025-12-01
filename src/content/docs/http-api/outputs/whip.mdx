@@ -1,15 +1,13 @@
 ---
-title: WHIP
+title: WHIP client
 hide_table_of_contents: true
 ---
+import { Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
-import { Code } from "@astrojs/starlight/components";
-import CollapsibleDetails from "@components/CollapsibleDetails.astro";
-
-An output type that allows streaming video and audio from Smelter over WHIP.
+An output that lets you connect to a WHIP server endpoint to stream video and audio to it.
 
 ## Usage
-
 To use WHIP Output you must register it first. You can do it by sending a request like this:
 
 <CollapsibleDetails summaryTitle='Example request' open>
@@ -19,43 +17,56 @@ POST: /api/output/:output_id/register
 Content-Type: application/json
 
 {
-  "type": "whip",
+  "type": "whip_client",
   "endpoint_url": "https://example.com/whip",
   "bearer_token": "<TOKEN>",
   "video": {
     "resolution": { "width": 1280, "height": 720 },
-    "encoder": { "type": "ffmpeg_h264" },
+    "encoder_preferences": [
+      { "type": "ffmpeg_h264", "preset": "ultrafast" },
+      { "type": "ffmpeg_vp8" },
+      { "type": "any" }
+    ],
     "initial": {
       "root": {
-        "type": "view",
+        "type": "view"
       }
     }
   },
   "audio": {
-    "encoder": { "type": "opus", "channels": "stereo" },
+    "channels": "stereo",
     "initial": {
       "inputs": [{ "input_id": "input_1", "volume": 1 }]
     }
   }
 }
 ```
-
 </CollapsibleDetails>
 
-## Reference
+<Aside>
+To enable compatibility with Twitch `video.encoder_preferences` must contain only a single `ffmpeg_h264` entry: 
+```http
+"encoder_preferences": [
+  { 
+    "type": "ffmpeg_h264"
+  }
+]
+```
+</Aside>
+
+## Reference 
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type WhipOutput = {
-  type: "whip";
+type WhipClient = {
+  type: "whip_client";
   endpoint_url: string;
   bearer_token?: string;
-  video?: WhipVideoOptions;
-  audio?: WhipAudioOptions;
+  video?: VideoOptions;
+  audio?: AudioOptions;
 };
 ```
-
 </CollapsibleDetails>
 
 Parameters for an WHIP output stream from Smelter.
@@ -63,56 +74,48 @@ Parameters for an WHIP output stream from Smelter.
 ## Properties
 
 ### endpoint_url
-
 The destination URL for sending media streams using the WHIP.
 
-- **Type**: `string`
+ - **Type**: `string`
 
 ### bearer_token
-
 Token used for authentication when connecting to the WHIP endpoint.
 
-- **Type**: `string`
+ - **Type**: `string`
+
 
 ### video
-
 Parameters of a video included in the WHIP stream.
 
-- **Type**: [`VideoOptions`](#whipvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
-
 Parameters of an audio included in the WHIP stream.
 
-- **Type**: [`WhipAudioOptions`](#whipaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## WhipVideoOptions
-
+## VideoOptions
 Parameters of a video source included in the WHIP stream.
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type WhipVideoOptions = {
-    resolution: {
-      width: u32;
-      height: u32;
-    };
-    send_eos_when?: OutputEndCondition;
-    encoder: WhipVideoEncoderOptions;
-    initial: { root: Component; };
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VideoOptions = {
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  send_eos_when?: OutputEndCondition;
+  encoder_preferences?: VideoEncoderOptions[];
+  initial: { root: Component; };
 };
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### resolution
-
 Output resolution in pixels.
 
 - **Type**: `{ width: number; height: number; }`
@@ -120,58 +123,81 @@ Output resolution in pixels.
 ---
 
 #### send_eos_when
-
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
 - **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
-#### encoder
+#### encoder_preferences
+An ordered list of preferred video encoders. The first element in the list has the highest priority during WHIP negotiation.
 
-Video encoder options.
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)[]
+- **Default value**: `[{ type: "any" }]`
 
-- **Type**: [`WhipVideoEncoderOptions`](#whipvideoencoderoptions)
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+- If "any" is not included:
+  - Only the encoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
+
 
 ---
 
 #### initial
-
 Root of a component tree/scene that should be rendered for the output.
 
 - **Type**: `{ root: Component; }`
 
-## WhipVideoEncoderOptions
 
+## VideoEncoderOptions
 Configuration for the video encoder, based on the selected codec.
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type WhipVideoEncoderOptions = {
-    type: "ffmpeg_h264";
-    preset: 
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
-    ffmpeg_options?: Record<string, string>;
-}
-`}
-    lang="tsx"
-  />
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VideoEncoderOptions =
+  | {
+      type: "ffmpeg_h264";
+      preset?:
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
+      ffmpeg_options?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp8";
+      ffmpeg_options?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp9";
+      pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
+      ffmpeg_options?: Map<string, string>;
+    }
+  | {
+      type: "vulkan_h264";
+      bitrate: { average_bitrate: number; max_bitrate: number; } | number;
+    }
+  | {
+      type: "any";
+    };
+```
 </CollapsibleDetails>
 
 ### Properties (type: “ffmpeg_h264”)
 
 #### preset
-
 Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
@@ -190,34 +216,89 @@ Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/
 
 ---
 
-#### ffmpeg_options
+#### pixel_format
+Encoder pixel format
 
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p"`
+- **Default value**: `yuv420p`
+- **Supported values**:
+  - `yuv420p`
+  - `yuv422p`
+  - `yuv444p`
+
+---
+
+#### ffmpeg_options
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
-- **Type**: `Record<string, string>`
+- **Type**: `Map<string, string>`
 
-## WhipAudioOptions
+### Properties (type: “ffmpeg_vp8”)
 
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “ffmpeg_vp9”)
+
+#### pixel_format
+Encoder pixel format
+
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p"`
+- **Default value**: `yuv420p`
+- **Supported values**:
+  - `yuv420p`
+  - `yuv422p`
+  - `yuv444p`
+
+---
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
+Hardware encoder. Requires GPU that supports Vulkan Video encoding.
+
+#### bitrate
+Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VulkanH264EncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
+```
+</CollapsibleDetails>
+
+#### Properties
+
+##### average_bitrate
+Average bitrate measured in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+---
+
+##### max_bitrate
+Max bitrate measured in bits/second.
+
+## AudioOptions
 Parameters of an audio source included in the WHIP stream.
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type WhipAudioOptions = {
-    mixing_strategy?: "sum_clip" | "sum_scale";
-    send_eos_when?: OutputEndCondition;
-    encoder: WhipAudioEncoderOptions;
-    initial: { inputs: InputAudio[]; };
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type AudioOptions = {
+  mixing_strategy?: "sum_clip" | "sum_scale";
+  send_eos_when?: OutputEndCondition;
+  encoder_preferences?: AudioEncoderOptions[];
+  channels?: "mono" | "stereo";
+  initial: { inputs: InputAudio[]; };
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### mixing_strategy
-
 Specifies how audio should be mixed.
 
 - **Type**: `"sum_clip" | "sum_scale"`
@@ -229,135 +310,138 @@ Specifies how audio should be mixed.
 ---
 
 #### send_eos_when
-
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
 - **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
-#### encoder
+#### encoder_preferences
+An ordered list of preferred audio encoders. The first element in the list has the highest priority during WHIP negotiation.
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)[]
+- **Default value**: `[{ type: "any" }]`
 
-Audio encoder options.
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  - If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
 
-- **Type**: [`WhipAudioEncoderOptions`](#whipaudioencoderoptions)
+- If "any" is not included:
+  - Only the encoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
+
+---
+
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+    - `mono` - Mono audio (single channel).
+    - `stereo` - Stereo audio (two channels).
 
 ---
 
 #### initial
-
 Initial audio mixer configuration for output.
 
 - **Type**: `{ inputs: InputAudio[]; }`
 
-## WhipAudioEncoderOptions
+## AudioEncoderOptions
+Configuration for the audio encoder.
 
-Configuration for the audio encoder, based on the selected codec.
-
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type WhipAudioEncoderOptions = {
-    type: "opus";
-    channels: "mono" | "stereo";
-    preset?: "quality" | "voip" | "lowest_latency";
-    sample_rate?: u32
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type AudioEncoderOptions = {
+  type: "opus";
+  preset?: "quality" | "voip" | "lowest_latency";
+  sample_rate?: u32;
+  forward_error_correction?: bool;
+} | {
+  type: "any";
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties(type: "opus")
 
-#### channels
-
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Supported values**:
-  - `mono` - Mono audio (single channel).
-  - `stereo` - Stereo audio (two channels).
-
----
-
 #### preset
-
 Audio output encoder preset.
 
 - **Type**: `"quality" | "voip" | "lowest_latency"`
 - **Default value**: `voip`
 - **Supported values**:
-  - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
-  - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
-  - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
+    - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
+    - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
+    - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
 #### sample_rate
-
 Sample rate for audio encoder.
 
 - **Type**: `u32`
 - **Default value**: `48000`
 - **Supported values**: `8000`, `16000`, `24000`, `48000`.
 
-## InputAudio
+#### forward_error_correction
+When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
+and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+- **Type**: `bool`
+- **Default value**: `false`
+
+---
+
+### Properties(type: "any")
+Specifies that any audio encoder supported by Smelter can be used. If `"any"` is not included in the `encoder_preferences` list, Smelter will only use the encoders explicitly listed in the preferences.
+
+## InputAudio
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type InputAudio = {
-    input_id: string;
-    volume?: f32;
+  input_id: string;
+  volume?: f32;
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### input_id
-
 ID of an input. It identifies a stream registered using a [register input](/http-api/routes#register-input) method.
 
 - **Type**: `string`
 
 #### volume
-
-Input volume in range `[0, 1]`
+Input volume in range `[0, 2]`
 
 - **Type**: `f32`
 - **Default value**: `1.0`
-- **Supported values**: `[0, 1]`
+- **Supported values**: `[0, 2]`
 
 ## OutputEndCondition
-
-Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time.
+Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
 
 By default, the input stream is considered finished/ended when:
-
 - TCP connection was dropped/closed.
 - RTCP Goodbye packet (BYE) was received.
 - MP4 track has ended.
 - Input was unregistered already (or never registered).
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type OutputEndCondition = 
-    | { any_of: string[]; }
-    | { all_of: string[]; }
-    | { any_input: bool; }
-    | { all_inputs: bool; };
-`}
-    lang="tsx"
-  />
+  | { any_of: string[]; }
+  | { all_of: string[]; }
+  | { any_input: bool; }
+  | { all_inputs: bool; };
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### any_of
-
 List of the input streams. The output stream will terminate if any stream in the list finishes.
 
 - **Type**: `string[]`
@@ -365,7 +449,6 @@ List of the input streams. The output stream will terminate if any stream in the
 ---
 
 #### all_of
-
 List of the input streams. The output stream will terminate when all streams in the list finish.
 
 - **Type**: `string[]`
@@ -373,7 +456,6 @@ List of the input streams. The output stream will terminate when all streams in 
 ---
 
 #### any_input
-
 Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
 
 - **Type**: `bool`
@@ -381,7 +463,7 @@ Terminate the output stream if any of the input streams end, including streams a
 ---
 
 #### all_inputs
-
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `bool`
+

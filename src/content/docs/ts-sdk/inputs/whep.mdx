@@ -1,0 +1,136 @@
+---
+title: WHEP client
+sidebar:
+  order: 1
+---
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<br />
+<br />
+
+An input that lets you connect to a WHEP server endpoint to receive video and audio from it.
+
+## Usage
+
+```tsx title=whepClientInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "whep_client",
+      endpointUrl: "https://example.com/whep",
+      bearerToken: "<TOKEN>",
+      video: {
+        decoderPreferences: ["ffmpeg_h264", "any"],
+      },
+  });
+}
+void run();
+```
+
+<Aside>
+- There are no decoder preferences for audio. Opus is the only supported audio codec and is always negotiated.
+- If no video decoder preferences are provided, Smelter automatically negotiates and uses one of the supported decoders (`ffmpeg_vp9`, `ffmpeg_vp8`, `ffmpeg_h264`, `vulkan_h264`).
+</Aside>
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type RegisterWhepClientInput = {
+  type: "whep_client";
+  endpointUrl: string;
+  bearerToken?: string;
+  video?: VideoOptions;
+  required?: boolean;
+  offsetMs?: number;
+};
+```
+</CollapsibleDetails>
+
+Parameters for registering a WHEP client as an input.
+
+## Properties
+
+### endpointUrl
+WHEP endpoint URL from which to receive the media stream.
+
+ - **Type**: `string`
+
+---
+
+### bearerToken
+Bearer token used for authentication with the WHEP endpoint.
+
+- **Type**: `string` 
+
+---
+
+### video
+Parameters of a video included in the WHEP stream.
+
+- **Type**: [`VideoOptions`](#videooptions)
+
+---
+
+### required
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+---
+
+### offsetMs
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `number`
+
+## VideoOptions
+
+Parameters of a video source included in the WHEP stream.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VideoOptions = {
+  decoderPreferences?: VideoDecoder[];
+}
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### decoderPreferences
+An ordered list of preferred video decoders. The first element in the list has the highest priority during WHEP negotiation.
+- **Type**: [`VideoDecoder`](#videodecoder)[]
+- **Default value**: `[ "any" ]`
+
+Behavior:
+- If the list ends with "any":
+  - Smelter will first try the decoders explicitly listed (in order) and use the first one that is supported and negotiated in WHEP signaling.
+  - If none of the listed decoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+- If "any" is not included:
+  - Only the decoders listed will be considered.
+  - If none are supported, no fallback will occur.
+
+## VideoDecoder
+Video decoder type.
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VideoDecoder = "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "any"
+```
+</CollapsibleDetails>
+- **Type**: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "any"
+- **Supported values**:
+  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  - `"ffmpeg_vp8"` - Software VP8 decoder based on FFmpeg.
+  - `"ffmpeg_vp9"` - Software VP9 decoder based on FFmpeg.
+  - `"any"` - Automatically selects any video decoder supported by Smelter.
