@@ -1,0 +1,120 @@
+---
+title: Overview
+sidebar:
+  order: 0
+slug: ts-sdk/0.3.x/ts-sdk/web-client/overview
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+Package `@swmansion/smelter-web-client` allows you to control a Smelter server from the browser.
+
+When using this approach, your React code runs inside the client's browser, and any updates to
+the React component tree are transmitted to the Smelter server as layout updates over HTTP requests.
+There is no way to start a server from inside the browser, so the library must be provided with
+the connection URL to an already deployed instance.
+
+You can use it in 2 modes:
+
+* [Live processing](/fundamentals/glossary#live-processing)
+
+  This is the most flexible approach. It allows you to dynamically add and
+  remove inputs/outputs at any point. By default, media is processed in real time, but
+  this can be affected by e.g. required inputs or global settings.
+
+  Check out [`Smelter` documentation](/ts-sdk/0.3.x/web-client/smelter).
+
+  <CollapsibleDetails summaryTitle="Example">
+    ```tsx
+    import Smelter from "@swmansion/smelter-web-client"
+
+    async function run() {
+      const smelter = new Smelter({ url: "http://127.0.0.1:8081" });
+      await smelter.init()
+
+      // register inputs, outputs, or other resources e.g.
+      await smelter.registerOutput("example", <View />, {
+        type: "rtmp_client",
+        url: "rtmp://example.com/app/stream_key",
+        video: {
+          encoder: { type: "ffmpeg_h264" },
+          resolution: { width: 1920, height: 1080 },
+        },
+        audio: {
+          channels: "stereo",
+          encoder: { type: "aac" },
+        }
+      });
+
+      await smelter.start()
+
+      // you can register additional input/outputs at any point
+    }
+    void run();
+    ```
+  </CollapsibleDetails>
+
+* [Offline processing](/fundamentals/glossary#offline-processing)
+
+  Mainly useful to take one or more static files and produce a single output. API in this mode is very
+  limited: you need to define all inputs before start, there can be only one output.
+
+  Check out [`OfflineSmelter` documentation](/ts-sdk/0.3.x/web-client/smelter-offline).
+
+  <CollapsibleDetails summaryTitle="Example">
+    ```tsx
+    import { OfflineSmelter } from "@swmansion/smelter-web-client"
+
+    async function run() {
+      const smelter = new OfflineSmelter({ url: "http://127.0.0.1:8081" });
+      await smelter.init()
+      // register inputs
+      await smelter.render(<View />, {
+        type: "mp4",
+        serverPath: "./output.mp4",
+        video: {
+          encoder: { type: "ffmpeg_h264" },
+          resolution: { width: 1920, height: 1080 },
+        },
+        audio: {
+          channels: "stereo",
+          encoder: { type: "aac" },
+        }           
+      });
+    }
+    void run();
+    ```
+  </CollapsibleDetails>
+
+### Compatibility
+
+`@swmansion/smelter-web-client` can be used with specific version of Smelter server and React.
+
+<table>
+  <thead>
+    <tr>
+      <th>SDK version</th>
+      <th>Smelter server version</th>
+      <th>React version</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <strong>`v0.3.0`</strong><br />
+      </td>
+
+      <td>
+        <strong>`v0.5.0`</strong><br />
+      </td>
+
+      <td>
+        Recommended: `18.3.1`
+
+        Should work with any react version that is compatible with
+        `react-reconciler@0.29.2`
+      </td>
+    </tr>
+  </tbody>
+</table>

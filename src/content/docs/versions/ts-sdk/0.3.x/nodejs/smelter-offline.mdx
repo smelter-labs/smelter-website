@@ -1,0 +1,222 @@
+---
+title: OfflineSmelter
+sidebar:
+  order: 2
+slug: ts-sdk/0.3.x/ts-sdk/nodejs/smelter-offline
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+```tsx
+import { OfflineSmelter } from "@swmansion/smelter-node"
+```
+
+`OfflineSmelter` class is a primary way of interacting with the Smelter server for
+[offline processing](/fundamentals/glossary#offline-processing) e.g. if you need to combine few mp4 files
+together. It has simplified API compared to the [`Smelter`](/ts-sdk/0.3.x/nodejs/smelter) class, optimized for
+rendering just one output file as a result.
+
+## Usage
+
+To use `Smelter` follow this life cycle:
+
+* Create instance `new Smelter()`.
+* Call `await smelter.init()`.
+* (optional) Register inputs, outputs or other resources.
+* Call `await smelter.render()`.
+
+<br />
+
+<CollapsibleDetails summaryTitle="Example">
+  ```tsx
+  import { OfflineSmelter } from "@swmansion/smelter-node"
+
+  async function run() {
+    const smelter = new OfflineSmelter();
+    await smelter.init()
+    // register inputs
+    await smelter.render(<View />, {
+      type: "mp4",
+      serverPath: "./output.mp4",
+      video: {
+        encoder: { type: "ffmpeg_h264" },
+        resolution: { width: 1920, height: 1080 },
+      },
+      audio: {
+        channels: "stereo",
+        encoder: { type: "aac" },
+      }           
+    });
+  }
+  void run();
+  ```
+</CollapsibleDetails>
+
+## new OfflineSmelter()
+
+Creates a new offline smelter instance. You have to call [`init()`](#init) first before this object can be used.
+
+```tsx
+new OfflineSmelter(manager?: SmelterManager)
+```
+
+<CollapsibleDetails summaryTitle="Type definitions">
+  ```tsx
+  type ApiRequest = {
+    method: 'GET' | 'POST';
+    route: string;
+    body?: object;
+  };
+
+  type MultipartRequest = {
+    method: 'POST';
+    route: string;
+    body: any;
+  };
+
+  type SmelterManager = {
+    setupInstance(): Promise<void>;
+    sendRequest(request: ApiRequest): Promise<object>;
+    sendMultipartRequest(request: MultipartRequest): Promise<object>;
+    registerEventListener(cb: (event: unknown) => void): void;
+  }
+  ```
+</CollapsibleDetails>
+
+### Parameters
+
+#### manager
+
+Configures how the client code will connect and manage a Smelter server.
+
+* **Type**: [`SmelterManager`](/ts-sdk/0.3.x/nodejs/manager)
+
+## init()
+
+```tsx
+Smelter.init(): Promise<void>
+```
+
+Initialize the Smelter instance. This might spawn a new instance or just establish a connection, depending on the `manager` used while creating Smelter instance.
+
+After `init()` you can start connecting inputs/outputs or register other elements. However, no output stream will be produced until `start()` method is called.
+
+## render()
+
+```tsx
+import React from "react";
+
+Smelter.render(
+  root: React.ReactElement,
+  output: RegisterOutput,
+  duration_ms?: number,
+): Promise<object>
+```
+
+<CollapsibleDetails summaryTitle="Type definitions">
+  ```tsx
+  import {
+    RegisterRtpOutput,
+    RegisterMp4Output,
+    RegisterHlsOutput,
+    RegisterWhipClientOutput,
+    RegisterWhepServerOutput,
+    RegisterRtmpClientOutput,
+  } from "@swmasnion/smelter"
+
+  type RegisterOutput =
+    | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+    | ({ type: 'mp4' } & RegisterMp4Output)
+    | ({ type: 'hls' } & RegisterHlsOutput)
+    | ({ type: 'whip_client' } & RegisterWhipClientOutput)
+    | ({ type: 'whep_server' } & RegisterWhepServerOutput)
+    | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+  ```
+</CollapsibleDetails>
+
+Register external destination that can be used as a smelter output. Visit output documentation to learn more:
+
+* [MP4](/ts-sdk/0.3.x/outputs/mp4)
+* [HLS](/ts-sdk/0.3.x/outputs/hls)
+
+<Aside type="note">
+  [WHIP](/ts-sdk/0.3.x/outputs/whip), [WHEP](/ts-sdk/0.3.x/outputs/whep), [RTMP](/ts-sdk/0.3.x/outputs/rtmp) and
+  [RTP](/ts-sdk/0.3.x/outputs/rtp) are also supported. However, the Smelter produces frames as fast as
+  possible in this mode, so these real-time protocols, might not make sense.
+</Aside>
+
+## registerInput()
+
+```tsx
+import { Inputs } from "@swmasnion/smelter"
+
+Smelter.registerInput(
+  inputId: string,
+  input: Inputs.RegisterInput,
+): Promise<object>
+```
+
+<CollapsibleDetails summaryTitle="Type definitions">
+  ```tsx
+  import {
+    RegisterRtpInput,
+    RegisterMp4Input,
+    RegisterHlsInput,
+    RegisterWhipServerInput,
+    RegisterWhepClientInput,
+  } from "@swmasnion/smelter"
+
+  type RegisterInput =
+    | ({ type: 'rtp_stream' } & RegisterRtpInput)
+    | ({ type: 'mp4' } & RegisterMp4Input)
+    | ({ type: 'hls' } & RegisterHlsInput)
+    | ({ type: 'whip_server' } & RegisterWhipServerInput)
+    | ({ type: 'whep_client' } & RegisterWhepClientInput);
+  ```
+</CollapsibleDetails>
+
+Register external source that can be used as a smelter input. Visit input documentation to learn more:
+
+* [MP4](/ts-sdk/0.3.x/inputs/mp4)
+* [HLS](/ts-sdk/0.3.x/inputs/hls)
+
+<Aside type="note">
+  [WHIP](/ts-sdk/0.3.x/inputs/whip), [WHEP](/ts-sdk/0.3.x/inputs/whep), [RTMP](/ts-sdk/0.3.x/inputs/rtmp) and
+  [RTP](/ts-sdk/0.3.x/inputs/rtp) are also supported. However, the Smelter produces frames as fast as possible
+  in this mode, so these real-time protocols, might not make sense.
+</Aside>
+
+## registerImage()
+
+```tsx
+import { Renderers } from "@swmansion/smelter"
+
+Smelter.registerImage(
+  imageId: string,
+  image: Renderers.RegisterImage,
+): Promise<void>
+```
+
+Register an image asset. See [RegisterImage](/ts-sdk/0.3.x/resources/image) to learn more.
+
+## registerShader()
+
+```tsx
+import { Renderers } from "@swmnasion/smelter"
+
+Smelter.registerShader(
+  shaderId: string,
+  shader: Renderers.RegisterShader,
+): Promise<void>
+```
+
+Register a shader. See [RegisterShader](/ts-sdk/0.3.x/resources/shader) to learn more.
+
+## registerFont()
+
+```tsx
+Smelter.registerFont(source: string | ArrayBuffer): Promise<void>
+```
+
+Register a new font, that can be used when rendering `<Text>` component.

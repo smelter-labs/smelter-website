@@ -1,0 +1,106 @@
+---
+title: HLS
+sidebar:
+  order: 3
+slug: ts-sdk/0.3.x/ts-sdk/inputs/hls
+---
+
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+An input type that allows Smelter to consume HLS playlists.
+
+## Usage
+
+```tsx title=hlsInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "hls",
+      url: "https://example.com/playlist.m3u8"
+  });
+}
+void run();
+```
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterHlsInput = {
+    type: "hls";
+    url: string;
+    required?: bool;
+    offsetMs?: number;
+    decoderMap?: DecoderMap;
+  }
+  ```
+</CollapsibleDetails>
+
+Parameters for registering an HLS input.
+
+## Properties
+
+### url
+
+URL of the HLS playlist.
+
+* **Type**: `string`
+
+***
+
+### required
+
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+* **Type**: `boolean`
+* **Default value**: `false`
+
+***
+
+### offsetMs
+
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+* **Type**: `number`
+
+***
+
+### decoderMap
+
+Assigns which decoder should be used for media encoded with a specific codec.
+
+* **Type**: [`DecoderMap`](#decodermap)
+
+## DecoderMap
+
+Maps codecs to the provided decoders.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type DecoderMap = {
+    h264?: 'ffmpeg_h264' | 'vulkan_h264';
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+
+H264 decoder configuration.
+
+* **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+* **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
+* **Supported values**:
+  * `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  * `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
