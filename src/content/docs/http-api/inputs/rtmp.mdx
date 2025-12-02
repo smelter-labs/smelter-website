@@ -6,7 +6,21 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Experimental" variant='caution' size="large" />
 
-An input type that allows Smelter to receive RTMP stream. 
+<br />
+<br />
+
+An input type that allows Smelter to receive streams over RTMP. Each input starts a separate RTMP server.
+
+<Aside type="caution" title="Experimental">
+This is an experimental version. The current implementation is just a wrapper around FFmpeg, and as a result,
+it is limited in functionality.
+- If you have an url in format `rtmp://example.com/myapp/mykey`, then there is no way to validate based on `mykey`. FFmpeg
+  detects that path does not match and logs it, but still allows you to establish the connection.
+- There is no way to setup an RTMPS server (RTMP over TLS/SSL).
+
+You can still use it safely in production, but you need to set up an RTMP proxy that will handle route validation and encryption.
+You can use nginx with `nginx-rtmp-module` for that.
+</Aside>
 
 ## Usage
 
