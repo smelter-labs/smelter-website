@@ -6,7 +6,16 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Experimental" variant='caution' size="large" />
 
+<br />
+<br />
+
 An input type that allows Smelter to receive RTMP stream. 
+
+<Aside type="caution" title="Experimental">
+This input is considered experimental because it has not been extensively tested in production environments. Additionally, the current implementation does not support authentication or encryption.
+
+For production use cases requiring security, we recommend setting up an Nginx proxy in front of Smelter. Nginx can handle TLS termination (RTMPS) and authentication, forwarding only authorized streams to Smelter.
+</Aside>
 
 ## Usage
 
