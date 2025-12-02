@@ -1,18 +1,13 @@
 ---
 title: InputStream
 ---
-
-import CollapsibleDetails from "@components/CollapsibleDetails.astro";
-import { Aside } from "@astrojs/starlight/components";
-import ExampleImage from "@assets/guides/component-input-stream-example.mp4";
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import { Aside } from '@astrojs/starlight/components';
+import ExampleImage from '@assets/guides/component-input-stream-example.mp4';
 
 A component for displaying registered media inputs.
 
-<Aside>
-  {" "}
-  To use this component, you need to first register the stream with matching `input_id`
-  using [`register input`](/http-api/routes#register-input) request.{" "}
-</Aside>
+<Aside> To use this component, you need to first register the stream with matching `input_id` using [`register input`](/http-api/routes#register-input) request. </Aside>
 
 ## Usage
 
@@ -29,7 +24,6 @@ Content-Type: application/json
   "path": "https://example.com/video.mp4"
 }
 ```
-
 </CollapsibleDetails>
 
 Update output with a new scene that is using input `example_input`:
@@ -52,10 +46,9 @@ Content-Type: application/json
   }
 }
 ```
-
 </CollapsibleDetails>
 
-<CollapsibleDetails summaryTitle="Example output">
+<CollapsibleDetails summaryTitle='Example output'>
   <video autoplay loop muted src={ExampleImage} alt="example output" />
 </CollapsibleDetails>
 
@@ -73,7 +66,6 @@ type InputStream = {
 ## Properties
 
 ### id
-
 ID of a component.
 
 - **Type**: `string`
@@ -81,7 +73,6 @@ ID of a component.
 ---
 
 ### input_id
-
 ID of an input. It identifies a stream registered using a [register input](/http-api/routes#register-input) method.
 
 - **Type**: `string`

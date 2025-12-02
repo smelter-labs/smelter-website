@@ -1,9 +1,8 @@
 ---
 title: DeckLink
 ---
-
-import { Aside, Code, Badge } from "@astrojs/starlight/components";
-import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import { Aside, Code, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Required feature:decklink" variant="note" size="large" />
 
@@ -16,6 +15,7 @@ An input type that allows consuming streams from Blackmagic DeckLink cards.
 
 To use DeckLink input you must register it first. You can do it by sending a request like this:
 
+
 <CollapsibleDetails summaryTitle='Example request' open>
 
 ```http
@@ -27,7 +27,6 @@ Content-Type: application/json
   "display_name": "DeckLink Quad HDMI Recorder (3)"
 }
 ```
-
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
@@ -44,17 +43,14 @@ type DeckLinkInput = {
   persistent_id?: string;
   enable_audio?: bool;
   required?: bool;
-};
+}
 ```
-
 </CollapsibleDetails>
 
 Capture streams from devices connected to Blackmagic DeckLink card.
-
 ## Properties
 
 ### id
-
 ID of a component.
 
 - **Type**: `string`
@@ -62,7 +58,6 @@ ID of a component.
 ---
 
 ### subdevice_index
-
 Single DeckLink device can consist of multiple sub-devices. This field defines index of sub-device that should be used.
 
 The input device is selected based on fields `subdevice_index`, `persistent_id` **AND** `display_name`.
@@ -74,7 +69,6 @@ will list available devices.
 ---
 
 ### display_name
-
 Select sub-device to use based on the display name. This is the value you see in e.g. Blackmagic Media Express app. like "DeckLink Quad HDMI Recorder (3)"
 
 The input device is selected based on fields `subdevice_index`, `persistent_id` **AND** `display_name`.
@@ -86,7 +80,6 @@ will list available devices.
 ---
 
 ### persistent_id
-
 Persistent ID of a device represented by 32-bit hex number. Each DeckLink sub-device has a separate id.
 
 The input device is selected based on fields `subdevice_index`, `persistent_id` **AND** `display_name`.
@@ -98,7 +91,6 @@ will list available devices.
 ---
 
 ### enable_audio
-
 Enable audio support.
 
 - **Type**: `bool`
@@ -107,8 +99,8 @@ Enable audio support.
 ---
 
 ### required
-
 If input is required and frames are not processed on time, then Smelter will delay producing output frames.
 
 - **Type**: `bool`
 - **Default value**: `false`
+

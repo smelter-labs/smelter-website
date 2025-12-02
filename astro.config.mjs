@@ -178,23 +178,46 @@ export default defineConfig({
           label: "TypeScript SDK",
           items: [
             { label: "Overview", slug: "ts-sdk/overview" },
-            { label: "Project configuration", slug: "ts-sdk/configuration" },
-            { label: "Smelter", slug: "ts-sdk/smelter" },
-            { label: "OfflineSmelter", slug: "ts-sdk/smelter-offline" },
             {
-              label: "Smelter Managers",
-              collapsed: true,
-              autogenerate: { directory: "ts-sdk/managers" },
+              label: "Runtime",
+              items: [
+                {
+                  label: "Node.js",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/nodejs" },
+                },
+                {
+                  label: "Browser (Client)",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/web-client" },
+                },
+                {
+                  label: "Browser (WASM)",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/web-wasm" },
+                },
+              ],
             },
             {
               label: "Components",
               collapsed: true,
-              autogenerate: { directory: "ts-sdk/components" },
-            },
-            {
-              label: "Props",
-              collapsed: true,
-              autogenerate: { directory: "ts-sdk/props" },
+              items: [
+                { slug: "ts-sdk/components/image" },
+                { slug: "ts-sdk/components/inputstream" },
+                { slug: "ts-sdk/components/mp4" },
+                { slug: "ts-sdk/components/rescaler" },
+                { slug: "ts-sdk/components/shader" },
+                { slug: "ts-sdk/components/show" },
+                { slug: "ts-sdk/components/slideshow" },
+                { slug: "ts-sdk/components/text" },
+                { slug: "ts-sdk/components/tiles" },
+                { slug: "ts-sdk/components/view" },
+                { slug: "ts-sdk/components/webview" },
+                {
+                  label: "Props",
+                  autogenerate: { directory: "ts-sdk/components/props" },
+                },
+              ],
             },
             {
               label: "Hooks",

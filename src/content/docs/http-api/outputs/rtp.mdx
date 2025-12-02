@@ -1,9 +1,8 @@
 ---
 title: RTP
 ---
-
-import { Code } from "@astrojs/starlight/components";
-import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import { Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from Smelter over RTP.
 
@@ -26,19 +25,19 @@ Content-Type: application/json
     "encoder": { "type": "ffmpeg_h264" },
     "initial": {
       "root": {
-        "type": "view",
+        "type": "view"
       }
     }
   },
   "audio": {
-    "encoder": { "type": "opus", "channels": "stereo" },
+    "encoder": { "type": "opus" },
+    "channels": "stereo",
     "initial": {
       "inputs": [{ "input_id": "input_1", "volume": 1 }]
     }
   }
 }
 ```
-
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn more about managing outputs.
@@ -53,28 +52,24 @@ type RtpOutput = {
   port: string | u16;
   ip?: string;
   transport_protocol?: "udp" | "tcp_server";
-  video?: RtpVideoOptions;
-  audio?: RtpAudioOptions;
-};
+  video?: VideoOptions;
+  audio?: AudioOptions;
+}
 ```
-
 </CollapsibleDetails>
 
 ## Properties
 
 ### port
-
 Depends on the value of the `transport_protocol` field:
-
-- `udp` - An UDP port number that RTP packets will be sent to.
-- `tcp_server` - A local TCP port number or a port range that Smelter will listen for incoming connections.l TCP port number or a range of ports that Smelter will listen to for incoming connections.
+  - `udp` - An UDP port number that RTP packets will be sent to.
+  - `tcp_server` - A local TCP port number or a port range that Smelter will listen for incoming connections.l TCP port number or a range of ports that Smelter will listen to for incoming connections.
 
 - **Type**: `string | u16`
 
 ---
 
 ### ip
-
 IP address to which RTP packets should be sent. This field is only valid if `transport_protocol` field is set to `udp`.
 
 - **Type**: `string`
@@ -82,54 +77,46 @@ IP address to which RTP packets should be sent. This field is only valid if `tra
 ---
 
 ### transport_protocol
-
 Transport layer protocol that will be used to send RTP packets.
 
 - **Type**: `"udp" | "tcp_server"`
 - **Default value**: `udp`
 - **Supported values**:
-  - `udp` - UDP protocol.
-  - `tcp_server` - TCP protocol where Smelter is the server side of the connection.
+    - `udp` - UDP protocol.
+    - `tcp_server` - TCP protocol where Smelter is the server side of the connection.
 
 ---
 
 ### video
-
 Parameters of a video included in the RTP stream.
 
-- **Type**: [`RtpVideoOptions`](#rtpvideooptions)
+- **Type**: [`VideoOptions`](#videooptions)
 
 ---
 
 ### audio
-
 Parameters of an audio included in the RTP stream.
 
-- **Type**: [`RtpAudioOptions`](#rtpaudiooptions)
+- **Type**: [`AudioOptions`](#audiooptions)
 
-## RtpVideoOptions
-
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type RtpVideoOptions = {
-    resolution: {
-      width: u32;
-      height: u32;
-    };
-    send_eos_when?: OutputEndCondition;
-    encoder: RtpVideoEncoderOptions;
-    initial: { root: Component; };
+## VideoOptions
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VideoOptions = {
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  send_eos_when?: OutputEndCondition;
+  encoder: VideoEncoderOptions;
+  initial: { root: Component; };
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### resolution
-
 Output resolution in pixels.
 
 - **Type**: `{ width: u32; height: u32; }`
@@ -137,7 +124,6 @@ Output resolution in pixels.
 ---
 
 #### send_eos_when
-
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
 - **Type**: [`OutputEndCondition`](#outputendcondition)
@@ -145,46 +131,57 @@ Condition for termination of the output stream based on the input streams states
 ---
 
 #### encoder
-
 Video encoder options.
 
-- **Type**: [`RtpVideoEncoderOptions`](#rtpvideoencoderoptions)
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
+
+---
 
 #### initial
-
 Root of a component tree/scene that should be rendered for the output. Use [`update_output`](/http-api/routes#update-output) request to update this value after registration.
 
 - **Type**: `{ root: Component; }`
 
-## RtpVideoEncoderOptions
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type RtpVideoEncoderOptions = {
-    type: "ffmpeg_h264";
-    preset?: 
-      | "ultrafast"
-      | "superfast"
-      | "veryfast"
-      | "faster"
-      | "fast"
-      | "medium"
-      | "slow"
-      | "slower"
-      | "veryslow"
-      | "placebo";
-    ffmpeg_options?: Record<string, string>;
-}
-`}
-    lang="tsx"
-  />
+## VideoEncoderOptions
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VideoEncoderOptions =
+  | {
+      type: "ffmpeg_h264";
+      preset?:
+        | "ultrafast"
+        | "superfast"
+        | "veryfast"
+        | "faster"
+        | "fast"
+        | "medium"
+        | "slow"
+        | "slower"
+        | "veryslow"
+        | "placebo";
+      pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
+      ffmpeg_options?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp8";
+      ffmpeg_options?: Map<string, string>;
+    }
+  | {
+      type: "ffmpeg_vp9";
+      pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
+      ffmpeg_options?: Map<string, string>;
+    }
+  | {
+      type: "vulkan_h264";
+      bitrate: { average_bitrate: number; max_bitrate: number; } | number;
+    };
+```
 </CollapsibleDetails>
 
-### Properties (`type: "ffmpeg_h264"`)
+### Properties (type: "ffmpeg_h264")
 
 #### preset
-
 Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
@@ -203,32 +200,88 @@ Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/
 
 ---
 
-#### ffmpeg_options
+#### pixel_format
+Encoder pixel format
 
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p"`
+- **Default value**: `yuv420p`
+- **Supported values**:
+  - `yuv420p`
+  - `yuv422p`
+  - `yuv444p`
+
+---
+
+#### ffmpeg_options
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
-- **Type**: `Record<string, string>`
+- **Type**: `Map<string, string>`
 
-## RtpAudioOptions
+### Properties (type: "ffmpeg_vp8")
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type RtpAudioOptions = {
-    mixing_strategy?: "sum_clip" | "sum_scale";
-    send_eos_when?: OutputEndCondition;
-    encoder: RtpAudioEncoderOptions;
-    initial: { inputs: InputAudio[]; };
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: "ffmpeg_vp9")
+
+#### pixel_format
+Encoder pixel format
+
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p"`
+- **Default value**: `yuv420p`
+- **Supported values**:
+  - `yuv420p`
+  - `yuv422p`
+  - `yuv444p`
+
+---
+
+#### ffmpeg_options
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Map<string, string>`
+
+### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
+Hardware encoder. Requires GPU that supports Vulkan Video encoding.
+
+#### bitrate
+Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate. For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VulkanH264EncoderBitrate = { average_bitrate: number; max_bitrate: number; } | number;
+```
+</CollapsibleDetails>
+
+#### Properties
+
+##### average_bitrate
+Average bitrate measured in bits/second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+---
+
+##### max_bitrate
+Max bitrate measured in bits/second.
+
+## AudioOptions
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type AudioOptions = {
+  mixing_strategy?: "sum_clip" | "sum_scale";
+  send_eos_when?: OutputEndCondition;
+  encoder: AudioEncoderOptions;
+  channels?: "mono" | "stereo";
+  initial: { inputs: InputAudio[]; };
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### mixing_strategy
-
 Specifies how audio should be mixed.
 
 - **Type**: `"sum_clip" | "sum_scale"`
@@ -240,7 +293,6 @@ Specifies how audio should be mixed.
 ---
 
 #### send_eos_when
-
 Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
 
 - **Type**: [`OutputEndCondition`](#outputendcondition)
@@ -248,46 +300,44 @@ Condition for termination of the output stream based on the input streams states
 ---
 
 #### encoder
-
 Audio encoder options.
 
-- **Type**: [`RtpAudioEncoderOptions`](#rtpaudioencoderoptions)
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
 
-#### initial
-
-Initial audio mixer configuration for output.
-
-- **Type**: `{ inputs: InputAudio[]; }`
-
-## RtpAudioEncoderOptions
-
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-type RtpAudioEncoderOptions = {
-    type: "opus";
-    channels: "mono" | "stereo";
-    preset?: "quality" | "voip" | "lowest_latency";
-    sample_rate?: u32;
-}
-`}
-    lang="tsx"
-  />
-</CollapsibleDetails>
-
-### Properties(type: "opus")
+---
 
 #### channels
-
 Channels configuration
 
 - **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
 - **Supported values**:
   - `mono` - Mono audio (single channel).
   - `stereo` - Stereo audio (two channels).
 
-#### preset
 
+#### initial
+Initial audio mixer configuration for output.
+
+- **Type**: `{ inputs: InputAudio[]; }`
+
+## AudioEncoderOptions
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type AudioEncoderOptions = {
+  type: "opus";
+  preset?: "quality" | "voip" | "lowest_latency";
+  sample_rate?: u32;
+  forward_error_correction?: bool;
+  expected_packet_loss?: u32;
+}
+```
+</CollapsibleDetails>
+
+### Properties(type: "opus")
+
+#### preset
 Audio output encoder preset.
 
 - **Type**: `"quality" | "voip" | "lowest_latency"`
@@ -297,72 +347,80 @@ Audio output encoder preset.
   - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
   - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
 
-#### sample_rate
+---
 
+#### sample_rate
 Sample rate.
 
 - **Type**: `u32`
 - **Default value**: `48000`
 - **Supported values**: `8000`, `16000`, `24000`, `48000`
 
+---
+
+#### forward_error_correction
+When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
+and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+---
+
+#### expected_packet_loss
+Expected packet loss expressed as a percentage. This value controls how much redundant data is added to counteract packet loss (only when forward error correction is enabled).
+
+- **Type**: `u32`
+- **Default value**: `0`
+- **Supported values**: `0-100`
+
 ## InputAudio
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type InputAudio = {
-    input_id: string;
-    volume?: f32;
+  input_id: string;
+  volume?: f32;
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### input_id
-
 ID of an input. It identifies a stream registered using a [register input](/http-api/routes#register-input) method.
 
 - **Type**: `string`
 
 #### volume
-
-Input volume in range `[0, 1]`
+Input volume in range `[0, 2]`
 
 - **Type**: `f32`
 - **Default value**: `1.0`
-- **Supported values**: `[0, 1]`
+- **Supported values**: `[0, 2]`
 
 ## OutputEndCondition
-
 This type defines when end of an input stream should trigger end of the output stream. Only one of those fields can be set at the time.
 Unless specified otherwise the input stream is considered finished/ended when:
-
 - TCP connection was dropped/closed.
 - RTCP Goodbye packet (`BYE`) was received.
 - Mp4 track has ended.
 - Input was unregistered already (or never registered).
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
 type OutputEndCondition = {
-    any_of?: string[];
-    all_of?: string[];
-    any_input?: bool;
-    all_inputs?: bool;
+  any_of?: string[];
+  all_of?: string[];
+  any_input?: bool;
+  all_inputs?: bool;
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ### Properties
 
 #### any_of
-
 List of the input streams. The output stream will terminate if any stream in the list finishes.
 
 - **Type**: `string[]`
@@ -370,7 +428,6 @@ List of the input streams. The output stream will terminate if any stream in the
 ---
 
 #### all_of
-
 List of the input streams. The output stream will terminate when all streams in the list finish.
 
 - **Type**: `string[]`
@@ -378,7 +435,6 @@ List of the input streams. The output stream will terminate when all streams in 
 ---
 
 #### any_input
-
 Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
 
 - **Type**: `bool`
@@ -386,7 +442,6 @@ Terminate the output stream if any of the input streams end, including streams a
 ---
 
 #### all_inputs
-
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `bool`
