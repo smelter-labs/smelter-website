@@ -1,17 +1,17 @@
 ---
 title: HLS
-sidebar:
-  order: 1
 ---
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
+<Badge text="Browser (Client)" variant="tip" size="large" />
 
 <br />
 <br />
 
-An output type that allows streaming video and audio from Smelter over HLS.
+An output type that allows streaming video and audio from Smelter over HLS. It writes
+HLS playlist to disk, but user needs to handle serving the files on their own.
 
 ## Usage
 

@@ -1,7 +1,7 @@
 ---
 title: TypeScript SDK
 ---
-import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
 
 TypeScript SDK is a library that provides a set of React components, hooks, and utility
 functions you can use to control video composition in Smelter.
@@ -13,7 +13,7 @@ The rendering process can be divided into two main parts: the TypeScript code th
 using React components, and the media processing that renders the actual video. To select your optimal
 setup, you need to decide where each of these steps should be executed.
 
-- ##### Node.js
+- ##### <Badge text="Node.js" variant="tip" size="large" />
   **NPM package**: `@swmansion/smelter-node`
 
   It allows you to control a Smelter server from the Node.js process. In this approach your React
@@ -22,7 +22,7 @@ setup, you need to decide where each of these steps should be executed.
   launched on the same machine as Node.js, but you may choose to deploy it independently and simply
   provide the library with the connection URL.
 
-- ##### Browser (Client)
+- ##### <Badge text="Browser (Client)" variant="tip" size="large" />
   **NPM package**: `@swmansion/smelter-web-client`
 
   It allows you to control a Smelter server from within the browser. In this approach, your React
@@ -31,7 +31,7 @@ setup, you need to decide where each of these steps should be executed.
   inside the browser, so the library must be provided with the connection URL to an already deployed
   instance.
 
-- ##### Browser (WASM)
+- ##### <Badge text="Browser (WASM)" variant="tip" size="large" />
   **NPM package**: `@swmansion/smelter-web-wasm`
 
   It allows you to run the entire Smelter rendering engine directly in the browser. In this approach,
@@ -105,29 +105,40 @@ Our hooks are primarily designed for managing stream configurations and accessin
 You're free to use any standard React hooks such as `useState`, `useEffect`, and more.
 
 ### Inputs
-You can handle most of the stream composing by using React components. However, delivering multimedia to Smelter requires registering the input beforehand. You can register an input by using `Smelter.registerInput`, which accepts `inputId` and object representing input configurations. Supported inputs depend on the runtime.
 
-Node.js:
+You can handle most of the stream composing by using React components. However, delivering multimedia to
+Smelter requires registering the input beforehand. You can register an input by using `Smelter.registerInput`,
+which accepts `inputId` and object representing input configurations. Supported inputs depend on the runtime.
+
+Look for <Badge text="Node.js" variant="tip" size="small" />, <Badge text="Browser (Client)" variant="tip" size="small" />, or
+<Badge text="Browser (WASM)" variant="tip" size="small" /> tags in the input documentation to check which runtime is supported.
+
+Node.js o Browser (Client):
 - [MP4](/ts-sdk/inputs/mp4)
 - [RTP](/ts-sdk/inputs/rtp)
 - [HLS](/ts-sdk/inputs/hls)
-- [WHEP client](/ts-sdk/inputs/whep)
 - [WHIP server](/ts-sdk/inputs/whip)
+- [WHEP client](/ts-sdk/inputs/whep)
 - [RTMP server](/ts-sdk/inputs/rtmp)
 
 Browser (WASM):
+- [MP4](/ts-sdk/inputs/mp4) (limited API compared to Node.js)
 - [Camera (Web API)](/ts-sdk/inputs/wasm-camera)
 - [Screen capture (Web API)](/ts-sdk/inputs/wasm-screen)
 - [MediaStream (Web API)](/ts-sdk/inputs/wasm-stream)
-- [WHEP (Web API)](/ts-sdk/inputs/wasm-whep)
-- [MP4](/ts-sdk/inputs/mp4) (limited API compared to Node.js)
+- [WHEP client (Web API)](/ts-sdk/inputs/wasm-whep)
 
 After registering the stream, you can use it in composition by using [InputStream](/ts-sdk/components/inputstream) component.
 
-<Code code={`<InputStream inputId="example_input" />`} lang="tsx" />
+```tsx
+<InputStream inputId="example_input" />
+```
 
 ### Outputs
 Similar to inputs, outputs require registering them before they can be utilized. You can register an output by using `Smelter.registerOutput`.
+
+Look for <Badge text="Node.js" variant="tip" size="small" />, <Badge text="Browser (Client)" variant="tip" size="small" />, or
+<Badge text="Browser (WASM)" variant="tip" size="small" /> tags in the output documentation to check which runtime is supported.
 
 Node.js:
 - [MP4](/ts-sdk/outputs/mp4)
@@ -140,7 +151,7 @@ Node.js:
 Browser (WASM)
 - [Canvas (Web APi)](/ts-sdk/outputs/wasm-canvas)
 - [MediaStream (Web API)](/ts-sdk/outputs/wasm-stream)
-- [WHIP (Web API)](/ts-sdk/outputs/wasm-whip)
+- [WHIP client (Web API)](/ts-sdk/outputs/wasm-whip)
 
 ### Resources
 Other than inputs and outputs Smelter supports a few other entity types that need to be registered.
