@@ -262,6 +262,7 @@ export default defineConfig({
                 { slug: "ts-sdk/outputs/wasm-whip" },
                 {
                   label: "Encoders",
+                  collapsed: true,
                   autogenerate: { directory: "ts-sdk/outputs/encoders" },
                 },
               ],

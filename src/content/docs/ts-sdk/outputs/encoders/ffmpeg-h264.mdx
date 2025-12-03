@@ -3,360 +3,97 @@ title: FFmpeg H264
 sidebar:
   order: 1
 ---
-import { Aside, Badge } from '@astrojs/starlight/components';
+
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import { Aside } from '@astrojs/starlight/components';
 
-<Badge text="Node.js" variant="tip" size="large" />
-
-<br />
-<br />
-
-An output type that allows recording video and audio to MP4 file.
-
-## Usage
-
-```tsx title=mp4OutputExample.tsx
-import Smelter from "@swmansion/smelter-node";
-import { View } from "@swmansion/smelter";
-
-async function run() {
-  const smelter = new Smelter();
-  await smelter.init();
-  await smelter.registerOutput("example", <View />, {
-    type: "mp4",
-    serverPath: "./output.mp4",
-    video: {
-      encoder: { type: "ffmpeg_h264" },
-      resolution: { width: 1920, height: 1080 },
-    }
-  });
-}
-void run();
-```
-
-## Reference 
+## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type RegisterMp4Output = {
-  type: "mp4";
-  serverPath: string;
-  video?: VideoOptions;
-  audio?: AudioOptions;
+type FfmpegH264EncoderOptions = {
+  type: "ffmpeg_h264";
+  bitrate?: number
+  | {
+    averageBitrate: number;
+    maxBitrate: number;
+  };
+  preset?:
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
   ffmpegOptions?: Record<string, string>;
-}
+};
 ```
 </CollapsibleDetails>
-
-Parameters for registering an output that writes composed video/audio to MP4 file.
-
-<Aside>Exactly one of `url` or `serverPath` has to be defined.</Aside>
 
 ## Properties
 
-### serverPath
-Path to the MP4 file, specifying its location on the server where Smelter is deployed.
+### bitrate
 
-- **Type**: `string`
+Desired bitrate of the output stream, in bits per second. If only a numeric value is specified then maximal allowed bitrate is set
+to 1.25 of the set number.
 
----
-
-### video
-Video track configuration.
-
-- **Type**: [`VideoOptions`](#videooptions)
+- **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
+- **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+  the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
 
 ---
 
-### audio
-Audio track configuration.
+### preset
 
-- **Type**: [`AudioOptions`](#audiooptions)
-
----
-
-### ffmpegOptions
-
-Raw FFmpeg muxer options. Visit <a href='https://ffmpeg.org/ffmpeg-formats.html' target='_blank'>FFmpeg docs</a> 
-to learn more. For codec specific options see `ffmpegOptions` in [`VideoEncoderOptions`](#videoencoderoptions).
-
-- **Type**: `Record<string, string>`
-
-## VideoOptions
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-```tsx
-type VideoOptions = {
-  resolution: {
-    width: number;
-    height: number;
-  };
-  sendEosWhen?: OutputEndCondition;
-  encoder: VideoEncoderOptions;
-}
-```
-</CollapsibleDetails>
-
-Video track configuration options.
-
-### Properties
-
-#### resolution
-Output resolution in pixels.
-
-- **Type**: `{ width: number; height: number;}`
-
----
-
-#### sendEosWhen
-Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
-
-- **Type**: [`OutputEndCondition`](#outputendcondition)
-
----
-
-#### encoder
-Video encoder options.
-
-- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
-
-
-## VideoEncoderOptions
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-
-```tsx
-type VideoEncoderOptions =
-  | {
-      type: "ffmpeg_h264";
-      bitrate?: { averageBitrate: number; maxBitrate: number; } | number;
-      preset:
-        | "ultrafast"
-        | "superfast"
-        | "veryfast"
-        | "faster"
-        | "fast"
-        | "medium"
-        | "slow"
-        | "slower"
-        | "veryslow"
-        | "placebo";
-      pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
-      ffmpegOptions?: Record<string, string>;
-    }
-  | {
-      type: "vulkan_h264";
-      bitrate?: { averageBitrate: number; maxBitrate: number; } | number;
-    };
-```
-</CollapsibleDetails>
-
-Configuration for the video encoder, based on the selected codec.
-
-### Properties (type: “ffmpeg_h264”)
-
-#### bitrate
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-
-```tsx
-type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
-```
-</CollapsibleDetails>
-
-Encoding bitrate. If not provided, the encoder default is used.
-
-#### Properties
-
-##### averageBitrate
-Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
-
----
-
-##### maxBitrate
-Max bitrate measured in bits per second.
-
----
-
-#### preset
 Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
 - **Default value**: `fast`
 - **Supported values**:
-  - `ultrafast`
-  - `superfast`
-  - `veryfast`
-  - `faster`
-  - `fast`
-  - `medium`
-  - `slow`
-  - `slower`
-  - `veryslow`
-  - `placebo`
+    - `ultrafast`
+    - `superfast`
+    - `veryfast`
+    - `faster`
+    - `fast`
+    - `medium`
+    - `slow`
+    - `slower`
+    - `veryslow`
+    - `placebo`
+
+<Aside>
+
+TODO
+
+</Aside>
 
 ---
 
-#### pixelFormat
-Encoder pixel format
+### pixelFormat
 
-- **Type**: `"yuv420p" | "yuv422p" | "yuv444p"`
+Encoder pixel format.
+
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p";`
 - **Default value**: `yuv420p`
-- **Supported values**:
-  - `yuv420p`
-  - `yuv422p`
-  - `yuv444p`
+
+<Aside type="caution">
+
+Some H264 encoders may not support `yuv422p` and `yuv444p` formats.
+Before setting this option check if it is supported by the used encoder.
+
+</Aside>
 
 ---
 
-#### ffmpegOptions
+### ffmpegOptions
+
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `Record<string, string>`
-
-### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
-Hardware encoder. Requires GPU that supports Vulkan Video encoding.
-
-#### bitrate
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-
-```tsx
-type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
-```
-</CollapsibleDetails>
-
-Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate.
-For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
-
-#### Properties
-
-##### averageBitrate
-Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
-
----
-
-##### maxBitrate
-Max bitrate measured in bits per second.
-
-## AudioOptions
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-```tsx
-type AudioOptions = {
-  channels?: "mono" | "stereo";
-  mixingStrategy?: "sum_clip" | "sum_scale";
-  sendEosWhen?: OutputEndCondition;
-  encoder: AudioEncoderOptions;
-}
-```
-</CollapsibleDetails>
-
-Parameters of an audio source included in the stream.
-
-### Properties
-
-#### channels
-Channels configuration
-
-- **Type**: `"mono" | "stereo"`
-- **Default value**: `"stereo"`
-- **Supported values**:
-  - `mono` - Mono audio (single channel).
-  - `stereo` - Stereo audio (two channels).
-
-#### mixingStrategy
-Specifies how audio should be mixed.
-
-- **Type**: `"sum_clip" | "sum_scale"`
-- **Default value**: `"sum_clip"`
-- **Supported values**:
-  - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
-  - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
-
----
-
-#### sendEosWhen
-Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
-
-- **Type**: [`OutputEndCondition`](#outputendcondition)
-
----
-
-#### encoder
-Audio encoder options.
-
-- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
-
-## AudioEncoderOptions
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-```tsx
-type AudioEncoderOptions = {
-  type: "aac";
-  sampleRate?: number;
-}
-```
-</CollapsibleDetails>
-
-Configuration for the audio encoder, based on the selected codec.
-
-### Properties(type: "aac")
-
-#### sampleRate
-
-- **Type**: `number`
-- **Default value**: `44100`
-- **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`
-
-
-## OutputEndCondition
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-```tsx
-type OutputEndCondition = 
-  | { anyOf: string[]; }
-  | { allOf: string[]; }
-  | { anyInput: boolean; }
-  | { allInputs: boolean; };
-```
-</CollapsibleDetails>
-
-Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
-
-By default, the input stream is considered finished/ended when:
-- TCP connection was dropped/closed.
-- RTCP Goodbye packet (BYE) was received.
-- MP4 track has ended.
-- Input was unregistered already (or never registered).
-
-
-### Properties
-
-#### anyOf
-List of the input streams. The output stream will terminate if any stream in the list finishes.
-
-- **Type**: `string[]`
-
----
-
-#### allOf
-List of the input streams. The output stream will terminate when all streams in the list finish.
-
-- **Type**: `string[]`
-
----
-
-#### anyInput
-Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
-
-- **Type**: `boolean`
-
----
-
-#### allInputs
-Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
-
-- **Type**: `boolean`
 
