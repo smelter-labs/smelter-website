@@ -1,10 +1,14 @@
 ---
-title: Benchmarks
+title: Benchmark data
 ---
 
 import { Aside } from "@astrojs/starlight/components";
 
-When deploying Smelter, it is essential to choose a server with an adequate processing power. To assist in this process, we have developed a series of benchmarks.
+<Aside type="caution">
+This data was calculated based on Smelter v0.4.0, before hardware encoders were added. 
+Performance for scenarios described below should still be similar on latest version. However,
+the most optimal cases, where everything runs on GPU, are not described here yet.
+</Aside>
 
 Each of the following examples is testing max number of inputs and outputs that the instance can handle. It provides 3 variants with different ratio of inputs to outputs. Each output renders 1, 2 or 4 inputs using tiles.
 

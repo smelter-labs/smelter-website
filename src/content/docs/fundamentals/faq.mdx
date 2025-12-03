@@ -1,0 +1,13 @@
+---
+title: FAQ
+---
+
+TODO: Needs some more questions
+
+### There are a lot of hardware encoding and decoding solutions. What is special about using it via Vulkan?
+
+Vulkan is a platform independent API, so we don't have to implement custom solutions for AMD, Nvidia, and Intel.
+
+Additionally, our rendering process runs on `wgpu` that is using `Vulkan` as a backend on Linux. Our decoder and encoder
+can produce or consume wgpu Textures (internally Vulkan textures), which removes a need to ever keep any decoded frames
+in CPU memory. The only data that needs to travel between GPU and CPU is encoded video, which is a lot cheaper to copy.
