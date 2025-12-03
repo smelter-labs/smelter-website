@@ -260,6 +260,10 @@ export default defineConfig({
                 { slug: "ts-sdk/outputs/wasm-canvas" },
                 { slug: "ts-sdk/outputs/wasm-stream" },
                 { slug: "ts-sdk/outputs/wasm-whip" },
+                {
+                  label: "Encoders",
+                  autogenerate: { directory: "ts-sdk/outputs/encoders" },
+                },
               ],
             },
             {
