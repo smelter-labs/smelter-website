@@ -1,12 +1,11 @@
 ---
 title: WHEP server
-sidebar:
-  order: 5
 ---
 import { Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
+<Badge text="Browser (Client)" variant="tip" size="large" />
 
 <br />
 <br />
@@ -219,7 +218,7 @@ Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html
 
 - **Type**: `Record<string, string>`
 
-### Properties (type: “vulkan_h264”) <Badge text="Required feature:vk-video" variant="note" />
+### Properties (type: “vulkan_h264”) <Badge text="Required feature: vk-video" variant="note" />
 Hardware encoder. Requires GPU that supports Vulkan Video encoding.
 
 #### bitrate

@@ -1,13 +1,12 @@
 ---
-title: RTMP Server
-sidebar:
-  order: 3
+title: RTMP server
 ---
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 
 <Badge text="Node.js" variant="tip" size="large" />
+<Badge text="Browser (Client)" variant="tip" size="large" />
 <Badge text="Experimental" variant='caution' size="large" />
 
 <br />
@@ -110,4 +109,4 @@ H264 decoder configuration.
 - **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
 - **Supported values**:
   - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
-  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  - `"vulkan_h264"` (<Badge text="Required feature: vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.

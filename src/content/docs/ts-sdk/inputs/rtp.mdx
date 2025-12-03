@@ -1,12 +1,11 @@
 ---
 title: RTP
-sidebar:
-  order: 5
 ---
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
+<Badge text="Browser (Client)" variant="tip" size="large" />
 
 <br />
 <br />
@@ -124,7 +123,7 @@ Video decoder.
 - **Type**: `"ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9"`
 - **Supported values**:
   - `"ffmpeg_h264"` - Use the software H264 decoder based on ffmpeg.
-  - `"vulkan_h264"` (<Badge text="Required feature:vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  - `"vulkan_h264"` (<Badge text="Required feature: vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
   - `"ffmpeg_vp8"` - Use the software VP8 decoder based on ffmpeg.
   - `"ffmpeg_vp9"` - Use the software VP9 decoder based on ffmpeg.
 
