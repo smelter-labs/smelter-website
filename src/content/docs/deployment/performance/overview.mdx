@@ -1,0 +1,29 @@
+---
+title: Overview
+sidebar:
+    order: 1
+---
+import { Aside } from "@astrojs/starlight/components";
+
+Smelter performance is highly dependent on a runtime, hardware and the feature set you need.
+
+> For example, Smelter is a media server for composing media, we are always decoding input streams
+and encoding output stream. However, if you just want to receive some stream e.g. via WebRTC and
+re-broadcast it efficiently, consider solutions like [Fishjam](https://fishjam.io/).
+
+## Key performance factors
+
+The most important factor affecting performance is how much work we are doing on the GPU and how much on
+CPU. We can divide or heaviest workloads into following categories:
+- decoding - Converting encoded video e.g. H264 into raw frames (2D array of bytes representing specific pixels).
+- rendering - Process that takes set of frames (one for each input) and produces set of frames (one for each output).
+- encoding - Converting stream of raw frames (2D array of bytes representing specific pixels) into encoded video e.g. H264
+
+> There are of course other parts, for example, handling network protocols, container formats, processing audio. However, they
+are inconsequential in terms of performance.
+
+## Runtimes
+
+You can run Smelter on the server or in the browser. Each environment has its own performance bottlenecks.
+
+See [media server](/deployment/performance/server) and [browser WASM module](/deployment/performance/browser) performance overview.

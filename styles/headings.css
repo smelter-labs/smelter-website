@@ -42,3 +42,7 @@
   color: #302555;
   transition: opacity 0.1s ease-in-out; /* Smooth transition for the icon appearance */
 }
+
+.force-middle-align :is(th, td):not(:where(.not-content *)) {
+  vertical-align: middle !important;
+}
