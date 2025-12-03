@@ -12,12 +12,13 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 ```tsx
 type FfmpegVp8EncoderOptions = {
-  type: "ffmpeg_vp8";
+  type: "ffmpeg_vp9";
   bitrate?: number
   | {
     averageBitrate: number;
     maxBitrate: number;
   };
+  pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
   ffmpegOptions?: Record<string, string>;
 };
 ```
@@ -33,6 +34,13 @@ to 1.25 of the set number.
 - **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
 - **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
   the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
+
+### pixelFormat
+
+Encoder pixel format.
+
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p";`
+- **Default value**: `yuv420p`
 
 ### ffmpegOptions
 
