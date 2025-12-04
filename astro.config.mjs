@@ -318,41 +318,47 @@ export default defineConfig({
                 { slug: "http-api/outputs/whep" },
                 { slug: "http-api/outputs/rtmp" },
               ],
-            },
-            {
-              label: "Resources",
+                {
+              label: "Encoders",
               collapsed: true,
-              autogenerate: { directory: "http-api/resources" },
+              autogenerate: { directory: "http-api/outputs/encoders" },
             },
-            {
-              label: "Guides",
-              collapsed: true,
-              autogenerate: { directory: "http-api/guides" },
-            },
-          ],
+          ]
+        },
+        {
+          label: "Resources",
+          collapsed: true,
+          autogenerate: { directory: "http-api/resources" },
+        },
+        {
+          label: "Guides",
+          collapsed: true,
+          autogenerate: { directory: "http-api/guides" },
         },
       ],
-    }),
-    mdx(),
-    tailwind({ applyBaseStyles: false }),
-    react(),
+    },
+      ],
+}),
+mdx(),
+  tailwind({ applyBaseStyles: false }),
+  react(),
   ],
 
-  markdown: {
-    rehypePlugins: [
-      rehypeHeadingIds,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: "append",
-        },
-      ],
+markdown: {
+  rehypePlugins: [
+    rehypeHeadingIds,
+    [
+      rehypeAutolinkHeadings,
+      {
+        behavior: "append",
+      },
     ],
+  ],
   },
 
-  adapter: vercel({
-    webAnalytics: {
-      enabled: true,
-    },
-  }),
+adapter: vercel({
+  webAnalytics: {
+    enabled: true,
+  },
+}),
 });
