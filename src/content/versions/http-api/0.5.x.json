@@ -1,0 +1,96 @@
+{
+  "sidebar": [
+    {
+      "label": "Server - HTTP API",
+      "items": [
+        {
+          "label": "Overview",
+          "slug": "http-api/overview"
+        },
+        {
+          "label": "Routes",
+          "slug": "http-api/routes"
+        },
+        {
+          "label": "Events",
+          "slug": "http-api/events"
+        },
+        {
+          "label": "Components",
+          "collapsed": true,
+          "autogenerate": {
+            "directory": "http-api/components"
+          }
+        },
+        {
+          "label": "Inputs",
+          "collapsed": true,
+          "items": [
+            {
+              "slug": "http-api/inputs/mp4"
+            },
+            {
+              "slug": "http-api/inputs/rtp"
+            },
+            {
+              "slug": "http-api/inputs/hls"
+            },
+            {
+              "slug": "http-api/inputs/whip"
+            },
+            {
+              "slug": "http-api/inputs/whep"
+            },
+            {
+              "slug": "http-api/inputs/rtmp"
+            },
+            {
+              "slug": "http-api/inputs/decklink"
+            },
+            {
+              "slug": "http-api/inputs/v4l2"
+            }
+          ]
+        },
+        {
+          "label": "Outputs",
+          "collapsed": true,
+          "items": [
+            {
+              "slug": "http-api/outputs/mp4"
+            },
+            {
+              "slug": "http-api/outputs/rtp"
+            },
+            {
+              "slug": "http-api/outputs/hls"
+            },
+            {
+              "slug": "http-api/outputs/whip"
+            },
+            {
+              "slug": "http-api/outputs/whep"
+            },
+            {
+              "slug": "http-api/outputs/rtmp"
+            }
+          ]
+        },
+        {
+          "label": "Resources",
+          "collapsed": true,
+          "autogenerate": {
+            "directory": "http-api/resources"
+          }
+        },
+        {
+          "label": "Guides",
+          "collapsed": true,
+          "autogenerate": {
+            "directory": "http-api/guides"
+          }
+        }
+      ]
+    }
+  ]
+}

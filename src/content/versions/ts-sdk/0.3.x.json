@@ -1,0 +1,177 @@
+{
+  "sidebar": [
+    {
+      "label": "TypeScript SDK",
+      "items": [
+        {
+          "label": "Overview",
+          "slug": "ts-sdk/overview"
+        },
+        {
+          "label": "Runtime",
+          "items": [
+            {
+              "label": "Node.js",
+              "collapsed": true,
+              "autogenerate": {
+                "directory": "ts-sdk/nodejs"
+              }
+            },
+            {
+              "label": "Browser (Client)",
+              "collapsed": true,
+              "autogenerate": {
+                "directory": "ts-sdk/web-client"
+              }
+            },
+            {
+              "label": "Browser (WASM)",
+              "collapsed": true,
+              "autogenerate": {
+                "directory": "ts-sdk/web-wasm"
+              }
+            }
+          ]
+        },
+        {
+          "label": "Components",
+          "collapsed": true,
+          "items": [
+            {
+              "slug": "ts-sdk/components/image"
+            },
+            {
+              "slug": "ts-sdk/components/inputstream"
+            },
+            {
+              "slug": "ts-sdk/components/mp4"
+            },
+            {
+              "slug": "ts-sdk/components/rescaler"
+            },
+            {
+              "slug": "ts-sdk/components/shader"
+            },
+            {
+              "slug": "ts-sdk/components/show"
+            },
+            {
+              "slug": "ts-sdk/components/slideshow"
+            },
+            {
+              "slug": "ts-sdk/components/text"
+            },
+            {
+              "slug": "ts-sdk/components/tiles"
+            },
+            {
+              "slug": "ts-sdk/components/view"
+            },
+            {
+              "slug": "ts-sdk/components/webview"
+            },
+            {
+              "label": "Props",
+              "autogenerate": {
+                "directory": "ts-sdk/components/props"
+              }
+            }
+          ]
+        },
+        {
+          "label": "Hooks",
+          "collapsed": true,
+          "autogenerate": {
+            "directory": "ts-sdk/hooks"
+          }
+        },
+        {
+          "label": "Inputs",
+          "collapsed": true,
+          "items": [
+            {
+              "slug": "ts-sdk/inputs/mp4"
+            },
+            {
+              "slug": "ts-sdk/inputs/rtp"
+            },
+            {
+              "slug": "ts-sdk/inputs/hls"
+            },
+            {
+              "slug": "ts-sdk/inputs/whip"
+            },
+            {
+              "slug": "ts-sdk/inputs/whep"
+            },
+            {
+              "slug": "ts-sdk/inputs/rtmp"
+            },
+            {
+              "slug": "ts-sdk/inputs/v4l2"
+            },
+            {
+              "slug": "ts-sdk/inputs/wasm-camera"
+            },
+            {
+              "slug": "ts-sdk/inputs/wasm-screen"
+            },
+            {
+              "slug": "ts-sdk/inputs/wasm-stream"
+            },
+            {
+              "slug": "ts-sdk/inputs/wasm-whep"
+            }
+          ]
+        },
+        {
+          "label": "Outputs",
+          "collapsed": true,
+          "items": [
+            {
+              "slug": "ts-sdk/outputs/mp4"
+            },
+            {
+              "slug": "ts-sdk/outputs/rtp"
+            },
+            {
+              "slug": "ts-sdk/outputs/hls"
+            },
+            {
+              "slug": "ts-sdk/outputs/whip"
+            },
+            {
+              "slug": "ts-sdk/outputs/whep"
+            },
+            {
+              "slug": "ts-sdk/outputs/rtmp"
+            },
+            {
+              "slug": "ts-sdk/outputs/wasm-canvas"
+            },
+            {
+              "slug": "ts-sdk/outputs/wasm-stream"
+            },
+            {
+              "slug": "ts-sdk/outputs/wasm-whip"
+            }
+          ]
+        },
+        {
+          "label": "Resources",
+          "collapsed": true,
+          "autogenerate": {
+            "directory": "ts-sdk/resources"
+          }
+        },
+        {
+          "label": "Guides",
+          "collapsed": true,
+          "autogenerate": {
+            "directory": "ts-sdk/guides"
+          }
+        }
+      ]
+    }
+  ]
+}
