@@ -234,6 +234,7 @@ export default defineConfig({
                 { slug: "ts-sdk/inputs/whip" },
                 { slug: "ts-sdk/inputs/whep" },
                 { slug: "ts-sdk/inputs/rtmp" },
+                { slug: "ts-sdk/inputs/v4l2" },
                 { slug: "ts-sdk/inputs/wasm-camera" },
                 { slug: "ts-sdk/inputs/wasm-screen" },
                 { slug: "ts-sdk/inputs/wasm-stream" },
@@ -292,6 +293,7 @@ export default defineConfig({
                 { slug: "http-api/inputs/whep" },
                 { slug: "http-api/inputs/rtmp" },
                 { slug: "http-api/inputs/decklink" },
+                { slug: "http-api/inputs/v4l2" },
               ],
             },
             {
