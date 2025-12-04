@@ -24,8 +24,6 @@ which image formats are supported by your device by using ```v4l2-ctl -d [DEVICE
 
 ## Usage
 
-To use the V4L2 Input you must register it first. You can do it by sending a request like this:
-
 <CollapsibleDetails summaryTitle='Example request' open>
 
 ```tsx title=v4l2InputExample.tsx
@@ -35,14 +33,14 @@ async function run() {
   const smelter = new Smelter();
   await smelter.init();
   await smelter.registerInput("example", {
-    "type": "v4l2",
-    "path": "/dev/video0",
-    "format": "yuyv",
-    "resolution": {
-      "width": 1920,
-      "height": 1080,
+    type: "v4l2",
+    path: "/dev/video0",
+    format: "yuyv",
+    resolution: {
+      width: 1920,
+      height: 1080,
     },
-    "framerate": 30,
+    framerate: 30,
   });
 }
 void run();
