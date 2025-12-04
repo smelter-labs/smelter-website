@@ -28,7 +28,7 @@ Content-Type: application/json
 {
   "type": "v4l2",
   "path": "/dev/video0",
-  "format": "yuyv"
+  "format": "yuyv",
   "resolution": {
     "width": 1920,
     "height": 1080,
@@ -36,6 +36,7 @@ Content-Type: application/json
   "framerate": 30,
 }
 ```
+
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
@@ -43,6 +44,7 @@ See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definition' open>
+
 ```tsx
 type RegisterV4l2Input = {
   type: "v4l2";
@@ -52,9 +54,10 @@ type RegisterV4l2Input = {
     width: u32;
     height: u32;
   };
-  framerate: Framerate;
+  framerate: u32 | string;
   required?: bool;
 };
+
 ```
 </CollapsibleDetails>
 
