@@ -40,3 +40,20 @@ to 1.25 of the set number.
 - **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
 - **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
   the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
+
+### Properties
+
+#### averageBitrate
+
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+- **Type**: `number`
+
+--- 
+
+#### maxBitrate
+
+
+Max bitrate measured in bits per second.
+
+- **Type**: `number`
