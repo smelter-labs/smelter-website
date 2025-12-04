@@ -1,0 +1,326 @@
+---
+title: Quick start - Node.js
+sidebar:
+  order: 0
+slug: ts-sdk/0.3.x/ts-sdk/guides/quick-start
+---
+
+import { Steps, Code, Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import QuickStartImage from '@assets/guides/quick-start.mp4';
+
+In this guide, you'll learn how to create a basic Smelter setup in Node.js using TypeScript SDK. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
+
+<Steps>
+  1. Create Smelter object and initialize it.
+
+     ```tsx
+     import Smelter from "@swmansion/smelter-node"
+
+     async function start() {
+       const smelter = new Smelter();
+       await smelter.init();
+     }
+     ```
+
+     It will download appropriate binaries and start the Smelter server locally.
+
+     <CollapsibleDetails summaryTitle="Alternatively, you can connect to an existing instance.">
+       ```tsx
+       import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
+
+       async function start() {
+         const manager = new ExistingInstanceManager({
+           url: 'http://127.0.0.1:8000'
+         });
+         const smelter = new Smelter(manager);
+         await smelter.init();
+       }
+       ```
+     </CollapsibleDetails>
+
+  2. Register an output stream and call `Smelter.start()`.
+
+     ```tsx
+     import { View } from "@swmansion/smelter"
+     import Smelter from "@swmansion/smelter-node"
+
+     async function start() {
+       const smelter = new Smelter();
+       await smelter.init();
+
+       await smelter.registerOutput("output", <View />, {
+         type: "rtmp_client",
+         url: "rtmp://127.0.0.1:8002",
+         video: {
+           resolution: { width: 1280, height: 720 },
+           encoder: { type: "ffmpeg_h264" },
+         },
+         audio: {
+           channels: "stereo",
+           encoder: { type: "aac" },
+         }
+       });
+
+       await smelter.start();
+     }
+     ```
+
+     This step creates an output that renders just an empty `<View />` component. Resulting
+     blank image is encoded and sent to RTMP server listening on local port 8002.
+
+     Calling `smelter.start()` will cause all registered outputs to start producing frames. All user-facing
+     timestamps or offsets are relative to this start call.
+
+     You can display the output stream with the following command:
+
+     ```sh frame=none
+     ffmpeg -f flv -listen 1 -i rtmp://127.0.0.1:8002 -vcodec copy -f flv - | ffplay -f flv -i -
+     ```
+
+     <Aside type="caution">
+       This example sends stream to RTMP server, so you need to start it before the example.
+     </Aside>
+
+     Or check out other alternative protocols:
+
+     <CollapsibleDetails summaryTitle="Option 1: RTP output">
+       ```tsx
+       import { View } from "@swmansion/smelter"
+       import Smelter from "@swmansion/smelter-node"
+
+       async function start() {
+         const smelter = new Smelter();
+         await smelter.init();
+
+         await smelter.registerOutput("output", <View />, {
+           type: "rtp_stream",
+           transportProtocol: "udp",
+           port: 9004,
+           ip: "127.0.0.1",
+           video: {
+             resolution: { width: 1280, height: 720 },
+             encoder: { type: "ffmpeg_h264" },
+           },
+           audio: {
+             channels: "stereo",
+             encoder: { type: "opus" },
+           }
+         });
+
+         await smelter.start();
+       }
+       ```
+     </CollapsibleDetails>
+
+     <CollapsibleDetails summaryTitle="Option 2: WHIP output">
+       With WHIP output you can send it e.g. to Twitch.
+
+       ```tsx
+       import { View } from "@swmansion/smelter"
+       import Smelter from "@swmansion/smelter-node"
+
+       async function start() {
+         const smelter = new Smelter();
+         await smelter.init();
+
+         await smelter.registerOutput("output", <View />, {
+           type: "whip_client",
+           endpointUrl: "https://g.webrtc.live-video.net:4443/v2/offer",
+           bearerToken: "<YOUR STREAM TOKEN>",
+           video: {
+             resolution: { width: 1280, height: 720 },
+             encoder: { type: "ffmpeg_h264" },
+           },
+           audio: {
+             encoder: { type: "opus" },
+           }
+         });
+
+         await smelter.start();
+       }
+       ```
+     </CollapsibleDetails>
+
+     <CollapsibleDetails summaryTitle="Option 3: MP4 output">
+       With mp4 output you can record the output to file.
+
+       ```tsx
+       import { View } from "@swmansion/smelter"
+       import Smelter from "@swmansion/smelter-node"
+
+       async function start() {
+         const smelter = new Smelter();
+         await smelter.init();
+
+         await smelter.registerOutput("output", <View />, {
+           type: "mp4",
+           serverPath: "output.mp4",
+           video: {
+             resolution: { width: 1280, height: 720 },
+             encoder: { type: "ffmpeg_h264" },
+           },
+           audio: {
+             channels: "stereo",
+             encoder: { type: "aac" },
+           }
+         });
+
+         await smelter.start();
+       }
+       ```
+
+       Note that mp4 must be gracefully terminated to write metadata,
+       so if you just kill the application the file will be corrupted.
+       When you want to finish recording, run:
+
+       ```tsx
+       await smelter.unregisterOutput('output');
+       ```
+     </CollapsibleDetails>
+
+  3. Register 2 input streams.
+
+     For simplicity, in this example we will be using two mp4 files as inputs, but the same
+     logic would apply for any other [input type](/ts-sdk/0.3.x/overview#inputs).
+
+     ```tsx collapse={19-29}
+     import { View } from "@swmansion/smelter"
+     import Smelter from "@swmansion/smelter-node"
+
+     async function start() {
+       const smelter = new Smelter();
+       await smelter.init();
+
+       await smelter.registerInput("input_1", {
+         type: "mp4",
+         serverPath: "input1.mp4"
+       });
+
+       await smelter.registerInput("input_2", {
+         type: "mp4",
+         serverPath: "input2.mp4"
+       });
+
+       await smelter.registerOutput("output", <View />, {
+         type: "rtmp_client",
+         url: "rtmp://127.0.0.1:8002",
+         video: {
+           resolution: { width: 1280, height: 720 },
+           encoder: { type: "ffmpeg_h264" },
+         },
+         audio: {
+           channels: "stereo",
+           encoder: { type: "aac" },
+         }
+       });
+
+       await smelter.start();
+     }
+     ```
+
+     If you run this example now, you will see the same output as in the previous step. Input streams
+     are registered, but they are not used anywhere in the scene definition yet.
+
+  4. Render one of the registered input streams on the output.
+
+     In the earlier steps we passed `<View />` to the `registerOutput` call. Now let's switch that to
+     something more complex. We are defining here a new React component called `App`, and passing it
+     instead.
+
+     ```tsx {4-6, 22} collapse={10-20} collapse={24-33}
+     import { Tiles, InputStream } from "@swmansion/smelter"
+     import Smelter from "@swmansion/smelter-node"
+
+     function App() {
+       return <InputStream inputId="input_1" volume={0.9} />
+     }
+
+     async function start() {
+       const smelter = new Smelter();
+       await smelter.init();
+
+       await smelter.registerInput("input_1", {
+         type: "mp4",
+         serverPath: "input1.mp4"
+       });
+
+       await smelter.registerInput("input_2", {
+         type: "mp4",
+         serverPath: "input2.mp4"
+       })
+
+       await smelter.registerOutput("output", <App />, {
+         type: "rtmp_client",
+         url: "rtmp://127.0.0.1:8002",
+         video: {
+           resolution: { width: 1280, height: 720 },
+           encoder: { type: "ffmpeg_h264" },
+         },
+         audio: {
+           channels: "stereo",
+           encoder: { type: "aac" },
+         }
+       });
+
+       await smelter.start();
+     }
+     ```
+
+     Resulting output stream will show `input_1` input stream and play the audio from that source
+     with slightly lowered volume. (If input has a different resolution it won't be automatically rescaled).
+
+  5. Modify the `<App/>` component to display both inputs.
+
+     [`Tiles`](/ts-sdk/0.3.x/components/tiles) component is a simple way to display element in
+     a layout that uses available space efficiently (similar to stream layout in most video call apps).
+
+     ```tsx collapse={13-60}
+     import { Tiles, InputStream } from "@swmansion/smelter"
+     import Smelter from "@swmansion/smelter-node"
+
+     function App() {
+       return (
+         <Tiles style={{ backgroundColor: "#4d4d4d" }}>
+           <InputStream inputId="input_1" volume={0.9} />
+           <InputStream inputId="input_2" />
+         </Tiles>
+       )
+     }
+
+     async function start() {
+         const smelter = new Smelter();
+         await smelter.init();
+
+         await smelter.registerInput("input_1", {
+           type: "mp4",
+           serverPath: "input1.mp4"
+         });
+
+         await smelter.registerInput("input_2", {
+           type: "mp4",
+           serverPath: "input2.mp4"
+         })
+
+         await smelter.registerOutput("output", <App />, {
+           type: "rtmp_client",
+           url: "rtmp://127.0.0.1:8002",
+           video: {
+             resolution: { width: 1280, height: 720 },
+             encoder: { type: "ffmpeg_h264" },
+           },
+           audio: {
+             channels: "stereo",
+             encoder: { type: "aac" },
+           }
+         });
+
+         await smelter.start();
+     }
+     ```
+
+     Resulting output stream will show both inputs side-by-side as shown below. Audio from both
+     streams is mixed together, but `input_1` audio has slightly lowered volume.
+
+     <video autoplay loop muted src={QuickStartImage} alt="Quick start result" />
+</Steps>
