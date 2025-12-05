@@ -1,0 +1,59 @@
+---
+title: Vulkan H264
+sidebar:
+  order: 4
+---
+import { Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="vk-video" variant="tip" size="large" />
+
+<br />
+<br />
+
+Hardware encoder. Requires GPU that supports Vulkan Video encoding.
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VulkanH264EncoderOptions = {
+  type: "vulkan_h264";
+  bitrate?: number
+  | {
+    averageBitrate: number;
+    maxBitrate: number;
+  };
+};
+```
+
+</CollapsibleDetails>
+
+## Properties
+
+### bitrate
+
+Desired bitrate of the output stream, in bits per second. If only a numeric value is specified then maximal allowed bitrate is set
+to 1.25 of the set number.
+
+- **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
+- **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+  the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
+
+### Properties
+
+#### averageBitrate
+
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+- **Type**: `number`
+
+--- 
+
+#### maxBitrate
+
+
+Max bitrate measured in bits per second.
+
+- **Type**: `number`
