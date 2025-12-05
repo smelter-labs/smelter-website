@@ -125,121 +125,20 @@ Video encoder options.
 
 ```tsx
 type VideoEncoderOptions =
-  | {
-      type: "ffmpeg_h264";
-      bitrate?: { averageBitrate: number; maxBitrate: number; } | number;
-      preset:
-        | "ultrafast"
-        | "superfast"
-        | "veryfast"
-        | "faster"
-        | "fast"
-        | "medium"
-        | "slow"
-        | "slower"
-        | "veryslow"
-        | "placebo";
-      pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
-      ffmpegOptions?: Record<string, string>;
-    }
-  | {
-      type: "vulkan_h264";
-      bitrate?: { averageBitrate: number; maxBitrate: number; } | number;
-    };
+  | ({ type: "ffmpeg_h264"; } & FfmpegH264EncoderOptions)
+  | ({ type: "vulkan_h264"; } & VulkanH264EncoderOptions)
 ```
 </CollapsibleDetails>
 
-Configuration for the video encoder, based on the selected codec.
+Configuration for the video encoder, based on the selected codec. Visit encoder documentation to learn more.
 
-### Properties (type: “ffmpeg_h264”)
-
-#### bitrate
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-
-```tsx
-type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
-```
-</CollapsibleDetails>
-
-Encoding bitrate. If not provided, the encoder default is used.
-
-#### Properties
-
-##### averageBitrate
-Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
-
----
-
-##### maxBitrate
-Max bitrate measured in bits per second.
-
----
-
-#### preset
-Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
-- **Default value**: `fast`
-- **Supported values**:
-  - `ultrafast`
-  - `superfast`
-  - `veryfast`
-  - `faster`
-  - `fast`
-  - `medium`
-  - `slow`
-  - `slower`
-  - `veryslow`
-  - `placebo`
-
----
-
-#### pixelFormat
-Encoder pixel format
-
-- **Type**: `"yuv420p" | "yuv422p" | "yuv444p"`
-- **Default value**: `yuv420p`
-- **Supported values**:
-  - `yuv420p`
-  - `yuv422p`
-  - `yuv444p`
-
----
-
-#### ffmpegOptions
-Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `Record<string, string>`
-
-### Properties (type: “vulkan_h264”) <Badge text="Required feature: vk-video" variant="note" />
-Hardware encoder. Requires GPU that supports Vulkan Video encoding.
-
-#### bitrate
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-
-```tsx
-type VideoEncoderBitrate = { averageBitrate: number; maxBitrate: number; } | number;
-```
-</CollapsibleDetails>
-
-Encoding bitrate. If not provided, bitrate is calculated based on resolution and framerate.
-For example at 1080p 30 FPS the average bitrate is 5000 kbit/s and max bitrate is 6250 kbit/s.
-
-#### Properties
-
-##### averageBitrate
-Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
-
----
-
-##### maxBitrate
-Max bitrate measured in bits per second.
+- [FFmpeg H264](/ts-sdk/outputs/encoders/ffmpeg-h264)
+- [Vulkan H264](/ts-sdk/outputs/encoders/vulkan-h264)
 
 ## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type AudioOptions = {
   channels?: "mono" | "stereo";
