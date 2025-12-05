@@ -1,0 +1,24 @@
+---
+title: Browser WASM module
+sidebar:
+    order: 3
+---
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="caution">
+Only supported in Google Chrome and other Chromium based browsers.
+</Aside>
+
+## Rendering
+
+Rendering process in browser is based on the same code as server. Regular Rust code is compiled to WebAssembly and
+`wgpu` crate is using WebGL from the browser as a backend. As a result you are getting performance a bit worse than directly
+using a browser canvas, but packaged with variation of input/outputs packaged in simple API.
+
+Performance might differ significantly between different browser versions and operating systems. Often the 
+biggest problem is passing frames to and from WASM renderer. On some platforms it is extremely cheap, on others it takes
+more time than the rest of the rendering process, even though it is the same WebGL call.
+
+## Decoding/Encoding
+
+Relies on browser implementation of decoders and encoders. Smelter code has only minimal control over them.
