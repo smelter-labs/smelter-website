@@ -16,8 +16,8 @@ type FfmpegH264EncoderOptions = {
   type: "ffmpeg_h264";
   bitrate?: number
   | {
-    averageBitrate: number;
-    maxBitrate: number;
+    average_bitrate: number;
+    max_bitrate: number;
   };
   preset?:
     | "ultrafast"
@@ -30,8 +30,8 @@ type FfmpegH264EncoderOptions = {
     | "slower"
     | "veryslow"
     | "placebo";
-  pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
-  ffmpegOptions?: Record<string, string>;
+  pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
+  ffmpeg_options?: Record<string, string>;
 };
 ```
 </CollapsibleDetails>
@@ -43,15 +43,15 @@ type FfmpegH264EncoderOptions = {
 Desired bitrate of the output stream, in bits per second. If only a numeric value is specified then maximal allowed bitrate is set
 to 1.25 of the set number.
 
-- **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
+- **Type**: `number | { average_bitrate: number; max_bitrate: number; }`
 - **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
-  the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
+  the `average_bitrate` would be 5000 kb/s and `max_bitrate` 6250 kb/s.
 
 ---
 
 ### Properties
 
-#### averageBitrate
+#### average_bitrate
 
 Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
 
@@ -59,7 +59,7 @@ Average bitrate measured in bits per second. Encoder will try to keep the bitrat
 
 --- 
 
-#### maxBitrate
+#### max_bitrate
 
 
 Max bitrate measured in bits per second.
@@ -94,7 +94,7 @@ Make sure that your encoder supports these presets before setting this option.
 
 ---
 
-### pixelFormat
+### pixel_format
 
 Encoder pixel format.
 
@@ -110,9 +110,8 @@ Before setting this option check if it is supported by the used encoder.
 
 ---
 
-### ffmpegOptions
+### ffmpeg_options
 
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
 - **Type**: `Record<string, string>`
-
