@@ -260,11 +260,6 @@ export default defineConfig({
                 { slug: "ts-sdk/outputs/wasm-canvas" },
                 { slug: "ts-sdk/outputs/wasm-stream" },
                 { slug: "ts-sdk/outputs/wasm-whip" },
-                {
-                  label: "Encoders",
-                  collapsed: true,
-                  autogenerate: { directory: "ts-sdk/outputs/encoders" },
-                },
               ],
             },
             {
@@ -318,47 +313,41 @@ export default defineConfig({
                 { slug: "http-api/outputs/whep" },
                 { slug: "http-api/outputs/rtmp" },
               ],
-                {
-              label: "Encoders",
-              collapsed: true,
-              autogenerate: { directory: "http-api/outputs/encoders" },
             },
-          ]
-        },
-        {
-          label: "Resources",
-          collapsed: true,
-          autogenerate: { directory: "http-api/resources" },
-        },
-        {
-          label: "Guides",
-          collapsed: true,
-          autogenerate: { directory: "http-api/guides" },
+            {
+              label: "Resources",
+              collapsed: true,
+              autogenerate: { directory: "http-api/resources" },
+            },
+            {
+              label: "Guides",
+              collapsed: true,
+              autogenerate: { directory: "http-api/guides" },
+            },
+          ],
         },
       ],
-    },
-      ],
-}),
-mdx(),
-  tailwind({ applyBaseStyles: false }),
-  react(),
+    }),
+    mdx(),
+    tailwind({ applyBaseStyles: false }),
+    react(),
   ],
 
-markdown: {
-  rehypePlugins: [
-    rehypeHeadingIds,
-    [
-      rehypeAutolinkHeadings,
-      {
-        behavior: "append",
-      },
+  markdown: {
+    rehypePlugins: [
+      rehypeHeadingIds,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: "append",
+        },
+      ],
     ],
-  ],
   },
 
-adapter: vercel({
-  webAnalytics: {
-    enabled: true,
-  },
-}),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
 });
