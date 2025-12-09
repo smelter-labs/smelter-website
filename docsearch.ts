@@ -38,7 +38,9 @@ export default {
         ...item,
         content: purgedUrl,
         _snippetResult: {
-          ...snippetResult, hierarchy: (newHierarchy as any)
+          ...snippetResult,
+          // biome-ignore lint: Allow any
+          hierarchy: newHierarchy as any,
         },
       };
     });
