@@ -1,0 +1,156 @@
+---
+title: Overview
+sidebar:
+  order: 0
+slug: ts-sdk/0.3.x/ts-sdk/nodejs/overview
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+Package `@swmansion/smelter-node` allows you to control a Smelter server from the Node.js process.
+
+When using this approach your React code runs inside Node.js process, and any updates to the React
+component tree are transmitted to the Smelter server as layout updates over HTTP requests. By default,
+the Smelter server is automatically launched on the same machine as Node.js, but you may choose
+to deploy it independently and simply provide the library with the connection URL.
+
+You can use it in 2 modes:
+
+* [Live processing](/fundamentals/glossary#live-processing)
+
+  This is the most flexible approach. It allows you to dynamically add and
+  remove inputs/outputs at any point. By default, media is processed in real time, but
+  this can be affected by e.g. required inputs or global settings.
+
+  Check out [`Smelter` documentation](/ts-sdk/0.3.x/nodejs/smelter).
+
+  <CollapsibleDetails summaryTitle="Example">
+    ```tsx
+    import Smelter from "@swmansion/smelter-node"
+
+    async function run() {
+      const smelter = new Smelter();
+      await smelter.init()
+
+      // register inputs, outputs, or other resources e.g.
+      await smelter.registerOutput("example", <View />, {
+        type: "rtmp_client",
+        url: "rtmp://example.com/app/stream_key",
+        video: {
+          encoder: { type: "ffmpeg_h264" },
+          resolution: { width: 1920, height: 1080 },
+        },
+        audio: {
+          channels: "stereo",
+          encoder: { type: "aac" },
+        }
+      });
+
+      await smelter.start()
+
+      // you can register additional input/outputs at any point
+    }
+    void run();
+    ```
+  </CollapsibleDetails>
+
+* [Offline processing](/fundamentals/glossary#offline-processing)
+
+  Mainly useful to take one or more static files and produce a single output. API in this mode is very
+  limited: you need to define all inputs before start, there can be only one output.
+
+  Check out [`OfflineSmelter` documentation](/ts-sdk/0.3.x/nodejs/smelter-offline).
+
+  <CollapsibleDetails summaryTitle="Example">
+    ```tsx
+    import { OfflineSmelter } from "@swmansion/smelter-node"
+
+    async function run() {
+      const smelter = new OfflineSmelter();
+      await smelter.init()
+      // register inputs
+      await smelter.render(<View />, {
+        type: "mp4",
+        serverPath: "./output.mp4",
+        video: {
+          encoder: { type: "ffmpeg_h264" },
+          resolution: { width: 1920, height: 1080 },
+        },
+        audio: {
+          channels: "stereo",
+          encoder: { type: "aac" },
+        }           
+      });
+    }
+    void run();
+    ```
+  </CollapsibleDetails>
+
+### Smelter managers
+
+`@swmansion/smelter-node` controls the Smelter server via [`SmelterManager`](/ts-sdk/0.3.x/nodejs/manager)
+interface. You can pass them as an argument when initializing `Smelter` or `OfflineSmelter` instance.
+The package provides 2 implementations:
+
+* [`LocallySpawnedInstanceManager`](/ts-sdk/0.3.x/nodejs/manager/#locallyspawnedinstancemanager) (default) - downloads
+  spawns Smelter binary and spawns a server locally.
+* [`ExistingInstanceOptions`](/ts-sdk/0.3.x/nodejs/manager/#existinginstancemanager) - connects to existing
+  instance.
+
+### Compatibility
+
+`@swmansion/smelter-node` can be used with specific version of Smelter server and React.
+
+<table>
+  <thead>
+    <tr>
+      <th>SDK version</th>
+      <th>Smelter server version</th>
+      <th>React version</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <strong>`v0.2.0`</strong><br />
+        <strong>`v0.2.1`</strong>
+      </td>
+
+      <td>
+        <strong>`v0.4.0`</strong><br />
+        <strong>`v0.4.1`</strong>
+      </td>
+
+      <td>
+        Recommended: `18.3.1`
+
+        Should work with any react version that is compatible with
+        `react-reconciler@0.29.2`
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <strong>`v0.3.0`</strong>
+      </td>
+
+      <td>
+        <strong>`v0.5.0`</strong><br />
+      </td>
+
+      <td>
+        Recommended: `18.3.1`
+
+        Should work with any react version that is compatible with
+        `react-reconciler@0.29.2`
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+You need to remember about requirements of the actual Smelter server too. See
+Smelter server deployment options:
+
+* [Docker](/deployment/variants/docker/)
+* [Binaries](/deployment/variants/binaries/)

@@ -1,0 +1,49 @@
+---
+title: Image
+slug: ts-sdk/0.3.x/ts-sdk/resources/image
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+Represents an image asset. It can be used via an [Image component](/ts-sdk/0.3.x/components/image).
+
+<Aside>The `auto` option under `assetType` allows for automatic determination of the image format based on the file's content itself.</Aside>
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterImage = {
+    assetType: "jpeg" | "png" | "gif" | "svg" | "auto";
+    url?: string;
+    serverPath?: string;
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### assetType
+
+Image format.
+
+* **Type**: `"jpeg" | "png" | "gif" | "svg" | "auto"`
+
+***
+
+#### url
+
+URL for downloading an image. This field cannot be used together with the path field.
+
+* **Type**: `string`
+
+***
+
+#### serverPath
+
+Path to an image, specifying its location on the server where Smelter is deployed.
+
+* **Type**: `string`
+
+***

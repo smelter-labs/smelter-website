@@ -1,0 +1,246 @@
+---
+title: Quick start
+sidebar:
+  order: 0
+slug: http-api/0.5.x/http-api/guides/quick-start
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import QuickStartImage from '@assets/guides/quick-start.mp4';
+
+In this guide, you'll learn how to create a basic Smelter setup using HTTP API. We will show you how to take two input videos and produce an output video with both of the inputs displayed side-by-side.
+
+<Steps>
+  1. Start the Smelter server ([learn more](/deployment/setup#standalone-server)). Check out [configuration page](/deployment/configuration) for available configuration options.
+
+  2. Register an output stream and send start request.
+
+     ```http
+     POST: /api/output/output_1/register
+     Content-Type: application/json
+
+     {
+       "type": "rtmp_client",
+       "url": "rtmp://127.0.0.1:8002", 
+       "video": {
+         "resolution": { "width": 1280, "height": 720 },
+         "encoder": { "type": "ffmpeg_h264" },
+         "initial": {
+           "root": { "type": "view" }
+         }
+       },
+       "audio": {
+         "channels": "stereo",
+         "encoder": { "type": "aac" },
+         "initial": {
+           "inputs": []
+         }
+       }
+     }
+     ```
+
+     ```http
+     POST: /api/start
+     Content-Type: application/json
+
+     {}
+     ```
+
+     This step creates an output that renders just an empty `View` component. Resulting
+     blank image is encoded and sent to RTMP server listening on local port 8002.
+
+     Sending [start request](/http-api/0.5.x/routes#start-request) will cause all registered outputs
+     to start producing frames. All user-facing timestamp or offset are relative to this start call.
+
+     You can display the output stream with the following command:
+
+     ```sh frame=none
+     ffmpeg -f flv -listen 1 -i rtmp://127.0.0.1:8002 -vcodec copy -f flv - | ffplay -f flv -i -
+     ```
+
+     <Aside type="caution">
+       This example sends stream to RTMP server, so you need to start it before registering the output.
+     </Aside>
+
+     Or check out other alternative protocols:
+
+     <CollapsibleDetails summaryTitle="Option 1: RTP output">
+       ```http
+       POST: /api/output/output_1/register
+       Content-Type: application/json
+
+       {
+         "type": "rtp_stream",
+         "transport_protocol": "udp",
+         "port": 9004,
+         "ip": "127.0.0.1", 
+         "video": {
+           "resolution": { "width": 1280, "height": 720 },
+           "encoder": { "type": "ffmpeg_h264" },
+           "initial": {
+             "root": { "type": "view" }
+           }
+         },
+         "audio": {
+           "channels": "stereo",
+           "encoder": { "type": "opus" },
+           "initial": {
+             "inputs": []
+           }
+         }
+       }
+       ```
+     </CollapsibleDetails>
+
+     <CollapsibleDetails summaryTitle="Option 2: WHIP output">
+       With WHIP output you can send it e.g. to Twitch.
+
+       ```http
+       POST: /api/output/output_1/register
+       Content-Type: application/json
+
+       {
+         "type": "whip_client",
+         "endpoint_url": "https://g.webrtc.live-video.net:4443/v2/offer",
+         "bearer_token": "<YOUR STREAM TOKEN>",
+         "video": {
+           "resolution": { "width": 1280, "height": 720 },
+           "encoder": { "type": "ffmpeg_h264" },
+           "initial": {
+             "root": { "type": "view" }
+           }
+         },
+         "audio": {
+           "channels": "stereo",
+           "encoder": { "type": "opus" },
+           "initial": {
+             "inputs": []
+           }
+         }
+       }
+       ```
+     </CollapsibleDetails>
+
+     <CollapsibleDetails summaryTitle="Option 3: MP4 output">
+       With mp4 output you can record the output to file.
+
+       ```http
+       POST: /api/output/output_1/register
+       Content-Type: application/json
+
+       {
+         "type": "mp4",
+         "path": "output.mp4",
+         "video": {
+           "resolution": { "width": 1280, "height": 720 },
+           "encoder": { "type": "ffmpeg_h264" },
+           "initial": {
+             "root": { "type": "view" }
+           }
+         },
+         "audio": {
+           "encoder": { "type": "aac", "channels": "stereo" },
+           "initial": {
+             "inputs": []
+           }
+         }
+       }
+       ```
+
+       Note that mp4 must be gracefully terminated to write metadata,
+       so if you just kill the application the file will be corrupted.
+       When you want to finish recording, send [unregister request](/http-api/0.5.x/routes#unregister-output):
+
+       ```http
+       POST: /api/output/output_1/unregister
+       Content-Type: application/json
+       ```
+     </CollapsibleDetails>
+
+  3. Register 2 input streams.
+
+     For simplicity, in this example we will be using two mp4 files as inputs, but the same
+     logic would apply for any other [input type](/http-api/0.5.x/overview#inputs).
+
+     ```http
+     POST: /api/input/input_1/register
+     Content-Type: application/json
+
+     {
+       "type": "mp4",
+       "path": "https://example.com/input1.mp4"
+     }
+     ```
+
+     ```http
+     POST: /api/input/input_2/register
+     Content-Type: application/json
+
+     {
+       "type": "mp4",
+       "path": "https://example.com/input2.mp4"
+     }
+     ```
+
+     Those 2 request will register input streams `input_1` and `input2`. However, new streams are not used anywhere
+     in the scene definition yet, so it will not change the image produced on an output stream from the previous step.
+
+  4. Update output to show one of the input streams.
+
+     ```http
+     POST: /api/output/output_1/update
+     Content-Type: application/json
+
+     {
+       "video": {
+         "root": {
+           "type": "input_stream",
+           "input_id": "input_1"
+         }
+       },
+       "audio": {
+         "inputs": [
+           { "input_id": "input_1", "volume": 0.9 }
+         ]
+       }
+     }
+     ```
+
+     Resulting output stream will show `input_1` input stream and play the audio from that source
+     with slightly lowered volume. (If input has a different resolution it won't be automatically rescaled).
+
+  5. Update output to show both of the input streams.
+
+     [`Tiles`](/http-api/0.5.x/components/tiles) component is a simple way to display element in
+     a layout that uses available space efficiently (similar to stream layout in most video call apps).
+
+     ```http
+     POST: /api/output/output_1/update
+     Content-Type: application/json
+
+     {
+       "video": {
+         "root": {
+           "type": "tiles",
+           "background_color": "#4d4d4d",
+           "children": [
+             { "type": "input_stream", "input_id": "input_1" },
+             { "type": "input_stream", "input_id": "input_2" }
+           ]
+         }
+       },
+       "audio": {
+         "inputs": [
+           { "input_id": "input_1", "volume": 0.9 },
+           { "input_id": "input_2" }
+         ]
+       }
+     }
+     ```
+
+     Resulting output stream will show both inputs side-by-side as shown below. Audio from both
+     streams is mixed together, but `input_1` audio has slightly lowered volume.
+
+     <video autoplay loop muted src={QuickStartImage} alt="Quick start result" />
+</Steps>

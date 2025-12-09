@@ -1,0 +1,61 @@
+---
+title: WHEP client (Web API)
+slug: ts-sdk/0.3.x/ts-sdk/inputs/wasm-whep
+---
+
+import { Aside, Code, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Browser (WASM)" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+An input that lets you connect to a WHEP server endpoint to receive a live media stream from it.
+
+## Usage
+
+```tsx title=whepClientInputExample.tsx
+import Smelter from "@swmansion/smelter-web-wasm";
+import { View } from "@swmansion/smelter";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput('example', <View />, {
+    type: 'whep_client',
+    endpointUrl: 'https://example.com/whep',
+    bearerToken: 'example_token'
+  });
+}
+void run()
+```
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterWhepClientInput = {
+    type: "whep_client";
+    endpointUrl: string;
+    bearerToken?: string;
+  };
+  ```
+</CollapsibleDetails>
+
+## Properties
+
+### endpointUrl
+
+Url of a WHEP endpoint.
+
+* **Type**: `string`
+
+***
+
+### bearerToken
+
+Bearer token for a WHEP connection.
+
+* **Type**: `string`
