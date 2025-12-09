@@ -26,7 +26,7 @@ export default {
           if (!snippetResult.hierarchy.lvl2 && key === "lvl1") {
             const version = item.url.match(versionRegex)?.[0];
             const newValue = version
-              ? `${val.value} <span class="test">${version}</span>`
+              ? `${val.value} <span class="algolia-search-hit-version">${version}</span>`
               : val.value;
             return [key, { ...val, value: newValue }];
           }
