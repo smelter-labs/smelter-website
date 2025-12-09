@@ -239,7 +239,7 @@ export function getVersionURL(
     if (versionSlug) {
       versionURL.pathname =
         versionRedirect === 'same-page'
-          ? versionURL.pathname.replace(baseSlug, versionSlug)
+          ? removeVersion(versionURL.pathname).replace(baseSlug, versionSlug)
           : `${versionSlug}${isHTML ? '.html' : '/'}`
     } else if (isRootHTML) {
       versionURL.pathname = '/index.html'

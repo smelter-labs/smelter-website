@@ -1,0 +1,150 @@
+---
+title: WHIP server
+slug: ts-sdk/0.3.x/ts-sdk/inputs/whip
+---
+
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<Badge text="Browser (Client)" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+An input type that provides a WHIP server endpoint. It allows you to stream media to the Smelter.
+
+Smelter exposes WHIP endpoint on port 9000 under `/whip/:input_id` route. A different port can be
+configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smelter_whip_whep_server_port).
+
+To connect new input, register it first with `Smelter.registerInput` and then establish a WHIP connection.
+
+## Usage
+
+```tsx title=whipServerInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "whip_server",
+      video: {
+        decoderPreferences: ["ffmpeg_h264", "any"],
+      },
+  });
+  // At this point you can establish WHIP connection to
+  // http://localhost:9000/whip/example
+}
+void run();
+```
+
+<Aside>
+  In the following example, both the audio and video will be used if the source provides audio and video tracks:
+
+  ```tsx
+  await smelter.registerInput("example", {
+    type: "whip_server",
+  });
+  ```
+</Aside>
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterWhipServerInput = {
+    type: "whip_server";
+    video?: VideoOptions;
+    bearerToken?: string;
+    required?: boolean;
+    offsetMs?: number;
+  };
+  ```
+</CollapsibleDetails>
+
+Parameters for registering an WHIP endpoint as an input.
+
+## Properties
+
+### video
+
+Parameters of a video included in the WHIP stream.
+
+* **Type**: [`VideoOptions`](#videooptions)
+
+***
+
+### bearerToken
+
+Authentication token. If not provided, a random token
+will be generated and returned from the register input call.
+
+* **Type**: `string`
+
+***
+
+### required
+
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+* **Type**: `boolean`
+* **Default value**: `false`
+
+***
+
+### offsetMs
+
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+* **Type**: `number`
+
+## VideoOptions
+
+Parameters of a video source included in the WHIP stream.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoOptions = {
+    decoderPreferences?: VideoDecoder[];
+  }
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### decoderPreferences
+
+An ordered list of preferred video decoders. The first element in the list has the highest priority during WHIP negotiation.
+
+* **Type**: [`VideoDecoder`](#videodecoder)\[]
+* **Default value**: `[ "any" ]`
+
+Behavior:
+
+* If the list ends with "any":
+  * Smelter will first try the decoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  * If none of the listed decoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+* If "any" is not included:
+  * Only the decoders listed will be considered.
+  * If none are supported, no fallback will occur.
+
+## VideoDecoder
+
+Video decoder type.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoDecoder = "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" | "any"
+  ```
+</CollapsibleDetails>
+
+* **Type**: "ffmpeg\_h264" | "vulkan\_h264" | "ffmpeg\_vp8" | "ffmpeg\_vp9" | "any"
+* **Supported values**:
+  * `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  * `"vulkan_h264"` (<Badge text="Required feature: vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  * `"ffmpeg_vp8"` - Software VP8 decoder based on FFmpeg.
+  * `"ffmpeg_vp9"` - Software VP9 decoder based on FFmpeg.
+  * `"any"` - Automatically selects any video decoder supported by Smelter.
