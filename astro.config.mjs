@@ -66,9 +66,7 @@ export default defineConfig({
       plugins: [
         ...(process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : []),
         starlightDocSearch({
-          appId: "RQGSDUI2B0",
-          apiKey: "401cb98bf67c11c44695d30bbba97794",
-          indexName: "smelter",
+          clientOptionsModule: './docsearch.ts',
         }),
         starlightVersions({
           versions: [
