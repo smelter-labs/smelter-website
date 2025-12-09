@@ -8,6 +8,7 @@ import type { z } from "astro/zod";
 import yaml from "yaml";
 
 import { isAbsoluteLink, slugifyPath } from "./path";
+import { json } from "node:stream/consumers";
 
 export function parseFrontmatter(frontmatter: string) {
   return yaml.parse(frontmatter) as StarlightFrontmatter;
@@ -43,72 +44,55 @@ export function addPrefixToSidebarConfig(
   prefix: string,
   sidebar: NonNullable<StarlightSidebarUserConfig>
 ): NonNullable<StarlightSidebarUserConfig> {
-  const [versionName, versionNumber] = prefix.split("/");
-  const test = sidebar
-    // .filter(
-    //   (item) => typeof item !== 'string' && 'autogenerate' in item && item.autogenerate.directory.includes(prefix),
-    // )
+  return sidebar
     .map((item) => {
-      if (
-        typeof item !== "string" &&
-        "autogenerate" in item &&
-        item.autogenerate.directory.includes(prefix)
-      ) {
-        return item;
-      }
-
-      if (typeof item === "string") {
-        return addPrefixToSlug(prefix, item);
-      }
-      if ("items" in item) {
-        return {
-          ...item,
-          items: item.items.map((item) => {
-            if (typeof item === "string") return item;
-            if ("slug" in item) {
-              return { ...item, slug: item.slug.replace(versionName ?? "", prefix) };
-            }
-            if ("autogenerate" in item) {
-              return {
-                ...item,
-                autogenerate: {
-                  directory: `versions/${item.autogenerate.directory.replace(versionName ?? "", prefix)}`,
-                },
-              };
-            }
-            return item;
-          }),
-        };
-      }
-      if ("autogenerate" in item) {
-        return {
-          ...item,
-          autogenerate: {
-            ...item.autogenerate,
-            directory: `versions/${item.autogenerate.directory.replace(versionName ?? "", prefix)}`,
-          },
-        };
-      }
-      if ("slug" in item) {
-        return {
-          ...item,
-          slug: item.slug.replace(versionName ?? "", prefix),
-        };
-      }
-      if (isAbsoluteLink(item.link)) {
-        return item;
-      }
-
-      const segments = item.link.split("/");
-      segments.splice(1, 0, prefix);
-
-      return {
-        ...item,
-        link: segments.join("/"),
-      };
+      return addPrefixToSidebarItem(prefix, item)
     });
 
-  return test;
+}
+
+
+export function addPrefixToSidebarItem(
+  prefix: string,
+  item: StarlightSidebarUserConfigItem
+): StarlightSidebarUserConfigItem {
+  const [versionName, _versionNumber] = prefix.split("/");
+
+  if (typeof item === "string") {
+    return addPrefixToSlug(prefix, item);
+  }
+  if ("items" in item) {
+    return {
+      ...item,
+      items: item.items.map((item) => addPrefixToSidebarItem(prefix, item)),
+    };
+  }
+  if ("autogenerate" in item) {
+    return {
+      ...item,
+      autogenerate: {
+        ...item.autogenerate,
+        directory: `versions/${item.autogenerate.directory.replace(versionName ?? "", prefix)}`,
+      },
+    };
+  }
+  if ("slug" in item) {
+    return {
+      ...item,
+      slug: item.slug.replace(versionName ?? "", prefix),
+    };
+  }
+  if (isAbsoluteLink(item.link)) {
+    return item;
+  }
+
+  const segments = item.link.split("/");
+  segments.splice(1, 0, prefix);
+
+  return {
+    ...item,
+    link: segments.join("/"),
+  };
 }
 
 function addPrefixToSlug(prefix: string, slug: string) {
@@ -131,5 +115,6 @@ interface StarlightFrontmatteHero {
 
 export type StarlightUserConfig = HookParameters<"config:setup">["config"];
 export type StarlightSidebarUserConfig = StarlightUserConfig["sidebar"];
+export type StarlightSidebarUserConfigItem = NonNullable<StarlightSidebarUserConfig>[0];
 
 export type StarlightSidebar = StarlightRouteData["sidebar"];
