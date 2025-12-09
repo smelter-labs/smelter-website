@@ -1,7 +1,7 @@
 ---
 title: WHEP server
 ---
-import { Badge } from '@astrojs/starlight/components';
+import { Badge, Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
@@ -17,6 +17,10 @@ configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smel
 
 To connect new output, register it first with `Smelter.registerOutput`. This function returns an object
 containing the `endpointRoute` for the WHEP stream. You can then use this route to establish a WHEP connection.
+
+<Aside>
+  This output complies with the WHEP specification described in [draft-ietf-wish-whep-02](https://datatracker.ietf.org/doc/html/draft-ietf-wish-whep-02).
+</Aside>
 
 ## Usage
 

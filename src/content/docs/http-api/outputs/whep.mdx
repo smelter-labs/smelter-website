@@ -1,7 +1,7 @@
 ---
 title: WHEP server
 ---
-import { Badge } from '@astrojs/starlight/components';
+import { Badge, Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that provides a WHEP server endpoint. It allows broadcasting a media stream to multiple clients simultaneously.
@@ -11,6 +11,10 @@ configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smel
 
 To connect new output, register it first with [`register-output` request](/http-api/routes#register-output)
 and then establish WHEP connection.
+
+<Aside>
+  This output complies with the WHEP specification described in [draft-ietf-wish-whep-02](https://datatracker.ietf.org/doc/html/draft-ietf-wish-whep-02).
+</Aside>
 
 ## Usage
 
