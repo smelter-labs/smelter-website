@@ -66,7 +66,7 @@ export default defineConfig({
       plugins: [
         ...(process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : []),
         starlightDocSearch({
-          clientOptionsModule: './docsearch.ts',
+          clientOptionsModule: "./docsearch.ts",
         }),
         starlightVersions({
           versions: [
