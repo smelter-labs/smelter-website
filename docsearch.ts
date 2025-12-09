@@ -37,7 +37,9 @@ export default {
       return {
         ...item,
         content: purgedUrl,
-        _snippetResult: { ...snippetResult, hierarchy: newHierarchy },
+        _snippetResult: {
+          ...snippetResult, hierarchy: (newHierarchy as any)
+        },
       };
     });
 
