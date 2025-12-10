@@ -5,7 +5,11 @@ sidebar:
 ---
 import { Aside, Badge } from "@astrojs/starlight/components";
 
-This page describes primary performance characteristic for Smelter server running in different configurations.
+This page describes performance characteristic for Smelter server running in different configurations
+on different hardware.
+
+You can learn what affects performance of the specific element of the processing pipeline (decoding, rendering, encoding).
+What happens when they are GPU accelerated, and when they are not.
 
 ## Rendering
 
@@ -56,14 +60,15 @@ might be better.
 
 This is example pricing that shows cost of running the server in different variants.
 
-Values below were calculated based on AWS pricing of `g4dn` and `c5` instance family (pricing from Dec 4th 2025). We are
-assuming 3-year hardware commitment. 
+Values below were calculated based on AWS pricing (pricing from Dec 4th 2025). We are
+using `g4dn` and `c5` instance family and calculate result based 3-year hardware commitment pricing. 
 
 Rendering scenario assumes
 - 2 input streams 1080p and one output stream 1080p.
 - All inputs and outputs use H264.
-- Hardware encoding is compared to `fast` and `veryfast` preset. This is conservative comparison, in reality Nvidia
-  encoder might produce better quality.
+- Hardware encoding is compared to `fast` and `veryfast` preset. 
+  > This is conservative comparison, in reality Nvidia encoder might produce better quality,
+    on par with even `medium` or `slow`.
 
 <table style="text-align:center" class="force-middle-align">
   <thead style="width:100%">
