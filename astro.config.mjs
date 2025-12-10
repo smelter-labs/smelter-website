@@ -173,7 +173,10 @@ export default defineConfig({
           items: [
             { label: "Setup", slug: "deployment/setup" },
             { label: "Configuration", slug: "deployment/configuration" },
-            { label: "Benchmarks", slug: "deployment/benchmarks" },
+            {
+              label: "Performance",
+              autogenerate: { directory: "deployment/performance" },
+            },
             {
               label: "Variants",
               autogenerate: { directory: "deployment/variants" },

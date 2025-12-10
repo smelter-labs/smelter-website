@@ -1,0 +1,42 @@
+---
+title: Overview
+sidebar:
+    order: 1
+---
+import { Aside } from "@astrojs/starlight/components";
+
+Smelter performance is highly dependent on the runtime, hardware, and the feature set you need. It is a 
+great choice in some scenarios, but suboptimal in others.
+
+## When to use Smelter?
+
+Smelter is very efficient if you need a solution that will decode, modify raw frames and 
+encode it back. However, if you only need some of those features there might be a better
+solution for you out there.
+
+You should use Smelter:
+- If you need to modify video content (add overlay, combine multiple sources, add some text or effects)
+- You need to transcode the video to a different codec.
+- You need to generate output in multiple resolutions.
+
+You should not use Smelter:
+- If you want to convert your stream into different protocol or format. For example, convert incoming
+  RTMP stream into HLS playlist.
+- If you want to re-stream something to more viewers. For example, broadcast incoming WHIP stream over WHEP 
+  consider a solution like <a href="https://fishjam.io/" target="_blank">Fishjam</a> instead.
+
+## Key performance factors
+
+The processing pipeline in Smelter consists of many components. However, only a few specific factors
+have deciding impact on the performance. We can divide or heaviest workloads into following categories:
+- decoding - Converting encoded video e.g. H264 into raw frames (2D array of bytes representing specific pixels).
+- rendering - Process that takes set of frames (one for each input) and produces set of frames (one for each output).
+- encoding - Converting stream of raw frames (2D array of bytes representing specific pixels) into encoded video e.g. H264
+
+## Runtimes
+
+You can run Smelter on the server or in the browser. Each environment has its own performance bottlenecks.
+
+See runtime specific pages to learn more:
+- [Media Server](/deployment/performance/server)
+- [Browser WASM module](/deployment/performance/browser)

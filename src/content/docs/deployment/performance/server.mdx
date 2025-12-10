@@ -1,0 +1,132 @@
+---
+title: Media server
+sidebar:
+    order: 2
+---
+import { Aside, Badge } from "@astrojs/starlight/components";
+
+This page describes performance characteristic for Smelter server running in different configurations
+on different hardware.
+
+You can learn what affects performance of the specific element of the processing pipeline (decoding, rendering, encoding).
+What happens when they are GPU accelerated, and when they are not.
+
+## Rendering
+
+Rendering process is implemented using `wgpu` crate (implementation of WebGPU standard). It supports running on 
+top of different API e.g. Vulkan, Metal, DirectX, or OpenGL. Smelter supports Vulkan for Linux and Metal for macOS.
+
+**GPU**
+
+Rendering on a GPU it is always very cheap compared to decoding/encoding. It is true even on older hardware or
+integrated GPUs.
+
+**CPU**
+
+Rendering on a CPU is using `LLVMpipe` project to emulate GPU code on CPU. It is very inefficient in most cases, but
+you can make some steps to minimize the difference. For example:
+- Enable CPU optimize mode (worse quality of color blending).
+- Performance difference is smaller for lower resolutions.
+- Simple layouts (no alpha blending, rounded corner, borders, box shadows).
+
+## Decoding/Encoding
+
+Decoders/Encoders in Smelter come in 2 variants:
+- Software based, that run on CPU. Supports `H264`, `VP8`, and `VP9`.
+- Hardware based, that run on GPU using Vulkan extensions. Currently, it is limited to H264 only, but more codecs
+  will be supported in the future.
+
+**Bottlenecks**
+
+For CPU decoding/encoding, actual decoding and encoding processes is a primary source of performance bottlenecks.
+However, it is not the only. You still need to upload raw frames to GPU for rendering, and download rendered output
+frames from GPU to encode them. Even on powerful CPU that upload/download will be a bottleneck at certain point.
+
+You won't have that problem on GPU. Vulkan decoder is producing frames as GPU textures, and encoder takes GPU textures as
+an input. The only transfer between RAM and VRAM (CPU memory and GPU memory) is passing encoded data which is a lot
+smaller.
+
+**Price-to-performance**
+
+GPU processing will almost always be a better option. However, there are certain exceptions where CPU decoding/encoding
+might be better.
+- Software decoders can produce higher quality for a specific bitrate. However, it requires so much processing
+  power that is often not feasible for real time use cases.
+- Some cards might have limitations specific to encoding/decoding:
+  - Older AMD cards have very limited custom hardware for decoding. For example, RX 570 can handle only 3-4 streams 1080p.
+  - Nvidia limits the amount of concurrent encoder sessions to 8 on their consumer cards.
+
+## Price estimation
+
+This is example pricing that shows cost of running the server in different variants.
+
+Values below were calculated based on AWS pricing (pricing from Dec 4th 2025). We are
+using `g4dn` and `c5` instance family and calculate result based 3-year hardware commitment pricing. 
+
+Rendering scenario assumes
+- 2 input streams 1080p and one output stream 1080p.
+- All inputs and outputs use H264.
+- Hardware encoding is compared to `fast` and `veryfast` preset. 
+  > This is conservative comparison, in reality Nvidia encoder might produce better quality,
+    on par with even `medium` or `slow`.
+
+<table style="text-align:center" class="force-middle-align">
+  <thead style="width:100%">
+    <tr>
+      <th style="width:20%;text-align:center">Decoding</th>
+      <th style="width:20%;text-align:center">Rendering</th>
+      <th style="width:20%;text-align:center">Encoding</th>
+      <th style="min-width:300px">Price<br/>(per hour of stream)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><Badge text="GPU" variant="tip" size="large" /></td>
+      <td><Badge text="GPU" variant="tip" size="large" /></td>
+      <td><Badge text="GPU" variant="tip" size="large" /></td>
+      <td style="text-align: left">
+        **0.028$/hour**
+      </td>
+    </tr>
+    <tr>
+      <td><Badge text="GPU" variant="tip" size="large" /></td>
+      <td><Badge text="GPU" variant="tip" size="large" /></td>
+      <td><Badge text="CPU" variant="caution" size="large" /></td>
+      <td style="text-align: left">
+        `preset: fast` - **0.117$/hour** <br/>
+        `preset: veryfast` - **0.065$/hour**
+      </td>
+    </tr>
+    <tr>
+      <td><Badge text="CPU" variant="caution" size="large" /></td>
+      <td><Badge text="GPU" variant="tip" size="large" /></td>
+      <td><Badge text="CPU" variant="caution" size="large" /></td>
+      <td style="text-align: left">
+        `preset: fast` - **0.156$/hour** <br/>
+        `preset: veryfast` - **0.104$/hour**
+      </td>
+    </tr>
+    <tr>
+      <td><Badge text="CPU" variant="caution" size="large" /></td>
+      <td><Badge text="CPU" variant="caution" size="large" /></td>
+      <td><Badge text="CPU" variant="caution" size="large" /></td>
+      <td style="text-align: left">
+        `preset: fast` - **0.285$/hour** <br/>
+        `preset: veryfast` - **0.285$/hour**
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+This example shows specific case, but you will see similar trend in other scenarios. Of course
+there will be some predictable differences, for example:
+- If you have more inputs per output, then GPU decoding will be more important, and encoding not as much.
+- Encoding quality and performance will differ between different GPU vendors and card models.
+- If you have complex custom shaders, CPU rendering will be even more expensive.
+
+<Aside type="caution">
+Result for CPU only run are a best case scenario for that approach. Benchmark for that case were
+executed in different mode that is more optimized for CPU.
+</Aside>
+
+See raw benchmark data [here](/deployment/performance/benchmarks) for more specific cases.
