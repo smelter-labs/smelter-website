@@ -25,7 +25,7 @@ type VulkanH264EncoderOptions = {
     averageBitrate: number;
     maxBitrate: number;
   };
-  keyframeInterval?: number;
+  keyframeIntervalMs?: number;
 };
 ```
 
@@ -62,9 +62,9 @@ Max bitrate measured in bits per second.
 
 ---
 
-### keyframeInterval
+### keyframeIntervalMs
 
-Interval between 2 consecutive keyframes, in milliseconds. Must be non-negative.
+Interval between 2 consecutive keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
