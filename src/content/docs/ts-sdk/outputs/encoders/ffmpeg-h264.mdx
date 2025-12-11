@@ -41,8 +41,9 @@ type FfmpegH264EncoderOptions = {
 
 ### bitrate
 
-Desired bitrate of the output stream, in bits per second. If only a numeric value is specified then maximal allowed bitrate is set
-to 1.25 of the set number.
+Desired bitrate of the output stream, in bits per second.
+If only a number is specified then it defines the [`averageBitrate`](#averagebitrate).
+The [`maxBitrate`](#maxbitrate) is then set to 1.25x this value.
 
 - **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
 - **Default value**: Dependent on the encoder used:
