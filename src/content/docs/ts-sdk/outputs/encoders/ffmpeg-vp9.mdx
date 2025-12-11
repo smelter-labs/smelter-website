@@ -18,6 +18,7 @@ type FfmpegVp9EncoderOptions = {
     averageBitrate: number;
     maxBitrate: number;
   };
+  keyframeInterval?: number;
   pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
   ffmpegOptions?: Record<string, string>;
 };
@@ -51,6 +52,15 @@ Average bitrate measured in bits per second. Encoder will try to keep the bitrat
 Max bitrate measured in bits per second.
 
 - **Type**: `number`
+
+---
+
+### keyframeInterval
+
+Maximal interval between 2 consecutive keyframes, in milliseconds. Must be non-negative.
+
+- **Type**: `number`
+- **Default value**: `5000`
 
 ---
 
