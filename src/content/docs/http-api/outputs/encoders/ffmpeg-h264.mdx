@@ -19,6 +19,7 @@ type FfmpegH264EncoderOptions = {
     average_bitrate: number;
     max_bitrate: number;
   };
+  keyframe_interval?: number;
   preset?:
     | "ultrafast"
     | "superfast"
@@ -65,6 +66,15 @@ Average bitrate measured in bits per second. Encoder will try to keep the bitrat
 Max bitrate measured in bits per second.
 
 - **Type**: `number`
+
+---
+
+### keyframe_interval
+
+Maximal interval between 2 consecutive keyframes, in milliseconds. Must be non-negative.
+
+- **Type**: `number`
+- **Default value**: `5000`
 
 ---
 
