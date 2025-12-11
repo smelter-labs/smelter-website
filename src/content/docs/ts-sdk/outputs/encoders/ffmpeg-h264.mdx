@@ -19,7 +19,7 @@ type FfmpegH264EncoderOptions = {
     averageBitrate: number;
     maxBitrate: number;
   };
-  keyframeInterval?: number;
+  keyframeIntervalMs?: number;
   preset?:
     | "ultrafast"
     | "superfast"
@@ -73,9 +73,9 @@ Max bitrate measured in bits per second.
 
 ---
 
-### keyframeInterval
+### keyframeIntervalMs
 
-Maximal interval between 2 consecutive keyframes, in milliseconds. Must be non-negative.
+Maximal interval between 2 consecutive keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
