@@ -45,8 +45,11 @@ Desired bitrate of the output stream, in bits per second. If only a numeric valu
 to 1.25 of the set number.
 
 - **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
-- **Default value**: Constant quality mode with the `crf` equal to 23.
-  Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#crf) to learn more.
+- **Default value**: Dependend on the encoder used:
+  - `libx264`: Constant quality mode with the `crf` equal to 23.
+    Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#crf) to learn more.
+  - `libopenh264`, `h264_videotoolbox`: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+     the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
 
 ---
 
