@@ -45,10 +45,10 @@ Desired bitrate of the output stream, in bits per second. If only a numeric valu
 to 1.25 of the set number.
 
 - **Type**: `number | { average_bitrate: number; max_bitrate: number; }`
-- **Default value**: Dependend on the encoder used:
-  - `libx264`: Constant quality mode with the `crf` equal to 23.
+- **Default value**: Dependent on the encoder used:
+  - **libx264**: Constant quality mode with the `crf` equal to 23.
     Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#crf) to learn more.
-  - `libopenh264`, `h264_videotoolbox`: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+  - **libopenh264**, **h264_videotoolbox**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
      the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
 
 ---
@@ -113,13 +113,10 @@ Encoder pixel format.
 
 - **Type**: `"yuv420p" | "yuv422p" | "yuv444p";`
 - **Default value**: `yuv420p`
-
-<Aside type="caution">
-
-Some H264 encoders may not support `yuv422p` and `yuv444p` formats.
-Before setting this option check if it is supported.
-
-</Aside>
+- **Supported values**: Dependent on the encoder used:
+  - **libx264**: `yuv420p`, `yuv422p`, `yuv444p`
+  - **libopenh264**: `yuv420p`
+  - **h264_videotoolbox**: `yuv420p`
 
 ---
 
