@@ -18,7 +18,7 @@ type FfmpegVp8EncoderOptions = {
     average_bitrate: number;
     max_bitrate: number;
   };
-  keyframe_interval?: number;
+  keyframe_interval_ms?: number;
   ffmpeg_options?: Record<string, string>;
 };
 ```
@@ -55,9 +55,9 @@ Max bitrate measured in bits per second.
 
 ---
 
-### keyframe_interval
+### keyframe_interval_ms
 
-Maximal interval between 2 consecutive keyframes, in milliseconds. Must be non-negative.
+Maximal interval between 2 consecutive keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
