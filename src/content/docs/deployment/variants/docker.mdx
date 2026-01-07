@@ -69,11 +69,10 @@ To support GPU-based rendering your hardware and drivers needs to support specif
 
 Required features:
 - `TEXTURE_BINDING_ARRAY`
-- `PUSH_CONSTANTS`
+- `IMMEDIATES`
 
 Enabled by default, but it can be disabled:
 - `SAMPLED_TEXTURE_AND_STORAGE_BUFFER_ARRAY_NON_UNIFORM_INDEXING`
-- `UNIFORM_BUFFER_AND_STORAGE_TEXTURE_ARRAY_NON_UNIFORM_INDEXING`
 
 Those options are enabled by default, but can be disabled using
 [`SMELTER_REQUIRED_WGPU_FEATURES`](/deployment/configuration#smelter_required_wgpu_features) environment variable.
