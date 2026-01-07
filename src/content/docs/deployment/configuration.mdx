@@ -123,13 +123,12 @@ Parts of the Smelter API support a schedule_time_ms field to apply certain actio
 List of WebGPU features to enable.
 - **Defaults to**:
 ```
-UNIFORM_BUFFER_AND_STORAGE_TEXTURE_ARRAY_NON_UNIFORM_INDEXING,
 SAMPLED_TEXTURE_AND_STORAGE_BUFFER_ARRAY_NON_UNIFORM_INDEXING
 ```
 - **Supported values**:
     - `string` containing comma-separated list of WebGPU features (see <a href="https://docs.rs/wgpu/24.0.1/wgpu/struct.Features.html" target='_blank'>Rust WebGPU documentation</a> for the list of available options)
 
-<Aside type="caution">`TEXTURE_BINDING_ARRAY` and `PUSH_CONSTANTS` are always required and cannot be overwritten using this environment variable.</Aside>
+<Aside type="caution">`TEXTURE_BINDING_ARRAY` and `IMMEDIATES` are always required and cannot be overwritten using this environment variable.</Aside>
 
 ### `SMELTER_INPUT_BUFFER_DURATION_MS`
 Duration (in ms) of an input buffer in milliseconds. New stream will not be processed until this buffer is filled.
