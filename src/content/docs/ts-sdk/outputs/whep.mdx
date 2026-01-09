@@ -194,57 +194,16 @@ Audio encoder options.
 ## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
-type AudioEncoderOptions = {
-    type: "opus";
-    preset?: "quality" | "voip" | "lowest_latency";
-    sampleRate?: u32;
-    forwardErrorCorrection?: boolean;
-    expectedPacketLoss?: number;
-  }
+type AudioEncoderOptions =
+  | { type: "opus"; } & OpusEncoderOptions;
 ```
 </CollapsibleDetails>
 
-Configuration for the audio encoder, based on the selected codec.
+Configuration for the audio encoder. Visit encoder documentation to learn more.
 
-### Properties(type: "opus")
-
-#### preset
-Audio output encoder preset.
-
-- **Type**: `"quality" | "voip" | "lowest_latency"`
-- **Default value**: `voip`
-- **Supported values**:
-    - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
-    - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
-    - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
-
---- 
-
-#### sampleRate
-Sample rate.
-
-- **Type**: `u32`
-- **Default value**: `48000`
-- **Supported values**: `8000`, `16000`, `24000`, `48000`
-
----
-
-#### forwardErrorCorrection
-When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
-and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
-
-- **Type**: `bool`
-- **Default value**: `false`
-
----
-
-#### expectedPacketLoss
-Expected packet loss expressed as a percentage. This value controls how much redundant data is added to counteract packet loss (only when forward error correction is enabled).
-
-- **Type**: `u32`
-- **Default value**: `0`
-- **Supported values**: `0-100`
+- [Opus](/ts-sdk/outputs/encoders/opus)
 
 ## OutputEndCondition
 
