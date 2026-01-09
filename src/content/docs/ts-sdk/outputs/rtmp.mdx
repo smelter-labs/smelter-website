@@ -188,24 +188,16 @@ Audio encoder options.
 ## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
-type AudioEncoderOptions = {
-  type: "aac";
-  sampleRate?: number;
-}
+type AudioEncoderOptions =
+  | { type: "aac"; } & AacEncoderOptions;
 ```
 </CollapsibleDetails>
 
-Configuration for the audio encoder, based on the selected codec.
+Configuration for the audio encoder. Visit encoder documentation to learn more.
 
-### Properties(type: "aac")
-
-#### sampleRate
-
-- **Type**: `number`
-- **Default value**: `44100`
-- **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`
-
+- [AAC](/ts-sdk/outputs/encoders/aac)
 
 ## OutputEndCondition
 
