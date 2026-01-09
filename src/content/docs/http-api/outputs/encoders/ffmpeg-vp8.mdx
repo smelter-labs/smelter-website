@@ -13,7 +13,8 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 ```tsx
 type FfmpegVp8EncoderOptions = {
   type: "ffmpeg_vp8";
-  bitrate?: number
+  bitrate?:
+  | number
   | {
     average_bitrate: number;
     max_bitrate: number;
