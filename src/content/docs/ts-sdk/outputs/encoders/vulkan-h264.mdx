@@ -20,7 +20,8 @@ Hardware encoder. Requires GPU that supports Vulkan Video encoding.
 ```tsx
 type VulkanH264EncoderOptions = {
   type: "vulkan_h264";
-  bitrate?: number
+  bitrate?:
+  | number
   | {
     averageBitrate: number;
     maxBitrate: number;
