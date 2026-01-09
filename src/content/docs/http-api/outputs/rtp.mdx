@@ -101,6 +101,7 @@ Parameters of an audio included in the RTP stream.
 
 ## VideoOptions
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type VideoOptions = {
   resolution: {
@@ -166,6 +167,7 @@ Configuration for the video encoder, based on the selected codec. Visit encoder 
 ## AudioOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
@@ -222,59 +224,21 @@ Initial audio mixer configuration for output.
 ## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
-type AudioEncoderOptions = {
-  type: "opus";
-  preset?: "quality" | "voip" | "lowest_latency";
-  sample_rate?: u32;
-  forward_error_correction?: bool;
-  expected_packet_loss?: u32;
-}
+type AudioEncoderOptions =
+  | { type: "opus"; } & OpusEncoderOptions;
 ```
 </CollapsibleDetails>
 
-### Properties(type: "opus")
+Configuration for the audio encoder. Visit encoder documentation to learn more.
 
-#### preset
-Audio output encoder preset.
-
-- **Type**: `"quality" | "voip" | "lowest_latency"`
-- **Default value**: `voip`
-- **Supported values**:
-  - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
-  - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
-  - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
-
----
-
-#### sample_rate
-Sample rate.
-
-- **Type**: `u32`
-- **Default value**: `48000`
-- **Supported values**: `8000`, `16000`, `24000`, `48000`
-
----
-
-#### forward_error_correction
-When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
-and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
-
-- **Type**: `bool`
-- **Default value**: `false`
-
----
-
-#### expected_packet_loss
-Expected packet loss expressed as a percentage. This value controls how much redundant data is added to counteract packet loss (only when forward error correction is enabled).
-
-- **Type**: `u32`
-- **Default value**: `0`
-- **Supported values**: `0-100`
+- [Opus](/http-api/outputs/encoders/opus)
 
 ## InputAudio
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type InputAudio = {
   input_id: string;

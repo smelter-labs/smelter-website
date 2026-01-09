@@ -193,26 +193,19 @@ Initial audio mixer configuration for output.
 ## AudioEncoderOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
-type AudioEncoderOptions = {
-  type: "aac";
-  sample_rate?: u32;
-}
+type AudioEncoderOptions = { type: "aac"; } & AacEncoderOptions;
 ```
 </CollapsibleDetails>
 
-### Properties(type: "aac")
+Configuration for the audio encoder. Visit encoder documentation to learn more.
 
-#### sample_rate
-Sample rate.
-
-- **Type**: `u32`
-- **Default value**: `44100`
-- **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`
-
+- [AAC](/http-api/outputs/encoders/aac)
 
 ## InputAudio
 <CollapsibleDetails summaryTitle='Type definitions' open>
+
 ```tsx
 type InputAudio = {
   input_id: string;
