@@ -167,6 +167,15 @@ For detailed instructions on obtaining this value, refer to the information prov
   </tbody>
 </table>
 
+The following command extracts the value for `audio_specific_config` from files containing AAC encoded audio, e.g. `mp4` or `flv`.
+```
+ffmpeg -v 0 -i <INPUT_FILE> -t 0 -vn -c:a copy \
+-sdp_file /dev/stdout -f rtp 'rtp://127.0.0.1:1111' | \
+tr -d '\r' | \
+grep -Eo 'config.*' | \
+cut -d'=' -f2
+```
+
 #### rtp_mode
 Specifies the RFC 3640 mode that should be used when depacketizing this stream. For more information, visit <a href='https://datatracker.ietf.org/doc/html/rfc3640#section-3.3.1' target='_blank'>RFC specification</a>
 
