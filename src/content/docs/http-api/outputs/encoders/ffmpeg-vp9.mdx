@@ -30,8 +30,7 @@ type FfmpegVp9EncoderOptions = {
 
 ### bitrate
 
-Desired bitrate of the output stream, in bits per second.
-If only a number is specified then it defines the [`average_bitrate`](#average_bitrate).
+Desired bitrate of the output stream, in bits per second. If only a number is specified then it defines the [`average_bitrate`](#average_bitrate).
 The [`max_bitrate`](#max_bitrate) is then set to 1.25x this value.
 
 - **Type**: `number | { average_bitrate: number; max_bitrate: number; }`
