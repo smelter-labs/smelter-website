@@ -1,0 +1,71 @@
+---
+title: FFmpeg VP8
+sidebar:
+  order: 2
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type FfmpegVp8EncoderOptions = {
+  type: "ffmpeg_vp8";
+  bitrate?:
+    | number
+    | {
+      average_bitrate: number;
+      max_bitrate: number;
+    };
+  keyframe_interval_ms?: number;
+  ffmpeg_options?: Record<string, string>;
+};
+```
+</CollapsibleDetails>
+
+## Properties
+
+### bitrate
+
+Desired bitrate of the output stream, in bits per second. If only a number is specified then it defines the [`average_bitrate`](#average_bitrate).
+The [`max_bitrate`](#max_bitrate) is then set to 1.25x this value.
+
+- **Type**: `number | { average_bitrate: number; max_bitrate: number; }`
+- **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+  the `average_bitrate` would be 5000 kb/s and `max_bitrate` 6250 kb/s.
+
+#### Properties
+
+##### average_bitrate
+
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+- **Type**: `number`
+
+--- 
+
+##### max_bitrate
+
+
+Max bitrate measured in bits per second.
+
+- **Type**: `number`
+
+---
+
+### keyframe_interval_ms
+
+Maximal interval between 2 consecutive keyframes, in milliseconds.
+
+- **Type**: `number`
+- **Default value**: `5000`
+
+---
+
+### ffmpeg_options
+
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Record<string, string>`

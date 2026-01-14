@@ -1,0 +1,127 @@
+---
+title: FFmpeg H264
+sidebar:
+  order: 1
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+import { Aside } from '@astrojs/starlight/components';
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type FfmpegH264EncoderOptions = {
+  type: "ffmpeg_h264";
+  bitrate?:
+    | number
+    | {
+      average_bitrate: number;
+      max_bitrate: number;
+    };
+  keyframe_interval_ms?: number;
+  preset?:
+    | "ultrafast"
+    | "superfast"
+    | "veryfast"
+    | "faster"
+    | "fast"
+    | "medium"
+    | "slow"
+    | "slower"
+    | "veryslow"
+    | "placebo";
+  pixel_format?: "yuv420p" | "yuv422p" | "yuv444p";
+  ffmpeg_options?: Record<string, string>;
+};
+```
+</CollapsibleDetails>
+
+## Properties
+
+### bitrate
+
+Desired bitrate of the output stream, in bits per second. If only a number is specified then it defines the [`average_bitrate`](#average_bitrate).
+The [`max_bitrate`](#max_bitrate) is then set to 1.25x this value.
+
+- **Type**: `number | { average_bitrate: number; max_bitrate: number; }`
+- **Default value**: Dependent on the encoder used:
+  - **libx264**: Constant quality mode with the `crf` equal to 23.
+    Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#crf) to learn more.
+  - **libopenh264**, **h264_videotoolbox**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+     the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
+
+---
+
+#### Properties
+
+##### average_bitrate
+
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+- **Type**: `number`
+
+--- 
+
+##### max_bitrate
+
+Max bitrate measured in bits per second.
+
+- **Type**: `number`
+
+---
+
+### keyframe_interval_ms
+
+Maximal interval between 2 consecutive keyframes, in milliseconds.
+
+- **Type**: `number`
+- **Default value**: `5000`
+
+---
+
+### preset
+
+Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
+- **Default value**: `fast`
+- **Supported values**:
+    - `ultrafast`
+    - `superfast`
+    - `veryfast`
+    - `faster`
+    - `fast`
+    - `medium`
+    - `slow`
+    - `slower`
+    - `veryslow`
+    - `placebo`
+
+<Aside>
+
+Make sure that your encoder supports these presets before setting.
+
+</Aside>
+
+---
+
+### pixel_format
+
+Encoder pixel format.
+
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p";`
+- **Default value**: `yuv420p`
+- **Supported values**: Dependent on the encoder used:
+  - **libx264**: `yuv420p`, `yuv422p`, `yuv444p`
+  - **libopenh264**: `yuv420p`
+  - **h264_videotoolbox**: `yuv420p`
+
+---
+
+### ffmpeg_options
+
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Record<string, string>`
