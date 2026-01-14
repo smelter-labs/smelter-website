@@ -21,11 +21,11 @@ Hardware encoder. Requires GPU that supports Vulkan Video encoding.
 type VulkanH264EncoderOptions = {
   type: "vulkan_h264";
   bitrate?:
-  | number
-  | {
-    averageBitrate: number;
-    maxBitrate: number;
-  };
+    | number
+    | {
+      averageBitrate: number;
+      maxBitrate: number;
+    };
   keyframeIntervalMs?: number;
 };
 ```
