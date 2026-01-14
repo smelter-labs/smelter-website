@@ -15,11 +15,11 @@ import { Aside } from '@astrojs/starlight/components';
 type FfmpegH264EncoderOptions = {
   type: "ffmpeg_h264";
   bitrate?:
-  | number
-  | {
-    average_bitrate: number;
-    max_bitrate: number;
-  };
+    | number
+    | {
+      average_bitrate: number;
+      max_bitrate: number;
+    };
   keyframe_interval_ms?: number;
   preset?:
     | "ultrafast"

@@ -14,11 +14,11 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 type FfmpegVp9EncoderOptions = {
   type: "ffmpeg_vp9";
   bitrate?:
-  | number
-  | {
-    averageBitrate: number;
-    maxBitrate: number;
-  };
+    | number
+    | {
+      averageBitrate: number;
+      maxBitrate: number;
+    };
   keyframeIntervalMs?: number;
   pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
   ffmpegOptions?: Record<string, string>;
