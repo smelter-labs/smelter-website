@@ -1,48 +1,40 @@
 ---
 title: useInputStreams
 sidebar:
-  order: 0
+    order: 0
 ---
-
-import { Aside, Code } from "@astrojs/starlight/components";
-import useInputStreamsExample from "./examples/useInputStreams.tsx?raw";
-import CollapsibleDetails from "@components/CollapsibleDetails.astro";
+import { Aside, Code } from '@astrojs/starlight/components';
+import useInputStreamsExample from './examples/useInputStreams.tsx?raw';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 `useInputStreams` returns an object representing registered streams and their current state.
 
 ## Usage
 
-<Code
-  code={useInputStreamsExample}
-  title="useInputStreams.tsx"
-  lang="tsx"
-  collapse={["1-12", "43-80"]}
-/>
+<Code code={useInputStreamsExample} title='useInputStreams.tsx' lang='tsx' collapse={['1-12', '43-80']} />
 
 ## Reference
 
 ```tsx
-function useInputStreams(): Record<string, InputStreamInfo>;
+  function useInputStreams(): Record<string, InputStreamInfo>;
 ```
-
 <CollapsibleDetails summaryTitle='Type definitions'>
 
 ```tsx
-type InputStreamInfo = {
-  inputId: Id;
-  videoState?: "ready" | "playing" | "finished";
-  audioState?: "ready" | "playing" | "finished";
-  offsetMs?: number;
-  videoDurationMs?: number;
-  audioDurationMs?: number;
-};
-
-function useInputStreams(): Record<string, InputStreamInfo>;
+  type InputStreamInfo = {
+    inputId: Id;
+    videoState?: "ready" | "playing" | "finished"; 
+    audioState?: "ready" | "playing" | "finished";
+    offsetMs?: number;
+    videoDurationMs?: number;
+    audioDurationMs?: number;
+  }
+  
+  function useInputStreams(): Record<string, InputStreamInfo>;
 ```
-
 </CollapsibleDetails>
 
-## Returns
+## Returns 
 
 Object that maps ids of registered input streams to info about their state.
 
@@ -50,9 +42,8 @@ Object that maps ids of registered input streams to info about their state.
 
 ## InputStreamInfo
 
-<CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+<CollapsibleDetails summaryTitle='Type definitions' open>
+<Code code={`
   type InputStreamInfo = {
     inputId: string;
     videoState?: "ready" | "playing" | "finished"; 
@@ -61,23 +52,19 @@ Object that maps ids of registered input streams to info about their state.
     videoDurationMs?: number;
     audioDurationMs?: number;
   }
-`}
-    lang="tsx"
-  />
+`} lang='tsx' />
 </CollapsibleDetails>
 
 ### Properties
 
 #### inputId
-
-ID of an input. It identifies a stream registered using a [Smelter.registerInput](/ts-sdk/smelter#registerinput) method.
+ID of an input. It identifies a stream registered using a `Smelter.registerInput` method.
 
 - **Type**: `string`
 
 ---
 
 #### videoState
-
 Current state of a video track in the specific input.
 
 - **Type**: `"ready" | "playing" | "finished"`
@@ -85,19 +72,16 @@ Current state of a video track in the specific input.
 ---
 
 #### audioState
-
 Current state of an audio track in the specific input.
 
 - **Type**: `"ready" | "playing" | "finished"`
 
 #### videoDurationMs
-
 Length of a video track if available. Only supported for some inputs e.g. mp4.
 
 - **Type**: `number`
 
 #### audioDurationMs
-
 Length of an audio track if available. Only supported for some inputs e.g. mp4.
 
 - **Type**: `number`

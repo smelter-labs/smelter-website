@@ -4,27 +4,47 @@ title: Glossary of terms
 
 ### Offline processing
 
-Offline processing represents a mode where Smelter is operating only non-real time inputs and
-outputs e.g. combining 2 mp4 files into one. In particular in this mode, the processing time is
-not tied to the real time, processing progresses as fast as hardware allows.
+Offline processing represents a mode where Smelter is operating only on non-real time inputs and
+outputs e.g. combining 2 mp4 files into one. In this mode, the processing time is fully decoupled
+from the real time and progresses as fast as hardware allows it.
 
 ### Live processing
 
-Live processing represents a mode where Smelter is operating on some real time inputs or outputs.
-Processing will be synchronized with real time clock (plus some buffer).
+Live processing represents a mode where Smelter is operating on any real time inputs or outputs.
+Processing will be synchronized to the real-time (wall) clock, meaning a 1-second segment of video
+will take approximately 1 second to process.
 
 ### Timestamp
 
 Unless stated otherwise all user-facing timestamps are defined in milliseconds and measure time
-from the queue start.
+from the queue start. Note that "time" in this context means time of the processed audio/video
+streams, so it might be different from the real (wall clock) time. 
 
-For offline processing it measures the time of the processed stream. This value is different than
-real (wall-clock) time, because offline processing might be faster or slower than real-time.
+Example scenario:
+- You are converting 5 minute MP4 file. Processing took 2 minutes to complete, but the current timestamp
+  when the processing ended will be 5 minutes.
+- You have a real-time "required" input that is delivered to slowly (e.g. network throughput, hardware bottleneck).
+  As a result, the current timestamp will fall behind the wall clock time.
 
 ### Input
 
 Input is an entity that needs to be registered before use and can be used as a source of frames.
 For example, incoming RTP stream or MP4 file.
+
+##### Offset
+
+Input offset is a [timestamp](#timestamp) that represents start of the stream (relative to the queue start). If offset
+is not defined, then it is calculated based on arrival time of the first packet.
+
+##### Required
+
+Input marked as required will force a Smelter to block until data for the current [timestamp](#timestamp) is available.
+
+In most cases:
+ - All inputs should be required in offline processing.
+ - None of the inputs should be required in live processing.
+
+However, there are specific situations, when mixing those options can make sense.
 
 ### Output
 

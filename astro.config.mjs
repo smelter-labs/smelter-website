@@ -25,6 +25,7 @@ export default defineConfig({
       PUBLIC_RECAPTCHA_SITE_KEY: envField.string({
         access: "public",
         context: "server",
+        optional: true,
       }),
     },
   },
@@ -65,9 +66,7 @@ export default defineConfig({
       plugins: [
         ...(process.env.ENABLE_LINK_CHECKER ? [starlightLinksValidator()] : []),
         starlightDocSearch({
-          appId: "RQGSDUI2B0",
-          apiKey: "401cb98bf67c11c44695d30bbba97794",
-          indexName: "smelter",
+          clientOptionsModule: "./docsearch.ts",
         }),
         starlightVersions({
           versions: [
@@ -76,8 +75,16 @@ export default defineConfig({
               label: "SDK (TypeScript) 0.2.x",
             },
             {
+              slug: "ts-sdk/0.3.x",
+              label: "SDK (TypeScript) 0.3.x",
+            },
+            {
               slug: "http-api/0.4.x",
               label: "Server (HTTP API) 0.4.x",
+            },
+            {
+              slug: "http-api/0.5.x",
+              label: "Server (HTTP API) 0.5.x",
             },
           ],
         }),
@@ -153,6 +160,7 @@ export default defineConfig({
           label: "Fundamentals",
           items: [
             { label: "Getting started", slug: "fundamentals/getting-started" },
+            { label: "Setup Choices", slug: "fundamentals/setup-choices" },
             { label: "Glossary of terms", slug: "fundamentals/glossary" },
             {
               label: "Concepts",
@@ -165,7 +173,10 @@ export default defineConfig({
           items: [
             { label: "Setup", slug: "deployment/setup" },
             { label: "Configuration", slug: "deployment/configuration" },
-            { label: "Benchmarks", slug: "deployment/benchmarks" },
+            {
+              label: "Performance",
+              autogenerate: { directory: "deployment/performance" },
+            },
             {
               label: "Variants",
               autogenerate: { directory: "deployment/variants" },
@@ -176,23 +187,46 @@ export default defineConfig({
           label: "TypeScript SDK",
           items: [
             { label: "Overview", slug: "ts-sdk/overview" },
-            { label: "Project configuration", slug: "ts-sdk/configuration" },
-            { label: "Smelter", slug: "ts-sdk/smelter" },
-            { label: "OfflineSmelter", slug: "ts-sdk/smelter-offline" },
             {
-              label: "Smelter Managers",
-              collapsed: true,
-              autogenerate: { directory: "ts-sdk/managers" },
+              label: "Runtime",
+              items: [
+                {
+                  label: "Node.js",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/nodejs" },
+                },
+                {
+                  label: "Browser (Client)",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/web-client" },
+                },
+                {
+                  label: "Browser (WASM)",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/web-wasm" },
+                },
+              ],
             },
             {
               label: "Components",
               collapsed: true,
-              autogenerate: { directory: "ts-sdk/components" },
-            },
-            {
-              label: "Props",
-              collapsed: true,
-              autogenerate: { directory: "ts-sdk/props" },
+              items: [
+                { slug: "ts-sdk/components/image" },
+                { slug: "ts-sdk/components/inputstream" },
+                { slug: "ts-sdk/components/mp4" },
+                { slug: "ts-sdk/components/rescaler" },
+                { slug: "ts-sdk/components/shader" },
+                { slug: "ts-sdk/components/show" },
+                { slug: "ts-sdk/components/slideshow" },
+                { slug: "ts-sdk/components/text" },
+                { slug: "ts-sdk/components/tiles" },
+                { slug: "ts-sdk/components/view" },
+                { slug: "ts-sdk/components/webview" },
+                {
+                  label: "Props",
+                  autogenerate: { directory: "ts-sdk/components/props" },
+                },
+              ],
             },
             {
               label: "Hooks",
@@ -202,12 +236,34 @@ export default defineConfig({
             {
               label: "Inputs",
               collapsed: true,
-              autogenerate: { directory: "ts-sdk/inputs" },
+              items: [
+                { slug: "ts-sdk/inputs/mp4" },
+                { slug: "ts-sdk/inputs/rtp" },
+                { slug: "ts-sdk/inputs/hls" },
+                { slug: "ts-sdk/inputs/whip" },
+                { slug: "ts-sdk/inputs/whep" },
+                { slug: "ts-sdk/inputs/rtmp" },
+                { slug: "ts-sdk/inputs/v4l2" },
+                { slug: "ts-sdk/inputs/wasm-camera" },
+                { slug: "ts-sdk/inputs/wasm-screen" },
+                { slug: "ts-sdk/inputs/wasm-stream" },
+                { slug: "ts-sdk/inputs/wasm-whep" },
+              ],
             },
             {
               label: "Outputs",
               collapsed: true,
-              autogenerate: { directory: "ts-sdk/outputs" },
+              items: [
+                { slug: "ts-sdk/outputs/mp4" },
+                { slug: "ts-sdk/outputs/rtp" },
+                { slug: "ts-sdk/outputs/hls" },
+                { slug: "ts-sdk/outputs/whip" },
+                { slug: "ts-sdk/outputs/whep" },
+                { slug: "ts-sdk/outputs/rtmp" },
+                { slug: "ts-sdk/outputs/wasm-canvas" },
+                { slug: "ts-sdk/outputs/wasm-stream" },
+                { slug: "ts-sdk/outputs/wasm-whip" },
+              ],
             },
             {
               label: "Resources",
@@ -238,12 +294,28 @@ export default defineConfig({
             {
               label: "Inputs",
               collapsed: true,
-              autogenerate: { directory: "http-api/inputs" },
+              items: [
+                { slug: "http-api/inputs/mp4" },
+                { slug: "http-api/inputs/rtp" },
+                { slug: "http-api/inputs/hls" },
+                { slug: "http-api/inputs/whip" },
+                { slug: "http-api/inputs/whep" },
+                { slug: "http-api/inputs/rtmp" },
+                { slug: "http-api/inputs/decklink" },
+                { slug: "http-api/inputs/v4l2" },
+              ],
             },
             {
               label: "Outputs",
               collapsed: true,
-              autogenerate: { directory: "http-api/outputs" },
+              items: [
+                { slug: "http-api/outputs/mp4" },
+                { slug: "http-api/outputs/rtp" },
+                { slug: "http-api/outputs/hls" },
+                { slug: "http-api/outputs/whip" },
+                { slug: "http-api/outputs/whep" },
+                { slug: "http-api/outputs/rtmp" },
+              ],
             },
             {
               label: "Resources",
