@@ -190,10 +190,14 @@ Content-Type: application/json
 ```
 
 ```tsx
-type RequestBody = {}
+type RequestBody = {
+    schedule_time_ms?: number;
+}
 ```
 
 Unregister a previously registered image asset with an id `:image_id`.
+
+- `schedule_time_ms` - Time in milliseconds when this request should be applied. Value `0` represents time of [the start request](#start-request).
 
 ### Register shader
 
@@ -212,10 +216,14 @@ Content-Type: application/json
 ```
 
 ```tsx
-type RequestBody = {}
+type RequestBody = {
+    schedule_time_ms?: number;
+}
 ```
 
 Unregister a previously registered shader with an id `:shader_id`. 
+
+- `schedule_time_ms` - Time in milliseconds when this request should be applied. Value `0` represents time of [the start request](#start-request).
 
 ### Register web renderer instance
 
@@ -234,10 +242,14 @@ Content-Type: application/json
 ```
 
 ```tsx
-type RequestBody = {}
+type RequestBody = {
+    schedule_time_ms?: number;
+}
 ```
 
 Unregister a previously registered web renderer instance with an id `:instance_id`. 
+
+- `schedule_time_ms` - Time in milliseconds when this request should be applied. Value `0` represents time of [the start request](#start-request).
 
 ### Register font
 
