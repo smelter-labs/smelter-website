@@ -12,14 +12,21 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 <br />
 <br />
 
-An input type that allows Smelter to receive streams over RTMP. Each input starts a separate RTMP server.
+An input type that allows Smelter to receive streams over RTMP.
 
-<Aside type="caution" title="Experimental">
-This is an experimental version. The current implementation is just a wrapper around FFmpeg, and as a result,
-it is limited in functionality.
-- If you have an url in format `rtmp://example.com/myapp/mykey`, then there is no way to validate based on `mykey`. FFmpeg
-  detects that path does not match and logs it, but still allows you to establish the connection.
-- There is no way to setup an RTMPS server (RTMP over TLS/SSL).
+Smelter exposes an RTMP endpoint after the input is registered, you can do it by `Smelter.registerInput`.
+
+The RTMP URL is determined by:
+- The Smelter server address
+- The configured RTMP port - defaults to `1935`, configurable via [`SMELTER_RTMP_SERVER_PORT`](/deployment/configuration#smelter_rtmp_server_port) 
+- The registered `app`
+- The registered `streamKey`
+
+**RTMP URL format:** `rtmp://<smelter_ip>:<port>/<app>/<stream_key>`
+
+
+<Aside type="caution">
+For now, it is not possible to set up an RTMPS server (RTMP over TLS/SSL).
 
 You can still use it safely in production, but you need to set up an RTMP proxy that will handle route validation and encryption.
 You can use nginx with `nginx-rtmp-module` for that.
@@ -34,7 +41,8 @@ async function run() {
   await smelter.init();
   await smelter.registerInput("example", {
       type: "rtmp_server",
-      url: "rtmp://127.0.0.1:1935"
+      app: "myapp",
+      streamKey: "mykey",
   });
 }
 void run();
@@ -49,7 +57,8 @@ Once the RTMP server input is registered and Smelter is listening on the configu
 ```tsx
 type RegisterRtmpServerInput = {
   type: "rtmp_server";
-  url: string;
+  app: string;
+  streamKey: string;
   required?: bool;
   offsetMs?: number;
   decoderMap?: DecoderMap;
@@ -61,11 +70,22 @@ Parameters for registering an RTMP server input.
 
 ## Properties
 
-### url
-URL where the RTMP server will listen for incoming stream.  
-Format: `rtmp://<ip_address>:<port>`
+### app
+The RTMP application name.
+This is the first path segment of the RTMP stream URL that Smelter listens on for incoming streams.
+Format: `rtmp://<ip_address>:<port>/<app>/<stream_key`
 
 - **Type**: `string`
+
+---
+
+### streamKey
+The RTMP stream key.
+This is the second path segment of the RTMP stream URL that Smelter listens on for incoming streams.
+Format: `rtmp://<ip_address>:<port>/<app>/<stream_key`
+
+- **Type**: `string`
+
 ---
 
 ### required
