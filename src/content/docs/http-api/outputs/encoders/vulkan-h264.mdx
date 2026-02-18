@@ -1,0 +1,69 @@
+---
+title: Vulkan H264
+sidebar:
+  order: 4
+---
+import { Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="vk-video" variant="tip" size="large" />
+
+<br />
+<br />
+
+Hardware encoder. Requires GPU that supports Vulkan Video encoding.
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VulkanH264EncoderOptions = {
+  type: "vulkan_h264";
+  bitrate?:
+    | number
+    | {
+      average_bitrate: number;
+      max_bitrate: number;
+    };
+  keyframe_interval_ms?: number;
+};
+```
+
+</CollapsibleDetails>
+
+## Properties
+
+### bitrate
+
+Desired bitrate of the output stream, in bits per second. If only a number is specified then it defines the [`average_bitrate`](#average_bitrate).
+The [`max_bitrate`](#max_bitrate) is then set to 1.25x this value.
+
+- **Type**: `number | { average_bitrate: number; max_bitrate: number; }`
+- **Default value**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
+  the `average_bitrate` would be 5000 kb/s and `max_bitrate` 6250 kb/s.
+
+#### Properties
+
+##### average_bitrate
+
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+- **Type**: `number`
+
+--- 
+
+##### max_bitrate
+
+Max bitrate measured in bits per second.
+
+- **Type**: `number`
+
+---
+
+### keyframe_interval_ms
+
+Interval between 2 consecutive keyframes, in milliseconds.
+
+- **Type**: `number`
+- **Default value**: `5000`

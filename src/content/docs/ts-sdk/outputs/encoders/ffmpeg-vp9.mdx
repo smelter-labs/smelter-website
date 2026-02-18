@@ -1,0 +1,81 @@
+---
+title: FFmpeg VP9
+sidebar:
+  order: 3
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type FfmpegVp9EncoderOptions = {
+  type: "ffmpeg_vp9";
+  bitrate?:
+    | number
+    | {
+      averageBitrate: number;
+      maxBitrate: number;
+    };
+  keyframeIntervalMs?: number;
+  pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
+  ffmpegOptions?: Record<string, string>;
+};
+```
+</CollapsibleDetails>
+
+## Properties
+
+### bitrate
+
+Desired bitrate of the output stream, in bits per second. If only a number is specified then it defines the [`averageBitrate`](#averagebitrate).
+The [`maxBitrate`](#maxbitrate) is then set to 1.25x this value.
+
+- **Type**: `number | { averageBitrate: number; maxBitrate: number; }`
+- **Default value**: Constant quality mode with `crf` value based on resolution.
+  Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/VP9#constantq) to learn more.
+
+#### Properties
+
+##### averageBitrate
+
+Average bitrate measured in bits per second. Encoder will try to keep the bitrate around the provided average, but may temporarily increase it to the provided max bitrate.
+
+- **Type**: `number`
+
+--- 
+
+##### maxBitrate
+
+
+Max bitrate measured in bits per second.
+
+- **Type**: `number`
+
+---
+
+### keyframeIntervalMs
+
+Maximal interval between 2 consecutive keyframes, in milliseconds.
+
+- **Type**: `number`
+- **Default value**: `5000`
+
+---
+
+### pixelFormat
+
+Encoder pixel format.
+
+- **Type**: `"yuv420p" | "yuv422p" | "yuv444p";`
+- **Default value**: `yuv420p`
+
+---
+
+### ffmpegOptions
+
+Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
+
+- **Type**: `Record<string, string>`
