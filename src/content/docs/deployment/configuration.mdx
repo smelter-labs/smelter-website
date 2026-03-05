@@ -167,13 +167,29 @@ If enabled, the Smelter server will start RTMP server. If disabled it won't be p
 
 - **Defaults to**: `true`
 
-
 ### `SMELTER_LOG_FILE`
 
 Location of a file where all Smelter logs should be saved. Logging to file does not stop printing logs to standard output.
 
-### `SMELTER_STUN_SERVERS`
+### `SMELTER_WEBRTC_STUN_SERVERS`
 
 List of comma separated URLs that specify STUN servers that should be used in connection negotiation for WHIP/WHEP.
 
 - **Defaults to**: `stun:stun.l.google.com:19302`
+
+### `SMELTER_WEBRTC_UDP_PORT_RANGE`
+
+Port range in format `"START:END"`. Defines what ports will be used for WebRTC connections used by all WHIP/WHEP input/outputs.
+
+This option can't be used together with `SMELTER_WEBRTC_UDP_MUX_PORT`
+
+### `SMELTER_WEBRTC_UDP_MUX_PORT`
+
+An UDP port number, when provided WebRTC traffic from all WHIP/WHEP inputs/outputs will be muxed on a single port.
+
+This option can't be used together with `SMELTER_WEBRTC_UDP_PORT_RANGE`
+
+### `SMELTER_WEBRTC_1_TO_1_NAT_IPS`
+
+List of comma separated IP addresses. ICE candidates generated in the process of WebRTC connection negotiation will use those
+IPs instead of IP of the host.
