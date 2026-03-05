@@ -4,19 +4,16 @@ sidebar:
   order: 0
 ---
 
-import { Aside, Code } from "@astrojs/starlight/components";
 import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 <CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+
+```tsx
 type Transition {
     durationMs: number;
     easingFunction?: EasingFunction | null;
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ## Properties

@@ -2,12 +2,12 @@
 title: ViewStyleProps
 ---
 
-import { Aside, Code } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 <CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
+
+```tsx
 type ViewStyleProps = {
     width?: number;
     height?: number;
@@ -20,9 +20,7 @@ type ViewStyleProps = {
     overflow?: "visible" | "hidden" | "fit";
     backgroundColor?: string;
 }
-`}
-    lang="tsx"
-  />
+```
 </CollapsibleDetails>
 
 ## Properties

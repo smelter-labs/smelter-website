@@ -2,13 +2,12 @@
 title: OfflineSmelter
 ---
 
-import { Code, Aside } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
-<Code
-  code={`import { OfflineSmelter } from "@swmansion/smelter-node"`}
-  lang="tsx"
-/>
+```tsx
+import { OfflineSmelter } from "@swmansion/smelter-node"
+```
 
 `OfflineSmelter` is intended for [offline processing](/fundamentals/glossary#offline-processing) e.g. if you need to combine few mp4 files together.
 It has simplified API compared to the [`Smelter`](/ts-sdk/smelter) class, optimized for rendering just one output file as a result.
@@ -17,10 +16,13 @@ It has simplified API compared to the [`Smelter`](/ts-sdk/smelter) class, optimi
 
 Creates a new offline smelter instance. You have to call [`init()`](#init) first before this object can be used.
 
-<Code code={`new OfflineSmelter(manager?: SmelterManager)`} lang="tsx" />
+```tsx
+new OfflineSmelter(manager?: SmelterManager)
+```
 
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+
+```tsx
   type ApiRequest = {
     method: 'GET' | 'POST';
     route: string;
@@ -39,7 +41,7 @@ Creates a new offline smelter instance. You have to call [`init()`](#init) first
     sendMultipartRequest(request: MultipartRequest): Promise<object>;
     registerEventListener(cb: (event: unknown) => void): void;
   }
-`} lang='tsx' />
+```
 
 </CollapsibleDetails>
 
@@ -58,7 +60,9 @@ Configures how the client code will connect and manage a Smelter server. Smelter
 
 ## init()
 
-<Code code={`Smelter.init(): Promise<void>`} lang="tsx" />
+```tsx
+Smelter.init(): Promise<void>
+```
 
 Initialize the Smelter instance. This might spawn a new instance or just establish a connection, depending on the `manager` used while creating Smelter instance.
 
@@ -66,18 +70,19 @@ After `init()` you can start connecting inputs/outputs or register other element
 
 ## render()
 
-<Code code={`
+```tsx
   import React from "react";
 
   Smelter.render(
     root: React.ReactElement,
     output: RegisterOutput,
-    durationMs?: number, 
+    durationMs?: number,
   ): Promise<object>
-`} lang="tsx" />
+```
 
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+
+```tsx
   import {
     RegisterRtpOutput,
     RegisterMp4Output,
@@ -88,11 +93,11 @@ After `init()` you can start connecting inputs/outputs or register other element
     | ({ type: 'rtp_stream' } & RegisterRtpOutput)
     | ({ type: 'mp4' } & RegisterMp4Output)
     | ({ type: 'whip' } & RegisterWhipOutput);
-`} lang='tsx' />
+```
 
 </CollapsibleDetails>
 
-Register external destination that can be used as a smelter output. 
+Register external destination that can be used as a smelter output.
 
 - `root` - React component that controls composition layout on output.
 - `output` - Protocol and encoder options for the output. Visit output documentation to learn more:
@@ -110,17 +115,18 @@ Register external destination that can be used as a smelter output.
 
 ## registerInput()
 
-<Code code={`
+```tsx
   import { Inputs } from "@swmasnion/smelter"
 
   Smelter.registerInput(
     inputId: string,
     input: Inputs.RegisterInput,
   ): Promise<object>
-`} lang="tsx" />
+```
 
 <CollapsibleDetails summaryTitle='Type definitions'>
-<Code code={`
+
+```tsx
   import {
     RegisterRtpInput,
     RegisterMp4Input,
@@ -131,7 +137,7 @@ Register external destination that can be used as a smelter output.
     | ({ type: "rtp_stream" } & RegisterRtpInput)
     | ({ type: "mp4" } & RegisterMp4Input)
     | ({ type: "whip" } & RegisterWhipInput);
-`} lang='tsx' />
+```
 
 </CollapsibleDetails>
 
@@ -149,35 +155,34 @@ Register external source that can be used as a smelter input. Visit input docume
 
 ## registerImage()
 
-<Code code={`
+```tsx
   import { Renderers } from "@swmansion/smelter"
 
   Smelter.registerImage(
     imageId: string,
     image: Renderers.RegisterImage,
   ): Promise<void>
-`} lang="tsx" />
+```
 
 Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn more.
 
 ## registerShader()
 
-<Code code={`
+```tsx
   import { Renderers } from "@swmnasion/smelter"
 
   Smelter.registerShader(
     shaderId: string,
     shader: Renderers.RegisterShader,
   ): Promise<void>
-`} lang="tsx" />
+```
 
 Register a shader. See [RegisterShader](/ts-sdk/resources/shader) to learn more.
 
 ## registerFont()
 
-<Code
-  code={`Smelter.registerFont(source: string | ArrayBuffer): Promise<void>`}
-  lang="tsx"
-/>
+```tsx
+Smelter.registerFont(source: string | ArrayBuffer): Promise<void>
+```
 
 Register new font.

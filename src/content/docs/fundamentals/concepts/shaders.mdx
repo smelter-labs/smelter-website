@@ -1,7 +1,6 @@
 ---
 title: Shaders
 ---
-import { Code } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
 import vertexShader from '../../../../assets/docs/vertex-shader.png';
 
@@ -26,7 +25,7 @@ Since Smelter doesn't handle complex geometry, and layouts typically manage posi
 
 The following vertex shader should cover most needs for transformations that process a single video in the fragment shader:
 
-<Code code={`
+```wgsl
 struct VertexOutput {
     @builtin(position) position: vec4<f32>,
     @location(0) tex_coords: vec2<f32>,
@@ -41,7 +40,7 @@ fn vs_main(input: VertexInput) -> VertexOutput {
 
     return output;
 }
-`} lang='wgsl' />
+```
 
 ### Fragment shaders
 Fragment shaders focus on processing pixel data to apply visual effects. A single shader instance, responsible for calculating the color of a pixel, is started for every pixel of the output texture.
@@ -50,13 +49,13 @@ The output of a fragment shader must be a vector with four elements, each being 
 
 The children of the Smelter's `Shader` component are available as textures. You can sample them using the builtin `textureSample` function. To customize texture sampling, use the `sampler_` param.
 
-<Code code={`
+```wgsl
 let color = textureSample(texture, sampler_, texture_coordinates)
-`} lang='wgsl' />
+```
 
 For example see this simple fragment shader, which applies the negative effect:
 
-<Code code={`
+```wgsl
 struct VertexOutput {
     @builtin(position) position: vec4<f32>,
     @location(0) tex_coords: vec2<f32>,
@@ -67,7 +66,7 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4<f32> {
     let color = textureSample(textures[0], sampler_, input.tex_coords);
     return vec4(vec3(1.0) - color, 1.0);
 }
-`} lang='wgsl' />
+```
 
 ## Syntax
 Since Smelter is implemented using wgpu, the shaders have to be written in WGSL (WebGPU Shading Language). Shaders also have to fulfill some custom requirements to be used by Smelter. We will detail all necessary conditions in the following sections.
@@ -75,7 +74,7 @@ Since Smelter is implemented using wgpu, the shaders have to be written in WGSL 
 ### Header
 Every user-provided shader should include the code below.
 
-<Code code={`
+```wgsl
 struct VertexInput {
     @location(0) position: vec3<f32>,
     @location(1) tex_coords: vec2<f32>,
@@ -92,14 +91,14 @@ struct BaseShaderParameters {
 @group(2) @binding(0) var sampler_: sampler;
 
 var<immediate> base_params: BaseShaderParameters;
-`} lang='wgsl' />
+```
 
 ### Custom parameters
 You can define a custom WGSL struct and bind a value of this type:
 
-<Code code={`
+```wgsl
 @group(1) @binding(0) var<uniform> custom_name: CustomStruct;
-`} lang='wgsl' />
+```
 
 You need to provide this struct when creating a node using the `shader_params` field of the shader node struct.
 
@@ -108,20 +107,20 @@ You need to provide this struct when creating a node using the `shader_params` f
 #### Vertex shader
 A vertex shader entrypoint must match the following signature:
 
-<Code code={`
+```wgsl
 @vertex
 fn vs_main(input: VertexInput) -> A
-`} lang='wgsl' />
+```
 
 Where `A` can be any user-defined struct suitable for a vertex shader output.
 
 #### Fragment shader
 A fragment shader entrypoint must match the following signature:
 
-<Code code={`
+```wgsl
 @fragment
 fn fs_main(input: A) -> @location(0) vec4<f32>
-`} lang='wgsl' />
+```
 
 Where `A` is the output type of the vertex shader.
 

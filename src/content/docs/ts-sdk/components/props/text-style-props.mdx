@@ -1,11 +1,12 @@
 ---
 title: TextStyleProps
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type TextStyleProps = {
     width?: number;
     height?: number;
@@ -19,7 +20,7 @@ type TextStyleProps = {
     fontStyle?: "normal" | "italic" | "oblique";
     align?: "left" | "right" | "justified" | "center";
     wrap?: "none" | "glyph" | "word";
-    fontWeight?: 
+    fontWeight?:
       | "thin"
       | "extra_light"
       | "light"
@@ -30,7 +31,7 @@ type TextStyleProps = {
       | "extra_bold"
       | "black";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties

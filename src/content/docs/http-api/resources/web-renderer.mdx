@@ -1,7 +1,7 @@
 ---
 title: WebRenderer
 ---
-import { Aside, Code, Badge } from '@astrojs/starlight/components';
+import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Required feature: web-renderer" variant="note" size="large" />
@@ -17,19 +17,20 @@ Represents an instance of a website rendered using Chromium embedded in the Smel
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type WebRenderer = {
     url: string;
     resolution: {
       width: u32;
       height: u32;
     };
-    embedding_method?: 
+    embedding_method?:
       | "chromium_embedding"
       | "native_embedding_over_content"
       | "native_embedding_under_content";
 }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties

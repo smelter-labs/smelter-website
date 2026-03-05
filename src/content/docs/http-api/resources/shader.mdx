@@ -1,7 +1,6 @@
 ---
 title: Shader
 ---
-import { Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 Represents compiled shader. It can be used by a [Shader component](/http-api/components/shader).
@@ -9,9 +8,10 @@ Represents compiled shader. It can be used by a [Shader component](/http-api/com
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
 type Shader = { source: string; }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ## Properties
