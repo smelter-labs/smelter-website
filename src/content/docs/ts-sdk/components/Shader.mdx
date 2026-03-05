@@ -90,8 +90,8 @@ Resolution of the texture where shader will be executed.
 
 ## ShaderParam
 
-<Code code={`
-type ShaderParam = 
+```tsx
+type ShaderParam =
   | { type: "f32"; value: f32; }
   | { type: "u32"; value: u32; }
   | { type: "i32"; value: i32; }
@@ -100,12 +100,12 @@ type ShaderParam =
       type: "struct";
       value: ShaderParamStructField[];
     }
-`} lang='tsx'/>
+```
 
 ## ShaderParamStructField
 
-<Code code={`
-type ShaderParamStructField = 
+```tsx
+type ShaderParamStructField =
   | { field_name: string; type: "f32"; value: f32; }
   | { field_name: string; type: "u32"; value: u32; }
   | { field_name: string; type: "i32"; value: i32; }
@@ -119,4 +119,4 @@ type ShaderParamStructField =
       type: "struct";
       value: ShaderParamStructField[];
     }
-`} lang='tsx'/>
+```
