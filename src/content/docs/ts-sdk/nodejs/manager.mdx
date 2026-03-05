@@ -126,11 +126,13 @@ void run();
 ### Reference 
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
   type ExistingInstanceOptions = {
     url: string | URL;
+    authorizationHeader?: string;
   };
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 
@@ -139,3 +141,11 @@ void run();
 Address of a running smelter server. Protocol used in the address also implies protocol of a WebSocket connection (`http -> ws` and `https -> wss`).
 
 - **Type**: `string | URL`
+
+---
+
+#### authorizationHeader
+
+Value of the `Authorization` header that will be sent with every request to the Smelter server. 
+
+- **Type*
