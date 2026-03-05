@@ -1,6 +1,7 @@
 ---
 import Star from "@assets/license/star.svg";
 import Suitcase from "@assets/license/suitcase.svg";
+import PrimaryButton from "@components/base/buttons/PrimaryButton.astro";
 import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
 import ArrowRight from "/public/images/arrow-right.svg";
 ---
@@ -135,6 +136,32 @@ import ArrowRight from "/public/images/arrow-right.svg";
             </a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gradient-red-1 rounded-4xl p-px max-w-[860px] w-full">
+    <div class="w-full rounded-[calc(2rem-1px)] bg-explanation-background px-8 py-8 sm:px-10 sm:py-10">
+      <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+        <div class="flex-1 text-center sm:text-left">
+          <h3 class="text-homeLicense-header mb-2">Managed Service</h3>
+          <p class="text-capabilities-text text-base leading-relaxed m-0">
+            Smelter is available a managed service - no server required.<br/>
+            Fishjam runs the infrastructure for you.
+          </p>
+        </div>
+        <a
+          href="https://fishjam.swmansion.com/real-time-composition"
+          target="_blank"
+          rel="noreferrer noopener"
+          style="text-decoration: none; color: inherit"
+          class="shrink-0"
+        >
+          <PrimaryButton>
+            <p class="m-0">Get Early Access</p>
+            <ArrowRight class="w-4 h-4" />
+          </PrimaryButton>
+        </a>
       </div>
     </div>
   </div>
