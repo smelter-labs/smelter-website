@@ -43,16 +43,17 @@ Object that maps ids of registered input streams to info about their state.
 ## InputStreamInfo
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
   type InputStreamInfo = {
     inputId: string;
-    videoState?: "ready" | "playing" | "finished"; 
+    videoState?: "ready" | "playing" | "finished";
     audioState?: "ready" | "playing" | "finished";
     offsetMs?: number;
     videoDurationMs?: number;
     audioDurationMs?: number;
   }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
