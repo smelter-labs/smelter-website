@@ -111,8 +111,8 @@ Starts the processing pipeline. Any previously registered output will start prod
 ## registerOutput()
 ```tsx
 smelter.registerOutput(
-    outputId: string,
-    output: RegisterOutput,
+  outputId: string,
+  output: RegisterOutput,
 ): Promise<object>
 ```
 
@@ -120,21 +120,21 @@ smelter.registerOutput(
 
 ```tsx
 import {
-    RegisterRtpOutput,
-    RegisterMp4Output,
-    RegisterHlsOutput,
-    RegisterWhipClientOutput,
-    RegisterWhepServerOutput,
-    RegisterRtmpClientOutput,
+  RegisterRtpOutput,
+  RegisterMp4Output,
+  RegisterHlsOutput,
+  RegisterWhipClientOutput,
+  RegisterWhepServerOutput,
+  RegisterRtmpClientOutput,
 } from "@swmasnion/smelter"
 
 type RegisterOutput =
-    | ({ type: 'rtp_stream' } & RegisterRtpOutput)
-    | ({ type: 'mp4' } & RegisterMp4Output)
-    | ({ type: 'hls' } & RegisterHlsOutput)
-    | ({ type: 'whip_client' } & RegisterWhipClientOutput)
-    | ({ type: 'whep_server' } & RegisterWhepServerOutput)
-    | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+  | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+  | ({ type: 'mp4' } & RegisterMp4Output)
+  | ({ type: 'hls' } & RegisterHlsOutput)
+  | ({ type: 'whip_client' } & RegisterWhipClientOutput)
+  | ({ type: 'whep_server' } & RegisterWhepServerOutput)
+  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
 ```
 </CollapsibleDetails>
 
@@ -157,8 +157,8 @@ Unregister previously registered output.
 ## registerInput()
 ```tsx
 Smelter.registerInput(
-    inputId: string,
-    input: RegisterInput
+  inputId: string,
+  input: RegisterInput
 ): Promise<object>
 ```
 
@@ -166,20 +166,20 @@ Smelter.registerInput(
 
 ```tsx
 import {
-    RegisterRtpInput,
-    RegisterMp4Input,
-    RegisterHlsInput,
-    RegisterWhipServerInput,
-    RegisterWhepClientInput,
+  RegisterRtpInput,
+  RegisterMp4Input,
+  RegisterHlsInput,
+  RegisterWhipServerInput,
+  RegisterWhepClientInput,
 } from "@swmasnion/smelter"
 
 type RegisterInput =
-    | ({ type: 'rtp_stream' } & RegisterRtpInput)
-    | ({ type: 'mp4' } & RegisterMp4Input)
-    | ({ type: 'hls' } & RegisterHlsInput)
-    | ({ type: 'whip_server' } & RegisterWhipServerInput)
-    | ({ type: 'whep_client' } & RegisterWhepClientInput)
-    | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
+  | ({ type: 'rtp_stream' } & RegisterRtpInput)
+  | ({ type: 'mp4' } & RegisterMp4Input)
+  | ({ type: 'hls' } & RegisterHlsInput)
+  | ({ type: 'whip_server' } & RegisterWhipServerInput)
+  | ({ type: 'whep_client' } & RegisterWhepClientInput)
+  | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
 ```
 </CollapsibleDetails>
 
@@ -205,8 +205,8 @@ Unregister previously registered input.
 import { Renderers } from "@swmansion/smelter"
 
 smelter.registerImage(
-    imageId: string,
-    image: Renderers.RegisterImage,
+  imageId: string,
+  image: Renderers.RegisterImage,
 ): Promise<void>
 ```
 
@@ -224,8 +224,8 @@ Unregister a previously registered image asset.
 import { Renderers } from "@swmnasion/smelter"
 
 smelter.registerShader(
-    shaderId: string,
-    shader: Renderers.RegisterShader,
+  shaderId: string,
+  shader: Renderers.RegisterShader,
 ): Promise<void>
 ```
 
@@ -243,8 +243,8 @@ Unregister a previously registered shader.
 import { Renderers } from "@swmansion/smelter"
 
 smelter.registerWebRenderer(
-    instanceId: string,
-    instance: Renderers.RegisterWebRenderer,
+  instanceId: string,
+  instance: Renderers.RegisterWebRenderer,
 ): Promise<object>
 ```
 
@@ -266,8 +266,8 @@ smelter.registerFont(source: FontSource): Promise<void>
 
 ```tsx
 type FontSource =
-    | 'string' // URL
-    | ArrayBuffer
+  | 'string' // URL
+  | ArrayBuffer
 ```
 </CollapsibleDetails>
 

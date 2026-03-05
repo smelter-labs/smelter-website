@@ -58,8 +58,8 @@ Starts the processing pipeline. Any previously registered output will start prod
 ## registerOutput()
 ```tsx
 smelter.registerOutput(
-    outputId: string,
-    output: RegisterOutput,
+  outputId: string,
+  output: RegisterOutput,
 ): Promise<object>
 ```
 
@@ -67,32 +67,32 @@ smelter.registerOutput(
 
 ```tsx
 export type RegisterOutput =
-    | {
-        type: 'stream';
-        video: {
-          resolution: Api.Resolution;
-        };
-        audio?: boolean;
-      }
-    | {
-        type: 'canvas';
-        video: {
-          canvas: HTMLCanvasElement;
-          resolution: Api.Resolution;
-        };
-        audio?: boolean;
-      }
-    | {
-        type: 'whip_client';
-        endpointUrl: string;
-        bearerToken?: string;
-        iceServers?: RTCConfiguration['iceServers'];
-        video: {
-          resolution: Api.Resolution;
-          maxBitrate?: number;
-        };
-        audio?: boolean;
-      };
+  | {
+    type: 'stream';
+    video: {
+      resolution: Api.Resolution;
+    };
+    audio?: boolean;
+  }
+  | {
+    type: 'canvas';
+    video: {
+      canvas: HTMLCanvasElement;
+      resolution: Api.Resolution;
+    };
+    audio?: boolean;
+  }
+  | {
+    type: 'whip_client';
+    endpointUrl: string;
+    bearerToken?: string;
+    iceServers?: RTCConfiguration['iceServers'];
+    video: {
+      resolution: Api.Resolution;
+      maxBitrate?: number;
+    };
+    audio?: boolean;
+  };
 ```
 </CollapsibleDetails>
 
@@ -112,8 +112,8 @@ Unregister previously registered output.
 ## registerInput()
 ```tsx
 smelter.registerInput(
-    inputId: string,
-    input: RegisterInput
+  inputId: string,
+  input: RegisterInput
 ): Promise<object>
 ```
 
@@ -121,11 +121,11 @@ smelter.registerInput(
 
 ```tsx
 type RegisterInput =
-    | { type: 'mp4'; url: string }
-    | { type: 'camera' }
-    | { type: 'screen_capture' }
-    | { type: 'stream'; stream: MediaStream }
-    | { type: 'whep_client'; endpointUrl: string; bearerToken?: string };
+  | { type: 'mp4'; url: string }
+  | { type: 'camera' }
+  | { type: 'screen_capture' }
+  | { type: 'stream'; stream: MediaStream }
+  | { type: 'whep_client'; endpointUrl: string; bearerToken?: string };
 ```
 </CollapsibleDetails>
 
@@ -149,8 +149,8 @@ Unregister previously registered input.
 import { Renderers } from "@swmansion/smelter"
 
 smelter.registerImage(
-    imageId: string,
-    image: Renderers.RegisterImage,
+  imageId: string,
+  image: Renderers.RegisterImage,
 ): Promise<void>
 ```
 
@@ -168,8 +168,8 @@ Unregister a previously registered image asset.
 import { Renderers } from "@swmnasion/smelter"
 
 smelter.registerShader(
-    shaderId: string,
-    shader: Renderers.RegisterShader,
+  shaderId: string,
+  shader: Renderers.RegisterShader,
 ): Promise<void>
 ```
 

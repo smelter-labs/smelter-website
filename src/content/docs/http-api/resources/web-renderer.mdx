@@ -20,15 +20,15 @@ Represents an instance of a website rendered using Chromium embedded in the Smel
 
 ```tsx
 type WebRenderer = {
-    url: string;
-    resolution: {
-      width: u32;
-      height: u32;
-    };
-    embedding_method?:
-      | "chromium_embedding"
-      | "native_embedding_over_content"
-      | "native_embedding_under_content";
+  url: string;
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  embedding_method?:
+    | "chromium_embedding"
+    | "native_embedding_over_content"
+    | "native_embedding_under_content";
 }
 ```
 </CollapsibleDetails>

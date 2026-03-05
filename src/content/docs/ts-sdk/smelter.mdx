@@ -107,8 +107,8 @@ Starts the processing pipeline. Any previously registered output will start prod
 
 ```tsx
 Smelter.registerOutput(
-    outputId: string,
-    output: RegisterOutput,
+  outputId: string,
+  output: RegisterOutput,
 ): Promise<object>
 ```
 
@@ -133,32 +133,32 @@ Smelter.registerOutput(
 
 ```tsx
 export type RegisterOutput =
-    | {
-        type: 'stream';
-        video: {
-          resolution: Api.Resolution;
-        };
-        audio?: boolean;
-      }
-    | {
-        type: 'canvas';
-        video: {
-          canvas: HTMLCanvasElement;
-          resolution: Api.Resolution;
-        };
-        audio?: boolean;
-      }
-    | {
-        type: 'whip';
-        endpointUrl: string;
-        bearerToken?: string;
-        iceServers?: RTCConfiguration['iceServers'];
-        video: {
-          resolution: Api.Resolution;
-          maxBitrate?: number;
-        };
-        audio?: boolean;
-      };
+  | {
+    type: 'stream';
+    video: {
+      resolution: Api.Resolution;
+    };
+    audio?: boolean;
+  }
+  | {
+    type: 'canvas';
+    video: {
+      canvas: HTMLCanvasElement;
+      resolution: Api.Resolution;
+    };
+    audio?: boolean;
+  }
+  | {
+    type: 'whip';
+    endpointUrl: string;
+    bearerToken?: string;
+    iceServers?: RTCConfiguration['iceServers'];
+    video: {
+      resolution: Api.Resolution;
+      maxBitrate?: number;
+    };
+    audio?: boolean;
+  };
 ```
 </CollapsibleDetails>
 
