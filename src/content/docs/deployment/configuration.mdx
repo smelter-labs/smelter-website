@@ -123,13 +123,12 @@ Parts of the Smelter API support a schedule_time_ms field to apply certain actio
 List of WebGPU features to enable.
 - **Defaults to**:
 ```
-UNIFORM_BUFFER_AND_STORAGE_TEXTURE_ARRAY_NON_UNIFORM_INDEXING,
 SAMPLED_TEXTURE_AND_STORAGE_BUFFER_ARRAY_NON_UNIFORM_INDEXING
 ```
 - **Supported values**:
     - `string` containing comma-separated list of WebGPU features (see <a href="https://docs.rs/wgpu/24.0.1/wgpu/struct.Features.html" target='_blank'>Rust WebGPU documentation</a> for the list of available options)
 
-<Aside type="caution">`TEXTURE_BINDING_ARRAY` and `PUSH_CONSTANTS` are always required and cannot be overwritten using this environment variable.</Aside>
+<Aside type="caution">`TEXTURE_BINDING_ARRAY` and `IMMEDIATES` are always required and cannot be overwritten using this environment variable.</Aside>
 
 ### `SMELTER_INPUT_BUFFER_DURATION_MS`
 Duration (in ms) of an input buffer in milliseconds. New stream will not be processed until this buffer is filled.
@@ -157,12 +156,40 @@ possible to register WHIP inputs.
 
 - **Defaults to**: `true`
 
+### `SMELTER_RTMP_SERVER_PORT`
+Specify port where RTMP server should be served.
+
+- **Defaults to**: `1935`
+
+### `SMELTER_START_RTMP_SERVER`
+
+If enabled, the Smelter server will start RTMP server. If disabled it won't be possible to register RTMP inputs.
+
+- **Defaults to**: `true`
+
 ### `SMELTER_LOG_FILE`
 
 Location of a file where all Smelter logs should be saved. Logging to file does not stop printing logs to standard output.
 
-### `SMELTER_STUN_SERVERS`
+### `SMELTER_WEBRTC_STUN_SERVERS`
 
 List of comma separated URLs that specify STUN servers that should be used in connection negotiation for WHIP/WHEP.
 
 - **Defaults to**: `stun:stun.l.google.com:19302`
+
+### `SMELTER_WEBRTC_UDP_PORT_RANGE`
+
+Port range in format `"START:END"`. Defines what ports will be used for WebRTC connections used by all WHIP/WHEP input/outputs.
+
+This option can't be used together with `SMELTER_WEBRTC_UDP_MUX_PORT`
+
+### `SMELTER_WEBRTC_UDP_MUX_PORT`
+
+An UDP port number, when provided WebRTC traffic from all WHIP/WHEP inputs/outputs will be muxed on a single port.
+
+This option can't be used together with `SMELTER_WEBRTC_UDP_PORT_RANGE`
+
+### `SMELTER_WEBRTC_1_TO_1_NAT_IPS`
+
+List of comma separated IP addresses. ICE candidates generated in the process of WebRTC connection negotiation will use those
+IPs instead of IP of the host.
