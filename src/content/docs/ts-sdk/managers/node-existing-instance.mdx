@@ -2,63 +2,49 @@
 title: Node.js - Existing Instance
 ---
 
-import { Code } from "@astrojs/starlight/components";
 import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 `ExistingInstanceManager` allows you to create a new `Smelter` instance that will connect
 to already running smelter server. This manager assumes that it is the only instance that
 connects to a specific smelter server.
 
-<Code title='ExistingInstanceManagerExample.tsx' code={`
-  import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
+```tsx title=ExistingInstanceManagerExample.tsx
+import Smelter, { ExistingInstanceManager } from "@swmansion/smelter-node"
 
-  async function run() {
-    const manager = new ExistingInstanceManager({
-      ip: "127.0.0.1",
-      port: 8000,
-      protocol: 'https',
-    });
-    const smelter = new Smelter(manager);
-    await smelter.init()
-  }
-  void run();
-`} lang="tsx" />
+async function run() {
+  const manager = new ExistingInstanceManager({
+    url: "http://127.0.0.1:8000"
+  });
+  const smelter = new Smelter(manager);
+  await smelter.init()
+}
+void run();
+```
 
 ## ExistingInstanceOptions
 
 <CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-  type ExistingInstanceOptions = {
-    port: number;
-    ip: string;
-    protocol: 'http' | 'https';
-  };
-`}
-    lang="tsx"
-  />
+
+```tsx
+type ExistingInstanceOptions = {
+  url: string;
+  authorizationHeader?: string;
+};
+```
 </CollapsibleDetails>
 
 ### Properties
 
-#### ip
+#### url
 
-IP of a running smelter server.
+URL of a running Smelter server.
 
 - **Type**: `string`
 
 ---
 
-#### port
+#### authorizationHeader
 
-Port number where smelter API endpoint is exposed.
+Value of the `Authorization` header that will be sent with every request to the Smelter server. 
 
-- **Type**: `number`
-
----
-
-#### protocol
-
-Protocol for connection. It also implies protocol of a WebSocket connection (`http -> ws` and `https -> wss`).
-
-- **Type**: `'http' | 'https'`
+- **Type**: `string`

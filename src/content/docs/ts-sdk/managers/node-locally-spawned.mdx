@@ -2,7 +2,6 @@
 title: Node.js - Locally Spawned Instance
 ---
 
-import { Code } from "@astrojs/starlight/components";
 import CollapsibleDetails from "@components/CollapsibleDetails.astro";
 
 `LocallySpawnedInstanceManager` allows you to create a new `Smelter` instance that will
@@ -12,33 +11,31 @@ This is a default manager for smelter on Node.js.
 
 ## Reference
 
-<Code title='LocallySpawnedInstanceManagerExample.tsx' code={`
-  import Smelter, { LocallySpawnedInstanceManager } from "@swmansion/smelter-node"
+```tsx title=LocallySpawnedInstanceManagerExample.tsx
+import Smelter, { LocallySpawnedInstanceManager } from "@swmansion/smelter-node"
 
-  async function run() {
-    const manager = new LocallySpawnedInstanceManager({
-      port: 8000
-    });
-    const smelter = new Smelter(manager);
-    await smelter.init()
-  }
-  void run();
-`} lang="tsx" />
+async function run() {
+  const manager = new LocallySpawnedInstanceManager({
+    port: 8000
+  });
+  const smelter = new Smelter(manager);
+  await smelter.init()
+}
+void run();
+```
 
 ## LocallySpawnedInstanceOptions
 
 <CollapsibleDetails summaryTitle="Type definitions" open>
-  <Code
-    code={`
-  type LocallySpawnedInstanceOptions = {
-    port: number;
-    workingdir?: string;
-    executablePath?: string;
-    enableWebRenderer?: boolean;
-  };
-`}
-    lang="tsx"
-  />
+
+```tsx
+type LocallySpawnedInstanceOptions = {
+  port: number;
+  workingdir?: string;
+  executablePath?: string;
+  enableWebRenderer?: boolean;
+};
+```
 </CollapsibleDetails>
 
 ### Properties
