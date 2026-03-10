@@ -7,7 +7,6 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 <Badge text="Node.js" variant="tip" size="large" />
 <Badge text="Browser (Client)" variant="tip" size="large" />
-<Badge text="Experimental" variant='caution' size="large" />
 
 <br />
 <br />
@@ -23,13 +22,12 @@ The RTMP connection is configured using the following parameters:
 - The registered `streamKey`
 
 Most RTMP clients accept connection parameters in form of URL.\
-Format: `rtmp://<smelter_ip>:<port>/<app>/<stream_key>`
+Format: `rtmp[s]://<smelter_ip>:<port>/<app>/<stream_key>`
 
-
-<Aside type="caution">
-For now, it is not possible to set up an RTMPS server (RTMP over TLS/SSL).\
-You can still use it safely in production, but you need to set up an RTMP proxy that will handle route validation and encryption.
-You can use nginx with `nginx-rtmp-module` for that.
+<Aside>
+To enable RTMPS (RTMP over TLS/SSL), configure the following environment variables:
+- [`SMELTER_RTMP_TLS_CERT_FILE`](/deployment/configuration#smelter_rtmp_tls_cert_file) — path to the TLS certificate file
+- [`SMELTER_RTMP_TLS_KEY_FILE`](/deployment/configuration#smelter_rtmp_tls_key_file) — path to the TLS private key file
 </Aside>
 
 ## Usage
