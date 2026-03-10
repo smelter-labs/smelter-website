@@ -167,6 +167,16 @@ If enabled, the Smelter server will start RTMP server. If disabled it won't be p
 
 - **Defaults to**: `true`
 
+### `SMELTER_RTMP_TLS_CERT_FILE`
+
+Path to a TLS certificate file for the RTMP server. When both `SMELTER_RTMP_TLS_CERT_FILE`
+and `SMELTER_RTMP_TLS_KEY_FILE` are set, the RTMP server will accept RTMPS connections.
+
+### `SMELTER_RTMP_TLS_KEY_FILE`
+
+Path to a TLS private key file for the RTMP server. When both `SMELTER_RTMP_TLS_CERT_FILE`
+and `SMELTER_RTMP_TLS_KEY_FILE` are set, the RTMP server will accept RTMPS connections.
+
 ### `SMELTER_LOG_FILE`
 
 Location of a file where all Smelter logs should be saved. Logging to file does not stop printing logs to standard output.

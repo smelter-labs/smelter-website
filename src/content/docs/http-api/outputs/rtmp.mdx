@@ -6,6 +6,11 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from Smelter over RTMP.
 
+The RTMP output connection is configured using a URL.\
+Format: `rtmp[s]://<host>[:<port>]/<app>/<stream_key>`
+
+The port defaults to `1935` for RTMP and `443` for RTMPS.
+
 ## Usage
 
 To use RTMP Output you need to register it first.
