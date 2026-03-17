@@ -1,0 +1,162 @@
+# Smelter
+
+> Smelter is a toolkit for real-time video and audio processing. It lets you combine multimedia from different sources into a single video or live stream, enrich content with text, custom GPU shaders, and embedded web views. You can control it via a React-based TypeScript SDK or a direct HTTP API.
+
+Smelter supports multiple input protocols (MP4, RTP, HLS, WHIP, WHEP, RTMP, DeckLink, V4L2) and output protocols (MP4, RTP, HLS, WHIP, WHEP, RTMP). It uses GPU-accelerated rendering via Vulkan/wgpu and supports both real-time (live) and offline processing modes. Built by Software Mansion.
+
+## Fundamentals
+
+- [Getting Started](https://smelter.dev/fundamentals/getting-started): Introduction to Smelter, installation, and first steps
+- [Setup Choices](https://smelter.dev/fundamentals/setup-choices): Comparison of setup approaches — Standalone, TypeScript SDK (Node.js, Browser Client, WASM), and Membrane Framework
+- [Glossary](https://smelter.dev/fundamentals/glossary): Key terms and concepts including offline/live processing, timestamps, inputs, outputs, and resources
+- [Layouts](https://smelter.dev/fundamentals/concepts/layouts): Component-based layout system with View, Tiles, and Rescaler components
+- [Shaders](https://smelter.dev/fundamentals/concepts/shaders): Shader fundamentals using WGSL (WebGPU Shading Language) for custom GPU effects
+
+## Deployment
+
+- [Setup](https://smelter.dev/deployment/setup): Deployment options for standalone, TypeScript SDK, WASM, and Membrane
+- [Configuration](https://smelter.dev/deployment/configuration): Environment variables for runtime configuration including ports, framerate, GPU, logging, and web renderer options
+
+## TypeScript SDK
+
+- [Overview](https://smelter.dev/ts-sdk/overview): SDK overview covering Node.js, Browser Client, and Browser WASM variants
+- [Smelter Class](https://smelter.dev/ts-sdk/smelter): Main Smelter class API reference
+- [Offline Smelter](https://smelter.dev/ts-sdk/smelter-offline): Offline rendering mode for batch processing
+- [Configuration](https://smelter.dev/ts-sdk/configuration): SDK configuration options
+
+### TypeScript SDK — Runtime Variants
+
+- [Node.js Overview](https://smelter.dev/ts-sdk/nodejs/overview): Node.js runtime with automatic server management
+- [Node.js Smelter](https://smelter.dev/ts-sdk/nodejs/smelter): Node.js Smelter class reference
+- [Browser Client Overview](https://smelter.dev/ts-sdk/web-client/overview): Browser-based React connecting to a remote Smelter server
+- [Browser Client Smelter](https://smelter.dev/ts-sdk/web-client/smelter): Browser Client Smelter class reference
+- [Browser WASM Overview](https://smelter.dev/ts-sdk/web-wasm/overview): Full browser solution using WebAssembly rendering
+- [Browser WASM Smelter](https://smelter.dev/ts-sdk/web-wasm/smelter): Browser WASM Smelter class reference
+
+### TypeScript SDK — Components
+
+- [View](https://smelter.dev/ts-sdk/components/view): Container layout component for positioning and styling child components
+- [Tiles](https://smelter.dev/ts-sdk/components/tiles): Tiled layout component for arranging children in a grid
+- [Rescaler](https://smelter.dev/ts-sdk/components/rescaler): Component for rescaling child content to fit a target resolution
+- [Image](https://smelter.dev/ts-sdk/components/image): Render images in the video output
+- [Text](https://smelter.dev/ts-sdk/components/text): Render styled text in the video output
+- [InputStream](https://smelter.dev/ts-sdk/components/inputstream): Embed a live input stream in the scene
+- [Mp4](https://smelter.dev/ts-sdk/components/mp4): Embed MP4 video files in the scene
+- [WebView](https://smelter.dev/ts-sdk/components/webview): Embed web content rendered via Chromium
+- [Shader](https://smelter.dev/ts-sdk/components/shader): Apply custom GPU shaders to child components
+- [Show](https://smelter.dev/ts-sdk/components/show): Conditionally show or hide children
+- [SlideShow](https://smelter.dev/ts-sdk/components/slideshow): Cycle through children with transitions
+
+### TypeScript SDK — Hooks
+
+- [useInputStreams](https://smelter.dev/ts-sdk/hooks/use-input-streams): Manage and query connected input streams
+- [useAudioInput](https://smelter.dev/ts-sdk/hooks/use-audio-input): Handle audio stream input
+- [useAfterTimestamp](https://smelter.dev/ts-sdk/hooks/use-after-timestamp): Trigger actions after a specified timestamp
+- [useBlockingTask](https://smelter.dev/ts-sdk/hooks/use-blocking-task): Synchronize blocking tasks with rendering
+
+### TypeScript SDK — Inputs
+
+- [MP4 Input](https://smelter.dev/ts-sdk/inputs/mp4): Ingest MP4 files
+- [RTP Input](https://smelter.dev/ts-sdk/inputs/rtp): Receive RTP streams
+- [HLS Input](https://smelter.dev/ts-sdk/inputs/hls): Receive HLS streams
+- [WHIP Input](https://smelter.dev/ts-sdk/inputs/whip): Receive WebRTC streams via WHIP
+- [WHEP Input](https://smelter.dev/ts-sdk/inputs/whep): Receive WebRTC streams via WHEP
+- [RTMP Input](https://smelter.dev/ts-sdk/inputs/rtmp): Receive RTMP streams
+
+### TypeScript SDK — Outputs
+
+- [MP4 Output](https://smelter.dev/ts-sdk/outputs/mp4): Write output to MP4 files
+- [RTP Output](https://smelter.dev/ts-sdk/outputs/rtp): Send output as RTP streams
+- [HLS Output](https://smelter.dev/ts-sdk/outputs/hls): Serve output as HLS streams
+- [WHIP Output](https://smelter.dev/ts-sdk/outputs/whip): Send output via WebRTC WHIP
+- [WHEP Output](https://smelter.dev/ts-sdk/outputs/whep): Serve output via WebRTC WHEP
+- [RTMP Output](https://smelter.dev/ts-sdk/outputs/rtmp): Send output as RTMP streams
+
+### TypeScript SDK — Resources
+
+- [Shader Resource](https://smelter.dev/ts-sdk/resources/shader): Register custom WGSL shader programs
+- [Image Resource](https://smelter.dev/ts-sdk/resources/image): Register image assets
+- [WebRenderer Resource](https://smelter.dev/ts-sdk/resources/web-renderer): Register web renderer instances
+
+### TypeScript SDK — Guides
+
+- [Quick Start](https://smelter.dev/ts-sdk/guides/quick-start): Step-by-step Node.js setup guide
+- [Quick Start (WASM)](https://smelter.dev/ts-sdk/guides/quick-start-wasm): Step-by-step Browser WASM setup guide
+- [Basic Layouts](https://smelter.dev/ts-sdk/guides/basic-layouts): Learn how to compose layouts with components
+- [Transitions](https://smelter.dev/ts-sdk/guides/transitions): Add animation transitions between scenes
+- [Web Rendering](https://smelter.dev/ts-sdk/guides/web-rendering): Embed web content in video output
+
+## HTTP API
+
+- [Overview](https://smelter.dev/http-api/overview): Introduction to the HTTP API for controlling Smelter servers directly
+- [Routes](https://smelter.dev/http-api/routes): Complete endpoint documentation with request/response schemas
+- [Events](https://smelter.dev/http-api/events): Server event subscriptions via WebSocket
+
+### HTTP API — Components
+
+- [View](https://smelter.dev/http-api/components/view): View component JSON schema
+- [Tiles](https://smelter.dev/http-api/components/tiles): Tiles component JSON schema
+- [Rescaler](https://smelter.dev/http-api/components/rescaler): Rescaler component JSON schema
+- [Image](https://smelter.dev/http-api/components/image): Image component JSON schema
+- [Text](https://smelter.dev/http-api/components/text): Text component JSON schema
+- [InputStream](https://smelter.dev/http-api/components/inputstream): InputStream component JSON schema
+- [WebView](https://smelter.dev/http-api/components/webview): WebView component JSON schema
+- [Shader](https://smelter.dev/http-api/components/shader): Shader component JSON schema
+
+### HTTP API — Inputs
+
+- [MP4 Input](https://smelter.dev/http-api/inputs/mp4): Register MP4 file inputs via API
+- [RTP Input](https://smelter.dev/http-api/inputs/rtp): Register RTP stream inputs via API
+- [HLS Input](https://smelter.dev/http-api/inputs/hls): Register HLS stream inputs via API
+- [WHIP Input](https://smelter.dev/http-api/inputs/whip): Register WHIP inputs via API
+- [WHEP Input](https://smelter.dev/http-api/inputs/whep): Register WHEP inputs via API
+- [RTMP Input](https://smelter.dev/http-api/inputs/rtmp): Register RTMP inputs via API
+- [DeckLink Input](https://smelter.dev/http-api/inputs/decklink): Register DeckLink capture card inputs via API
+- [V4L2 Input](https://smelter.dev/http-api/inputs/v4l2): Register Video4Linux2 device inputs via API
+
+### HTTP API — Outputs
+
+- [MP4 Output](https://smelter.dev/http-api/outputs/mp4): Configure MP4 file outputs via API
+- [RTP Output](https://smelter.dev/http-api/outputs/rtp): Configure RTP stream outputs via API
+- [HLS Output](https://smelter.dev/http-api/outputs/hls): Configure HLS stream outputs via API
+- [WHIP Output](https://smelter.dev/http-api/outputs/whip): Configure WHIP outputs via API
+- [WHEP Output](https://smelter.dev/http-api/outputs/whep): Configure WHEP outputs via API
+- [RTMP Output](https://smelter.dev/http-api/outputs/rtmp): Configure RTMP outputs via API
+
+### HTTP API — Resources
+
+- [Shader Resource](https://smelter.dev/http-api/resources/shader): Register shader resources via API
+- [Image Resource](https://smelter.dev/http-api/resources/image): Register image resources via API
+- [WebRenderer Resource](https://smelter.dev/http-api/resources/web-renderer): Register web renderer resources via API
+
+### HTTP API — Guides
+
+- [Quick Start](https://smelter.dev/http-api/guides/quick-start): HTTP API setup walkthrough with RTMP example
+- [Basic Layouts](https://smelter.dev/http-api/guides/basic-layouts): Compose layouts using JSON component trees
+- [Transitions](https://smelter.dev/http-api/guides/transitions): Add transitions via the HTTP API
+- [Web Rendering](https://smelter.dev/http-api/guides/web-rendering): Embed web content via the HTTP API
+
+## Optional
+
+- [FAQ](https://smelter.dev/fundamentals/faq): Frequently asked questions about Smelter
+- [Component Style Props](https://smelter.dev/ts-sdk/components/props/view-style-props): View style properties reference
+- [Text Style Props](https://smelter.dev/ts-sdk/components/props/text-style-props): Text style properties reference
+- [Tiles Style Props](https://smelter.dev/ts-sdk/components/props/tiles-style-props): Tiles style properties reference
+- [Rescaler Style Props](https://smelter.dev/ts-sdk/components/props/rescaler-style-props): Rescaler style properties reference
+- [Transition Props](https://smelter.dev/ts-sdk/components/props/transition): Transition configuration reference
+- [Easing Functions](https://smelter.dev/ts-sdk/components/props/easing-function): Easing function options for animations
+- [Managers](https://smelter.dev/ts-sdk/managers/node-locally-spawned): Manager for automatically starting a local Smelter server
+- [Performance Overview](https://smelter.dev/deployment/performance/overview): Performance considerations and tuning
+- [Server Performance](https://smelter.dev/deployment/performance/server): Server-side performance metrics
+- [Browser Performance](https://smelter.dev/deployment/performance/browser): Browser WASM performance characteristics
+- [Benchmarks](https://smelter.dev/deployment/performance/benchmarks): Performance benchmark data
+- [Docker Deployment](https://smelter.dev/deployment/variants/docker): Docker image usage and building
+- [Binary Deployment](https://smelter.dev/deployment/variants/binaries): Building from source and GitHub releases
+- [V4L2 Input (TS SDK)](https://smelter.dev/ts-sdk/inputs/v4l2): Video4Linux2 device inputs for TypeScript SDK
+- [WASM Camera Input](https://smelter.dev/ts-sdk/inputs/wasm-camera): Camera input for WASM variant
+- [WASM Screen Input](https://smelter.dev/ts-sdk/inputs/wasm-screen): Screen capture input for WASM variant
+- [WASM Stream Input](https://smelter.dev/ts-sdk/inputs/wasm-stream): MediaStream input for WASM variant
+- [WASM WHEP Input](https://smelter.dev/ts-sdk/inputs/wasm-whep): WHEP input for WASM variant
+- [WASM Canvas Output](https://smelter.dev/ts-sdk/outputs/wasm-canvas): Canvas output for WASM variant
+- [WASM Stream Output](https://smelter.dev/ts-sdk/outputs/wasm-stream): MediaStream output for WASM variant
+- [WASM WHIP Output](https://smelter.dev/ts-sdk/outputs/wasm-whip): WHIP output for WASM variant
