@@ -12,13 +12,16 @@ description: >
 Guide for updating the `smelter-ts-sdk` Claude Code skill to reflect doc changes.
 Goal: MINIMAL, TARGETED updates — only change what the docs changed.
 
+## Docs Path
+
+TS SDK documentation source files are at `src/content/docs/ts-sdk/` relative to the project root. If this path does not exist, ask the user for the correct docs location before proceeding.
+
 ## Required User Input
 
-User MUST provide both:
+User MUST provide:
 1. **Existing skill directory** — path to the current skill (contains `SKILL.md` and `references/`)
-2. **New docs directory** — path to the TS SDK documentation source `.mdx` files
 
-If either is missing, ask before proceeding.
+If the skill directory does not exist or does not contain a `SKILL.md`, inform the user that the skill was not found at the given path and STOP. Do not proceed further.
 
 ## Workflow
 
@@ -34,7 +37,7 @@ Note the structure, style, content, and how reference files are organized.
 
 ### Step 2: Read Doc Source Files
 
-Read all `.mdx` files in the docs directory and subdirectories.
+Read all `.mdx` files in `src/content/docs/ts-sdk/` and its subdirectories.
 Skip example/sample code files (e.g. `.tsx` files in `examples/` directories) — those are not documentation.
 
 ### Step 3: Match Docs to Skill Files
