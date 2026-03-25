@@ -1,7 +1,7 @@
 ---
-name: update-smelter-ts-sdk-skill
+name: update-smelter-ts-docs
 description: >
-  Maintenance skill for updating the smelter-ts-sdk Claude Code skill to reflect
+  Maintenance skill for updating the smelter-ts-docs Claude Code skill to reflect
   changes in the Smelter TypeScript SDK documentation. Compares existing skill content
   against the latest doc source files, identifies what changed, and produces a new skill
   version with minimal targeted updates.
@@ -9,7 +9,7 @@ description: >
 
 # Update Smelter TS SDK Skill
 
-Guide for updating the `smelter-ts-sdk` Claude Code skill to reflect doc changes.
+Guide for updating the `smelter-ts-docs` Claude Code skill to reflect doc changes.
 Goal: MINIMAL, TARGETED updates — only change what the docs changed.
 
 ## Docs Path
@@ -20,6 +20,7 @@ TS SDK documentation source files are at `src/content/docs/ts-sdk/` relative to 
 
 User MUST provide:
 1. **Existing skill directory** — path to the current skill (contains `SKILL.md` and `references/`)
+2. **Target version** — the SDK version the skill is being updated for (e.g. `0.5`). Only major.minor granularity (or minor-level for `0.x` versions). If missing, ask before proceeding.
 
 If the skill directory does not exist or does not contain a `SKILL.md`, inform the user that the skill was not found at the given path and STOP. Do not proceed further.
 
