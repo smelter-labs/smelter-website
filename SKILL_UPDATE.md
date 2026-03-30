@@ -17,6 +17,11 @@
   the skill into the `smelter-ts-docs-next` directory and modify it.
 - I suggest to approve changes manually as they come, as it is easier to catch hallucinations this way.
 
+### Issues
+
+- Claude sometimes hangs after `/update-smelter-ts-docs`. If that happens interrupt it with `ESC` and tell it to continue
+- Please have in mind, that this operation may cost something around $2 - $4 in tokens.
+
 ## Skill update
 
 - Create new branch in the [smelter-labs/skills](https://github.com/smelter-labs/skills), use the `next` branch as base.
