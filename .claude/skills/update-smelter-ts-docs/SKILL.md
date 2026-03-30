@@ -56,6 +56,7 @@ For each skill file and its corresponding doc source(s):
 - Changed type definitions, defaults, or descriptions
 - New doc topics with no corresponding skill reference
 - Removed doc topics (flag for user, do not auto-delete)
+- Changed version numbers in Compatibility tables (SDK version, server version, React version, browser support)
 
 ### Step 5: Report Changes
 
@@ -118,6 +119,10 @@ Strip all Astro/MDX artifacts from doc content before incorporating into skill f
 #### For SKILL.md:
 - Update tables only if entries were added, removed, or materially changed
 - Update reference pointers if new files were created
+
+#### Compatibility Tables in Runtime Files
+
+The `## Compatibility` table at the bottom of each runtime reference file (`references/runtimes/nodejs.md`, `references/runtimes/web-client.md`, `references/runtimes/web-wasm.md`) MUST always contain exactly **one row** reflecting the current target version. When updating, replace the existing row with the correct version info from the doc sources (SDK version, server version, React version, browser support). Never leave stale version rows or add multiple rows.
 
 ### Step 8: Verify and Summarize
 
