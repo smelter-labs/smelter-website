@@ -2,26 +2,24 @@
 
 ## Prerequisities
 
-- Copy the current version of the `smelter-ts-docs` skill into the root of the website repo. It can be found [here](https://github.com/smelter-labs/skills).
+- Copy the current version of the skill that will be updated into the root of the website repo. It can be found [here](https://github.com/smelter-labs/skills).
 
 ## New skill generation
 
-### `smelter-ts-docs`
-
-- Open your AI agent (repo is adjusted to Claude Code) and load the `update-smelter-ts-docs` (`/update-smelter-ts-docs` for Claude Code).
+- Open your AI agent (repo is adjusted to Claude Code) and load the `update-<SKILL>` (e.g. `update-smelter-ts-docs`).
   - For Claude Code:
     - Use `Opus` model
     - DO NOT use plan mode, it uses more tokens and slows the work down.
 - Answer all questions asked by the LLM. Most common are:
-  - Location of the `smelter-ts-docs`. Sometimes it is able to find it in a project root by itself, sometimes you have to provide it.
+  - Location of the `<SKILL>`. Sometimes it is able to find it in a project root by itself, sometimes you have to provide it.
   - TypeScript SDK version of the updated skill
 - The model will then present you with the plan of the changes and ask if everything is ok. Proceed or prompt for changes. After that agent will copy
-  the skill into the `smelter-ts-docs-next` directory and modify it.
+  the skill into the `<SKILL>-next` directory and modify it.
 - I suggest to approve changes manually as they come, as it is easier to catch hallucinations this way.
 
 ### Issues
 
-- Claude sometimes hangs after `/update-smelter-ts-docs`. If that happens interrupt it with `ESC` and tell it to continue
+- Claude sometimes hangs during update. If that happens interrupt it with `ESC` and tell it to continue
 - Please have in mind, that this operation may cost something around $2 - $4 in tokens.
 
 ## Skill update
