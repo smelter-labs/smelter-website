@@ -6,6 +6,8 @@
 
 ## New skill generation
 
+### `smelter-ts-docs`
+
 - Open your AI agent (repo is adjusted to Claude Code) and load the `update-smelter-ts-docs` (`/update-smelter-ts-docs` for Claude Code).
   - For Claude Code:
     - Use `Opus` model
@@ -25,5 +27,5 @@
 ## Skill update
 
 - Create new branch in the [smelter-labs/skills](https://github.com/smelter-labs/skills), use the `next` branch as base.
-- Delete the old `smelter-ts-docs` and copy `smelter-ts-docs-next` into the `skills` repo root.
-- Rename `smelter-ts-docs-next` to `smelter-ts-docs`
+- Delete the old skill and copy `<SKILL>-next` into the `smelter-skills/skills`.
+- Rename `<SKILL>-next` to `<SKILL>`
