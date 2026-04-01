@@ -22,6 +22,7 @@
 ### Issues
 
 - Claude sometimes hangs during update. If that happens interrupt it with `ESC` and tell it to continue
+- The whole procedure is pretty expensive, ($2 - $5, even up to $10 with evaluation).
 
 ## Skill update
 
