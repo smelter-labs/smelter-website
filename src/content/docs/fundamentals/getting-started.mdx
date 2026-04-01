@@ -69,6 +69,21 @@ It integrates a Smelter server into the Membrane pipeline.
 - Plugin documentation - [`membrane_smelter_plugin`](https://hexdocs.pm/membrane_smelter_plugin/readme.html)
 - Core membrane documentation - [`membrane_core`](https://hexdocs.pm/membrane_core/readme.html)
 
+## Agentic development
+
+If you are using an AI coding agent you can install skill
+to give your agent access to the Smelter documentation.
+
+```sh frame=none
+npx skills add smelter-labs/skills
+```
+
+For [Claude Code](https://docs.anthropic.com/en/docs/claude-code) users, the recommended method is to install the plugin:
+
+```sh frame=none
+/plugin marketplace add smelter-labs/skills
+/plugin install smelter-skills@smelter
+```
 
 <a style="visibility:hidden" href="/ts-sdk/0.2.x/overview"></a>
 <a style="visibility:hidden" href="/ts-sdk/0.3.x/overview"></a>
