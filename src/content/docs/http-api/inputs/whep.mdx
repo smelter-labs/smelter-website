@@ -47,7 +47,6 @@ type WhepClient = {
   bearer_token?: string;
   video?: VideoOptions;
   required?: bool;
-  offset_ms?: f64;
 };
 ```
 </CollapsibleDetails>
@@ -68,6 +67,7 @@ Bearer token used for authentication with the WHEP endpoint.
 
 - **Type**: `string` 
 
+---
 
 ### video
 Parameters of a video included in the WHEP stream.
@@ -81,13 +81,6 @@ Determines if the input stream is essential for output frame production. If set 
 
 - **Type**: `bool`
 - **Default value**: `false`
-
----
-
-### offset_ms
-Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
-
-- **Type**: `f64`
 
 ## VideoOptions
 Parameters of a video source included in the WHEP stream.

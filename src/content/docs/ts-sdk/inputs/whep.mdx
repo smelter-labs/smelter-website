@@ -52,7 +52,6 @@ type RegisterWhepClientInput = {
   bearerToken?: string;
   video?: VideoOptions;
   required?: boolean;
-  offsetMs?: number;
 };
 ```
 </CollapsibleDetails>
@@ -87,13 +86,6 @@ Determines if the input stream is essential for output frame production. If set 
 
 - **Type**: `boolean`
 - **Default value**: `false`
-
----
-
-### offsetMs
-Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
-
-- **Type**: `number`
 
 ## VideoOptions
 

@@ -55,7 +55,6 @@ type WhipServer = {
   video?: VideoOptions;
   bearer_token?: string;
   required?: bool;
-  offset_ms?: f64;
 };
 ```
 </CollapsibleDetails>
@@ -77,18 +76,13 @@ will be generated and returned in the response body.
 
 - **Type**: `string` 
 
+---
+
 ### required
 Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
 
 - **Type**: `bool`
 - **Default value**: `false`
-
----
-
-### offset_ms
-Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
-
-- **Type**: `f64`
 
 ## VideoOptions
 Parameters of a video source included in the WHIP stream.
