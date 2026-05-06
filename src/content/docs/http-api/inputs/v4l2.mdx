@@ -56,6 +56,7 @@ type RegisterV4l2Input = {
   };
   framerate?: u32 | string;
   required?: bool;
+  side_channel?: SideChannel;
 };
 
 ```
@@ -103,4 +104,46 @@ Determines if the input stream is essential for output frame production. If set 
 delayed, Smelter will postpone output frames until the stream is received.
 - **Type**: `bool`
 - **Default value**: `false`
+
+---
+
+### side_channel
+Enable [side channel](/http-api/side-channel/overview) publishing for this input. The
+external consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+- **Type**: [`SideChannel`](#sidechannel)
+
+## SideChannel
+Per-track side channel configuration. See the [Side Channel overview](/http-api/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type SideChannel = {
+  video?: bool;
+  audio?: bool;
+  delay_ms?: f64;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Publish decoded RGBA video frames for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### audio
+Publish decoded PCM audio batches for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### delay_ms
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+- **Type**: `f64`
+- **Default value**: `0`
 
