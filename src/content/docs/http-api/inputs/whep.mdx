@@ -47,6 +47,7 @@ type WhepClient = {
   bearer_token?: string;
   video?: VideoOptions;
   required?: bool;
+  buffer_size_ms?: f64;
 };
 ```
 </CollapsibleDetails>
@@ -81,6 +82,13 @@ Determines if the input stream is essential for output frame production. If set 
 
 - **Type**: `bool`
 - **Default value**: `false`
+
+---
+
+### buffer_size_ms
+Minimum and starting size of the jitter buffer in milliseconds. The buffer adapts dynamically based on observed network jitter but will not shrink below this value. Higher values trade latency for resilience.
+
+- **Type**: `f64`
 
 ## VideoOptions
 Parameters of a video source included in the WHEP stream.

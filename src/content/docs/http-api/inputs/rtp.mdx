@@ -45,6 +45,7 @@ type RtpInput = {
   audio?: InputRtpAudioOptions;
   required?: bool;
   offset_ms?: f64;
+  buffer_size_ms?: f64;
 }
 ```
 </CollapsibleDetails>
@@ -97,6 +98,13 @@ Determines if the input stream is essential for output frame production. If set 
 
 ### offset_ms
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `f64`
+
+---
+
+### buffer_size_ms
+Size of the jitter buffer in milliseconds. Controls how long packets are held to absorb network jitter and reorder out-of-order packets. Higher values increase latency but improve resilience to packet loss and reordering.
 
 - **Type**: `f64`
 
