@@ -56,6 +56,7 @@ type RegisterWhipServerInput = {
   video?: VideoOptions;
   bearerToken?: string;
   required?: boolean;
+  bufferSizeMs?: number;
 };
 ```
 </CollapsibleDetails>
@@ -84,6 +85,13 @@ Determines if the input stream is essential for output frame production. If set 
 
 - **Type**: `boolean`
 - **Default value**: `false`
+
+---
+
+### bufferSizeMs
+Minimum and starting size of the jitter buffer in milliseconds. The buffer adapts dynamically based on observed network jitter but will not shrink below this value. Higher values trade latency for resilience.
+
+- **Type**: `number`
 
 ## VideoOptions
 
