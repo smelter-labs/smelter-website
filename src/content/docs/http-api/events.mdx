@@ -30,6 +30,17 @@ This event is usually sent at the same time as `VIDEO_INPUT_DELIVERED` except fo
 - Before [`start`](/http-api/routes#start-request) request.
 - If input has the `offset_ms` field defined.
 
+### `VIDEO_INPUT_PAUSED`
+
+```typescript
+type Event = {
+  type: "VIDEO_INPUT_PAUSED";
+  input_id: string;
+}
+```
+
+The input stream stopped delivering frames and the rendering on that input was paused. Smelter will keep rendering the last frame until the input resumes or is unregistered. After the stream resumes, a new `VIDEO_INPUT_PLAYING` event will be emitted.
+
 ### `VIDEO_INPUT_EOS`
 
 ```typescript
@@ -68,6 +79,17 @@ This event is usually sent at the same time as `AUDIO_INPUT_DELIVERED` except fo
 - Before [`start`](/http-api/routes#start-request) request.
 - If input has the `offset_ms` field defined.
 
+### `AUDIO_INPUT_PAUSED`
+
+```typescript
+type Event = {
+  type: "AUDIO_INPUT_PAUSED";
+  input_id: string;
+}
+```
+
+The input stream stopped delivering audio samples and the mixing of that input was paused. After the stream resumes, a new `AUDIO_INPUT_PLAYING` event will be emitted.
+
 ### `AUDIO_INPUT_EOS`
 
 ```typescript
@@ -90,3 +112,21 @@ type Event = {
 ```
 
 The output has ended. All video frames and audio samples were sent/written.
+
+### `OUTPUT_ERROR`
+
+```typescript
+type Event = {
+  type: "OUTPUT_ERROR",
+  output_id: string,
+  severity: "critical" | "transient" | "warning",
+  err: string,
+  stack: string,
+}
+```
+
+A runtime error occurred on an output.
+
+- `severity: "critical"` - unrecoverable failure; the output has fully stopped or disconnected.
+- `severity: "transient"` - a user-facing issue (e.g. artifacts or dropped frames) from which the output is expected to recover automatically.
+- `severity: "warning"` - incorrect behavior that should be investigated but did not cause any user-facing effects.
