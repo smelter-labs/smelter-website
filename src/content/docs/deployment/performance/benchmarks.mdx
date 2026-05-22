@@ -4,111 +4,309 @@ title: Benchmark data
 
 import { Aside } from "@astrojs/starlight/components";
 
-<Aside type="caution">
-This data was calculated based on Smelter v0.4.0, before hardware encoders were added. 
-Performance for scenarios described below should still be similar on latest version. However,
-the most optimal cases, where everything runs on GPU, are not described here yet.
-</Aside>
-
 Each of the following examples is testing max number of inputs and outputs that the instance can handle. It provides 3 variants with different ratio of inputs to outputs. Each output renders 1, 2 or 4 inputs using tiles.
-
-#### Overview
 
 - **Capacity Testing**: Each test examines the maximum number of inputs and outputs the server instance can handle.
 - **Processing Details**: We're testing examples with 1, 2, or 4 inputs, each using Tiles component.
 
 You can see the most important benchmarks below. Visit our <a href="https://github.com/software-mansion/smelter/tree/master/integration_tests/benchmarks" target="_blank">GitHub repository</a> for more results and the exact implementation of the benchmarks.
 
+## Full GPU pipeline
+
+For any meaningful workload, a full GPU pipeline (Vulkan H264 decoding, GPU-based compositing, and Vulkan H264 encoding) is the most cost-efficient way to run Smelter. It avoids CPU/GPU memory transfers and removes CPU encoding as the bottleneck, so a GPU-equipped instance will deliver more throughput per dollar than any CPU-only instance at a comparable price point.
+
+The tables below show all Vulkan results for both `g4dn` instance types. Notice that the results are almost the same, because all the heavy workloads run on the GPU.
+
+<Aside title="How to read these tables">
+
+The ratio columns (1:1, 2:1, 4:1) are how many inputs are composited per output. Each cell shows `max inputs / max outputs`. For example, `48 / 12` means up to 48 inputs producing 12 outputs.
+
+</Aside>
+
 ### `g4dn.xlarge`
 
 **CPU**: 4vCPU, **Memory**: 16GB, **GPU**: Nvidia T4
 
-- **Input**: 720p24fps, **Output**: 720p24fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **12** | **12** |
-  | 1:1 | veryfast | **6** | **6** |
-  | 1:1 | fast | **3** | **3** |
-  | 2:1 | ultrafast | **26** | **13** |
-  | 2:1 | veryfast | **14** | **7** |
-  | 2:1 | fast | **6** | **3** |
-  | 4:1 | ultrafast | **32** | **8** |
-  | 4:1 | veryfast | **20** | **5** |
-  | 4:1 | fast | **8** | **2** |
-
-- **Input**: 1080p 30fps, **Output**: 1080p 30fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **5** | **5** |
-  | 1:1 | veryfast | **2** | **2** |
-  | 1:1 | fast | **1** | **1** |
-  | 2:1 | ultrafast | **10** | **5** |
-  | 2:1 | veryfast | **6** | **3** |
-  | 2:1 | fast | **2** | **1** |
-  | 4:1 | ultrafast | **16** | **4** |
-  | 4:1 | veryfast | **8** | **2** |
-  | 4:1 | fast | **-** | **-** |
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Input</th>
+      <th rowSpan={2}>Output</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>720p24fps</td><td>720p24fps</td><td style={{ textAlign: 'center' }}><strong>15 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>30 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>48 / 12</strong></td></tr>
+    <tr><td>720p24fps</td><td>1080p30fps</td><td style={{ textAlign: 'center' }}><strong>7 / 7</strong></td><td style={{ textAlign: 'center' }}><strong>14 / 7</strong></td><td style={{ textAlign: 'center' }}><strong>24 / 6</strong></td></tr>
+    <tr><td>1080p30fps</td><td>1080p30fps</td><td style={{ textAlign: 'center' }}><strong>6 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>24 / 6</strong></td></tr>
+    <tr><td>1080p30fps</td><td>1440p30fps</td><td style={{ textAlign: 'center' }}><strong>3 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>8 / 4</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 3</strong></td></tr>
+    <tr><td>1080p30fps</td><td>2160p30fps</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+    <tr><td>2160p30fps</td><td>2160p30fps</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+  </tbody>
+</table>
 
 ### `g4dn.2xlarge`
 
-**CPU**: 16vCPU, **Memory**: 32GB, **GPU**: Nvidia T4
+**CPU**: 8vCPU, **Memory**: 32GB, **GPU**: Nvidia T4
 
-- **Input**: 720p24fps, **Output**: 720p24fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **22** | **22** |
-  | 1:1 | veryfast | **12** | **12** |
-  | 1:1 | fast | **6** | **6** |
-  | 2:1 | ultrafast | **36** | **18** |
-  | 2:1 | veryfast | **28** | **14** |
-  | 2:1 | fast | **14** | **7** |
-  | 4:1 | ultrafast | **36** | **9** |
-  | 4:1 | veryfast | **36** | **9** |
-  | 4:1 | fast | **16** | **4** |
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Input</th>
+      <th rowSpan={2}>Output</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>720p24fps</td><td>720p24fps</td><td style={{ textAlign: 'center' }}><strong>15 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>30 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>56 / 14</strong></td></tr>
+    <tr><td>720p24fps</td><td>1080p30fps</td><td style={{ textAlign: 'center' }}><strong>6 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>14 / 7</strong></td><td style={{ textAlign: 'center' }}><strong>24 / 6</strong></td></tr>
+    <tr><td>1080p30fps</td><td>1080p30fps</td><td style={{ textAlign: 'center' }}><strong>6 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>24 / 6</strong></td></tr>
+    <tr><td>1080p30fps</td><td>1440p30fps</td><td style={{ textAlign: 'center' }}><strong>3 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>6 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 3</strong></td></tr>
+    <tr><td>1080p30fps</td><td>2160p30fps</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+    <tr><td>2160p30fps</td><td>2160p30fps</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+  </tbody>
+</table>
 
-- **Input**: 1080p30fps, **Output**: 1080p30fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **10** | **10** |
-  | 1:1 | veryfast | **4** | **4** |
-  | 1:1 | fast | **2** | **2** |
-  | 2:1 | ultrafast | **18** | **9** |
-  | 2:1 | veryfast | **12** | **6** |
-  | 2:1 | fast | **6** | **3** |
-  | 4:1 | ultrafast | **20** | **5** |
-  | 4:1 | veryfast | **16** | **4** |
-  | 4:1 | fast | **4** | **1** |
+
+## CPU vs GPU pipeline on `g4dn` instances
+
+Even when a GPU is available, you can still run all or part of the pipeline on the CPU. The tables below compare the GPU pipeline (Vulkan H264 decode + encode) against CPU-only pipelines (FFmpeg H264 decode + encode at three preset speeds) on the two most common resolutions.
+
+Vulkan H264 on Nvidia cards should produce quality roughly on par with x264's `medium` preset. Of the presets benchmarked here, `fast` is the closest match. `ultrafast` and `veryfast` trade noticeable quality for speed.
+
+### `g4dn.xlarge`
+
+**CPU**: 4vCPU, **Memory**: 16GB, **GPU**: Nvidia T4
+
+<h5 style={{ marginTop: '2.5rem' }}>720p24fps → 720p24fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Vulkan H264</td><td style={{ textAlign: 'center' }}><strong>15 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>30 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>48 / 12</strong></td></tr>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>6 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>10 / 5</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 3</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>3 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>6 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>8 / 2</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>2 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+  </tbody>
+</table>
+
+<h5 style={{ marginTop: '2.5rem' }}>1080p30fps → 1080p30fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Vulkan H264</td><td style={{ textAlign: 'center' }}><strong>6 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>24 / 6</strong></td></tr>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>2 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>-</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+  </tbody>
+</table>
+
+### `g4dn.2xlarge`
+
+**CPU**: 8vCPU, **Memory**: 32GB, **GPU**: Nvidia T4
+
+<h5 style={{ marginTop: '2.5rem' }}>720p24fps → 720p24fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Vulkan H264</td><td style={{ textAlign: 'center' }}><strong>15 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>30 / 15</strong></td><td style={{ textAlign: 'center' }}><strong>56 / 14</strong></td></tr>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>11 / 11</strong></td><td style={{ textAlign: 'center' }}><strong>18 / 9</strong></td><td style={{ textAlign: 'center' }}><strong>20 / 5</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>8 / 8</strong></td><td style={{ textAlign: 'center' }}><strong>14 / 7</strong></td><td style={{ textAlign: 'center' }}><strong>20 / 5</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>4 / 4</strong></td><td style={{ textAlign: 'center' }}><strong>10 / 5</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 3</strong></td></tr>
+  </tbody>
+</table>
+
+<h5 style={{ marginTop: '2.5rem' }}>1080p30fps → 1080p30fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Vulkan H264</td><td style={{ textAlign: 'center' }}><strong>6 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>12 / 6</strong></td><td style={{ textAlign: 'center' }}><strong>24 / 6</strong></td></tr>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>5 / 5</strong></td><td style={{ textAlign: 'center' }}><strong>8 / 4</strong></td><td style={{ textAlign: 'center' }}><strong>8 / 2</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>3 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>6 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+  </tbody>
+</table>
+
+## CPU-only instances
+
+Running Smelter on a CPU-only instance is significantly less cost-efficient than using a GPU instance. Smelter does compositing through GPU shaders, so on a machine without a GPU those shaders have to be emulated in software on the CPU, which is slow and competes for the same cores that are already busy with H264 decoding and encoding. As a result, even a relatively beefy `c5` instance handles only a fraction of the workload a comparable `g4dn` instance can sustain.
 
 ### `c5.2xlarge`
 
 **CPU**: 8vCPU, **Memory**: 16GB
 
-- **Input**: 720p24fps, **Output**: 720p24fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **1** | **1** |
-  | 1:1 | veryfast | **1** | **1** |
-  | 1:1 | fast | **1** | **1** |
-  | 2:1 | ultrafast | **2** | **1** |
-  | 2:1 | veryfast | **2** | **1** |
-  | 2:1 | fast | **2** | **1** |
-  | 4:1 | ultrafast | **4** | **1** |
-  | 4:1 | veryfast | **-** | **-** |
-  | 4:1 | fast | **-** | **-** |
+<h5 style={{ marginTop: '2.5rem' }}>720p24fps → 720p24fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+  </tbody>
+</table>
 
 ### `c5.4xlarge`
 
 **CPU**: 16vCPU, **Memory**: 32GB
 
-- **Input**: 720p24fps, **Output**: 720p24fps
-  | Input/output ratio | Encoder preset | Max inputs | Max outputs |
-  | ------------------ | -------------- | ---------- | ----------- |
-  | 1:1 | ultrafast | **3** | **3** |
-  | 1:1 | veryfast | **3** | **3** |
-  | 1:1 | fast | **2** | **2** |
-  | 2:1 | ultrafast | **6** | **3** |
-  | 2:1 | veryfast | **4** | **2** |
-  | 2:1 | fast | **4** | **2** |
-  | 4:1 | ultrafast | **4** | **1** |
-  | 4:1 | veryfast | **4** | **1** |
-  | 4:1 | fast | **4** | **1** |
+<h5 style={{ marginTop: '2.5rem' }}>720p24fps → 720p24fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>3 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>3 / 3</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>2 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 2</strong></td><td style={{ textAlign: 'center' }}><strong>4 / 1</strong></td></tr>
+  </tbody>
+</table>
+
+<h5 style={{ marginTop: '2.5rem' }}>1080p30fps → 1080p30fps</h5>
+
+<table style={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+  <colgroup>
+    <col style={{ width: '40%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '20%' }} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Decoder / Encoder</th>
+      <th colSpan={3} style={{ textAlign: 'center' }}>Input/output ratio</th>
+    </tr>
+    <tr>
+      <th style={{ textAlign: 'center' }}>1:1</th>
+      <th style={{ textAlign: 'center' }}>2:1</th>
+      <th style={{ textAlign: 'center' }}>4:1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>FFmpeg H264 (ultrafast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+    <tr><td>FFmpeg H264 (veryfast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+    <tr><td>FFmpeg H264 (fast)</td><td style={{ textAlign: 'center' }}><strong>1 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>2 / 1</strong></td><td style={{ textAlign: 'center' }}><strong>-</strong></td></tr>
+  </tbody>
+</table>
