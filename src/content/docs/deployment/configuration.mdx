@@ -157,6 +157,7 @@ possible to register WHIP inputs.
 - **Defaults to**: `true`
 
 ### `SMELTER_RTMP_SERVER_PORT`
+
 Specify port where RTMP server should be served.
 
 - **Defaults to**: `1935`
@@ -176,6 +177,28 @@ and `SMELTER_RTMP_TLS_KEY_FILE` are set, the RTMP server will accept RTMPS conne
 
 Path to a TLS private key file for the RTMP server. When both `SMELTER_RTMP_TLS_CERT_FILE`
 and `SMELTER_RTMP_TLS_KEY_FILE` are set, the RTMP server will accept RTMPS connections.
+
+### `SMELTER_MOQ_SERVER_PORT`
+
+Specify port where MoQ server should be served.
+
+- **Defaults to**: `4443`
+
+### `SMELTER_START_MOQ_SERVER`
+
+If enabled, the Smelter server will start MoQ server. If disabled it won't be possible to register MoQ inputs.
+
+- **Defaults to**: `true`
+
+### `SMELTER_MOQ_TLS_CERT_FILE`
+
+Path to a TLS certificate file for the MoQ server. Both `SMELTER_MOQ_TLS_CERT_FILE` and `SMELTER_MOQ_TLS_KEY_FILE`
+are required for the MoQ server to start.
+
+### `SMELTER_MOQ_TLS_KEY_FILE`
+
+Path to a TLS private key file for the MoQ server. Both `SMELTER_MOQ_TLS_CERT_FILE` and `SMELTER_MOQ_TLS_KEY_FILE`
+are required for the MoQ server to start.
 
 ### `SMELTER_LOG_FILE`
 
