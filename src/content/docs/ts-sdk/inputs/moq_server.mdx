@@ -4,6 +4,8 @@ title: MoQ server
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
+<Badge text="Node.js" variant="tip" size="large" />
+<Badge text="Browser (Client)" variant="tip" size="large" />
 <Badge text="Experimental" variant='caution' size="large" />
 
 <br />
@@ -33,18 +35,20 @@ To use MoQ server input you must register it first. You can do it by sending a r
 
 <CollapsibleDetails summaryTitle='Example request' open>
 
-```http
-POST: /api/input/:input_id/register
-Content-Type: application/json
+```typescript
+import Smelter from "@swmansion/smelter-node"
 
-{
-  "type": "moq_server",
-  "broadcast_path": "example_broadcast"
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+    type: "moq_server",
+    broadcastPath: "example_broadcast"
+  });
 }
+void run();
 ```
 </CollapsibleDetails>
-
-See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
 
 Once the MoQ server input is registered and Smelter is listening on the configured broadcast path, you can push a stream to it using any MoQ-compatible client.
 
@@ -53,11 +57,11 @@ Once the MoQ server input is registered and Smelter is listening on the configur
 <CollapsibleDetails summaryTitle='Type definition' open>
 
 ```tsx
-type MoqServerInput = {
+type RegisterMoqServerInput = {
   type: "moq_server";
-  broadcast_path: string;
+  broadcastPath: string;
   required?: bool;
-  decoder_map?: DecoderMap;
+  decoderMap?: DecoderMap;
 }
 ```
 </CollapsibleDetails>
@@ -66,7 +70,7 @@ Parameters for registering a MoQ server input.
 
 ## Properties
 
-### broadcast_path
+### broadcastPath
 The MoQ broadcast path that Smelter listens on for incoming streams.
 A publishing client must announce this broadcast path for the input to receive media.
 
@@ -81,7 +85,7 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-### decoder_map
+### decoderMap
 Assigns which decoder should be used for media encoded with a specific codec.
 
 - **Type**: [`DecoderMap`](#decodermap)
