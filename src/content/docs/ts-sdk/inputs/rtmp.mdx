@@ -15,6 +15,13 @@ An input type that allows Smelter to receive streams over RTMP.
 
 Smelter exposes an RTMP endpoint after the input is registered, you can do it by `Smelter.registerInput`.
 
+| Media Type | Supported Codecs |
+| :--- | :--- |
+| **Video** | `H.264`, `VP8`\*, `VP9`\* |
+| **Audio** | `AAC`, `Opus`\* |
+
+<small>_\* E-RTMP feature._</small>
+
 The RTMP connection is configured using the following parameters:
 - The Smelter server address
 - The configured RTMP port - defaults to `1935`, configurable via [`SMELTER_RTMP_SERVER_PORT`](/deployment/configuration#smelter_rtmp_server_port) 
@@ -46,7 +53,7 @@ async function run() {
 void run();
 ```
 
-Once the RTMP server input is registered and Smelter is listening on the configured URL, you can push a stream to it using any RTMP-compatible broadcaster (f.e. OBS, FFmpeg).
+Once the RTMP server input is registered and Smelter is listening on the configured URL, you can push a stream to it using any RTMP client (e.g. OBS, FFmpeg).
 
 ## Reference
 
@@ -70,7 +77,7 @@ Parameters for registering an RTMP server input.
 ### app
 The RTMP application name.
 This is the first path segment of the RTMP stream URL that Smelter listens on for incoming streams.
-Format: `rtmp://<ip_address>:<port>/<app>/<stream_key`
+Format: `rtmp://<ip_address>:<port>/<app>/<stream_key>`
 
 - **Type**: `string`
 
@@ -79,7 +86,7 @@ Format: `rtmp://<ip_address>:<port>/<app>/<stream_key`
 ### streamKey
 The RTMP stream key.
 This is the second path segment of the RTMP stream URL that Smelter listens on for incoming streams.
-Format: `rtmp://<ip_address>:<port>/<app>/<stream_key`
+Format: `rtmp://<ip_address>:<port>/<app>/<stream_key>`
 
 - **Type**: `string`
 
@@ -94,7 +101,7 @@ Determines if the input stream is essential for output frame production. If set 
 ---
 
 ### decoderMap
-Assigns which decoder should be used for media encoded with a specific codec.
+Assigns which decoder should be used for media encoded with a specific codec. Currently, more than one decoder is supported only for `H264`.
 
 - **Type**: [`DecoderMap`](#decodermap)
 
@@ -118,5 +125,5 @@ H264 decoder configuration.
 - **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
 - **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
 - **Supported values**:
-  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
-  - `"vulkan_h264"` (<Badge text="Required feature: vk-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  - `"ffmpeg_h264"` - Software decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature: vk-video" variant="note" />) - Hardware-accelerated decoder. Requires GPU that supports Vulkan Video decoding.
