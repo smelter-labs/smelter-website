@@ -1,10 +1,16 @@
 ---
 title: RTMP client
 ---
-import { Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An output type that allows streaming video and audio from Smelter over RTMP.
+
+| Media Type | Supported Codecs |
+| :--- | :--- |
+| **Video** | `H.264`, `VP8`\*, `VP9`\* |
+| **Audio** | `AAC`, `Opus`\* |
+
+<small>_\* E-RTMP feature. The destination server needs to support E-RTMP._</small>
 
 The RTMP output connection is configured using a URL.\
 Format: `rtmp[s]://<host>[:<port>]/<app>/<stream_key>`
@@ -132,6 +138,8 @@ Root of a component tree/scene that should be rendered for the output. Use [`upd
 ```tsx
 type VideoEncoderOptions =
   | ({ type: "ffmpeg_h264"; } & FfmpegH264EncoderOptions)
+  | ({ type: "ffmpeg_vp8"; } & FfmpegVp8EncoderOptions)
+  | ({ type: "ffmpeg_vp9"; } & FfmpegVp9EncoderOptions)
   | ({ type: "vulkan_h264"; } & VulkanH264EncoderOptions)
 ```
 </CollapsibleDetails>
@@ -139,6 +147,8 @@ type VideoEncoderOptions =
 Configuration for the video encoder, based on the selected codec. Visit encoder documentation to learn more.
 
 - [FFmpeg H264](/http-api/outputs/encoders/ffmpeg-h264)
+- [FFmpeg VP8](/http-api/outputs/encoders/ffmpeg-vp8)
+- [FFmpeg VP9](/http-api/outputs/encoders/ffmpeg-vp9)
 - [Vulkan H264](/http-api/outputs/encoders/vulkan-h264)
 
 ## AudioOptions
@@ -200,13 +210,17 @@ Initial audio mixer configuration for output.
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type AudioEncoderOptions = { type: "aac"; } & AacEncoderOptions;
+type AudioEncoderOptions =
+  | ({ type: "aac"; } & AacEncoderOptions)
+  | ({ type: "opus"; } & OpusEncoderOptions);
 ```
+
 </CollapsibleDetails>
 
 Configuration for the audio encoder. Visit encoder documentation to learn more.
 
 - [AAC](/http-api/outputs/encoders/aac)
+- [Opus](/http-api/outputs/encoders/opus)
 
 ## InputAudio
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -279,4 +293,3 @@ Terminate the output stream if any of the input streams end, including streams a
 Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
 
 - **Type**: `bool`
-
