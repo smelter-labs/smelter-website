@@ -2,6 +2,8 @@ import { Mp4, Shader } from "@swmansion/smelter";
 import Smelter from "@swmansion/smelter-node";
 
 const EXAMPLE_SHADER = `
+enable wgpu_binding_array;
+
 struct VertexInput {
     @location(0) position: vec3<f32>,
     @location(1) tex_coords: vec2<f32>,
