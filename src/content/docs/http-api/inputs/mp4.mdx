@@ -40,6 +40,7 @@ type Mp4Input = {
   loop?: bool;
   required?: bool;
   offset_ms?: f64;
+  seek_ms?: f64;
   decoder_map?: DecoderMap;
 }
 ```
@@ -82,6 +83,13 @@ Determines if the input stream is essential for output frame production. If set 
 
 ### offset_ms
 Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+- **Type**: `f64`
+
+---
+
+### seek_ms
+Start playing from a specific timestamp in milliseconds. If `loop` is enabled, subsequent iterations start from the beginning. The input can also be seeked at runtime with the [`update input`](/http-api/routes#update-input) request.
 
 - **Type**: `f64`
 
