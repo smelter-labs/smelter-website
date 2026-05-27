@@ -76,6 +76,8 @@ Since Smelter is implemented using wgpu, the shaders have to be written in WGSL 
 Every user-provided shader should include the code below.
 
 <Code code={`
+enable wgpu_binding_array;
+
 struct VertexInput {
     @location(0) position: vec3<f32>,
     @location(1) tex_coords: vec2<f32>,
