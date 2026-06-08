@@ -5,9 +5,9 @@ import { Aside, Badge, Code } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 Side channel is a Unix-socket stream of decoded media that Smelter exposes alongside its normal
-output, so an external process (typically Python) can read decoded RGBA video frames and PCM
-audio batches from a Smelter input — for example to run ML inference and feed the results back
-to Smelter via the HTTP API.
+output. An external process (typically Python) can read decoded RGBA video frames and PCM audio
+batches from a Smelter input. A common use is running ML inference on that data and feeding the
+results back to Smelter via the HTTP API.
 
 <Aside>
 Side channel is read-only: the external process consumes decoded data, it does not push media into Smelter.

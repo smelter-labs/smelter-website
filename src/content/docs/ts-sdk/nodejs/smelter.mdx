@@ -159,7 +159,7 @@ Unregister previously registered output.
 Smelter.registerInput(
   inputId: string,
   input: RegisterInput
-): Promise<object>
+): Promise<InputHandle>
 ```
 
 <CollapsibleDetails summaryTitle='Type definitions'>
@@ -192,6 +192,39 @@ Register external source that can be used as a smelter input. Visit input docume
 - [WHEP client](/ts-sdk/inputs/whep)
 - [RTMP server](/ts-sdk/inputs/rtmp)
 
+The returned `InputHandle` lets you control the input after registration. For [MP4](/ts-sdk/inputs/mp4) inputs it is an `Mp4InputHandle` that additionally supports seeking; for [WHIP server](/ts-sdk/inputs/whip) inputs it is a `WhipInputHandle` that exposes the negotiated endpoint URL and bearer token.
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+class InputHandle {
+  /** Length of the video track if available. */
+  get videoDurationMs(): number | undefined;
+  /** Length of the audio track if available. */
+  get audioDurationMs(): number | undefined;
+  /**
+   * Stop delivering frames/samples until resumed.
+   * Only supported for MP4 inputs.
+   */
+  pause(): Promise<void>;
+  /** Resume a previously paused input. Only supported for MP4 inputs. */
+  resume(): Promise<void>;
+}
+
+class Mp4InputHandle extends InputHandle {
+  /** Seek to a specific position in the file, in milliseconds. */
+  seek(seekMs: number): Promise<void>;
+}
+
+class WhipInputHandle extends InputHandle {
+  /** WHIP endpoint URL the client should connect to. */
+  get endpointRoute(): string | undefined;
+  /** Bearer token required by the WHIP endpoint. */
+  get bearerToken(): string | undefined;
+}
+```
+
+</CollapsibleDetails>
 
 ## unregisterInput()
 ```tsx
