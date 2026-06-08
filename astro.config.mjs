@@ -251,6 +251,14 @@ export default defineConfig({
               ],
             },
             {
+              label: "Side Channel",
+              collapsed: true,
+              items: [
+                { slug: "ts-sdk/side-channel/overview" },
+                { slug: "ts-sdk/side-channel/python" },
+              ],
+            },
+            {
               label: "Outputs",
               collapsed: true,
               items: [
@@ -308,6 +316,14 @@ export default defineConfig({
                 { slug: "http-api/inputs/rtmp" },
                 { slug: "http-api/inputs/decklink" },
                 { slug: "http-api/inputs/v4l2" },
+              ],
+            },
+            {
+              label: "Side Channel",
+              collapsed: true,
+              items: [
+                { slug: "http-api/side-channel/overview" },
+                { slug: "http-api/side-channel/python" },
               ],
             },
             {

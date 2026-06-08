@@ -63,6 +63,7 @@ type RtmpServerInput = {
   stream_key: string;
   required?: bool;
   decoder_map?: DecoderMap;
+  side_channel?: SideChannel;
 }
 ```
 </CollapsibleDetails>
@@ -101,6 +102,15 @@ Assigns which decoder should be used for media encoded with a specific codec. Cu
 
 - **Type**: [`DecoderMap`](#decodermap)
 
+---
+
+### side_channel
+Enable [side channel](/http-api/side-channel/overview) publishing for this input. The
+external consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+- **Type**: [`SideChannel`](#sidechannel)
+
 
 ## DecoderMap
 Maps codecs to the provided decoders.
@@ -123,3 +133,36 @@ H264 decoder configuration.
 - **Supported values**:
   - `"ffmpeg_h264"` - Software decoder based on FFmpeg.
   - `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware-accelerated decoder. Requires GPU that supports Vulkan Video decoding.
+
+## SideChannel
+Per-track side channel configuration. See the [Side Channel overview](/http-api/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type SideChannel = {
+  video?: bool;
+  audio?: bool;
+  delay_ms?: f64;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Publish decoded RGBA video frames for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### audio
+Publish decoded PCM audio batches for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### delay_ms
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+- **Type**: `f64`
+- **Default value**: `0`
