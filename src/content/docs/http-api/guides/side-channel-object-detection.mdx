@@ -1,0 +1,284 @@
+---
+title: Object detection
+sidebar:
+    order: 4
+---
+import { Steps, Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+In this guide you'll wire a Python sidecar that subscribes to a Smelter input's
+video [side channel](/http-api/side-channel/overview), runs YOLO object detection
+on every frame, and posts a scene update with bounding boxes that animate as
+people / objects move through the frame.
+
+The full sidecar lives in one `detect.py` file built up across the steps below.
+
+<Steps>
+
+1. Start the Smelter server ([learn more](/deployment/setup#standalone-server)) with
+    [`SMELTER_SIDE_CHANNEL_SOCKET_DIR`](/deployment/configuration#smelter_side_channel_socket_dir)
+    set to a directory the sidecar can also read, and install the sidecar's
+    dependencies. The input→output delay is configured per input via
+    `side_channel.delay_ms` in step 3 (set to `200` below). The delay gives the
+    sidecar time to run YOLO and schedule each scene update at the source frame's own
+    pts so the box lands at the moment that frame is rendered on the delayed output.
+
+    ```bash frame=none
+    pip install smelter-sdk ultralytics opencv-python
+    ```
+
+2. Define the scene builders. `box_view` turns one detection into a bordered `view`,
+    and `boxes_scene` overlays those boxes on the input. Each box uses a stable `id`
+    so Smelter can interpolate position between updates, and a 200 ms `transition` so
+    it animates smoothly to its new place.
+
+    ```python title="detect.py"
+    INPUT_ID = "input"
+    OUTPUT_W, OUTPUT_H = 1920, 1080
+
+
+    def box_view(det: dict) -> dict:
+        x1, y1, x2, y2 = det["xyxy"]
+        return {
+            "type": "view",
+            "id": f"det-{det['id']}" if det["id"] is not None else None,
+            "left": int(x1 / det["w"] * OUTPUT_W),
+            "top": int(y1 / det["h"] * OUTPUT_H),
+            "width": max(2, int((x2 - x1) / det["w"] * OUTPUT_W)),
+            "height": max(2, int((y2 - y1) / det["h"] * OUTPUT_H)),
+            "border_width": 4,
+            "border_color": "#00FF88FF",
+            "border_radius": 6,
+            "transition": {"duration_ms": 200},
+        }
+
+
+    def boxes_scene(detections: list[dict]) -> dict:
+        return {
+            "type": "view",
+            "children": [
+                {"type": "rescaler",
+                 "child": {"type": "input_stream", "input_id": INPUT_ID}},
+                *(box_view(d) for d in detections),
+            ],
+        }
+    ```
+
+3. Define `register_pipeline`, which:
+
+    - registers a WHIP input with the video side channel enabled,
+    - registers a WHEP output whose `initial` scene is `boxes_scene([])`,
+    - starts the pipeline.
+
+    ```python title="detect.py" collapse={4-32}
+    import json
+    import urllib.request
+
+    INPUT_ID = "input"
+    OUTPUT_W, OUTPUT_H = 1920, 1080
+
+
+    def box_view(det: dict) -> dict:
+        x1, y1, x2, y2 = det["xyxy"]
+        return {
+            "type": "view",
+            "id": f"det-{det['id']}" if det["id"] is not None else None,
+            "left": int(x1 / det["w"] * OUTPUT_W),
+            "top": int(y1 / det["h"] * OUTPUT_H),
+            "width": max(2, int((x2 - x1) / det["w"] * OUTPUT_W)),
+            "height": max(2, int((y2 - y1) / det["h"] * OUTPUT_H)),
+            "border_width": 4,
+            "border_color": "#00FF88FF",
+            "border_radius": 6,
+            "transition": {"duration_ms": 200},
+        }
+
+
+    def boxes_scene(detections: list[dict]) -> dict:
+        return {
+            "type": "view",
+            "children": [
+                {"type": "rescaler",
+                 "child": {"type": "input_stream", "input_id": INPUT_ID}},
+                *(box_view(d) for d in detections),
+            ],
+        }
+
+
+    SMELTER_API = "http://127.0.0.1:8081"
+    OUTPUT_ID = "output"
+
+
+    def api_post(path: str, body: dict | None = None):
+        req = urllib.request.Request(
+            f"{SMELTER_API}{path}",
+            data=json.dumps(body or {}).encode(),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req) as r:
+            return r.read()
+
+
+    def register_pipeline():
+        api_post(f"/api/input/{INPUT_ID}/register", {
+            "type": "whip_server",
+            "bearer_token": "example",
+            "side_channel": {"video": True, "delay_ms": 200},
+        })
+        api_post(f"/api/output/{OUTPUT_ID}/register", {
+            "type": "whep_server",
+            "bearer_token": "example",
+            "video": {
+                "resolution": {"width": OUTPUT_W, "height": OUTPUT_H},
+                "encoder": {"type": "ffmpeg_h264", "preset": "ultrafast"},
+                "initial": {"root": boxes_scene([])},
+            },
+            "audio": {
+                "encoder": {"type": "opus"},
+                "initial": {"inputs": [{"input_id": INPUT_ID}]},
+            },
+        })
+        api_post("/api/start")
+    ```
+
+    The `initial` scene is just the input (no boxes yet); each `update` call swaps in
+    the latest detections.
+
+4. Subscribe to the video side channel and run YOLO on every frame. `model.track`
+    persists a per-target `id` across frames, so the boxes interpolate smoothly rather
+    than jumping between detections.
+
+    <Aside>
+    YOLO inference is typically slower than the input frame rate on CPU. If your
+    sidecar can't keep up, Smelter logs `Side channel: dropping frame, channel full`
+    on the server side and drops the oldest queued frames for that connection. The
+    pipeline keeps running at full rate.
+    </Aside>
+
+    ```python title="detect.py" collapse={5-73}
+    import cv2
+    from smelter import subscribe_video_channel
+    from ultralytics import YOLO
+
+    INPUT_ID = "input"
+    OUTPUT_W, OUTPUT_H = 1920, 1080
+
+
+    def box_view(det: dict) -> dict:
+        x1, y1, x2, y2 = det["xyxy"]
+        return {
+            "type": "view",
+            "id": f"det-{det['id']}" if det["id"] is not None else None,
+            "left": int(x1 / det["w"] * OUTPUT_W),
+            "top": int(y1 / det["h"] * OUTPUT_H),
+            "width": max(2, int((x2 - x1) / det["w"] * OUTPUT_W)),
+            "height": max(2, int((y2 - y1) / det["h"] * OUTPUT_H)),
+            "border_width": 4,
+            "border_color": "#00FF88FF",
+            "border_radius": 6,
+            "transition": {"duration_ms": 200},
+        }
+
+
+    def boxes_scene(detections: list[dict]) -> dict:
+        return {
+            "type": "view",
+            "children": [
+                {"type": "rescaler",
+                 "child": {"type": "input_stream", "input_id": INPUT_ID}},
+                *(box_view(d) for d in detections),
+            ],
+        }
+
+
+    import json
+    import urllib.request
+
+    SMELTER_API = "http://127.0.0.1:8081"
+    OUTPUT_ID = "output"
+
+
+    def api_post(path: str, body: dict | None = None):
+        req = urllib.request.Request(
+            f"{SMELTER_API}{path}",
+            data=json.dumps(body or {}).encode(),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req) as r:
+            return r.read()
+
+
+    def register_pipeline():
+        api_post(f"/api/input/{INPUT_ID}/register", {
+            "type": "whip_server",
+            "bearer_token": "example",
+            "side_channel": {"video": True, "delay_ms": 200},
+        })
+        api_post(f"/api/output/{OUTPUT_ID}/register", {
+            "type": "whep_server",
+            "bearer_token": "example",
+            "video": {
+                "resolution": {"width": OUTPUT_W, "height": OUTPUT_H},
+                "encoder": {"type": "ffmpeg_h264", "preset": "ultrafast"},
+                "initial": {"root": boxes_scene([])},
+            },
+            "audio": {
+                "encoder": {"type": "opus"},
+                "initial": {"inputs": [{"input_id": INPUT_ID}]},
+            },
+        })
+        api_post("/api/start")
+
+
+    MIN_CONFIDENCE = 0.5
+
+
+    def main():
+        register_pipeline()
+        model = YOLO("yolov8n.pt")
+        for frame in subscribe_video_channel(INPUT_ID):
+            bgr = cv2.cvtColor(frame.rgba, cv2.COLOR_RGBA2BGR)
+            results = model.track(bgr, persist=True, verbose=False, classes=[0])
+            if not results or results[0].boxes is None:
+                continue
+            boxes = results[0].boxes
+            xyxy = boxes.xyxy.cpu().numpy()
+            conf = boxes.conf.cpu().numpy()
+            ids = boxes.id.cpu().numpy().astype(int).tolist() if boxes.id is not None else [None] * len(xyxy)
+            detections = [
+                {"xyxy": tuple(box), "id": tid, "w": frame.width, "h": frame.height}
+                for box, p, tid in zip(xyxy, conf, ids)
+                if p >= MIN_CONFIDENCE
+            ]
+            # Schedule 100 ms before the frame's pts so the 200 ms transition animation
+            # is half-complete when the matching output frame is rendered.
+            schedule_ms = (frame.pts_nanos - 100_000_000) / 1e6
+            api_post(f"/api/output/{OUTPUT_ID}/update", {
+                "video": {"root": boxes_scene(detections)},
+                "audio": {"inputs": [{"input_id": INPUT_ID}]},
+                "schedule_time_ms": schedule_ms,
+            })
+
+
+    if __name__ == "__main__":
+        main()
+    ```
+
+    `classes=[0]` restricts detection to people (COCO class 0); drop it or pass other
+    class IDs to detect different objects. See the
+    [ultralytics docs](https://docs.ultralytics.com/) for the full class list and
+    other YOLO knobs (model size, GPU, NMS thresholds).
+
+    Run it with `python detect.py`.
+
+5. Stream a test source and watch the result with Smelter's hosted browser tools (no
+    install required):
+
+    - Publish your camera or screen with the [WHIP streamer](https://smelter-labs.github.io/tools/#whip-streamer?url=http://127.0.0.1:9000/whip/input&token=example).
+    - Watch the composed output with the [WHEP player](https://smelter-labs.github.io/tools/#whep-player?url=http://127.0.0.1:9000/whep/output&token=example).
+
+    Each detection appears as a green rectangle that follows its target across frames.
+
+</Steps>

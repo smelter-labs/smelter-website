@@ -203,3 +203,9 @@ This option can't be used together with `SMELTER_WEBRTC_UDP_PORT_RANGE`
 
 List of comma separated IP addresses. ICE candidates generated in the process of WebRTC connection negotiation will use those
 IPs instead of IP of the host.
+
+### `SMELTER_SIDE_CHANNEL_SOCKET_DIR`
+
+Directory where Smelter creates [side channel](/http-api/side-channel/overview) Unix sockets for inputs registered with `side_channel` enabled. The directory must be empty at startup and is created if missing.
+
+- **Defaults to**: a unique subdirectory of `$XDG_RUNTIME_DIR` (or `/tmp` on macOS, `env::temp_dir()` elsewhere) named `smelter_side_channel_<random number>`.
