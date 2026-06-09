@@ -10,9 +10,9 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 <br />
 
 Side channel is a Unix-socket stream of decoded media that Smelter exposes alongside its normal
-output, so an external process (typically Python) can read decoded RGBA video frames and PCM
-audio batches from a Smelter input — for example to run ML inference and feed the results back
-into the TypeScript app driving the composition.
+output. An external process (typically Python) can read decoded RGBA video frames and PCM audio
+batches from a Smelter input. A common use is running ML inference on that data and feeding the
+results back into the TypeScript app driving the composition.
 
 <Aside>
 Side channel is a Node.js-only feature. The Browser (Client) and Browser (WASM) runtimes don't
