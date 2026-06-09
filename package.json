@@ -9,6 +9,7 @@
     "check": "biome check --write .",
     "build": "astro check && astro build",
     "astrocheck": "astro check --minimumFailingSeverity warning",
+    "check:links": "ENABLE_LINK_CHECKER=1 astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
