@@ -1,0 +1,181 @@
+---
+title: MP4
+slug: http-api/0.6.x/http-api/inputs/mp4
+---
+
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+An input type that allows Smelter to read static MP4 files.
+
+<Aside>MP4 files can contain video and audio tracks encoded with various codecs. This input type supports MP4 video tracks encoded with `h264` and audio tracks encoded with `AAC`.</Aside>
+<Aside type="caution">If the file contains multiple audio or video tracks, only the first audio track and the first video track will be processed; all additional tracks will be ignored.</Aside>
+
+## Usage
+
+To use MP4 Input you must register it first. You can do it by sending a request like this:
+
+<CollapsibleDetails summaryTitle="Example request" open>
+  ```http
+  POST: /api/input/:input_id/register
+  Content-Type: application/json
+
+  {
+    "type": "mp4",
+    "url": "https://example.com/video.mp4"
+  }
+  ```
+</CollapsibleDetails>
+
+See [HTTP Routes](/http-api/0.6.x/routes#inputs-configuration) documentation to learn more about managing inputs.
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definition" open>
+  ```tsx
+  type Mp4Input = {
+    type: "mp4";
+    url?: string;
+    path?: string;
+    loop?: bool;
+    required?: bool;
+    offset_ms?: f64;
+    seek_ms?: f64;
+    decoder_map?: DecoderMap;
+    side_channel?: SideChannel;
+  }
+  ```
+</CollapsibleDetails>
+
+Parameters for registering an MP4 file as an input.
+
+<Aside>Exactly one of `url` or `path` has to be defined.</Aside>
+
+## Properties
+
+### url
+
+URL of the MP4 file.
+
+* **Type**: `string`
+
+***
+
+### path
+
+Path to the MP4 file.
+
+* **Type**: `string`
+
+***
+
+### loop
+
+Specifies whether the input should be played in a loop.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+***
+
+### required
+
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+***
+
+### offset\_ms
+
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+* **Type**: `f64`
+
+***
+
+### seek\_ms
+
+Start playing from a specific timestamp in milliseconds. If `loop` is enabled, subsequent iterations start from the beginning. The input can also be seeked at runtime with the [`update input`](/http-api/0.6.x/routes#update-input) request.
+
+* **Type**: `f64`
+
+***
+
+### decoder\_map
+
+Assigns which decoder should be used for media encoded with a specific codec.
+
+* **Type**: [`DecoderMap`](#decodermap)
+
+***
+
+### side\_channel
+
+Enable [side channel](/http-api/0.6.x/side-channel/overview) publishing for this input. The
+external consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+* **Type**: [`SideChannel`](#sidechannel)
+
+## DecoderMap
+
+Maps codecs to the provided decoders.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type DecoderMap = {
+    h264?: 'ffmpeg_h264' | 'vulkan_h264';
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+
+H264 decoder configuration.
+
+* **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+* **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
+* **Supported values**:
+  * `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  * `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+
+## SideChannel
+
+Per-track side channel configuration. See the [Side Channel overview](/http-api/0.6.x/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle="Type definition" open>
+  ```tsx
+  type SideChannel = {
+    video?: bool;
+    audio?: bool;
+    delay_ms?: f64;
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+
+Publish decoded RGBA video frames for this input on the side channel.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+#### audio
+
+Publish decoded PCM audio batches for this input on the side channel.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+#### delay\_ms
+
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+* **Type**: `f64`
+* **Default value**: `0`

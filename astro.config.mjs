@@ -86,6 +86,10 @@ export default defineConfig({
               slug: "http-api/0.5.x",
               label: "Server (HTTP API) 0.5.x",
             },
+            {
+              slug: "http-api/0.6.x",
+              label: "Server (HTTP API) 0.6.x",
+            },
           ],
         }),
       ],
