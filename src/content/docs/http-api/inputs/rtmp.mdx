@@ -4,56 +4,64 @@ title: RTMP server
 import { Aside, Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
-<Badge text="Experimental" variant='caution' size="large" />
+An input type that allows Smelter to receive streams over RTMP.
 
-<br />
-<br />
+Smelter exposes an RTMP endpoint after you register the input by sending a [`register-input` request](/http-api/routes#register-input).
 
-An input type that allows Smelter to receive streams over RTMP. Each input starts a separate RTMP server.
+| Media Type | Supported Codecs |
+| :--- | :--- |
+| **Video** | `H.264`, `VP8`\*, `VP9`\* |
+| **Audio** | `AAC`, `Opus`\* |
 
-<Aside type="caution" title="Experimental">
-This is an experimental version. The current implementation is just a wrapper around FFmpeg, and as a result,
-it is limited in functionality.
-- If you have an url in format `rtmp://example.com/myapp/mykey`, then there is no way to validate based on `mykey`. FFmpeg
-  detects that path does not match and logs it, but still allows you to establish the connection.
-- There is no way to setup an RTMPS server (RTMP over TLS/SSL).
+<small>_\* E-RTMP feature._</small>
 
-You can still use it safely in production, but you need to set up an RTMP proxy that will handle route validation and encryption.
-You can use nginx with `nginx-rtmp-module` for that.
+The RTMP connection is configured using the following parameters:
+- The Smelter server address
+- The configured RTMP port - defaults to `1935`, configurable via [`SMELTER_RTMP_SERVER_PORT`](/deployment/configuration#smelter_rtmp_server_port) 
+- The id the input was registered under (used as the RTMP application name)
+- The registered `stream_key`
+
+Most RTMP clients accept connection parameters in the form of a URL.\
+Format: `rtmp[s]://<smelter_ip>:<port>/<input_id>/<stream_key>`
+
+
+<Aside>
+To enable RTMPS (RTMP over TLS/SSL), configure the following environment variables:
+- [`SMELTER_RTMP_TLS_CERT_FILE`](/deployment/configuration#smelter_rtmp_tls_cert_file) — path to the TLS certificate file
+- [`SMELTER_RTMP_TLS_KEY_FILE`](/deployment/configuration#smelter_rtmp_tls_key_file) — path to the TLS private key file
 </Aside>
 
 ## Usage
 
-To use RTMP server input you must register it first. You can do it by sending a request like this:
+To use an RTMP server input you must register it first. You can do it by sending a request like this:
 
 <CollapsibleDetails summaryTitle='Example request' open>
 
 ```http
-POST: /api/input/:input_id/register
+POST: /api/input/example/register
 Content-Type: application/json
 
 {
   "type": "rtmp_server",
-  "url": "rtmp://127.0.0.1:1935"
+  "stream_key": "mykey"
 }
 ```
 </CollapsibleDetails>
 
 See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
 
-Once the RTMP server input is registered and Smelter is listening on the configured URL, you can push a stream to it using any RTMP-compatible broadcaster (f.e. OBS, FFmpeg).
+Once the RTMP server input is registered and Smelter is listening on the configured URL, you can push a stream to it using any RTMP client (e.g. OBS, FFmpeg) — for the example above, stream to `rtmp://127.0.0.1:1935/example/mykey`.
 
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definition' open>
-
 ```tsx
 type RtmpServerInput = {
   type: "rtmp_server";
-  url: string;
+  stream_key: string;
   required?: bool;
-  offset_ms?: f64;
   decoder_map?: DecoderMap;
+  side_channel?: SideChannel;
 }
 ```
 </CollapsibleDetails>
@@ -62,9 +70,8 @@ Parameters for registering an RTMP server input.
 
 ## Properties
 
-### url
-URL where the RTMP server will listen for incoming stream.  
-Format: `rtmp://<ip_address>:<port>`
+### stream_key
+The RTMP stream key a publisher must use to connect to this input.
 
 - **Type**: `string`
 
@@ -77,17 +84,19 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-### offset_ms
-Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+### decoder_map
+Assigns which decoder should be used for media encoded with a specific codec. Currently, more than one decoder is supported only for `H264`.
 
-- **Type**: `f64`
+- **Type**: [`DecoderMap`](#decodermap)
 
 ---
 
-### decoder_map
-Assigns which decoder should be used for media encoded with a specific codec.
+### side_channel
+Enable [side channel](/http-api/side-channel/overview) publishing for this input. The
+external consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
 
-- **Type**: [`DecoderMap`](#decodermap)
+- **Type**: [`SideChannel`](#sidechannel)
 
 
 ## DecoderMap
@@ -109,6 +118,38 @@ H264 decoder configuration.
 - **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
 - **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
 - **Supported values**:
-  - `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
-  - `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  - `"ffmpeg_h264"` - Software decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware-accelerated decoder. Requires GPU that supports Vulkan Video decoding.
 
+## SideChannel
+Per-track side channel configuration. See the [Side Channel overview](/http-api/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type SideChannel = {
+  video?: bool;
+  audio?: bool;
+  delay_ms?: f64;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Publish decoded RGBA video frames for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### audio
+Publish decoded PCM audio batches for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### delay_ms
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+- **Type**: `f64`
+- **Default value**: `0`

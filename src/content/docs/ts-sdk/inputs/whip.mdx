@@ -46,6 +46,12 @@ await smelter.registerInput("example", {
 ```
 </Aside>
 
+<Aside type="tip">
+You can publish a test stream to this endpoint straight from your browser with the hosted
+[WHIP streamer](https://smelter-labs.github.io/tools/#whip-streamer?url=http://localhost:9000/whip/example) —
+set `url` to your endpoint and append `&token=<bearerToken>` when the input requires one.
+</Aside>
+
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
@@ -56,7 +62,8 @@ type RegisterWhipServerInput = {
   video?: VideoOptions;
   bearerToken?: string;
   required?: boolean;
-  offsetMs?: number;
+  bufferSizeMs?: number;
+  sideChannel?: SideChannel;
 };
 ```
 </CollapsibleDetails>
@@ -88,10 +95,21 @@ Determines if the input stream is essential for output frame production. If set 
 
 ---
 
-### offsetMs
-Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+### bufferSizeMs
+Minimum and starting size of the jitter buffer in milliseconds. The buffer adapts dynamically based on observed network jitter but will not shrink below this value. Higher values trade latency for resilience.
 
 - **Type**: `number`
+
+---
+
+### sideChannel
+Enable [side channel](/ts-sdk/side-channel/overview) publishing for this input. The external
+consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+- **Type**: [`SideChannel`](#sidechannel)
+- **Option availability**: <Badge text="Node.js" variant="tip" />
+
 
 ## VideoOptions
 
@@ -135,3 +153,36 @@ type VideoDecoder = "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9" 
   - `"ffmpeg_vp8"` - Software VP8 decoder based on FFmpeg.
   - `"ffmpeg_vp9"` - Software VP9 decoder based on FFmpeg.
   - `"any"` - Automatically selects any video decoder supported by Smelter.
+
+## SideChannel
+Per-track side channel configuration. See the [Side Channel overview](/ts-sdk/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type SideChannel = {
+  video?: boolean;
+  audio?: boolean;
+  delayMs?: number;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Publish decoded RGBA video frames for this input on the side channel.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+#### audio
+Publish decoded PCM audio batches for this input on the side channel.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+#### delayMs
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+- **Type**: `number`
+- **Default value**: `0`

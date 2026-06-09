@@ -169,6 +169,27 @@ Unregister a previously registered input with an id `:input_id`.
 
 - `schedule_time_ms` - Time in milliseconds when this request should be applied. Value `0` represents time of [the start request](#start-request).
 
+### Update input
+
+```http
+POST: /api/input/:input_id/update
+Content-Type: application/json
+```
+
+```tsx
+type RequestBody = {
+  pause?: bool;
+  seek_ms?: f64;
+}
+```
+
+Pause, resume, or seek a previously registered input.
+
+- `pause` - When set to `true` the input will stop delivering frames/samples; rendering keeps the last frame and audio mixing skips this input until resumed. Setting to `false` resumes the input. Only supported for [MP4](/http-api/inputs/mp4) inputs.
+- `seek_ms` - Seek to a specific position in milliseconds. Only supported for [MP4](/http-api/inputs/mp4) inputs.
+
+Pausing and resuming emit [`VIDEO_INPUT_PAUSED`/`AUDIO_INPUT_PAUSED`](/http-api/events#video_input_paused) and a new [`VIDEO_INPUT_PLAYING`/`AUDIO_INPUT_PLAYING`](/http-api/events#video_input_playing) WebSocket events.
+
 ***
 
 ## Resources configuration
@@ -191,7 +212,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-    schedule_time_ms?: number;
+  schedule_time_ms?: number;
 }
 ```
 
@@ -217,7 +238,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-    schedule_time_ms?: number;
+  schedule_time_ms?: number;
 }
 ```
 
@@ -243,7 +264,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-    schedule_time_ms?: number;
+  schedule_time_ms?: number;
 }
 ```
 

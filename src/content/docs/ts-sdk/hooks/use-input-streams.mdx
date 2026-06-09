@@ -23,8 +23,8 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 ```tsx
   type InputStreamInfo = {
     inputId: Id;
-    videoState?: "ready" | "playing" | "finished"; 
-    audioState?: "ready" | "playing" | "finished";
+    videoState?: "ready" | "playing" | "paused" | "finished";
+    audioState?: "ready" | "playing" | "paused" | "finished";
     offsetMs?: number;
     videoDurationMs?: number;
     audioDurationMs?: number;
@@ -43,16 +43,17 @@ Object that maps ids of registered input streams to info about their state.
 ## InputStreamInfo
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
-<Code code={`
+
+```tsx
   type InputStreamInfo = {
     inputId: string;
-    videoState?: "ready" | "playing" | "finished"; 
-    audioState?: "ready" | "playing" | "finished";
+    videoState?: "ready" | "playing" | "paused" | "finished";
+    audioState?: "ready" | "playing" | "paused" | "finished";
     offsetMs?: number;
     videoDurationMs?: number;
     audioDurationMs?: number;
   }
-`} lang='tsx' />
+```
 </CollapsibleDetails>
 
 ### Properties
@@ -67,14 +68,14 @@ ID of an input. It identifies a stream registered using a `Smelter.registerInput
 #### videoState
 Current state of a video track in the specific input.
 
-- **Type**: `"ready" | "playing" | "finished"`
+- **Type**: `"ready" | "playing" | "paused" | "finished"`
 
 ---
 
 #### audioState
 Current state of an audio track in the specific input.
 
-- **Type**: `"ready" | "playing" | "finished"`
+- **Type**: `"ready" | "playing" | "paused" | "finished"`
 
 #### videoDurationMs
 Length of a video track if available. Only supported for some inputs e.g. mp4.

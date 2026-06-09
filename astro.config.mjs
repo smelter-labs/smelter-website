@@ -251,6 +251,14 @@ export default defineConfig({
               ],
             },
             {
+              label: "Side Channel",
+              collapsed: true,
+              items: [
+                { slug: "ts-sdk/side-channel/overview" },
+                { slug: "ts-sdk/side-channel/python" },
+              ],
+            },
+            {
               label: "Outputs",
               collapsed: true,
               items: [
@@ -263,6 +271,11 @@ export default defineConfig({
                 { slug: "ts-sdk/outputs/wasm-canvas" },
                 { slug: "ts-sdk/outputs/wasm-stream" },
                 { slug: "ts-sdk/outputs/wasm-whip" },
+                {
+                  label: "Encoders",
+                  collapsed: true,
+                  autogenerate: { directory: "ts-sdk/outputs/encoders" },
+                },
               ],
             },
             {
@@ -306,6 +319,14 @@ export default defineConfig({
               ],
             },
             {
+              label: "Side Channel",
+              collapsed: true,
+              items: [
+                { slug: "http-api/side-channel/overview" },
+                { slug: "http-api/side-channel/python" },
+              ],
+            },
+            {
               label: "Outputs",
               collapsed: true,
               items: [
@@ -315,6 +336,11 @@ export default defineConfig({
                 { slug: "http-api/outputs/whip" },
                 { slug: "http-api/outputs/whep" },
                 { slug: "http-api/outputs/rtmp" },
+                {
+                  label: "Encoders",
+                  collapsed: true,
+                  autogenerate: { directory: "http-api/outputs/encoders" },
+                },
               ],
             },
             {

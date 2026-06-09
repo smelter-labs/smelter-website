@@ -47,6 +47,8 @@ type RegisterRtpInput = {
   audio?: AudioOptions;
   required?: bool;
   offsetMs?: number;
+  bufferSizeMs?: number;
+  sideChannel?: SideChannel;
 }
 ```
 </CollapsibleDetails>
@@ -102,12 +104,30 @@ Offset in milliseconds relative to the pipeline start (start request). If unspec
 
 - **Type**: `number`
 
+---
+
+### bufferSizeMs
+Size of the jitter buffer in milliseconds. Controls how long packets are held to absorb network jitter and reorder out-of-order packets. Higher values increase latency but improve resilience to packet loss and reordering.
+
+- **Type**: `number`
+
+---
+
+### sideChannel
+Enable [side channel](/ts-sdk/side-channel/overview) publishing for this input. The external
+consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+- **Type**: [`SideChannel`](#sidechannel)
+- **Option availability**: <Badge text="Node.js" variant="tip" />
+
+
 ## VideoOptions
 
 <CollapsibleDetails summaryTitle='Type definitions' open>
 ```tsx
 type VideoOptions = {
-    decoder: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9";
+  decoder: "ffmpeg_h264" | "vulkan_h264" | "ffmpeg_vp8" | "ffmpeg_vp9";
 }
 ```
 </CollapsibleDetails>
@@ -195,3 +215,36 @@ Specifies the RFC 3640 mode that should be used when depacketizing this stream. 
 
 - **Type**: `"low_bitrate" | "high_bitrate"`
 - **Default value**: `"high_bitrate"`
+
+## SideChannel
+Per-track side channel configuration. See the [Side Channel overview](/ts-sdk/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type SideChannel = {
+  video?: boolean;
+  audio?: boolean;
+  delayMs?: number;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Publish decoded RGBA video frames for this input on the side channel.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+#### audio
+Publish decoded PCM audio batches for this input on the side channel.
+
+- **Type**: `boolean`
+- **Default value**: `false`
+
+#### delayMs
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+- **Type**: `number`
+- **Default value**: `0`

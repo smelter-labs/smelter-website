@@ -111,8 +111,8 @@ Starts the processing pipeline. Any previously registered output will start prod
 ## registerOutput()
 ```tsx
 smelter.registerOutput(
-    outputId: string,
-    output: RegisterOutput,
+  outputId: string,
+  output: RegisterOutput,
 ): Promise<object>
 ```
 
@@ -120,21 +120,21 @@ smelter.registerOutput(
 
 ```tsx
 import {
-    RegisterRtpOutput,
-    RegisterMp4Output,
-    RegisterHlsOutput,
-    RegisterWhipClientOutput,
-    RegisterWhepServerOutput,
-    RegisterRtmpClientOutput,
+  RegisterRtpOutput,
+  RegisterMp4Output,
+  RegisterHlsOutput,
+  RegisterWhipClientOutput,
+  RegisterWhepServerOutput,
+  RegisterRtmpClientOutput,
 } from "@swmasnion/smelter"
 
 type RegisterOutput =
-    | ({ type: 'rtp_stream' } & RegisterRtpOutput)
-    | ({ type: 'mp4' } & RegisterMp4Output)
-    | ({ type: 'hls' } & RegisterHlsOutput)
-    | ({ type: 'whip_client' } & RegisterWhipClientOutput)
-    | ({ type: 'whep_server' } & RegisterWhepServerOutput)
-    | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+  | ({ type: 'rtp_stream' } & RegisterRtpOutput)
+  | ({ type: 'mp4' } & RegisterMp4Output)
+  | ({ type: 'hls' } & RegisterHlsOutput)
+  | ({ type: 'whip_client' } & RegisterWhipClientOutput)
+  | ({ type: 'whep_server' } & RegisterWhepServerOutput)
+  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
 ```
 </CollapsibleDetails>
 
@@ -157,29 +157,29 @@ Unregister previously registered output.
 ## registerInput()
 ```tsx
 Smelter.registerInput(
-    inputId: string,
-    input: RegisterInput
-): Promise<object>
+  inputId: string,
+  input: RegisterInput
+): Promise<InputHandle>
 ```
 
 <CollapsibleDetails summaryTitle='Type definitions'>
 
 ```tsx
 import {
-    RegisterRtpInput,
-    RegisterMp4Input,
-    RegisterHlsInput,
-    RegisterWhipServerInput,
-    RegisterWhepClientInput,
+  RegisterRtpInput,
+  RegisterMp4Input,
+  RegisterHlsInput,
+  RegisterWhipServerInput,
+  RegisterWhepClientInput,
 } from "@swmasnion/smelter"
 
 type RegisterInput =
-    | ({ type: 'rtp_stream' } & RegisterRtpInput)
-    | ({ type: 'mp4' } & RegisterMp4Input)
-    | ({ type: 'hls' } & RegisterHlsInput)
-    | ({ type: 'whip_server' } & RegisterWhipServerInput)
-    | ({ type: 'whep_client' } & RegisterWhepClientInput)
-    | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
+  | ({ type: 'rtp_stream' } & RegisterRtpInput)
+  | ({ type: 'mp4' } & RegisterMp4Input)
+  | ({ type: 'hls' } & RegisterHlsInput)
+  | ({ type: 'whip_server' } & RegisterWhipServerInput)
+  | ({ type: 'whep_client' } & RegisterWhepClientInput)
+  | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
 ```
 </CollapsibleDetails>
 
@@ -192,6 +192,39 @@ Register external source that can be used as a smelter input. Visit input docume
 - [WHEP client](/ts-sdk/inputs/whep)
 - [RTMP server](/ts-sdk/inputs/rtmp)
 
+The returned `InputHandle` lets you control the input after registration. For [MP4](/ts-sdk/inputs/mp4) inputs it is an `Mp4InputHandle` that additionally supports seeking; for [WHIP server](/ts-sdk/inputs/whip) inputs it is a `WhipInputHandle` that exposes the negotiated endpoint URL and bearer token.
+
+<CollapsibleDetails summaryTitle='Type definitions'>
+
+```tsx
+class InputHandle {
+  /** Length of the video track if available. */
+  get videoDurationMs(): number | undefined;
+  /** Length of the audio track if available. */
+  get audioDurationMs(): number | undefined;
+  /**
+   * Stop delivering frames/samples until resumed.
+   * Only supported for MP4 inputs.
+   */
+  pause(): Promise<void>;
+  /** Resume a previously paused input. Only supported for MP4 inputs. */
+  resume(): Promise<void>;
+}
+
+class Mp4InputHandle extends InputHandle {
+  /** Seek to a specific position in the file, in milliseconds. */
+  seek(seekMs: number): Promise<void>;
+}
+
+class WhipInputHandle extends InputHandle {
+  /** WHIP endpoint URL the client should connect to. */
+  get endpointRoute(): string | undefined;
+  /** Bearer token required by the WHIP endpoint. */
+  get bearerToken(): string | undefined;
+}
+```
+
+</CollapsibleDetails>
 
 ## unregisterInput()
 ```tsx
@@ -205,8 +238,8 @@ Unregister previously registered input.
 import { Renderers } from "@swmansion/smelter"
 
 smelter.registerImage(
-    imageId: string,
-    image: Renderers.RegisterImage,
+  imageId: string,
+  image: Renderers.RegisterImage,
 ): Promise<void>
 ```
 
@@ -224,8 +257,8 @@ Unregister a previously registered image asset.
 import { Renderers } from "@swmnasion/smelter"
 
 smelter.registerShader(
-    shaderId: string,
-    shader: Renderers.RegisterShader,
+  shaderId: string,
+  shader: Renderers.RegisterShader,
 ): Promise<void>
 ```
 
@@ -243,8 +276,8 @@ Unregister a previously registered shader.
 import { Renderers } from "@swmansion/smelter"
 
 smelter.registerWebRenderer(
-    instanceId: string,
-    instance: Renderers.RegisterWebRenderer,
+  instanceId: string,
+  instance: Renderers.RegisterWebRenderer,
 ): Promise<object>
 ```
 
@@ -266,8 +299,8 @@ smelter.registerFont(source: FontSource): Promise<void>
 
 ```tsx
 type FontSource =
-    | 'string' // URL
-    | ArrayBuffer
+  | 'string' // URL
+  | ArrayBuffer
 ```
 </CollapsibleDetails>
 
