@@ -1,0 +1,153 @@
+---
+title: HLS
+slug: ts-sdk/0.4.x/ts-sdk/inputs/hls
+---
+
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+An input type that allows Smelter to consume HLS playlists.
+
+## Usage
+
+```tsx title=hlsInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+      type: "hls",
+      url: "https://example.com/playlist.m3u8"
+  });
+}
+void run();
+```
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterHlsInput = {
+    type: "hls";
+    url: string;
+    required?: bool;
+    offsetMs?: number;
+    decoderMap?: DecoderMap;
+    sideChannel?: SideChannel;
+  }
+  ```
+</CollapsibleDetails>
+
+Parameters for registering an HLS input.
+
+## Properties
+
+### url
+
+URL of the HLS playlist.
+
+* **Type**: `string`
+
+***
+
+### required
+
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+* **Type**: `boolean`
+* **Default value**: `false`
+
+***
+
+### offsetMs
+
+Offset in milliseconds relative to the pipeline start (start request). If unspecified, the stream synchronizes based on the delivery time of the initial frames.
+
+* **Type**: `number`
+
+***
+
+### decoderMap
+
+Assigns which decoder should be used for media encoded with a specific codec.
+
+* **Type**: [`DecoderMap`](#decodermap)
+
+***
+
+### sideChannel
+
+Enable [side channel](/ts-sdk/0.4.x/side-channel/overview) publishing for this input. The external
+consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+* **Type**: [`SideChannel`](#sidechannel)
+* **Option availability**: <Badge text="Node.js" variant="tip" />
+
+## DecoderMap
+
+Maps codecs to the provided decoders.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type DecoderMap = {
+    h264?: 'ffmpeg_h264' | 'vulkan_h264';
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+
+H264 decoder configuration.
+
+* **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+* **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
+* **Supported values**:
+  * `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  * `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+
+## SideChannel
+
+Per-track side channel configuration. See the [Side Channel overview](/ts-sdk/0.4.x/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle="Type definition" open>
+  ```tsx
+  type SideChannel = {
+    video?: boolean;
+    audio?: boolean;
+    delayMs?: number;
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+
+Publish decoded RGBA video frames for this input on the side channel.
+
+* **Type**: `boolean`
+* **Default value**: `false`
+
+#### audio
+
+Publish decoded PCM audio batches for this input on the side channel.
+
+* **Type**: `boolean`
+* **Default value**: `false`
+
+#### delayMs
+
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+* **Type**: `number`
+* **Default value**: `0`
