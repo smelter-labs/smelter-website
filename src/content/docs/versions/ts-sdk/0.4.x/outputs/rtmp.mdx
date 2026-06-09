@@ -1,0 +1,280 @@
+---
+title: RTMP client
+slug: ts-sdk/0.4.x/ts-sdk/outputs/rtmp
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<Badge text="Browser (Client)" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+An output type that allows streaming video and audio from Smelter over RTMP.
+
+| Media Type | Supported Codecs |
+| :--- | :--- |
+| **Video** | `H.264`, `VP8`\*, `VP9`\* |
+| **Audio** | `AAC`, `Opus`\* |
+
+<small>*\* E-RTMP feature. The destination server needs to support E-RTMP.*</small>
+
+The RTMP output connection is configured using a URL.\
+Format: `rtmp[s]://<host>[:<port>]/<app>/<stream_key>`
+
+The port defaults to `1935` for RTMP and `443` for RTMPS.
+
+## Usage
+
+```tsx title=rtmpClientOutputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+import { View } from "@swmansion/smelter";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerOutput("example", <View />, {
+    type: 'rtmp_client',
+    url: 'rtmp://example.com/rtmp',
+    video: {
+      encoder: {
+        type: 'ffmpeg_h264',
+        preset: 'ultrafast',
+      },
+      resolution: {
+        width: 1920,
+        height: 1080,
+      },
+    },
+    audio: {
+      channels: 'stereo',
+      encoder: {
+        type: 'aac',
+      },
+    },
+  });
+}
+void run();
+```
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterRtmpClientOutput = {
+    type: "rtmp_client";
+    url: string;
+    video?: VideoOptions;
+    audio?: AudioOptions;
+  }
+  ```
+</CollapsibleDetails>
+
+## Properties
+
+### url
+
+RTMP endpoint url.
+
+* **Type**: `string`
+
+***
+
+### video
+
+Video track configuration.
+
+* **Type**: [`VideoOptions`](#videooptions)
+
+***
+
+### audio
+
+Audio track configuration.
+
+* **Type**: [`AudioOptions`](#audiooptions)
+
+## VideoOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoOptions = {
+    resolution: {
+      width: number;
+      height: number;
+    };
+    sendEosWhen?: OutputEndCondition;
+    encoder: VideoEncoderOptions;
+  }
+  ```
+</CollapsibleDetails>
+
+Video track configuration options.
+
+### Properties
+
+#### resolution
+
+Output resolution in pixels.
+
+* **Type**: `{ width: number; height: number;}`
+
+***
+
+#### sendEosWhen
+
+Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
+
+* **Type**: [`OutputEndCondition`](#outputendcondition)
+
+***
+
+#### encoder
+
+Video encoder options.
+
+* **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
+
+## VideoEncoderOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoEncoderOptions =
+    | ({ type: "ffmpeg_h264"; } & FfmpegH264EncoderOptions)
+    | ({ type: "ffmpeg_vp8"; } & FfmpegVp8EncoderOptions)
+    | ({ type: "ffmpeg_vp9"; } & FfmpegVp9EncoderOptions)
+    | ({ type: "vulkan_h264"; } & VulkanH264EncoderOptions)
+  ```
+</CollapsibleDetails>
+
+Configuration for the video encoder, based on the selected codec. Visit encoder documentation to learn more.
+
+* [FFmpeg H264](/ts-sdk/0.4.x/outputs/encoders/ffmpeg-h264)
+* [FFmpeg VP8](/ts-sdk/0.4.x/outputs/encoders/ffmpeg-vp8)
+* [FFmpeg VP9](/ts-sdk/0.4.x/outputs/encoders/ffmpeg-vp9)
+* [Vulkan H264](/ts-sdk/0.4.x/outputs/encoders/vulkan-h264)
+
+## AudioOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type AudioOptions = {
+    channels?: "mono" | "stereo";
+    mixingStrategy?: "sum_clip" | "sum_scale";
+    sendEosWhen?: OutputEndCondition;
+    encoder: AudioEncoderOptions;
+  }
+  ```
+</CollapsibleDetails>
+
+Parameters of an audio source included in the stream.
+
+### Properties
+
+#### channels
+
+Channels configuration
+
+* **Type**: `"mono" | "stereo"`
+* **Default value**: `"stereo"`
+* **Supported values**:
+  * `mono` - Mono audio (single channel).
+  * `stereo` - Stereo audio (two channels).
+
+#### mixingStrategy
+
+Specifies how audio should be mixed.
+
+* **Type**: `"sum_clip" | "sum_scale"`
+* **Default value**: `"sum_clip"`
+* **Supported values**:
+  * `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  * `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+
+***
+
+#### sendEosWhen
+
+Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
+
+* **Type**: [`OutputEndCondition`](#outputendcondition)
+
+***
+
+#### encoder
+
+Audio encoder options.
+
+* **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
+
+## AudioEncoderOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type AudioEncoderOptions =
+    | ({ type: "aac"; } & AacEncoderOptions)
+    | ({ type: "opus"; } & OpusEncoderOptions);
+  ```
+</CollapsibleDetails>
+
+Configuration for the audio encoder. Visit encoder documentation to learn more.
+
+* [AAC](/ts-sdk/0.4.x/outputs/encoders/aac)
+* [Opus](/ts-sdk/0.4.x/outputs/encoders/opus)
+
+## OutputEndCondition
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type OutputEndCondition = 
+    | { anyOf: string[]; }
+    | { allOf: string[]; }
+    | { anyInput: boolean; }
+    | { allInputs: boolean; };
+  ```
+</CollapsibleDetails>
+
+Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time.
+
+By default, the input stream is considered finished/ended when:
+
+* TCP connection was dropped/closed.
+* RTCP Goodbye packet (BYE) was received.
+* MP4 track has ended.
+* Input was unregistered already (or never registered).
+
+### Properties
+
+#### anyOf
+
+List of the input streams. The output stream will terminate if any stream in the list finishes.
+
+* **Type**: `string[]`
+
+***
+
+#### allOf
+
+List of the input streams. The output stream will terminate when all streams in the list finish.
+
+* **Type**: `string[]`
+
+***
+
+#### anyInput
+
+Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
+
+* **Type**: `boolean`
+
+***
+
+#### allInputs
+
+Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
+
+* **Type**: `boolean`

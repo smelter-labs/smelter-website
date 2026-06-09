@@ -1,0 +1,281 @@
+---
+title: Speech-to-text
+sidebar:
+  order: 3
+slug: ts-sdk/0.4.x/ts-sdk/guides/side-channel-speech-to-text
+---
+
+import { Steps, Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+In this guide you'll wire a Python sidecar that subscribes to a Smelter input's
+audio [side channel](/ts-sdk/0.4.x/side-channel/overview), runs
+[faster-whisper](https://github.com/SYSTRAN/faster-whisper) speech-to-text, and posts
+the recognised text back to the TypeScript app. The TS app holds the latest line in
+a [Zustand](https://github.com/pmndrs/zustand) store; the JSX composition reads it and
+re-renders the subtitle overlay.
+
+The TS app is built up across the steps below in one `app.tsx` file. The Python
+sidecar lives in `transcribe.py`.
+
+<Aside type="tip">
+  For a related, runnable application, check out the
+  [`node-yolo-whisper` example](https://github.com/smelter-labs/examples/tree/main/node-yolo-whisper)
+  in `smelter-labs/examples`.
+</Aside>
+
+<Steps>
+  1. Install the TypeScript app's dependencies and the Python sidecar's dependencies,
+     then export the directory where Smelter will create the side channel sockets. Both
+     the TS app and the sidecar read it from the environment, so set it once in the
+     shell you run them from.
+
+     ```bash frame=none
+     pnpm add @swmansion/smelter @swmansion/smelter-node react zustand
+     pip install smelter-sdk faster-whisper
+
+     export SMELTER_SIDE_CHANNEL_SOCKET_DIR=/tmp/smelter-sockets
+     ```
+
+  2. Initialize Smelter.
+
+     ```tsx title="app.tsx"
+     import Smelter from "@swmansion/smelter-node";
+
+     async function main() {
+       const smelter = new Smelter();
+       await smelter.init();
+     }
+
+     main().catch(console.error);
+     ```
+
+  3. Add a Zustand store (or any other state management) for the current subtitle
+     text, plus the HTTP endpoint the sidecar POSTs to. The endpoint writes to the
+     store from outside React with `useStore.getState().setSubtitle(...)`, which
+     re-renders the JSX.
+
+     ```tsx title="app.tsx"
+     import { create } from "zustand";
+     import http from "node:http";
+
+     interface SubtitleStore {
+       subtitle: string;
+       setSubtitle: (text: string) => void;
+     }
+
+     const useStore = create<SubtitleStore>((set) => ({
+       subtitle: "",
+       setSubtitle: (subtitle) => set({ subtitle }),
+     }));
+
+     http.createServer((req, res) => {
+       if (req.method !== "POST" || req.url !== "/update") {
+         res.statusCode = 404;
+         res.end();
+         return;
+       }
+       let body = "";
+       req.on("data", (chunk) => (body += chunk));
+       req.on("end", () => {
+         const { text } = JSON.parse(body) as { text: string };
+         useStore.getState().setSubtitle(text);
+         res.end();
+       });
+     }).listen(3001, "127.0.0.1");
+     ```
+
+  4. Wire the WHIP input, WHEP output, and the subtitle composition. The input's
+     `sideChannel.delayMs` delays the output relative to the input, giving the sidecar
+     time to transcribe each chunk before the matching frame is rendered. Matching the
+     chunk length to `delayMs` (both `5000`) keeps the subtitle roughly in step with
+     the spoken words, so the store can be updated as soon as a line is recognised.
+
+     ```tsx title="app.tsx" collapse={1-29, 69-70}
+     import Smelter from "@swmansion/smelter-node";
+     import http from "node:http";
+     import { create } from "zustand";
+     import { View, InputStream, Text, Rescaler } from "@swmansion/smelter";
+
+     interface SubtitleStore {
+       subtitle: string;
+       setSubtitle: (text: string) => void;
+     }
+
+     const useStore = create<SubtitleStore>((set) => ({
+       subtitle: "",
+       setSubtitle: (subtitle) => set({ subtitle }),
+     }));
+
+     http.createServer((req, res) => {
+       if (req.method !== "POST" || req.url !== "/update") {
+         res.statusCode = 404;
+         res.end();
+         return;
+       }
+       let body = "";
+       req.on("data", (chunk) => (body += chunk));
+       req.on("end", () => {
+         const { text } = JSON.parse(body) as { text: string };
+         useStore.getState().setSubtitle(text);
+         res.end();
+       });
+     }).listen(3001, "127.0.0.1");
+
+     function Composition() {
+       const subtitle = useStore((s) => s.subtitle);
+       return (
+         <View style={{ width: 1920, height: 1080 }}>
+           <Rescaler>
+             <InputStream inputId="input" />
+           </Rescaler>
+           {subtitle && (
+             <View
+               style={{
+                 bottom: 40,
+                 left: 80,
+                 width: 1760,
+                 height: 120,
+                 backgroundColor: "#000000EE",
+                 paddingHorizontal: 40,
+                 direction: "column",
+               }}
+             >
+               <View />
+               <Text
+                 style={{
+                   width: 1680,
+                   fontSize: 40,
+                   color: "#FFFFFFFF",
+                   align: "center",
+                 }}
+               >
+                 {subtitle}
+               </Text>
+               <View />
+             </View>
+           )}
+         </View>
+       );
+     }
+
+     async function main() {
+       const smelter = new Smelter();
+       await smelter.init();
+
+       await smelter.registerInput("input", {
+         type: "whip_server",
+         bearerToken: "example",
+         sideChannel: { audio: true, delayMs: 5000 },
+       });
+
+       await smelter.registerOutput("output", <Composition />, {
+         type: "whep_server",
+         bearerToken: "example",
+         video: {
+           resolution: { width: 1920, height: 1080 },
+           encoder: { type: "ffmpeg_h264", preset: "ultrafast" },
+         },
+         audio: { encoder: { type: "opus" } },
+       });
+
+       await smelter.start();
+     }
+
+     main().catch(console.error);
+     ```
+
+     Run the TS app with `tsx app.tsx` (or your preferred TypeScript runner). Smelter
+     starts the side channel sockets and waits for a WHIP stream.
+
+  5. The Python sidecar subscribes to the audio side channel on one thread and runs
+     Whisper on another, then POSTs each recognised segment to the TS app's HTTP
+     endpoint.
+
+     ```python title="transcribe.py"
+     import json
+     import queue
+     import threading
+     import urllib.request
+
+     import numpy as np
+     from faster_whisper import WhisperModel
+     from smelter import subscribe_audio_channel
+
+     APP_URL = "http://127.0.0.1:3001/update"
+     INPUT_ID = "input"
+     WHISPER_SAMPLE_RATE = 16000
+     CHUNK_DURATION_MS = 5000  # matches the input's sideChannel.delayMs
+
+
+     def post(body: dict):
+         req = urllib.request.Request(
+             APP_URL,
+             data=json.dumps(body).encode(),
+             headers={"Content-Type": "application/json"},
+             method="POST",
+         )
+         urllib.request.urlopen(req).read()
+
+
+     def main():
+         model = WhisperModel("base", compute_type="int8")
+         chunks: queue.Queue[np.ndarray] = queue.Queue()
+
+         def reader():
+             buffer = np.empty(0, dtype=np.float32)
+             for batch in subscribe_audio_channel(INPUT_ID):
+                 samples = batch.to_mono()
+                 if batch.sample_rate != WHISPER_SAMPLE_RATE:
+                     ratio = WHISPER_SAMPLE_RATE / batch.sample_rate
+                     target = int(len(samples) * ratio)
+                     idx = np.linspace(0, len(samples) - 1, target)
+                     samples = np.interp(
+                         idx, np.arange(len(samples)), samples
+                     ).astype(np.float32)
+                 buffer = np.concatenate([buffer, samples])
+                 if len(buffer) >= WHISPER_SAMPLE_RATE * CHUNK_DURATION_MS // 1000:
+                     chunks.put(buffer)
+                     buffer = np.empty(0, dtype=np.float32)
+
+         threading.Thread(target=reader, daemon=True).start()
+
+         while True:
+             chunk = chunks.get()
+             segments, _ = model.transcribe(chunk, language="en")
+             for segment in segments:
+                 text = segment.text.strip()
+                 if text:
+                     post({"text": text})
+
+
+     if __name__ == "__main__":
+         main()
+     ```
+
+     <Aside>
+       This is the most basic approach: the audio is cut into fixed chunks, so Whisper
+       can mis-transcribe words that land on a chunk boundary. For a more advanced setup,
+       see the
+       [`node-yolo-whisper` example](https://github.com/smelter-labs/examples/tree/main/node-yolo-whisper).
+     </Aside>
+
+     Run it with `python transcribe.py`, in the same shell where you exported
+     `SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+  6. Stream a test source and watch the result with Smelter's hosted browser tools (no
+     install required):
+
+     * Publish your microphone (and camera) with the [WHIP streamer](https://smelter-labs.github.io/tools/#whip-streamer?url=http://127.0.0.1:9000/whip/input\&token=example).
+     * Watch the composed output with the [WHEP player](https://smelter-labs.github.io/tools/#whep-player?url=http://127.0.0.1:9000/whep/output\&token=example).
+
+     The subtitle tracks the spoken words because the chunk length matches the output
+     delay: by the time a line is transcribed, the matching audio is reaching the
+     delayed output.
+</Steps>

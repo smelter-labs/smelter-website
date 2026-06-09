@@ -1,0 +1,120 @@
+---
+title: Overview
+slug: ts-sdk/0.4.x/ts-sdk/side-channel/overview
+---
+
+import { Aside, Badge, Code } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+Side channel is a Unix-socket stream of decoded media that Smelter exposes alongside its normal
+output. An external process (typically Python) can read decoded RGBA video frames and PCM audio
+batches from a Smelter input. A common use is running ML inference on that data and feeding the
+results back into the TypeScript app driving the composition.
+
+<Aside>
+  Side channel is a Node.js-only feature. The Browser (Client) and Browser (WASM) runtimes don't
+  expose Unix sockets and therefore have no side channel.
+</Aside>
+
+<Aside>
+  Side channel is read-only: the external process consumes decoded data, it does not push media
+  into Smelter. To act on results (e.g. render detection boxes, subtitles) update React state in
+  your Smelter app so the JSX composition re-renders.
+</Aside>
+
+## How it works
+
+On startup Smelter prepares a side-channel socket directory pointed to by `SMELTER_SIDE_CHANNEL_SOCKET_DIR`. The directory must be empty (Smelter creates it if missing).
+
+When you register an input with `sideChannel: { video: true, audio: true }`, Smelter creates one Unix socket per enabled track inside that directory:
+
+* `video_<input_id>.sock`: decoded RGBA video frames.
+* `audio_<input_id>.sock`: decoded PCM audio batches.
+
+A consumer process connects to the socket and receives a stream of decoded frames / batches. Acting on that data happens outside the side channel protocol, typically by pushing results back into the Smelter Node.js app over a websocket or HTTP endpoint your app exposes.
+
+## Enabling side channel
+
+Enable side channel per track on the input config you pass to `registerInput`:
+
+```tsx title=sideChannelExample.tsx
+import Smelter from "@swmansion/smelter-node";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("cam1", {
+    type: "whip_server",
+    sideChannel: { video: true, audio: true },
+  });
+}
+void run();
+```
+
+The `sideChannel` field is supported by every Node.js input type. See each input's reference
+page for the exact field definition (e.g. [`MP4`](/ts-sdk/0.4.x/inputs/mp4#sidechannel)).
+
+## Buffering frames ahead with `delayMs`
+
+By default the side channel publishes each frame at the moment the queue consumes it, which leaves no time for the subscriber to process it before it appears in the composed output. Set `sideChannel.delayMs` to buffer frames for that many milliseconds ahead of the queue, so the subscriber receives them early and has roughly that long to react (e.g. run inference) before the frame is due.
+
+```tsx
+await smelter.registerInput("cam1", {
+  type: "whip_server",
+  sideChannel: { video: true, delayMs: 500 },
+});
+```
+
+Higher delays give the consumer more processing time at the cost of additional end-to-end latency on the composed output.
+
+## Configuring the socket directory
+
+Smelter writes side-channel sockets into the directory pointed to by the `SMELTER_SIDE_CHANNEL_SOCKET_DIR`
+environment variable. Set it on the process running your Smelter Node.js app — the consuming
+process needs to read the same path.
+
+## Consuming side channel data
+
+<Aside>
+  The Python `smelter-sdk` package is currently the only supported consumer. Run it as a
+  sidecar to your TypeScript Smelter app. The underlying Unix-socket wire format is not
+  yet stable and is not documented for direct use; write your consumers against the
+  `smelter-sdk` API.
+</Aside>
+
+Install `smelter-sdk` and subscribe to a channel by input id:
+
+```bash frame=none
+pip install smelter-sdk
+```
+
+```python
+from smelter import subscribe_video_channel
+
+for frame in subscribe_video_channel("cam1"):
+    # frame.rgba is the decoded RGBA buffer — run inference / analysis
+    # and push results back to your TS app (websocket, local HTTP endpoint,
+    # shared store, ...).
+    ...
+```
+
+Run the sidecar with `SMELTER_SIDE_CHANNEL_SOCKET_DIR` pointing at the same directory your
+Smelter Node.js process writes its sockets to:
+
+```bash frame=none
+SMELTER_SIDE_CHANNEL_SOCKET_DIR=/path/to/sockets python my_consumer.py
+```
+
+See the [Python API reference](/ts-sdk/0.4.x/side-channel/python) for the full surface
+(sync + async, audio batches, channel discovery).
+
+## Guides
+
+* [Side channel - speech-to-text](/ts-sdk/0.4.x/guides/side-channel-speech-to-text): Whisper sidecar that pushes recognised lines into a Zustand store so the JSX composition renders live subtitles.
+* [Side channel - object detection](/ts-sdk/0.4.x/guides/side-channel-object-detection): YOLO sidecar that pushes tracked bounding boxes into a Zustand store so the JSX composition renders animated overlays.

@@ -1,0 +1,301 @@
+---
+title: WHIP client
+slug: ts-sdk/0.4.x/ts-sdk/outputs/whip
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<Badge text="Browser (Client)" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+An output that lets you connect to a WHIP server endpoint to stream video and audio to it.
+
+## Usage
+
+```tsx title=whipClientOutputExample.tsx
+import Smelter from "@swmansion/smelter-node";
+import { View } from "@swmansion/smelter";
+
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerOutput("example", <View />, {
+    type: "whip_client",
+    endpointUrl: "https://example.com/whip",
+    bearerToken: "<TOKEN>",
+    video: {
+      encoderPreferences: [
+        { type: "ffmpeg_h264" },
+        { type: "any" },
+      ],
+      resolution: { width: 1920, height: 1080 },
+    },
+    audio: true,
+  });
+}
+void run();
+```
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type RegisterWhipClientOutput = {
+    type: "whip_client";
+    endpointUrl: string;
+    bearerToken?: string;
+    video?: VideoOptions;
+    audio?: true | AudioOptions;
+  };
+  ```
+</CollapsibleDetails>
+
+Parameters for an WHIP output stream from Smelter.
+
+## Properties
+
+### endpointUrl
+
+The destination URL for sending media streams using the WHIP.
+
+* **Type**: `string`
+
+***
+
+### bearerToken
+
+Token used for authentication when connecting to the WHIP endpoint.
+
+* **Type**: `string`
+
+***
+
+### video
+
+Parameters of a video included in the WHIP stream.
+
+* **Type**: [`VideoOptions`](#videooptions)
+
+***
+
+### audio
+
+Parameters of an audio included in the WHIP stream.
+
+When set to `true`, audio will be enabled without requiring explicit `AudioOptions` - they will be set automaticly based on negotation.
+
+* **Type**: `true` | [`AudioOptions`](#audiooptions)
+
+## VideoOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoOptions = {
+    resolution: {
+      width: number;
+      height: number;
+    };
+    sendEosWhen?: OutputEndCondition;
+    encoderPreferences?: VideoEncoderOptions[];
+  };
+  ```
+</CollapsibleDetails>
+
+Parameters for registering an output that sends composed video/audio as an WHIP stream.
+
+### Properties
+
+#### resolution
+
+Output resolution in pixels.
+
+* **Type**: `{ width: number; height: number;}`
+
+***
+
+#### sendEosWhen
+
+Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
+
+* **Type**: [`OutputEndCondition`](#outputendcondition)
+
+***
+
+#### encoderPreferences
+
+An ordered list of preferred video encoders. The first element in the list has the highest priority during WHIP negotiation.
+
+* **Type**: [`VideoEncoderOptions`](#videoencoderoptions)\[]
+* **Default value**: `[{ type: "any" }]`
+
+Behavior:
+
+* If the list ends with "any":
+  * Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  * If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+* If "any" is not included:
+  * Only the encoders listed will be considered.
+  * If none are supported, no fallback will occur.
+
+## VideoEncoderOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoEncoderOptions = 
+    | ({ type: "ffmpeg_h264"; } & FfmpegH264EncoderOptions)
+    | ({ type: "ffmpeg_vp8"; } & FfmpegVp8EncoderOptions)
+    | ({ type: "ffmpeg_vp9"; } & FfmpegVp9EncoderOptions)
+    | ({ type: "vulkan_h264"; } & VulkanH264EncoderOptions)
+    | { type: "any" };
+  ```
+</CollapsibleDetails>
+
+Configuration for the video encoder, based on the selected codec. Visit encoder documentation to learn more.
+
+* [FFmpeg H264](/ts-sdk/0.4.x/outputs/encoders/ffmpeg-h264)
+* [FFmpeg VP8](/ts-sdk/0.4.x/outputs/encoders/ffmpeg-vp8)
+* [FFmpeg VP9](/ts-sdk/0.4.x/outputs/encoders/ffmpeg-vp9)
+* [Vulkan H264](/ts-sdk/0.4.x/outputs/encoders/vulkan-h264)
+
+## AudioOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type AudioOptions = {
+    channels?: "mono" | "stereo";
+    mixingStrategy?: "sum_clip" | "sum_scale";
+    sendEosWhen?: OutputEndCondition;
+    encoderPreferences?: AudioEncoderOptions[];
+  }
+  ```
+</CollapsibleDetails>
+
+Parameters of an audio source included in the WHIP stream.
+
+### Properties
+
+#### channels
+
+Channels configuration
+
+* **Type**: `"mono" | "stereo"`
+* **Default value**: `"stereo"`
+* **Supported values**:
+  * `mono` - Mono audio (single channel).
+  * `stereo` - Stereo audio (two channels).
+
+***
+
+#### mixingStrategy
+
+Specifies how audio should be mixed.
+
+* **Type**: `"sum_clip" | "sum_scale"`
+* **Default value**: `"sum_clip"`
+* **Supported values**:
+  * `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  * `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+
+***
+
+#### sendEosWhen
+
+Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
+
+* **Type**: [`OutputEndCondition`](#outputendcondition)
+
+***
+
+#### encoderPreferences
+
+An ordered list of preferred audio encoders. The first element in the list has the highest priority during WHIP negotiation.
+
+* **Type**: [`AudioEncoderOptions`](#audioencoderoptions)\[]
+* **Default value**: `[{ type: "any" }]`
+
+Behavior:
+
+* If the list ends with "any":
+  * Smelter will first try the encoders explicitly listed (in order) and use the first one that is supported and negotiated in WHIP signaling.
+  * If none of the listed encoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+* If "any" is not included:
+  * Only the encoders listed will be considered.
+  * If none are supported, no fallback will occur.
+
+## AudioEncoderOptions
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type AudioEncoderOptions =
+    | ({ type: "opus"; } & OpusEncoderOptions)
+    | ({ type: "any" });
+  ```
+</CollapsibleDetails>
+
+Configuration for the audio encoder. Visit encoder documentation to learn more.
+
+* [Opus](/ts-sdk/0.4.x/outputs/encoders/opus)
+
+The `type: "any"` specifies that any audio encoder supported by Smelter can be used. If `"any"` is not included in
+the `encoderPreferences` list, Smelter will only use the encoders explicitly listed in the preferences.
+
+## OutputEndCondition
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type OutputEndCondition = 
+    | { anyOf: string[]; }
+    | { allOf: string[]; }
+    | { anyInput: boolean; }
+    | { allInputs: boolean; };
+  ```
+</CollapsibleDetails>
+
+Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time.
+
+By default, the input stream is considered finished/ended when:
+
+* TCP connection was dropped/closed.
+* RTCP Goodbye packet (BYE) was received.
+* MP4 track has ended.
+* Input was unregistered already (or never registered).
+
+### Properties
+
+#### anyOf
+
+List of the input streams. The output stream will terminate if any stream in the list finishes.
+
+* **Type**: `string[]`
+
+***
+
+#### allOf
+
+List of the input streams. The output stream will terminate when all streams in the list finish.
+
+* **Type**: `string[]`
+
+***
+
+#### anyInput
+
+Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
+
+* **Type**: `boolean`
+
+***
+
+#### allInputs
+
+Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
+
+* **Type**: `boolean`

@@ -1,0 +1,29 @@
+---
+title: AAC
+sidebar:
+  order: 6
+slug: ts-sdk/0.4.x/ts-sdk/outputs/encoders/aac
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type AacEncoderOptions = {
+    type: "aac";
+    sampleRate?: number;
+  };
+  ```
+</CollapsibleDetails>
+
+## Properties
+
+### sampleRate
+
+Sample rate.
+
+* **Type**: `number`
+* **Default value**: `44100`
+* **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`

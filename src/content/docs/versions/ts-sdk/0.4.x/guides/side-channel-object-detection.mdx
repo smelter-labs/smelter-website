@@ -1,0 +1,283 @@
+---
+title: Object detection
+sidebar:
+  order: 4
+slug: ts-sdk/0.4.x/ts-sdk/guides/side-channel-object-detection
+---
+
+import { Steps, Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+<Badge text="Node.js" variant="tip" size="large" />
+
+<br />
+
+<br />
+
+In this guide you'll wire a Python sidecar that subscribes to a Smelter input's
+video [side channel](/ts-sdk/0.4.x/side-channel/overview), runs YOLO object detection on
+every frame, and posts the detection list back to the TypeScript app. The TS app
+holds the current detections in a [Zustand](https://github.com/pmndrs/zustand) store;
+the JSX composition renders one bounding-box view per detection, animated with a
+`transition` so the boxes move smoothly.
+
+The TS app is built up across the steps below in one `app.tsx` file. The Python
+sidecar lives in `detect.py`.
+
+<Aside type="tip">
+  For a related, runnable application, check out the
+  [`node-yolo-whisper` example](https://github.com/smelter-labs/examples/tree/main/node-yolo-whisper)
+  in `smelter-labs/examples`.
+</Aside>
+
+<Steps>
+  1. Install the TypeScript app's dependencies and the Python sidecar's dependencies,
+     then export the directory where Smelter will create the side channel sockets. Both
+     the TS app and the sidecar read it from the environment, so set it once in the
+     shell you run them from.
+
+     ```bash frame=none
+     pnpm add @swmansion/smelter @swmansion/smelter-node react zustand
+     pip install smelter-sdk ultralytics opencv-python
+
+     export SMELTER_SIDE_CHANNEL_SOCKET_DIR=/tmp/smelter-sockets
+     ```
+
+  2. Initialise Smelter.
+
+     ```tsx title="app.tsx"
+     import Smelter from "@swmansion/smelter-node";
+
+     async function main() {
+       const smelter = new Smelter();
+       await smelter.init();
+     }
+
+     main().catch(console.error);
+     ```
+
+  3. Add a Zustand store (or any other state management) for the current detection
+     list, plus the HTTP endpoint the sidecar POSTs to. The endpoint writes to the
+     store from outside React with `useStore.getState().setDetections(...)`, which
+     re-renders the JSX.
+
+     ```tsx title="app.tsx"
+     import { create } from "zustand";
+     import http from "node:http";
+
+     interface Detection {
+       id: number | null;
+       x: number; y: number; width: number; height: number;
+     }
+
+     interface DetectionStore {
+       detections: Detection[];
+       setDetections: (detections: Detection[]) => void;
+     }
+
+     const useStore = create<DetectionStore>((set) => ({
+       detections: [],
+       setDetections: (detections) => set({ detections }),
+     }));
+
+     http.createServer((req, res) => {
+       if (req.method !== "POST" || req.url !== "/update") {
+         res.statusCode = 404;
+         res.end();
+         return;
+       }
+       let body = "";
+       req.on("data", (chunk) => (body += chunk));
+       req.on("end", () => {
+         const { detections } = JSON.parse(body) as { detections: Detection[] };
+         useStore.getState().setDetections(detections);
+         res.end();
+       });
+     }).listen(3001, "127.0.0.1");
+     ```
+
+  4. Wire the WHIP input, WHEP output, and the bounding-box composition. The input's
+     `sideChannel.delayMs` delays the output relative to the input, giving the sidecar
+     time to run YOLO and push detections into the store before the matching frame is
+     rendered. The 200 ms `transition` makes each box interpolate smoothly between
+     updates; the per-detection `key` lets React reuse the same view across frames so
+     the transition has a previous position to start from.
+
+     ```tsx title="app.tsx" collapse={1-34, 71-72}
+     import Smelter from "@swmansion/smelter-node";
+     import http from "node:http";
+     import { create } from "zustand";
+     import { View, InputStream, Rescaler } from "@swmansion/smelter";
+
+     interface Detection {
+       id: number | null;
+       x: number; y: number; width: number; height: number;
+     }
+
+     interface DetectionStore {
+       detections: Detection[];
+       setDetections: (detections: Detection[]) => void;
+     }
+
+     const useStore = create<DetectionStore>((set) => ({
+       detections: [],
+       setDetections: (detections) => set({ detections }),
+     }));
+
+     http.createServer((req, res) => {
+       if (req.method !== "POST" || req.url !== "/update") {
+         res.statusCode = 404;
+         res.end();
+         return;
+       }
+       let body = "";
+       req.on("data", (chunk) => (body += chunk));
+       req.on("end", () => {
+         const { detections } = JSON.parse(body) as { detections: Detection[] };
+         useStore.getState().setDetections(detections);
+         res.end();
+       });
+     }).listen(3001, "127.0.0.1");
+
+     const OUTPUT_W = 1920;
+     const OUTPUT_H = 1080;
+
+     function Box({ det }: { det: Detection }) {
+       return (
+         <View
+           style={{
+             left: Math.round(det.x * OUTPUT_W),
+             top: Math.round(det.y * OUTPUT_H),
+             width: Math.max(2, Math.round(det.width * OUTPUT_W)),
+             height: Math.max(2, Math.round(det.height * OUTPUT_H)),
+             borderWidth: 4,
+             borderColor: "#00FF88FF",
+             borderRadius: 6,
+           }}
+           transition={{ durationMs: 200 }}
+         />
+       );
+     }
+
+     function Composition() {
+       const detections = useStore((s) => s.detections);
+       return (
+         <View style={{ width: OUTPUT_W, height: OUTPUT_H }}>
+           <Rescaler>
+             <InputStream inputId="input" />
+           </Rescaler>
+           {detections.map((det, i) => (
+             <Box key={det.id ?? `i-${i}`} det={det} />
+           ))}
+         </View>
+       );
+     }
+
+     async function main() {
+       const smelter = new Smelter();
+       await smelter.init();
+
+       await smelter.registerInput("input", {
+         type: "whip_server",
+         bearerToken: "example",
+         sideChannel: { video: true, delayMs: 200 },
+       });
+
+       await smelter.registerOutput("output", <Composition />, {
+         type: "whep_server",
+         bearerToken: "example",
+         video: {
+           resolution: { width: OUTPUT_W, height: OUTPUT_H },
+           encoder: { type: "ffmpeg_h264", preset: "ultrafast" },
+         },
+         audio: { encoder: { type: "opus" } },
+       });
+
+       await smelter.start();
+     }
+
+     main().catch(console.error);
+     ```
+
+     Run the TS app with `tsx app.tsx` (or your preferred TypeScript runner). Smelter
+     starts the side channel sockets and waits for a WHIP stream.
+
+  5. The Python sidecar subscribes to the video side channel, runs YOLO on every frame
+     (`model.track(...)` persists a per-target `id` across frames), and POSTs the
+     detection list to the TS app's HTTP endpoint.
+
+     <Aside>
+       YOLO inference is typically slower than the input frame rate on CPU. If your
+       sidecar can't keep up, Smelter logs `Side channel: dropping frame, channel full`
+       on the server side and drops the oldest queued frames for that connection. The
+       pipeline keeps running at full rate.
+     </Aside>
+
+     ```python title="detect.py"
+     import json
+     import urllib.request
+
+     import cv2
+     from smelter import subscribe_video_channel
+     from ultralytics import YOLO
+
+     APP_URL = "http://127.0.0.1:3001/update"
+     INPUT_ID = "input"
+     MIN_CONFIDENCE = 0.5
+
+
+     def post(body: dict):
+         req = urllib.request.Request(
+             APP_URL,
+             data=json.dumps(body).encode(),
+             headers={"Content-Type": "application/json"},
+             method="POST",
+         )
+         urllib.request.urlopen(req).read()
+
+
+     def main():
+         model = YOLO("yolov8n.pt")
+         for frame in subscribe_video_channel(INPUT_ID):
+             bgr = cv2.cvtColor(frame.rgba, cv2.COLOR_RGBA2BGR)
+             results = model.track(bgr, persist=True, verbose=False, classes=[0])
+             if not results or results[0].boxes is None:
+                 continue
+             boxes = results[0].boxes
+             xyxy = boxes.xyxy.cpu().numpy()
+             conf = boxes.conf.cpu().numpy()
+             ids = boxes.id.cpu().numpy().astype(int).tolist() if boxes.id is not None else [None] * len(xyxy)
+             detections = [
+                 {
+                     "id": tid,
+                     "x": float(x1) / frame.width,
+                     "y": float(y1) / frame.height,
+                     "width": float(x2 - x1) / frame.width,
+                     "height": float(y2 - y1) / frame.height,
+                 }
+                 for (x1, y1, x2, y2), p, tid in zip(xyxy, conf, ids)
+                 if p >= MIN_CONFIDENCE
+             ]
+             post({"detections": detections})
+
+
+     if __name__ == "__main__":
+         main()
+     ```
+
+     Run it with `python detect.py`, in the same shell where you exported
+     `SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+     `classes=[0]` restricts detection to people (COCO class 0); drop it or pass other
+     class IDs to detect different objects. See the
+     [ultralytics docs](https://docs.ultralytics.com/) for the full class list and
+     other YOLO knobs (model size, GPU, NMS thresholds).
+
+  6. Stream a test source and watch the result with Smelter's hosted browser tools (no
+     install required):
+
+     * Publish your camera or screen with the [WHIP streamer](https://smelter-labs.github.io/tools/#whip-streamer?url=http://127.0.0.1:9000/whip/input\&token=example).
+     * Watch the composed output with the [WHEP player](https://smelter-labs.github.io/tools/#whep-player?url=http://127.0.0.1:9000/whep/output\&token=example).
+
+     Each detection appears as a green rectangle that follows its target across frames.
+</Steps>

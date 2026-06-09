@@ -79,6 +79,10 @@ export default defineConfig({
               label: "SDK (TypeScript) 0.3.x",
             },
             {
+              slug: "ts-sdk/0.4.x",
+              label: "SDK (TypeScript) 0.4.x",
+            },
+            {
               slug: "http-api/0.4.x",
               label: "Server (HTTP API) 0.4.x",
             },
