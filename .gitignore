@@ -1,5 +1,8 @@
 # build output
 dist/
+# sitemap is generated at build time (see build:sitemap), not committed
+public/sitemap-index.xml
+public/sitemap-*.xml
 # generated types
 .astro/
 
