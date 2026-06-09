@@ -2,6 +2,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import starlightDocSearch from "@astrojs/starlight-docsearch";
 import tailwind from "@astrojs/tailwind";
@@ -62,10 +63,12 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Smelter",
-      // The link validator scans generated static HTML, so it needs pages
-      // prerendered. Production is SSR (prerender: false); when link-checking
-      // we prerender so the validator has pages + heading anchors to verify.
-      prerender: !!process.env.ENABLE_LINK_CHECKER,
+      // Production is SSR (prerender: false) because the version-cookie
+      // middleware must run per request. But both the link validator and the
+      // sitemap integration only see *prerendered* pages, so we prerender for
+      // those dedicated build passes (the sitemap pass is throwaway — only its
+      // generated sitemap-*.xml is kept; see the `build:sitemap` script).
+      prerender: !!(process.env.ENABLE_LINK_CHECKER || process.env.ENABLE_SITEMAP),
       plugins: [
         ...(process.env.ENABLE_LINK_CHECKER
           ? [
@@ -381,6 +384,14 @@ export default defineConfig({
     }),
     mdx(),
     tailwind({ applyBaseStyles: false }),
+    // Starlight auto-adds @astrojs/sitemap unless an integration with that
+    // name already exists. In the SSR deploy build it would only see the few
+    // prerendered pages (~7) and emit an incomplete sitemap, so we replace it
+    // with a no-op to suppress it. The complete sitemap is built in a separate
+    // prerendered pass (`pnpm build:sitemap`) and shipped from public/.
+    process.env.ENABLE_SITEMAP
+      ? sitemap({ changefreq: "weekly" })
+      : { name: "@astrojs/sitemap", hooks: {} },
     react(),
   ],
 

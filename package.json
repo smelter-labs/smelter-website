@@ -10,6 +10,7 @@
     "build": "astro check && astro build",
     "astrocheck": "astro check --minimumFailingSeverity warning",
     "check:links": "ENABLE_LINK_CHECKER=1 astro build",
+    "build:sitemap": "ENABLE_SITEMAP=1 astro build && cp dist/client/sitemap-*.xml public/",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -19,6 +20,7 @@
     "@astrojs/mdx": "^4.0.8",
     "@astrojs/node": "^9.2.1",
     "@astrojs/react": "^4.2.0",
+    "@astrojs/sitemap": "^3.2.1",
     "@astrojs/starlight": "0.32.0",
     "@astrojs/starlight-docsearch": "^0.6.0",
     "@astrojs/tailwind": "^5.1.5",
