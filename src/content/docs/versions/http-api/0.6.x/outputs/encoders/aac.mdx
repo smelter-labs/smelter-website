@@ -1,0 +1,29 @@
+---
+title: AAC
+sidebar:
+  order: 6
+slug: http-api/0.6.x/http-api/outputs/encoders/aac
+---
+
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type AacEncoderOptions = {
+    type: "aac";
+    sample_rate?: u32;
+  };
+  ```
+</CollapsibleDetails>
+
+## Properties
+
+### sample\_rate
+
+Sample rate.
+
+* **Type**: `u32`
+* **Default value**: `44100`
+* **Supported values**: `8000`, `16000`, `24000`, `44100`, `48000`

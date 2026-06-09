@@ -1,0 +1,198 @@
+---
+title: WHEP client
+slug: http-api/0.6.x/http-api/inputs/whep
+---
+
+import { Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+An input that lets you connect to a WHEP server endpoint to receive video and audio from it.
+
+<Aside>
+  This input complies with the WHEP specification described in [draft-ietf-wish-whep-02](https://datatracker.ietf.org/doc/html/draft-ietf-wish-whep-02).
+</Aside>
+
+## Usage
+
+To use WHEP Input you must register it first. You can do it by sending a request like this:
+
+<CollapsibleDetails summaryTitle="Example request" open>
+  ```http
+  POST: /api/input/:input_id/register
+  Content-Type: application/json
+
+  {
+    "type": "whep_client",
+    "endpoint_url": "https://example.com/whep",
+    "bearer_token": "<TOKEN>",
+    "video": {
+      "decoder_preferences": ["ffmpeg_h264", "any"]
+    }
+  }
+  ```
+</CollapsibleDetails>
+
+<Aside>
+  * There are no decoder preferences for audio. Opus is the only supported audio codec and is always negotiated.
+  * If no video decoder preferences are provided, Smelter automatically negotiates and uses one of the supported decoders (`ffmpeg_vp9`, `ffmpeg_vp8`, `ffmpeg_h264`, `vulkan_h264`).
+</Aside>
+
+## Reference
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type WhepClient = {
+    type: "whep_client";
+    endpoint_url: string,
+    bearer_token?: string;
+    video?: VideoOptions;
+    required?: bool;
+    buffer_size_ms?: f64;
+    side_channel?: SideChannel;
+  };
+  ```
+</CollapsibleDetails>
+
+Parameters for registering a WHEP client as an input.
+
+## Properties
+
+### endpoint\_url
+
+WHEP endpoint URL from which to receive the media stream.
+
+* **Type**: `string`
+
+***
+
+### bearer\_token
+
+Bearer token used for authentication with the WHEP endpoint.
+
+* **Type**: `string`
+
+***
+
+### video
+
+Parameters of a video included in the WHEP stream.
+
+* **Type**: [`VideoOptions`](#videooptions)
+
+***
+
+### required
+
+Determines if the input stream is essential for output frame production. If set to true and the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+***
+
+### buffer\_size\_ms
+
+Minimum and starting size of the jitter buffer in milliseconds. The buffer adapts dynamically based on observed network jitter but will not shrink below this value. Higher values trade latency for resilience.
+
+* **Type**: `f64`
+
+***
+
+### side\_channel
+
+Enable [side channel](/http-api/0.6.x/side-channel/overview) publishing for this input. The
+external consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+* **Type**: [`SideChannel`](#sidechannel)
+
+## VideoOptions
+
+Parameters of a video source included in the WHEP stream.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoOptions = {
+    decoder_preferences?: VideoDecoder[];
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### decoder\_preferences
+
+An ordered list of preferred video decoders. The first element in the list has the highest priority during WHEP negotiation.
+
+* **Type**: [`VideoDecoder`](#videodecoder)\[]
+* **Default value**: `[ "any" ]`
+
+Behavior:
+
+* If the list ends with "any":
+  * Smelter will first try the decoders explicitly listed (in order) and use the first one that is supported and negotiated in WHEP signaling.
+  * If none of the listed decoders are supported, Smelter will fall back to any supported codec from the negotiated list that wasn’t already in the preferences.
+
+* If "any" is not included:
+  * Only the decoders listed will be considered.
+  * If none are supported, no fallback will occur.
+
+## VideoDecoder
+
+Video decoder type.
+
+<CollapsibleDetails summaryTitle="Type definitions" open>
+  ```tsx
+  type VideoDecoder =
+    | "ffmpeg_h264"
+    | "ffmpeg_vp8"
+    | "ffmpeg_vp9"
+    | "vulkan_h264"
+    | "any";
+  ```
+</CollapsibleDetails>
+
+* **Type**: "ffmpeg\_h264" | "ffmpeg\_vp8" | "ffmpeg\_vp9" | "vulkan\_h264" | "any"
+* **Supported values**:
+  * `"ffmpeg_h264"` - Software H264 decoder based on FFmpeg.
+  * `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware decoder. Requires GPU that supports Vulkan Video decoding.
+  * `"ffmpeg_vp8"` - Software VP8 decoder based on FFmpeg.
+  * `"ffmpeg_vp9"` - Software VP9 decoder based on FFmpeg.
+  * `"any"` - Automatically selects any video decoder supported by Smelter.
+
+## SideChannel
+
+Per-track side channel configuration. See the [Side Channel overview](/http-api/0.6.x/side-channel/overview) for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle="Type definition" open>
+  ```tsx
+  type SideChannel = {
+    video?: bool;
+    audio?: bool;
+    delay_ms?: f64;
+  };
+  ```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+
+Publish decoded RGBA video frames for this input on the side channel.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+#### audio
+
+Publish decoded PCM audio batches for this input on the side channel.
+
+* **Type**: `bool`
+* **Default value**: `false`
+
+#### delay\_ms
+
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them, so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+* **Type**: `f64`
+* **Default value**: `0`
