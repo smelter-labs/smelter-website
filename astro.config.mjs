@@ -387,10 +387,11 @@ export default defineConfig({
     // Starlight auto-adds @astrojs/sitemap unless an integration with that
     // name already exists. In the SSR deploy build it would only see the few
     // prerendered pages (~7) and emit an incomplete sitemap, so we replace it
-    // with a no-op to suppress it. The complete sitemap is built in a separate
-    // prerendered pass (`pnpm build:sitemap`) and shipped from public/.
+    // with a no-op to suppress it. The complete sitemap is regenerated locally
+    // with `pnpm build:sitemap` and committed under public/; `lastmod` is the
+    // time of that regeneration.
     process.env.ENABLE_SITEMAP
-      ? sitemap({ changefreq: "weekly" })
+      ? sitemap({ lastmod: new Date() })
       : { name: "@astrojs/sitemap", hooks: {} },
     react(),
   ],
