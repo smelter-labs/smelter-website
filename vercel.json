@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm run build:sitemap && pnpm run build",
+  "buildCommand": "pnpm run build",
   "headers": [
     {
       "source": "/videos/(.*)",
