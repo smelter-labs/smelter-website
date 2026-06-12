@@ -42,20 +42,7 @@ export const topBarBannerReservationScript = (
   hiddenPaths?: string[]
 ) => {
   const vars = varNames(zoneId, contentId);
-  return (
-    `(function(){try{` +
-    `var hp=${JSON.stringify(hiddenPaths ?? [])};var p=location.pathname;` +
-    `if(hp.some(function(x){return p===x||p.indexOf(x+"/")===0}))return;` +
-    `var k=${JSON.stringify(cacheKey(zoneId, contentId))};` +
-    `var raw=localStorage.getItem(k);if(!raw)return;` +
-    `var c=JSON.parse(raw);` +
-    `if(!c||typeof c.height!=="number"||c.height<${MIN_VISIBLE_HEIGHT})return;` +
-    `if(Date.now()-c.timestamp>=${CACHE_TTL_MS})return;` +
-    `var r=document.documentElement;` +
-    `r.style.setProperty(${JSON.stringify(vars.height)},c.height+"px");` +
-    `if(typeof c.bgColor==="string")r.style.setProperty(${JSON.stringify(
-      vars.bg
-    )},c.bgColor);` +
-    `}catch(e){}})();`
-  );
+  return `(function(){try{var hp=${JSON.stringify(hiddenPaths ?? [])};var p=location.pathname;if(hp.some(function(x){return p===x||p.indexOf(x+"/")===0}))return;var k=${JSON.stringify(cacheKey(zoneId, contentId))};var raw=localStorage.getItem(k);if(!raw)return;var c=JSON.parse(raw);if(!c||typeof c.height!=="number"||c.height<${MIN_VISIBLE_HEIGHT})return;if(Date.now()-c.timestamp>=${CACHE_TTL_MS})return;var r=document.documentElement;r.style.setProperty(${JSON.stringify(vars.height)},c.height+"px");if(typeof c.bgColor==="string")r.style.setProperty(${JSON.stringify(
+    vars.bg
+  )},c.bgColor);}catch(e){}})();`;
 };
