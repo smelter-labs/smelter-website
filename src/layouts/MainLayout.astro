@@ -1,8 +1,12 @@
 ---
 import { PUBLIC_RECAPTCHA_SITE_KEY } from "astro:env/server";
 import { ClientRouter } from "astro:transitions";
+import {
+  TOP_BAR_BANNER,
+  TopBarBanner,
+  topBarBannerReservationScript,
+} from "@components/TopBarBanner";
 import Analytics from "@vercel/analytics/astro";
-import AnnouncementBanner from "../components/base/AnnouncementBanner.astro";
 import Footer from "../components/base/Footer.astro";
 import FooterMobile from "../components/base/FooterMobile.astro";
 import Snackbar from "../components/base/Snackbar.astro";
@@ -27,6 +31,17 @@ const {
   description = "Low-latency video compositing tool with seamless developer experience. Use it for live streaming, broadcasting, video conferencing and more.",
   keywords = "video compositing, react video compositing, compositing software, real time video editing, live video editing, video mixing, live stream mixing",
 } = Astro.props;
+
+// Top-bar banner: reserve the cached height in <head> before paint so the
+// in-flow banner doesn't shift content on reload. The navbar is a sticky
+// sibling right after it (see <body>), so it rides with the banner and pins to
+// the top natively — no JS offset needed.
+const firstZone = TOP_BAR_BANNER.zones[0];
+const bannerReservationScript = topBarBannerReservationScript(
+  firstZone.zoneId,
+  firstZone.contentId,
+  TOP_BAR_BANNER.hiddenPaths
+);
 ---
 
 <!doctype html>
@@ -34,6 +49,7 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline set:html={bannerReservationScript} />
     <meta data-rh="true" name="keywords" content={keywords} />
     <link
       rel="icon"
@@ -155,12 +171,16 @@ const {
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <AnnouncementBanner />
+    <TopBarBanner
+      client:load
+      zones={TOP_BAR_BANNER.zones}
+      rotateIntervalMs={TOP_BAR_BANNER.rotateIntervalMs}
+    />
     {
       navbarVariant === "react" ? (
-        <ReactNavBar />
+        <ReactNavBar sticky />
       ) : (
-        <NavBar rootHref={rootHref} />
+        <NavBar rootHref={rootHref} sticky />
       )
     }
     <slot />
