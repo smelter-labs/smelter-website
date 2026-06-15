@@ -7,6 +7,7 @@ import {
   topBarBannerReservationScript,
 } from "@components/TopBarBanner";
 import Analytics from "@vercel/analytics/astro";
+import AnnouncementBanner from "../components/base/AnnouncementBanner.astro";
 import Footer from "../components/base/Footer.astro";
 import FooterMobile from "../components/base/FooterMobile.astro";
 import Snackbar from "../components/base/Snackbar.astro";
@@ -176,6 +177,7 @@ const bannerReservationScript = topBarBannerReservationScript(
       zones={TOP_BAR_BANNER.zones}
       rotateIntervalMs={TOP_BAR_BANNER.rotateIntervalMs}
     />
+    <AnnouncementBanner />
     {
       navbarVariant === "react" ? (
         <ReactNavBar sticky />
