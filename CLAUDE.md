@@ -57,7 +57,3 @@ Conventions used inside doc pages:
 - **Tailwind has `applyBaseStyles: false`**. Base styles come from `styles/*.scss` listed in Starlight's `customCss`. Don't enable preflight.
 - **Biome `lineWidth` is 75 (not 100)** for `src/content/docs/ts-sdk/**/examples/**/*.tsx` and the equivalent path under `versions/`, so embedded MDX snippets fit. Editing example files? Format with the override applied.
 - `src/components/starlight-overrides/PageFrame.astro` overrides Starlight's default via the `components:` config; further overrides live inside the local versions package.
-
-## Skills
-
-`.claude/skills/update-smelter-ts-docs/` is a maintenance skill for regenerating an external `smelter-ts-docs` Claude Code skill (which lives in a **different repo**) from the docs under `src/content/docs/ts-sdk/`. **Do not auto-invoke it** — it only runs when the user explicitly asks to update the downstream skill.
