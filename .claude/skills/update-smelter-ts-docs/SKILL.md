@@ -68,6 +68,19 @@ skill is and what commit range to diff from. Prefer syncing from the **`main`**
 branch — it reflects released docs. `next` holds unreleased docs; only use it if the
 user explicitly wants to sync ahead of a release.
 
+**Updating version pins — find them, don't memorize them.** The skill hard-codes its
+target version in several places (the recorded version line, install hints like
+`@^x.y.z`, the paired server version, Docker image tags, recommended React /
+`react-reconciler` versions), and *which* files those live in changes as the skill
+evolves — so any fixed list of locations will go stale and quietly miss a spot. Derive
+the locations instead: because the skill records the version it currently targets, you
+already know the **old** values. Search the whole skill for them (`grep -rn` for the
+old SDK version, the old server version, etc.) — every genuine hit is a version site.
+Review each in context (skip coincidental numbers like ports or unrelated versions),
+replace the real pins with the new values, and finally update the recorded target
+version itself. Search-driven discovery stays correct no matter how files are added,
+moved, or renamed; a hand-maintained list does not.
+
 ## Step 2 — Decide what to read (and what to ignore)
 
 The website is large and not all of it belongs in a TS SDK reference. The full

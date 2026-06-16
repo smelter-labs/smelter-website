@@ -25,9 +25,9 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 <CollapsibleDetails summaryTitle='Type definitions' open>
 
 ```tsx
-type WebView = {
+type WebViewProps = {
   id?: string;
-  children?: ReactElement[];
+  children?: ReactNode;
   instanceId: string;
 }
 ```

@@ -30,6 +30,7 @@ column is the meaning to carry over — how you phrase it in the skill is your c
 | `<Steps>` | An ordered procedure | The wrapper is decoration; the ordered list is the content. |
 | `import … from '@assets/...'` + `<img>`/`<video>` | Illustrative media | Doesn't translate to text. Drop it; if a diagram encodes structure, state that structure in a sentence. |
 | Internal links like `/ts-sdk/components/view` | A pointer to related API, valid only on the website | The website's URL space doesn't exist in the skill. Refer to the thing by name, or cross-reference the skill's own section. Never leave a dead `/ts-sdk/...` link. |
+| A **compatibility table** (multi-version: SDK version ↔ server version ↔ React/browser) | History across *all* releases — a website concern | The skill is pinned to **one** version, so don't reproduce the table. State only the single triple this skill targets, e.g. "Targets Smelter server vY · React 18.3.1 (any React compatible with `react-reconciler@…`)." A historical table in a version-specific skill is just stale rows waiting to mislead. |
 | Frontmatter (`title`, `sidebar`) | Page metadata for the site's navigation | Not content. The title may become a heading; the rest is dropped. |
 
 ## Distillation never trims the API
