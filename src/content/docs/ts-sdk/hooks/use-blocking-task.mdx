@@ -31,10 +31,10 @@ function useBlockingTask<T>(fn: () => Promise<T>): T | undefined
 
 Async function that hook should execute while blocking processing.
 
-- **Type**: `number`
+- **Type**: `() => Promise<T>`
 
 ## Returns
 
 The value returned by `fn` function or `undefined`.
 
-- **Type**: `<T> | undefined`
+- **Type**: `T | undefined`

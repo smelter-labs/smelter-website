@@ -119,7 +119,7 @@ import {
   RegisterWhipClientOutput,
   RegisterWhepServerOutput,
   RegisterRtmpClientOutput,
-} from "@swmasnion/smelter"
+} from "@swmansion/smelter"
 
 type RegisterOutput =
   | ({ type: 'rtp_stream' } & RegisterRtpOutput)
@@ -143,7 +143,7 @@ possible in this mode, so these real-time protocols, might not make sense.
 
 ## registerInput()
 ```tsx
-import { Inputs } from "@swmasnion/smelter"
+import { Inputs } from "@swmansion/smelter"
 
 Smelter.registerInput(
   inputId: string,
@@ -159,7 +159,7 @@ import {
   RegisterHlsInput,
   RegisterWhipServerInput,
   RegisterWhepClientInput,
-} from "@swmasnion/smelter"
+} from "@swmansion/smelter"
 
 type RegisterInput =
   | ({ type: 'rtp_stream' } & RegisterRtpInput)
@@ -194,7 +194,7 @@ Register an image asset. See [RegisterImage](/ts-sdk/resources/image) to learn m
 
 ## registerShader()
 ```tsx
-import { Renderers } from "@swmnasion/smelter"
+import { Renderers } from "@swmansion/smelter"
 
 Smelter.registerShader(
   shaderId: string,
