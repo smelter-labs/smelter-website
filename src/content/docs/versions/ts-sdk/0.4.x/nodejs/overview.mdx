@@ -92,9 +92,9 @@ You can use it in 2 modes:
 interface. You can pass them as an argument when initializing `Smelter` or `OfflineSmelter` instance.
 The package provides 2 implementations:
 
-* [`LocallySpawnedInstanceManager`](/ts-sdk/0.4.x/nodejs/manager/#locallyspawnedinstancemanager) (default) - downloads
+* [`LocallySpawnedInstanceManager`](/ts-sdk/0.4.x/nodejs/manager#locallyspawnedinstancemanager) (default) - downloads
   spawns Smelter binary and spawns a server locally.
-* [`ExistingInstanceOptions`](/ts-sdk/0.4.x/nodejs/manager/#existinginstancemanager) - connects to existing
+* [`ExistingInstanceOptions`](/ts-sdk/0.4.x/nodejs/manager#existinginstancemanager) - connects to existing
   instance.
 
 ### Compatibility
@@ -146,11 +146,28 @@ The package provides 2 implementations:
         `react-reconciler@0.29.2`
       </td>
     </tr>
+
+    <tr>
+      <td>
+        <strong>`v0.4.0`</strong>
+      </td>
+
+      <td>
+        <strong>`v0.6.0`</strong><br />
+      </td>
+
+      <td>
+        Recommended: `18.3.1`
+
+        Should work with any react version that is compatible with
+        `react-reconciler@0.29.2`
+      </td>
+    </tr>
   </tbody>
 </table>
 
 You need to remember about requirements of the actual Smelter server too. See
 Smelter server deployment options:
 
-* [Docker](/deployment/variants/docker/)
-* [Binaries](/deployment/variants/binaries/)
+* [Docker](/deployment/variants/docker)
+* [Binaries](/deployment/variants/binaries)

@@ -21,6 +21,12 @@ const require = createRequire(import.meta.url);
 
 export default defineConfig({
   site: "https://smelter.dev",
+  // Serve every page at a single canonical URL (no trailing slash). Without
+  // this, Astro's default ('ignore') lets the SSR runtime serve both `/foo` and
+  // `/foo/` with self-referential canonicals, which the Algolia crawler indexes
+  // as duplicates (and forced us to exclude `**/` in the crawler config). The
+  // Vercel adapter turns this into an edge 308 redirect trailing -> slash-free.
+  trailingSlash: "never",
   env: {
     schema: {
       PUBLIC_RECAPTCHA_SITE_KEY: envField.string({
@@ -387,10 +393,11 @@ export default defineConfig({
     // Starlight auto-adds @astrojs/sitemap unless an integration with that
     // name already exists. In the SSR deploy build it would only see the few
     // prerendered pages (~7) and emit an incomplete sitemap, so we replace it
-    // with a no-op to suppress it. The complete sitemap is built in a separate
-    // prerendered pass (`pnpm build:sitemap`) and shipped from public/.
+    // with a no-op to suppress it. The complete sitemap is regenerated locally
+    // with `pnpm build:sitemap` and committed under public/; `lastmod` is the
+    // time of that regeneration.
     process.env.ENABLE_SITEMAP
-      ? sitemap({ changefreq: "weekly" })
+      ? sitemap({ lastmod: new Date() })
       : { name: "@astrojs/sitemap", hooks: {} },
     react(),
   ],
