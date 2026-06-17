@@ -1,0 +1,50 @@
+# Smelter
+
+> Smelter is a low-latency, real-time video compositing toolkit built by Software Mansion. Combine multimedia from different sources into a single video or live stream, enrich it with text, custom shaders, and embedded websites — using React components (TypeScript SDK) or directly via an HTTP API. Common uses: live streaming, broadcasting, and video conferencing.
+
+## For AI coding assistants
+
+If you are building with the Smelter **TypeScript SDK** (`@swmansion/smelter` and its runtime packages `@swmansion/smelter-node`, `@swmansion/smelter-web-client`, `@swmansion/smelter-web-wasm`), install the official **`smelter-ts-docs`** Agent Skill instead of scraping these pages. It is the complete, versioned API reference — components, inputs, outputs, hooks, encoders, shaders, and side-channel processing — so you don't have to guess prop names, defaults, or runtime availability.
+
+Source: [smelter-labs/skills](https://github.com/smelter-labs/skills) — [Agent Skills](https://agentskills.io/home) for Smelter.
+
+Install in Claude Code:
+
+```bash
+/plugin marketplace add smelter-labs/skills
+/plugin install smelter-skills@smelter
+```
+
+Install in other agents (via the [`npx skills`](https://github.com/vercel-labs/skills) tool):
+
+```bash
+# all Smelter skills
+npx skills add smelter-labs/skills
+# only the TypeScript SDK reference
+npx skills add smelter-labs/skills -s smelter-ts-docs
+```
+
+## Getting started
+
+- [Getting started](https://smelter.dev/fundamentals/getting-started): What Smelter is and how to run it.
+- [Setup choices](https://smelter.dev/fundamentals/setup-choices): Comparison of the different ways to use Smelter.
+- [Glossary](https://smelter.dev/fundamentals/glossary): Terminology used across the docs.
+
+## TypeScript SDK
+
+- [Overview](https://smelter.dev/ts-sdk/overview): Entry point for the React-like TypeScript SDK.
+- [Configuration](https://smelter.dev/ts-sdk/configuration): Configuring a Smelter instance.
+
+## HTTP API
+
+- [Overview](https://smelter.dev/http-api/overview): Entry point for the HTTP server API.
+- [Routes](https://smelter.dev/http-api/routes): HTTP endpoints reference.
+
+## Deployment
+
+- [Setup](https://smelter.dev/deployment/setup): Deploying the Smelter server.
+- [Configuration](https://smelter.dev/deployment/configuration): Server configuration options.
+
+## Source
+
+- [Smelter on GitHub](https://github.com/software-mansion/smelter): Main Smelter repository.

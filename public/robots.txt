@@ -1,3 +1,5 @@
+# AI assistants: see https://smelter.dev/llms.txt
+
 User-agent: *
 Disallow:
 
