@@ -27,8 +27,8 @@ actual layout — it may group these differently, and that's fine):
 | `ts-sdk/components/props/*.mdx` | shared style/prop types (`ViewStyleProps`, `TextStyleProps`, `Transition`, `EasingFunction`, …) |
 | `ts-sdk/hooks/*.mdx` (+ `examples/*.tsx`) | `useInputStreams`, `useAudioInput`, `useAfterTimestamp`, `useBlockingTask` |
 | `ts-sdk/inputs/*.mdx` | input types (`mp4`, `rtmp`, `rtp`, `hls`, `whip`, `whep`, `v4l2`, and the `wasm-*` browser inputs) |
-| `ts-sdk/outputs/*.mdx` | output types (`mp4`, `rtmp`, `rtp`, `hls`, `whip`, `whep`, `wasm-*`) |
-| `ts-sdk/outputs/encoders/*.mdx` | encoder options (`aac`, `opus`, `ffmpeg-h264`, `ffmpeg-vp8/vp9`, `vulkan-h264`) |
+| `ts-sdk/outputs/*.mdx` | output types (`mp4`, `rtmp`, `rtp`, `hls`, `whip`, `whep`, `wasm-*`) — one file each; each lists the encoders it accepts and cross-references the encoder file (it does **not** inline encoder option tables) |
+| `ts-sdk/outputs/encoders/*.mdx` | encoder options (`aac`, `opus`, `ffmpeg-h264`, `ffmpeg-vp8/vp9`, `vulkan-h264`) — **one skill file per encoder**, `references/outputs/encoders/<name>.md`, mapping 1:1 to the website file. A website encoder change → edit exactly that one skill file (no fan-out across outputs) |
 | `ts-sdk/resources/*.mdx` | registerable resources (`image`, `shader`, `web-renderer`) |
 | `ts-sdk/side-channel/*.mdx` | side-channel feature — **include `python.mdx`**: the Python side-channel SDK is used together with the TS SDK, so it belongs here |
 | `ts-sdk/guides/*.mdx` | task-oriented walkthroughs — **trim hard** (see interpreting-mdx) |
