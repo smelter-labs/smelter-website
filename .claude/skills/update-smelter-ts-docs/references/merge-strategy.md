@@ -43,9 +43,9 @@ For each piece of existing skill content, decide:
   with the specific reason you're suspicious.
 - **Website-only, new** → add it (a new prop, a new input type, a new component),
   re-expressing the source per `interpreting-mdx.md`. When the new item gets its own
-  reference file (a component, hook, input, output, resource), also add its one-line
-  entry to the SKILL.md index (see *Keep SKILL.md a complete map* below) and remove the
-  entry when an item is dropped.
+  reference file (a component, hook, input, output, encoder, resource), also add its
+  one-line entry to the SKILL.md index (see *Keep SKILL.md a complete map* below) and
+  remove the entry when an item is dropped.
 - **Skill-only, not in the website** → usually keep. The skill is allowed to have
   extra guidance the docs lack. Only remove it if the website change makes it wrong
   (then it's a "contradicts" case) — and when in doubt, flag rather than delete.
@@ -55,9 +55,9 @@ For each piece of existing skill content, decide:
 SKILL.md is the only file always in the agent's context; the per-item reference files
 are loaded on demand. For that to work, SKILL.md must let the agent decide *which* file
 to open **without opening any** — so it carries a one-line descriptor for every
-component, hook, input, output, and resource (what it's for, and runtime availability
-where that varies). An agent should never have to read a reference file just to find
-out what it is.
+component, hook, input, output, encoder, and resource (what it's for, and runtime
+availability where that varies). An agent should never have to read a reference file
+just to find out what it is.
 
 So when you add or remove an item, update its one-liner in the SKILL.md index too, and
 keep those lines terse — the depth belongs in the reference file, not here. If you find
