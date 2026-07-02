@@ -8,6 +8,90 @@ slug: ts-sdk/0.4.x/ts-sdk/outputs/encoders/ffmpeg-h264
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 import { Aside } from '@astrojs/starlight/components';
 
+## Low latency streaming
+
+For latency-sensitive outputs you can reduce the delay introduced by the encoder itself with [`ffmpegOptions`](#ffmpegoptions):
+
+```tsx
+ffmpegOptions: {
+  tune: "zerolatency",
+  thread_type: "slice",
+}
+```
+
+- **`tune: "zerolatency"`** (libx264) — disables frame lookahead, B-frames and other internal buffering, so every frame is emitted as soon as it is encoded instead of being held back by several frames. Costs some compression efficiency.
+- **`thread_type: "slice"`** — by default FFmpeg parallelizes encoding across frames, which delays output by roughly one frame per thread. Slice-based threading splits each frame into slices encoded in parallel, so multithreading adds no extra frame delay, at a small quality cost.
+
+## Encoder selection
+
+FFmpeg picks whichever H.264 encoder is available in the build it was compiled with. Smelter passes a different set of default options depending on which encoder was picked. Anything you set in [`ffmpegOptions`](#ffmpegoptions) is applied on top of these defaults and overrides them.
+
+<CollapsibleDetails summaryTitle='libopenh264'>
+
+Default options:
+
+```sh frame=none
+qmin=4        # minimum QP
+qmax=51       # maximum QP, increased vs the encoder default to allow
+              # low bitrates without dropping frames
+rc_mode=0     # rate control mode: quality
+threads=0     # auto-detect thread count
+b=...         # average bitrate, from "bitrate" or calculated
+              # from resolution and framerate
+maxrate=...   # maximum bitrate
+g=...         # GOP size in frames, from "keyframeIntervalMs"
+```
+
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='h264_videotoolbox (macOS only)'>
+
+Default options:
+
+```sh frame=none
+qmin=4        # minimum QP
+qmax=51       # maximum QP, increased vs the encoder default to allow
+              # low bitrates without dropping frames
+bf=0          # disable B-frames
+b=...         # average bitrate, from "bitrate" or calculated
+              # from resolution and framerate
+maxrate=...   # maximum bitrate
+g=...         # GOP size in frames, from "keyframeIntervalMs"
+```
+
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='libx264'>
+
+Default options:
+
+```sh frame=none
+preset=fast       # value of the "preset" option
+qcomp=0.6         # QP curve compression
+me_range=16       # maximum motion vector search range
+qdiff=4           # maximum QP step
+qmin=4            # minimum QP
+qmax=69           # maximum QP
+i_qfactor=1.4     # QP factor between I and P frames
+f_pb_factor=1.3   # QP factor between P and B frames
+partitions=...    # macroblock partitions, depends on the preset
+subq=...          # subpixel motion estimation quality, depends on the preset
+threads=0         # auto-detect thread count
+g=...             # GOP size in frames, from "keyframeIntervalMs"
+crf=23            # ONLY if "bitrate" is not set, quality-based VBR
+b=...             # ONLY if "bitrate" is set, average bitrate
+maxrate=...       # ONLY if "bitrate" is set, maximum bitrate
+bufsize=...       # ONLY if "bitrate" is set, equal to the average bitrate
+```
+
+</CollapsibleDetails>
+
+<Aside type='caution'>
+
+**libx264 is licensed under the GPL.** If the FFmpeg build you are using was compiled with libx264 support, using Smelter with that build means you must comply with the GPL license terms in addition to Smelter's own license.
+
+</Aside>
+
 ## Reference
 
 <CollapsibleDetails summaryTitle="Type definitions" open>
