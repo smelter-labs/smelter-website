@@ -78,10 +78,10 @@ partitions=...    # macroblock partitions, depends on the preset
 subq=...          # subpixel motion estimation quality, depends on the preset
 threads=0         # auto-detect thread count
 g=...             # GOP size in frames, from "keyframeIntervalMs"
-crf=23            # quality-based VBR, only if "bitrate" is not set
-b=...             # average bitrate, only if "bitrate" is set
-maxrate=...       # maximum bitrate, only if "bitrate" is set
-bufsize=...       # equal to the average bitrate, only if "bitrate" is set
+crf=23            # ONLY if "bitrate" is not set, quality-based VBR
+b=...             # ONLY if "bitrate" is set, average bitrate
+maxrate=...       # ONLY if "bitrate" is set, maximum bitrate
+bufsize=...       # ONLY if "bitrate" is set, equal to the average bitrate
 ```
 
 </CollapsibleDetails>
