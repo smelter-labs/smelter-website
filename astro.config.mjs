@@ -275,6 +275,7 @@ export default defineConfig({
                 { slug: "ts-sdk/inputs/whep" },
                 { slug: "ts-sdk/inputs/rtmp" },
                 { slug: "ts-sdk/inputs/moq_server" },
+                { slug: "ts-sdk/inputs/moq_client" },
                 { slug: "ts-sdk/inputs/v4l2" },
                 { slug: "ts-sdk/inputs/wasm-camera" },
                 { slug: "ts-sdk/inputs/wasm-screen" },
