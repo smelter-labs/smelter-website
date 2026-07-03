@@ -347,6 +347,7 @@ export default defineConfig({
                 { slug: "http-api/inputs/whep" },
                 { slug: "http-api/inputs/rtmp" },
                 { slug: "http-api/inputs/moq_server" },
+                { slug: "http-api/inputs/moq_client" },
                 { slug: "http-api/inputs/decklink" },
                 { slug: "http-api/inputs/v4l2" },
               ],
