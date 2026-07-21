@@ -130,6 +130,12 @@ SAMPLED_TEXTURE_AND_STORAGE_BUFFER_ARRAY_NON_UNIFORM_INDEXING
 
 <Aside type="caution">`TEXTURE_BINDING_ARRAY` and `IMMEDIATES` are always required and cannot be overwritten using this environment variable.</Aside>
 
+### `SMELTER_RENDER_MAX_LAYOUTS_COUNT`
+Maximum number of layouts that can be rendered as part of a single group of directly nested layout components (e.g. `View`, `Tiles`, `Rescaler`). If the limit is exceeded, some elements will not be rendered.
+- **Defaults to**: `100`
+- **Supported values**:
+    - `number` greater than `0`
+
 ### `SMELTER_INPUT_BUFFER_DURATION_MS`
 Duration (in ms) of an input buffer in milliseconds. New stream will not be processed until this buffer is filled.
 - **Defaults to**: `80` (about 5 frames in 60 fps)
