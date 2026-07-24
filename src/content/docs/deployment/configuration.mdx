@@ -202,6 +202,14 @@ and `SMELTER_MOQ_TLS_KEY_FILE` are set, the MoQ server uses that certificate. Ot
 self-signed certificate is auto-generated at `~/.smelter/moq_cert.pem` / `~/.smelter/moq_key.pem`
 (14-day validity). Development clients must be configured to trust it.
 
+### `SMELTER_MOQ_DISABLE_TLS_VERIFICATION`
+
+If enabled, all MoQ client inputs and outputs skip TLS server certificate verification when connecting to a relay.
+
+<Aside type="caution">This option makes the connection vulnerable to man-in-the-middle attacks. Do not use in production.</Aside>
+
+- **Defaults to**: `false`
+
 ### `SMELTER_LOG_FILE`
 
 Location of a file where all Smelter logs should be saved. Logging to file does not stop printing logs to standard output.

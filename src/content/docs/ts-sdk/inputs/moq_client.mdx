@@ -57,7 +57,6 @@ type MoqClientInput = {
   type: "moq_client";
   endpointUrl: string;
   broadcastPath: string;
-  disableTlsVerification?: bool;
   required?: bool;
   decoderMap?: DecoderMap;
   sideChannel?: SideChannel;
@@ -80,15 +79,6 @@ The URL of the MoQ relay to connect to. Must use the `https://` scheme.
 The path of the broadcast to subscribe to on the relay.
 
 - **Type**: `string`
-
----
-
-### disableTlsVerification
-Disables TLS certificate verification when connecting to the relay. Use on trusted networks only —
-disabling verification exposes the connection to man-in-the-middle attacks.
-
-- **Type**: `bool`
-- **Default value**: `false`
 
 ---
 
