@@ -41,6 +41,15 @@ See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn 
 The relay URL must use the `https://` scheme.
 </Aside>
 
+<Aside type="caution">
+
+The relay's TLS certificate must be trusted by the machine running Smelter. To connect to a relay
+using a self-signed certificate during local development, set
+[`SMELTER_MOQ_DISABLE_TLS_VERIFICATION`](/deployment/configuration#smelter_moq_disable_tls_verification)
+to disable certificate verification for all MoQ client inputs and outputs. Never enable it in
+production — it makes connection vulnerable to man-in-the-middle attacks.
+</Aside>
+
 ## Reference
 
 <CollapsibleDetails summaryTitle='Type definition' open>
