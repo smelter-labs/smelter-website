@@ -1,0 +1,327 @@
+---
+title: MoQ client
+---
+import { Aside } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+An output type where Smelter connects out to a [MoQ (Media over QUIC)](https://moq.dev/) relay and
+publishes a broadcast, a low-latency transport built on WebTransport / QUIC.
+
+| Media Type | Supported Codecs |
+| :--- | :--- |
+| **Video** | `H.264`, `VP8`, `VP9` |
+| **Audio** | `AAC`, `Opus` |
+
+## Usage
+
+To use a MoQ client output you must register it first. You can do it by sending a request like this:
+
+<CollapsibleDetails summaryTitle='Example request' open>
+
+```http
+POST: /api/output/:output_id/register
+Content-Type: application/json
+
+{
+  "type": "moq_client",
+  "endpoint_url": "https://relay.example.com",
+  "broadcast_path": "example",
+  "video": {
+    "resolution": { "width": 1280, "height": 720 },
+    "encoder": { "type": "ffmpeg_h264" },
+    "initial": {
+      "root": {
+        "type": "view"
+      }
+    }
+  },
+  "audio": {
+    "encoder": { "type": "opus" },
+    "channels": "stereo",
+    "initial": {
+      "inputs": [{ "input_id": "input_1" }]
+    }
+  }
+}
+```
+</CollapsibleDetails>
+
+See [HTTP Routes](/http-api/routes#outputs-configuration) documentation to learn more about managing outputs.
+
+<Aside>
+
+The relay URL must use the `https://` scheme.
+</Aside>
+
+<Aside type="caution">
+
+The relay's TLS certificate must be trusted by the machine running Smelter. To connect to a relay
+using a self-signed certificate during local development, set
+[`SMELTER_MOQ_DISABLE_TLS_VERIFICATION`](/deployment/configuration#smelter_moq_disable_tls_verification)
+to disable certificate verification for all MoQ client inputs and outputs. Never enable it in
+production — it makes connection vulnerable to man-in-the-middle attacks.
+</Aside>
+
+<Aside type="caution">At least one of the `video` and `audio` fields has to be defined.</Aside>
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+
+```tsx
+type MoqClientOutput = {
+  type: "moq_client";
+  endpoint_url: string;
+  broadcast_path: string;
+  container?: "cmaf" | "loc" | "legacy";
+  video?: VideoOptions;
+  audio?: AudioOptions;
+}
+```
+</CollapsibleDetails>
+
+## Properties
+
+### endpoint_url
+The URL of the MoQ relay to connect to. Must use the `https://` scheme.
+
+- **Type**: `string`
+
+---
+
+### broadcast_path
+The path the broadcast will be published under on the relay.
+
+- **Type**: `string`
+
+---
+
+### container
+Container used to frame encoded media.
+
+- **Type**: `"cmaf" | "loc" | "legacy"`
+- **Default value**: `"cmaf"`
+- **Supported values**:
+  - `cmaf` - Fragmented MP4.
+  - `loc` - Low Overhead Container ([draft-ietf-moq-loc](https://datatracker.ietf.org/doc/draft-ietf-moq-loc/)).
+  - `legacy` - Microsecond timestamp prefix followed by the raw codec payload.
+
+---
+
+### video
+Video track configuration.
+
+- **Type**: [`VideoOptions`](#videooptions)
+
+---
+
+### audio
+Audio track configuration.
+
+- **Type**: [`AudioOptions`](#audiooptions)
+
+## VideoOptions
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type VideoOptions = {
+  resolution: {
+    width: u32;
+    height: u32;
+  };
+  send_eos_when?: OutputEndCondition;
+  encoder: VideoEncoderOptions;
+  initial: { root: Component; };
+}
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### resolution
+Output resolution in pixels.
+
+- **Type**: `{ width: u32; height: u32; }`
+
+---
+
+#### send_eos_when
+Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
+
+- **Type**: [`OutputEndCondition`](#outputendcondition)
+
+---
+
+#### encoder
+Video encoder options.
+
+- **Type**: [`VideoEncoderOptions`](#videoencoderoptions)
+
+---
+
+#### initial
+Root of a component tree/scene that should be rendered for the output. Use [`update_output`](/http-api/routes#update-output) request to update this value after registration.
+
+- **Type**: `{ root: Component; }`
+
+## VideoEncoderOptions
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type VideoEncoderOptions =
+  | ({ type: "ffmpeg_h264"; } & FfmpegH264EncoderOptions)
+  | ({ type: "ffmpeg_vp8"; } & FfmpegVp8EncoderOptions)
+  | ({ type: "ffmpeg_vp9"; } & FfmpegVp9EncoderOptions)
+  | ({ type: "vulkan_h264"; } & VulkanH264EncoderOptions)
+```
+</CollapsibleDetails>
+
+Configuration for the video encoder, based on the selected codec. Visit encoder documentation to learn more.
+
+- [FFmpeg H264](/http-api/outputs/encoders/ffmpeg-h264)
+- [FFmpeg VP8](/http-api/outputs/encoders/ffmpeg-vp8)
+- [FFmpeg VP9](/http-api/outputs/encoders/ffmpeg-vp9)
+- [Vulkan H264](/http-api/outputs/encoders/vulkan-h264)
+
+## AudioOptions
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type AudioOptions = {
+  mixing_strategy?: "sum_clip" | "sum_scale";
+  send_eos_when?: OutputEndCondition;
+  encoder: AudioEncoderOptions;
+  channels?: "mono" | "stereo";
+  initial: { inputs: InputAudio[]; };
+}
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### mixing_strategy
+Specifies how audio should be mixed.
+
+- **Type**: `"sum_clip" | "sum_scale"`
+- **Default value**: `"sum_clip"`
+- **Supported values**:
+  - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
+  - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
+
+---
+
+#### send_eos_when
+Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
+
+- **Type**: [`OutputEndCondition`](#outputendcondition)
+
+---
+
+#### encoder
+Audio encoder options.
+
+- **Type**: [`AudioEncoderOptions`](#audioencoderoptions)
+
+#### channels
+Channels configuration
+
+- **Type**: `"mono" | "stereo"`
+- **Default value**: `"stereo"`
+- **Supported values**:
+  - `mono` - Mono audio (single channel).
+  - `stereo` - Stereo audio (two channels).
+
+#### initial
+Initial audio mixer configuration for output.
+
+- **Type**: `{ inputs: InputAudio[]; }`
+
+## AudioEncoderOptions
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type AudioEncoderOptions =
+  | ({ type: "aac"; } & AacEncoderOptions)
+  | ({ type: "opus"; } & OpusEncoderOptions);
+```
+
+</CollapsibleDetails>
+
+Configuration for the audio encoder. Visit encoder documentation to learn more.
+
+- [AAC](/http-api/outputs/encoders/aac)
+- [Opus](/http-api/outputs/encoders/opus)
+
+## InputAudio
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type InputAudio = {
+  input_id: string;
+  volume?: f32;
+}
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### input_id
+ID of an input. It identifies a stream registered using a [register input](/http-api/routes#register-input) method.
+
+- **Type**: `string`
+
+#### volume
+Input volume in range `[0, 2]`
+
+- **Type**: `f32`
+- **Default value**: `1.0`
+- **Supported values**: `[0, 2]`
+
+## OutputEndCondition
+This type defines when end of an input stream should trigger end of the output stream. Only one of those fields can be set at the time.
+Unless specified otherwise the input stream is considered finished/ended when:
+- TCP connection was dropped/closed.
+- RTCP Goodbye packet (`BYE`) was received.
+- Mp4 track has ended.
+- Input was unregistered already (or never registered).
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+```tsx
+type OutputEndCondition = {
+  any_of?: string[];
+  all_of?: string[];
+  any_input?: bool;
+  all_inputs?: bool;
+}
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### any_of
+List of the input streams. The output stream will terminate if any stream in the list finishes.
+
+- **Type**: `string[]`
+
+---
+
+#### all_of
+List of the input streams. The output stream will terminate when all streams in the list finish.
+
+- **Type**: `string[]`
+
+---
+
+#### any_input
+Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
+
+- **Type**: `bool`
+
+---
+
+#### all_inputs
+Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
+
+- **Type**: `bool`

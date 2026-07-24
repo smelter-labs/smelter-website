@@ -1,0 +1,170 @@
+---
+title: MoQ client
+---
+import { Aside, Badge } from '@astrojs/starlight/components';
+import CollapsibleDetails from '@components/CollapsibleDetails.astro';
+
+An input type where Smelter connects out to a [MoQ (Media over QUIC)](https://moq.dev/) relay and
+subscribes to a broadcast, a low-latency transport built on WebTransport / QUIC.
+
+| Media Type | Supported Codecs |
+| :--- | :--- |
+| **Video** | `H.264`, `VP8`, `VP9` |
+| **Audio** | `Opus`, `AAC` |
+
+Codecs are auto-detected from the MoQ catalog announced by the publisher.
+
+
+## Usage
+
+To use a MoQ client input you must register it first. You can do it by sending a request like this:
+
+<CollapsibleDetails summaryTitle='Example request' open>
+
+```http
+POST: /api/input/example/register
+Content-Type: application/json
+
+{
+  "type": "moq_client",
+  "endpoint_url": "https://relay.example.com",
+  "broadcast_path": "example"
+}
+```
+</CollapsibleDetails>
+
+
+See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
+
+<Aside>
+
+The relay URL must use the `https://` scheme.
+</Aside>
+
+<Aside type="caution">
+
+The relay's TLS certificate must be trusted by the machine running Smelter. To connect to a relay
+using a self-signed certificate during local development, set
+[`SMELTER_MOQ_DISABLE_TLS_VERIFICATION`](/deployment/configuration#smelter_moq_disable_tls_verification)
+to disable certificate verification for all MoQ client inputs and outputs. Never enable it in
+production — it makes connection vulnerable to man-in-the-middle attacks.
+</Aside>
+
+## Reference
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+
+```tsx
+type MoqClientInput = {
+  type: "moq_client";
+  endpoint_url: string;
+  broadcast_path: string;
+  required?: bool;
+  decoder_map?: DecoderMap;
+  side_channel?: SideChannel;
+}
+```
+</CollapsibleDetails>
+
+Parameters for registering a MoQ client input.
+
+## Properties
+
+### endpoint_url
+The URL of the MoQ relay to connect to. Must use the `https://` scheme.
+
+- **Type**: `string`
+
+---
+
+### broadcast_path
+The path of the broadcast to subscribe to on the relay.
+
+- **Type**: `string`
+
+---
+
+### required
+Determines if the input stream is essential for output frame production. If set to true and
+the stream is delayed, Smelter will postpone output frames until the stream is received.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+---
+
+### decoder_map
+Assigns which decoder should be used for media encoded with a specific codec. Currently, more than one decoder
+is supported only for `H264`.
+
+- **Type**: [`DecoderMap`](#decodermap)
+
+---
+
+### side_channel
+Enable [side channel](/http-api/side-channel/overview) publishing for this input. The
+external consumer reads decoded frames / audio from a Unix socket created under
+`SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
+
+- **Type**: [`SideChannel`](#sidechannel)
+
+
+## DecoderMap
+Maps codecs to the provided decoders. This has no effect for codecs other than `H264`.
+
+<CollapsibleDetails summaryTitle='Type definitions' open>
+
+```tsx
+type DecoderMap = {
+  h264?: 'ffmpeg_h264' | 'vulkan_h264';
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### h264
+H264 decoder configuration.
+
+- **Type**: `'ffmpeg_h264' | 'vulkan_h264'`
+- **Default value**: If available `vulkan_h264` will be used, otherwise `ffmpeg_h264`
+- **Supported values**:
+  - `"ffmpeg_h264"` - Software decoder based on FFmpeg.
+  - `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware-accelerated decoder.
+     Requires GPU that supports Vulkan Video decoding.
+
+## SideChannel
+Per-track side channel configuration. See the [Side Channel overview](/http-api/side-channel/overview)
+for details on how decoded data is exposed and consumed.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+
+```tsx
+type SideChannel = {
+  video?: bool;
+  audio?: bool;
+  delay_ms?: f64;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### video
+Publish decoded RGBA video frames for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### audio
+Publish decoded PCM audio batches for this input on the side channel.
+
+- **Type**: `bool`
+- **Default value**: `false`
+
+#### delay_ms
+Side channel delay in milliseconds. Frames are buffered for this duration ahead of when the queue consumes them,
+so the side-channel subscriber receives them early and has roughly this much time to process before the frame is due.
+
+- **Type**: `f64`
+- **Default value**: `0`
