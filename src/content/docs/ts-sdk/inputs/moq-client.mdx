@@ -24,24 +24,22 @@ Codecs are auto-detected from the MoQ catalog announced by the publisher.
 
 ## Usage
 
-To use a MoQ client input you must register it first. You can do it by sending a request like this:
+To connect a new input, register it first with `Smelter.registerInput`.
 
-<CollapsibleDetails summaryTitle='Example request' open>
+```tsx title=moqClientInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
 
-```http
-POST: /api/input/example/register
-Content-Type: application/json
-
-{
-  "type": "moq_client",
-  "endpoint_url": "https://relay.example.com",
-  "broadcast_path": "example"
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+    type: "moq_client",
+    endpointUrl: "https://relay.example.com",
+    broadcastPath: "example",
+  });
 }
+void run();
 ```
-</CollapsibleDetails>
-
-
-See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
 
 <Aside>
 
@@ -109,7 +107,7 @@ is supported only for `H264`.
 ---
 
 ### sideChannel
-Enable [side channel](/http-api/side-channel/overview) publishing for this input. The
+Enable [side channel](/ts-sdk/side-channel/overview) publishing for this input. The
 external consumer reads decoded frames / audio from a Unix socket created under
 `SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
 
@@ -141,7 +139,7 @@ H264 decoder configuration.
      Requires GPU that supports Vulkan Video decoding.
 
 ## SideChannel
-Per-track side channel configuration. See the [Side Channel overview](/http-api/side-channel/overview)
+Per-track side channel configuration. See the [Side Channel overview](/ts-sdk/side-channel/overview)
 for details on how decoded data is exposed and consumed.
 
 <CollapsibleDetails summaryTitle='Type definition' open>

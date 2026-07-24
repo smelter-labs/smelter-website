@@ -13,7 +13,7 @@ import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 An input type that allows a broadcaster to push media to Smelter over [MoQ (Media over QUIC)](https://moq.dev/), a low-latency transport built on WebTransport / QUIC.
 
-Smelter exposes a MoQ endpoint after you register the input by sending a [`register-input` request](/http-api/routes#register-input).
+Smelter exposes a MoQ endpoint after you register the input with `Smelter.registerInput`.
 
 | Media Type | Supported Codecs |
 | :--- | :--- |
@@ -44,25 +44,23 @@ Smelter logs the certificate's SHA-256 fingerprint at startup, and clients must 
 
 ## Usage
 
-To use a MoQ server input you must register it first. You can do it by sending a request like this:
+To connect a new input, register it first with `Smelter.registerInput`.
 
-<CollapsibleDetails summaryTitle='Example request' open>
+```tsx title=moqServerInputExample.tsx
+import Smelter from "@swmansion/smelter-node";
 
-```http
-POST: /api/input/example/register
-Content-Type: application/json
-
-{
-  "type": "moq_server",
-  "auth_token": "example"
+async function run() {
+  const smelter = new Smelter();
+  await smelter.init();
+  await smelter.registerInput("example", {
+    type: "moq_server",
+    authToken: "example",
+  });
+  // At this point a broadcaster can push a stream to
+  // https://127.0.0.1:4443/example?token=example
 }
+void run();
 ```
-</CollapsibleDetails>
-
-See [HTTP Routes](/http-api/routes#inputs-configuration) documentation to learn more about managing inputs.
-
-Once the MoQ server input is registered and Smelter is listening on the configured URL, a broadcaster can push a stream to it — for the example above,
-connect to `https://127.0.0.1:4443/example?token=example`.
 
 ## Reference
 
@@ -105,7 +103,7 @@ Assigns which decoder should be used for media encoded with a specific codec. Cu
 ---
 
 ### sideChannel
-Enable [side channel](/http-api/side-channel/overview) publishing for this input. The
+Enable [side channel](/ts-sdk/side-channel/overview) publishing for this input. The
 external consumer reads decoded frames / audio from a Unix socket created under
 `SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
 
@@ -136,7 +134,7 @@ H264 decoder configuration.
   - `"vulkan_h264"` (<Badge text="Required feature: gpu-video" variant="note" />) - Hardware-accelerated decoder. Requires GPU that supports Vulkan Video decoding.
 
 ## SideChannel
-Per-track side channel configuration. See the [Side Channel overview](/http-api/side-channel/overview) for details on how decoded data is exposed and consumed.
+Per-track side channel configuration. See the [Side Channel overview](/ts-sdk/side-channel/overview) for details on how decoded data is exposed and consumed.
 
 <CollapsibleDetails summaryTitle='Type definition' open>
 
