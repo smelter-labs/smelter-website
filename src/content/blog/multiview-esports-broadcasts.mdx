@@ -1,0 +1,35 @@
+---
+title: Multiview esports broadcasts, composited in the browser
+description: How the Riftline team retired a rack of SDI hardware and now render twelve synchronized camera feeds at 1080p60 through a single Smelter pipeline.
+date: 2026-06-18
+category: Broadcasting
+author: Riftline
+cover: /blog/covers/wave-1.svg
+video: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+duration: "2:14"
+featured: true
+---
+
+Riftline used to run its tournament broadcasts on a rack of SDI switchers,
+scalers, and a dedicated multiviewer. Every new overlay meant a firmware
+update and a trip to the venue. When they moved to Smelter, the whole chain
+collapsed into a single programmable pipeline that runs in the browser.
+
+## The setup
+
+Twelve player cams, two observer feeds, and a caster PiP are pulled in as
+WHIP inputs, composited into a scene graph, and pushed back out over WHEP —
+all at 1080p60 with sub-second glass-to-glass latency.
+
+The overlays — scoreboards, lower-thirds, the bracket — are ordinary React
+components. When a caster switches the active player, it's a state update, not
+a hardware cut.
+
+## What changed
+
+- No more SDI rack to truck to each venue.
+- Overlays ship as code and are versioned in git.
+- The same pipeline runs locally for rehearsal and in the cloud for the live show.
+
+Smelter didn't just replace the hardware — it made the whole broadcast
+something the engineering team could iterate on between matches.

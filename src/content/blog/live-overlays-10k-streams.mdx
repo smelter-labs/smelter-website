@@ -1,0 +1,26 @@
+---
+title: Live overlays for 10,000 concurrent streams
+description: Server-side scoreboards and lower-thirds, composited without a per-stream encoder.
+date: 2026-06-03
+category: Live Streaming
+author: "@marek"
+cover: /blog/covers/wave-1.svg
+video: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+duration: "1:08"
+---
+
+Personalized overlays at scale usually mean one encoder per viewer — and a
+cloud bill that grows linearly with your audience. We took a different route.
+
+By compositing overlays server-side in Smelter and sharing the underlying
+encode across cohorts, we drove 10,000 concurrent branded streams from a
+fraction of the hardware a naive per-stream setup would need.
+
+## The trick
+
+Overlays that only differ in data — a scoreboard, a viewer's handle, a
+localized lower-third — don't each need their own encoder. Smelter's scene
+graph lets us swap just the changing layers while reusing the heavy lifting.
+
+The result is personalization that reads as bespoke to every viewer, billed
+like a single broadcast.

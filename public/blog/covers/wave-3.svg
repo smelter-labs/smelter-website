@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" fill="none" role="img" aria-label="Smelter blog cover">
+  <defs>
+    <radialGradient id="g3a" cx="50%" cy="42%" r="66%">
+      <stop offset="0%" stop-color="#624BAA" stop-opacity=".42"/>
+      <stop offset="60%" stop-color="#302555" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#161127" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g3b" cx="18%" cy="18%" r="60%">
+      <stop offset="0%" stop-color="#F24664" stop-opacity=".26"/>
+      <stop offset="100%" stop-color="#161127" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="675" fill="#120F20"/>
+  <rect width="1200" height="675" fill="url(#g3a)"/>
+  <rect width="1200" height="675" fill="url(#g3b)"/>
+  <g fill="none" stroke="#F78D9E" stroke-opacity=".30" stroke-width="2.5">
+    <circle cx="600" cy="338" r="90"/>
+    <circle cx="600" cy="338" r="150" stroke-opacity=".18"/>
+    <circle cx="600" cy="338" r="220" stroke-opacity=".10"/>
+    <circle cx="600" cy="338" r="300" stroke-opacity=".06"/>
+  </g>
+  <g fill="#C2B1E0" fill-opacity=".55">
+    <circle cx="600" cy="248" r="4"/>
+    <circle cx="600" cy="188" r="3"/>
+  </g>
+</svg>

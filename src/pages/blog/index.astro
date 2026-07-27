@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import FeaturedPost from "@components/blog/FeaturedPost.astro";
+import PostCard from "@components/blog/PostCard.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const gridPosts = posts.filter((p) => p.id !== featured?.id);
+---
+
+<MainLayout
+  canonicalUrl="https://smelter.dev/blog"
+  title="What's new — Smelter"
+  description="The latest videos and demos from creators building real-time video and audio pipelines on Smelter."
+>
+  <main class="flex min-h-screen w-full justify-center overflow-x-clip">
+    <div class="relative w-full max-w-[1536px]">
+      <section class="px-4 pb-28 pt-24 sm:px-8 sm:pt-28">
+        <div class="mx-auto flex max-w-[1040px] flex-col">
+          <!-- Heading -->
+          <div class="mb-12 flex flex-col">
+            <h1 class="mb-5 max-w-[20ch] text-white">
+              The latest from creators
+            </h1>
+            <p class="par-l max-w-[54ch] text-hero-subtitle">
+              New videos and demos from the teams and community
+            </p>
+          </div>
+
+          {featured && <FeaturedPost entry={featured} />}
+
+          <!-- Latest videos -->
+          <div class="mb-6 mt-16 flex items-center gap-4">
+            <p
+              class="mono shrink-0 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle"
+            >
+              Latest videos
+            </p>
+            <div class="h-px flex-1 bg-homeLicense-border"></div>
+            <p
+              class="mono shrink-0 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle"
+            >
+              {String(gridPosts.length).padStart(2, "0")}
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-6">
+            {gridPosts.map((entry) => <PostCard entry={entry} />)}
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</MainLayout>
+
+<style>
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+</style>

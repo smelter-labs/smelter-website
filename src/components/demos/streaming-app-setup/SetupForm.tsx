@@ -2,6 +2,7 @@ import { navigate } from "astro:transitions/client";
 import { type FormEvent, useRef } from "react";
 import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
 import LoadingSpinner from "../../base/LoadingSpinner";
+import DemoBrowserNotice from "../DemoBrowserNotice";
 import { useStreamStore } from "../streaming-app/LayoutsSection";
 
 export default function SetupForm() {
@@ -26,12 +27,7 @@ export default function SetupForm() {
   }
 
   if (isChromium === false) {
-    return (
-      <div className="mx-auto max-w-3xl p-4 text-center">
-        <h3 className="mb-4 text-demos-header">Demos work only for Chromium-based browsers</h3>
-        <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
-      </div>
-    );
+    return <DemoBrowserNotice />;
   }
 
   if (isMobile === true) {
@@ -66,7 +62,7 @@ export default function SetupForm() {
           <div className="flex gap-x-4">
             <button
               type="submit"
-              className="h-12 w-fit rounded-full bg-gradient-red-5 px-6 sm:px-7">
+              className="h-12 w-fit rounded-full bg-[#F24664] px-6 transition-colors hover:bg-[#F5546E] sm:px-7">
               <div className="flex items-center justify-center gap-x-3 text-white text-xl">
                 <span>Continue</span>
               </div>

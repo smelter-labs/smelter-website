@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" fill="none" role="img" aria-label="Smelter blog cover">
+  <defs>
+    <radialGradient id="g2a" cx="82%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#F24664" stop-opacity=".40"/>
+      <stop offset="55%" stop-color="#302555" stop-opacity=".16"/>
+      <stop offset="100%" stop-color="#161127" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2b" cx="14%" cy="88%" r="72%">
+      <stop offset="0%" stop-color="#624BAA" stop-opacity=".34"/>
+      <stop offset="100%" stop-color="#161127" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="g2line" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C2B1E0" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#F78D9E" stop-opacity=".55"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="#120F20"/>
+  <rect width="1200" height="675" fill="url(#g2a)"/>
+  <rect width="1200" height="675" fill="url(#g2b)"/>
+  <g fill="none" stroke-linecap="round">
+    <path d="M0 300 C 160 400 320 240 480 340 S 800 460 960 340 1200 220 1200 300" stroke="url(#g2line)" stroke-width="3"/>
+    <path d="M0 360 C 200 450 340 300 520 400 S 840 520 1000 400 1200 300 1200 360" stroke="#ffffff" stroke-opacity=".08" stroke-width="2"/>
+    <path d="M0 240 C 140 320 300 200 460 280 S 780 380 940 280 1200 190 1200 240" stroke="#ffffff" stroke-opacity=".05" stroke-width="2"/>
+  </g>
+</svg>

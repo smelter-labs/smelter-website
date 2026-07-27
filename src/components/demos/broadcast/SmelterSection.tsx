@@ -5,6 +5,7 @@ import Edit from "../../../assets/demos/edit.svg";
 import SmelterLogo from "../../../assets/demos/smelter-circle.svg";
 import { isChromiumBased } from "../../../utils/browser";
 import LoadingSpinner from "../../base/LoadingSpinner";
+import DemoBrowserNotice from "../DemoBrowserNotice";
 import { useSmelter } from "../smelter-utils/useSmelter";
 import { useChyronStore } from "./io/Chyron";
 import Output from "./io/Output";
@@ -60,12 +61,7 @@ export default function SmelterSection() {
   }
 
   if (isChromium === false) {
-    return (
-      <div className="mx-auto max-w-3xl p-4 text-center">
-        <h3 className="mb-4 text-demos-header">Demos work only on chromium-based browsers</h3>
-        <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
-      </div>
-    );
+    return <DemoBrowserNotice />;
   }
 
   return (

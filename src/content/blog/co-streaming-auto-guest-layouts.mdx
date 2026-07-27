@@ -1,0 +1,34 @@
+---
+title: Co-streaming with automatic guest layouts
+description: How a two-person talk show adds and drops remote guests live, with the scene re-tiling itself the moment someone joins or leaves.
+date: 2026-07-24
+category: Live Streaming
+author: "@nadia"
+cover: /blog/covers/wave-2.svg
+video: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+duration: "1:47"
+---
+
+Nadia hosts a weekly live show where guests drop in and out mid-episode. The
+old setup meant a producer manually swapping scenes in a switcher every time
+someone joined — and a visible cut each time they got it wrong.
+
+## One layout function, any number of guests
+
+Guests connect over WHIP. Each new input is just another entry in an array,
+and the layout is a plain function of how many are live: solo gets a full
+frame, two split the screen, three-to-six tile into a grid. When a guest
+leaves, the array shrinks and the scene re-tiles on the next frame.
+
+Because the layout is code, the host never touches a switcher. Joining and
+leaving is driven by connection state, not by a person clicking the right
+source at the right second.
+
+## What it buys the show
+
+- No producer babysitting a switcher during the live show.
+- Every transition is animated, so guests appear and disappear cleanly.
+- The same layout logic runs in rehearsal and on air — no scene to rebuild.
+
+The show went from "hope the producer is paying attention" to a pipeline that
+just reacts to who's on the call.

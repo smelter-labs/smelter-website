@@ -1,0 +1,21 @@
+---
+title: Edge ad-insertion without re-encoding the feed
+description: Swap in targeted ad breaks at the edge, frame-accurate, without touching the main encode.
+date: 2026-03-30
+category: Broadcasting
+author: admarker
+cover: /blog/covers/wave-1.svg
+---
+
+Server-side ad insertion usually means decoding, splicing, and re-encoding the
+whole feed at every edge node — expensive, and a quality hit each time. We
+kept the main encode untouched and composited breaks in at the edge instead.
+
+## Frame-accurate, region-aware
+
+Smelter runs at each edge, holds the program feed, and composites the right ad
+creative for the region at the marked break — frame-accurate, with a clean
+transition in and out. The primary encode is never round-tripped.
+
+Fill rates went up because the breaks look native, and the CDN bill went down
+because we stopped re-encoding the same stream a dozen times over.
