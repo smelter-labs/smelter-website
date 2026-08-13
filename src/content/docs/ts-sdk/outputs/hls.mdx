@@ -57,6 +57,7 @@ type RegisterHlsOutput = {
   maxPlaylistSize?: number;
   video?: VideoOptions;
   audio?: AudioOptions;
+  startAtMs?: number;
 }
 ```
 </CollapsibleDetails>
@@ -89,6 +90,15 @@ Video track configuration.
 Audio track configuration.
 
 - **Type**: [`AudioOptions`](#audiooptions)
+
+---
+
+### startAtMs
+Time in milliseconds when this output should start producing data. Value `0` represents time of the
+[`start()`](/ts-sdk/nodejs/smelter#start) call. Output is always created when it is registered
+(e.g. playlist is created), only the moment it starts receiving frames/samples is delayed.
+
+- **Type**: `number`
 
 ## VideoOptions
 

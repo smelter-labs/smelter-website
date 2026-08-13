@@ -51,6 +51,7 @@ type Mp4Output = {
   video?: VideoOptions;
   audio?: AudioOptions;
   ffmpeg_options?: Map<string, string>;
+  start_at_ms?: number;
 }
 ```
 </CollapsibleDetails>
@@ -84,6 +85,16 @@ Raw FFmpeg muxer options. Visit <a href='https://ffmpeg.org/ffmpeg-formats.html'
 to learn more. For codec specific options see `ffmpeg_options` in [`VideoEncoderOptions`](#videoencoderoptions).
 
 - **Type**: `Map<string, string>`
+
+---
+
+### start_at_ms
+Time in milliseconds when this output should start producing data. Value `0` represents time of
+[the start request](/http-api/routes#start-request), same as in
+[`schedule_time_ms`](/http-api/routes#update-output). Output is always created when this request is
+handled (e.g. file is created), only the moment it starts receiving frames/samples is delayed.
+
+- **Type**: `number`
 
 ## VideoOptions
 
