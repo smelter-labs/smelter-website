@@ -1,0 +1,34 @@
+---
+title: "Smelter Workshop #2: Pong with your webcam inside the ball"
+description: A fully playable Pong where the live input video renders inside the ball — painted per-pixel on the GPU in a single shader and driven from React.
+date: 2026-06-03
+category: Community
+author: Software Mansion
+cover: /blog/covers/workshop-2.jpg
+video: https://www.youtube.com/watch?v=ZYjTVBaVSxg
+duration: "3:06"
+---
+
+Episode two builds a complete Pong from a single prompt — and then does the
+thing that makes it a Smelter demo rather than a game jam entry: the live input
+video renders *inside the ball*.
+
+## A real game, not a loop
+
+Both paddles switch between keyboard, mouse, and AI control, the difficulty is
+adjustable, and the match length is configurable. Deflection angles depend on
+where the ball hits the paddle — the same trick the 1972 cabinet used.
+
+The whole thing is painted per-pixel on the GPU in one shader and driven from
+React over a low-latency WebSocket. What you play is exactly what viewers see;
+there is no separate render path for the stream.
+
+## Something to put on the BRB screen
+
+It takes the usual inputs — phone cameras, live streams, pre-recorded files —
+so it drops into a tournament intermission, a charity stream, or a BRB screen
+and gives viewers a real match instead of a placeholder card.
+
+- [Live demo](https://workshop.smelter.dev)
+- [smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor)
+- [The copy-ready prompt](https://github.com/smelter-labs/smelter-editor/blob/main/DEMO-PROMPTS.md)

@@ -1,0 +1,40 @@
+---
+title: "Smelter Workshop #3: an AI security app that records and analyzes itself"
+description: A few phone cameras, a Smelter pipeline, and Gemini 2.5 Flash — motion scoring, automatic recording, written incident summaries, and push notifications with no NVR software.
+date: 2026-06-16
+category: Conferencing
+author: Software Mansion
+cover: /blog/covers/workshop-3.jpg
+video: https://www.youtube.com/watch?v=SZo4oI64N-k
+duration: "3:20"
+---
+
+Point a few phone cameras around a room and you have a working AI security
+setup — no extra hardware, no off-the-shelf NVR software.
+
+## The pipeline
+
+Each camera sends its stream over WHIP into a Smelter compositing engine on the
+server. Smelter merges them into one output you watch live over WHEP, while a
+bit of server-side Python scores motion in real time.
+
+Cross the threshold and three things happen: the focus jumps to wherever the
+movement is, the recorder kicks in, and the clip lands as an MP4. Gemini 2.5
+Flash then watches the clip back, writes up what happened, and assigns a
+severity rating. If it's serious enough, a Web Push notification fires — even
+with the tab closed. Recordings, analyses, settings, and camera names all
+persist in SQLite.
+
+## Swap the inputs, change one prompt
+
+The fun part is how little it takes to repoint the whole thing. Dropping a few
+music videos into the local inputs folder and tweaking one line of the Gemini
+prompt — to flag the most chaotic moments — was enough to get the same
+pipeline scoring dance routines and pyrotechnics instead of someone walking
+through the kitchen. Same engine, same pipeline, same handful of files.
+
+The app grew out of Patryk's idea at a Software Mansion × Gemini hackathon
+earlier this year. As of the Smelter release that landed shortly before the
+episode, this kind of pipeline is supported natively.
+
+See it running in the [live demo](https://workshop.smelter.dev).

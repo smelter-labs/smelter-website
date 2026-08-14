@@ -1,7 +1,16 @@
 ---
 import { getCollection, render } from "astro:content";
+import {
+  PUBLIC_GISCUS_CATEGORY,
+  PUBLIC_GISCUS_CATEGORY_ID,
+  PUBLIC_GISCUS_REPO,
+  PUBLIC_GISCUS_REPO_ID,
+} from "astro:env/server";
+import { GiscusComments } from "@components/blog/GiscusComments";
+import { LikeButton } from "@components/blog/LikeButton";
 import PostThumbnail from "@components/blog/PostThumbnail.astro";
-import { formatBlogDate } from "@components/blog/blogHelpers";
+import ShareBar from "@components/blog/ShareBar.astro";
+import { formatBlogDate, postOgImage, postUrl } from "@components/blog/blogHelpers";
 import ArrowRight from "/public/images/arrow-right.svg";
 import MainLayout from "../../layouts/MainLayout.astro";
 
@@ -14,13 +23,40 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const hasVideo = Boolean(data.video);
+
+const canonicalUrl = postUrl(entry.id);
+const ogImage = postOgImage(data.cover);
+
+// Comments only render on deployments where Giscus is fully configured, so
+// local dev and previews without the env vars simply skip the section.
+const giscus =
+  PUBLIC_GISCUS_REPO && PUBLIC_GISCUS_REPO_ID && PUBLIC_GISCUS_CATEGORY && PUBLIC_GISCUS_CATEGORY_ID
+    ? {
+        repo: PUBLIC_GISCUS_REPO,
+        repoId: PUBLIC_GISCUS_REPO_ID,
+        category: PUBLIC_GISCUS_CATEGORY,
+        categoryId: PUBLIC_GISCUS_CATEGORY_ID,
+      }
+    : null;
 ---
 
 <MainLayout
-  canonicalUrl={`https://smelter.dev/blog/${entry.id}`}
+  canonicalUrl={canonicalUrl}
   title={`${data.title} — Smelter Blog`}
   description={data.description}
+  ogUrl={canonicalUrl}
+  ogImage={ogImage}
+  ogImageAlt={ogImage ? data.title : undefined}
+  ogType="article"
 >
+  <Fragment slot="head">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Smelter Blog"
+      href="/blog/rss.xml"
+    />
+  </Fragment>
   <main class="flex min-h-screen w-full justify-center overflow-x-clip">
     <div class="relative w-full max-w-[1536px]">
       <article class="px-4 pb-28 pt-24 sm:px-8 sm:pt-28">
@@ -34,11 +70,14 @@ const hasVideo = Boolean(data.video);
           </a>
           <h1 class="mb-5 text-white">{data.title}</h1>
           <p class="par-l mb-6 text-hero-subtitle">{data.description}</p>
-          <p
-            class="mono mb-10 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
-          >
-            {formatBlogDate(data.date)} · {data.author}
-          </p>
+          <div class="mb-4 flex items-center justify-between gap-4">
+            <p class="mono text-[11px] uppercase tracking-[0.12em] text-hero-subtitle">
+              {formatBlogDate(data.date)} · {data.author}
+            </p>
+            <LikeButton client:visible slug={entry.id} />
+          </div>
+
+          <ShareBar title={data.title} slug={entry.id} class="mb-10" />
 
           <PostThumbnail
             cover={data.cover}
@@ -67,6 +106,26 @@ const hasVideo = Boolean(data.video);
           <div class="blog-prose">
             <Content />
           </div>
+
+          <ShareBar title={data.title} slug={entry.id} class="mt-12" />
+
+          {
+            giscus && (
+              <section class="mt-16">
+                <p class="mono mb-6 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle">
+                  Comments
+                </p>
+                <GiscusComments
+                  client:visible
+                  repo={giscus.repo}
+                  repoId={giscus.repoId}
+                  category={giscus.category}
+                  categoryId={giscus.categoryId}
+                  term={`/blog/${entry.id}`}
+                />
+              </section>
+            )
+          }
         </div>
       </article>
     </div>

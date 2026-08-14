@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import ArrowRight from "/public/images/arrow-right.svg";
+import { LikeButton } from "./LikeButton";
 import PostThumbnail from "./PostThumbnail.astro";
 import { formatBlogDate } from "./blogHelpers";
 
@@ -14,9 +15,9 @@ const hasVideo = Boolean(data.video);
 const href = `/blog/${entry.id}`;
 ---
 
-<a
-  href={href}
-  class="blog-featured group block rounded-4xl border border-homeLicense-border bg-explanation-background p-3 transition-colors duration-300 hover:border-white/40 sm:p-4"
+<!-- Same stretched-link pattern as PostCard — see the note there. -->
+<div
+  class="blog-featured group relative block rounded-4xl border border-homeLicense-border bg-explanation-background p-3 transition-colors duration-300 hover:border-white/40 sm:p-4"
 >
   <div class="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2">
     <PostThumbnail
@@ -35,12 +36,19 @@ const href = `/blog/${entry.id}`;
       >
         Featured · {data.category}
       </p>
-      <h2 class="mb-4 text-white">{data.title}</h2>
+      <h2 class="mb-4 text-white">
+        <a href={href} class="card-link text-inherit no-underline">{data.title}</a>
+      </h2>
       <p class="par-s m-0 mb-6 text-hero-subtitle">{data.description}</p>
 
-      <p class="mono mb-6 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle">
-        {formatBlogDate(data.date)} · {data.author}
-      </p>
+      <div class="mb-6 flex items-center justify-between gap-4">
+        <p class="mono text-[11px] uppercase tracking-[0.12em] text-hero-subtitle">
+          {formatBlogDate(data.date)} · {data.author}
+        </p>
+        <div class="relative z-10 shrink-0">
+          <LikeButton client:visible slug={entry.id} compact />
+        </div>
+      </div>
 
       <span
         class="bg-[#F24664] group-hover:bg-[#F5546E] flex h-12 w-fit items-center gap-x-2 rounded-full px-5 text-white transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl group-hover:shadow-[#fbc6cf40]"
@@ -50,10 +58,16 @@ const href = `/blog/${entry.id}`;
       </span>
     </div>
   </div>
-</a>
+</div>
 
 <style>
   .mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  .card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
   }
 </style>

@@ -1,0 +1,37 @@
+---
+title: "Smelter Workshop #1: a video carousel from one AI prompt"
+description: A real-time video carousel with arrow-key navigation, configurable animation, and a clap-to-switch toggle — built from a single prompt in the Smelter Editor.
+date: 2026-05-25
+category: Live Streaming
+author: Software Mansion
+cover: /blog/covers/workshop-1.jpg
+video: https://www.youtube.com/watch?v=hfKUWf4Cl9M
+duration: "2:22"
+---
+
+The first episode of the Smelter Workshop starts where most demos end: with a
+prompt. Piotr describes a real-time video carousel to the Smelter Editor, and
+what comes back is a working, controllable scene — not a mockup.
+
+## What the prompt produced
+
+The carousel navigates with the arrow keys, and the number of visible inputs,
+the animation speed, and the on-screen position are all configurable. There is
+even a clap-to-switch toggle, so the scene advances on a sound cue instead of a
+keypress.
+
+It works with the same input types everything else in Smelter does: phone
+cameras, live streams, and pre-recorded files. Nothing about the carousel is
+tied to where the video came from.
+
+## Composed on the GPU, controlled from React
+
+Everything composites on the GPU while the controls stay in ordinary React
+state. That split is the point of the whole series — the layout is a component
+tree you can read and change, and the pixels are somebody else's problem.
+
+Try it in the [live demo](https://workshop.smelter.dev), or read the source of
+the editor itself in
+[smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor).
+The prompts used in the episode are listed under "Example AI prompts" in the
+repo's README.

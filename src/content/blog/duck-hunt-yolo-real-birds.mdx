@@ -1,0 +1,37 @@
+---
+title: "Smelter Workshop #5: real birds become Duck Hunt with YOLO"
+description: Point a camera at the sky, run YOLO through Smelter's side channel, and spawn a NES-style duck on every real bird it finds — then shoot them down with a phone.
+date: 2026-08-10
+category: Community
+author: Software Mansion
+cover: /blog/covers/workshop-5.jpg
+video: https://www.youtube.com/watch?v=SBoDn5Nlovc
+duration: "3:25"
+featured: true
+---
+
+Point a camera at the sky. Run YOLO on the decoded frames through Smelter's
+side channel. Spawn a NES-style duck sprite on every real bird it finds. Then
+shoot them down — with a pistol built from a saw handle, a glow-stick tube, a
+bike phone mount, and a Bluetooth trigger button.
+
+## Your phone is the gun
+
+Scan a QR code and you're in: no app, no pairing. Aiming is gyro-mouse, which
+is where the first real problem showed up — orientation angles gimbal-lock the
+moment you hold a phone like a pistol.
+
+Duck flight is deterministic: the server and the renderer compute the same
+path, so every shot lands exactly where you see the sprite rather than where
+the server thought it was a frame ago.
+
+## The full NES death beat
+
+White flash, freeze-frame, falling duck — and the dog, if you bag two in two
+seconds.
+
+Multiplayer works out of the box: per-player crosshairs, a live scoreboard, and
+magazine size and reload time set by the operator. Everything composites and
+broadcasts live over WebRTC with Smelter.
+
+Try it in the [live demo](https://workshop.smelter.dev).

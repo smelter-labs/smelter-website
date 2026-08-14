@@ -1,0 +1,32 @@
+---
+title: "Smelter Workshop #4: Whisper captions, repainted cars, and ghost sprites in one stream"
+description: Smelter's side channel hands already-decoded frames to an external process — put to work three ways in a single live WebRTC broadcast.
+date: 2026-07-20
+category: Broadcasting
+author: Software Mansion
+cover: /blog/covers/workshop-4.jpg
+video: https://www.youtube.com/watch?v=rz50IwNEAcQ
+duration: "3:26"
+---
+
+Smelter's side channel hands already-decoded frames — video or audio —
+straight to an external process. No re-decoding, no second pipeline. Episode
+four puts it to work three different ways at once.
+
+## Three uses, one stream
+
+**Captions, fully local.** Whisper does speech-to-text on the machine, and the
+captions are scheduled so they land exactly on the speech rather than trailing
+it.
+
+**Repainted cars.** Car detection runs on bird's-eye drone footage and feeds a
+WGSL shader that repaints every car live.
+
+**Ghost sprites.** A swarm of sprites chases people around the frame, driven by
+YOLO detections at 60 fps.
+
+All three composite together and go out over WebRTC as one live Smelter stream.
+
+Watch the walkthrough above, then try it yourself in the
+[live demo](https://workshop.smelter.dev) or read the source in
+[smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor).

@@ -17,6 +17,14 @@ const gridPosts = posts.filter((p) => p.id !== featured?.id);
   title="What's new — Smelter"
   description="The latest videos and demos from creators building real-time video and audio pipelines on Smelter."
 >
+  <Fragment slot="head">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Smelter Blog"
+      href="/blog/rss.xml"
+    />
+  </Fragment>
   <main class="flex min-h-screen w-full justify-center overflow-x-clip">
     <div class="relative w-full max-w-[1536px]">
       <section class="px-4 pb-28 pt-24 sm:px-8 sm:pt-28">
