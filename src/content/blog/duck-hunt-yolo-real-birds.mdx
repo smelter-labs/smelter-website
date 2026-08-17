@@ -1,0 +1,177 @@
+---
+title: "Smelter Workshop #5: real birds become Duck Hunt with YOLO"
+description: Real birds on camera spawn NES-style ducks and phones become gyro-aimed light guns over WebRTC — and the whole hit-registration problem dissolves into a single shared function of time.
+date: 2026-08-12
+category: Community
+author: Software Mansion
+cover: /blog/covers/workshop-5.jpg
+video: https://www.youtube.com/watch?v=SBoDn5Nlovc
+duration: "3:25"
+featured: true
+---
+
+This episode is Duck Hunt. On a live stream. With real birds.
+
+The machinery is the [side channel](/ts-sdk/side-channel/overview) again:
+decoded frames go to a Python sidecar running YOLO, this time tuned to spot
+birds. Every real bird found on the stream spawns a NES-style duck sprite on top
+of it. The duck holds still for a beat, then takes off at forty-five degrees
+toward the top-right corner — straight out of 1984. Your phone is the gun: scan
+a QR code, join the room, watch the live stream, aim with the gyroscope.
+Multiplayer from the first line of code.
+
+Under the arcade nostalgia there are four genuinely interesting engineering
+problems.
+
+## Problem 1: birds are 12 pixels
+
+Street-level YOLO weights are trained on birds that fill a decent chunk of the
+frame. A bird in the sky is a dozen pixels — squeeze a 1080p frame down to the
+model's input size and it simply vanishes. The sidecar deals with it the way
+aerial-imagery people do (SAHI-style): **tiled inference**. The frame is split
+into an overlapping 2×2 or 3×2 grid, each tile inferred at full detail, and the
+results merged with cross-tile non-max suppression.
+
+On top of that runs **motion fusion**: cheap frame-differencing on a downscaled
+gray frame catches moving blobs YOLO missed and emits them as low-confidence
+detections — deliberately below the YOLO threshold, so they stay
+distinguishable. When more than 15% of the frame moves it backs off, because
+that's a camera pan, not a flock.
+
+(Small confession from the video: real birds don't cooperate on camera, so an
+AI-generated clip of ducks stood in for some of the dynamic cuts.)
+
+## Problem 2: hitting what you see
+
+Here's the trap in any shooter-over-video design: the phone shoots at what it
+*sees*, but what it sees is a WebRTC stream some hundreds of milliseconds behind
+the server's present. If the server hit-tests a shot against "where the duck is
+now," every shot lands behind the duck.
+
+The fix is to make the duck's flight a **pure function of time**, computed
+identically by the server and the renderer from the same spawn point:
+
+```ts title="server/src/duckHunter/duckFlight.ts"
+/**
+ * Duck center in normalized content space [0,1] at time `now`. The flight is a
+ * pure function of (now - spawnAt), so the server and renderer agree exactly.
+ */
+export function duckContentPos(d, now, p, v) {
+  const elapsed = Math.max(0, now - d.spawnAt);
+  if (elapsed <= p.pauseMs) return { x: d.cx0, y: d.cy0 };
+  // Output px travelled since the pause ended (45° → equal px on both axes).
+  const travel =
+    ((p.flySpeed * Math.max(v.width, v.height)) / 1000) * (elapsed - p.pauseMs);
+  return {
+    x: d.cx0 + travel / dispW,  // fly right
+    y: d.cy0 - travel / dispH,  // and up
+  };
+}
+```
+
+No velocity state, no interpolation code, nothing to drift. The renderer calls
+this at 60 Hz to draw; the server calls the *same function* when a shot arrives.
+A duck's entire life is `(spawnAt, cx0, cy0)`. Two nice consequences fall out
+for free:
+
+- **The 45° is really 45°.** Content space is anisotropic — the video is
+  cover-fitted into the output — so the travel distance is computed in output
+  pixels and divided by the display dimensions per axis, which keeps the
+  diagonal true on screen.
+- **Hit-stop costs three lines.** When a duck is shot, the whole flock freezes
+  for the classic beat, implemented not with a pause flag but by pushing every
+  live duck's `spawnAt` forward each tick. The flight stays a pure function of
+  `(now - spawnAt)`, and the freeze propagates to every client automatically.
+
+One more subtlety: the server hit-tests against the **eased crosshair the player
+actually sees on the broadcast**, not the raw latest aim sample. The rendered
+crosshair is smoothed, so it lags the raw aim while the phone moves —
+hit-testing raw aim made shots land ahead of the visible crosshair, in the
+direction of motion. Shoot what you see, literally.
+
+## Problem 3: a phone is not a mouse
+
+Aiming uses the gyroscope as a **gyro-mouse**: integrate angular velocity, move
+the crosshair by how much the phone rotated. The obvious alternative — the
+`deviceorientation` angles — gimbal-locks the moment you hold the phone upright.
+Which is, you know, how you hold a gun. The *angles* freeze near beta ≈ 90°; the
+angular *rates* stay well-defined at any attitude.
+
+The neat part is the yaw axis. Rotating "left-right" should mean rotation about
+*world-up*, regardless of how the phone is tilted — so the horizontal axis
+projects the rotation-rate vector onto gravity, estimated from a low-passed
+accelerometer:
+
+```ts title="editor/app/mobile/[roomId]/shoot/page.tsx"
+case 'yaw':
+default: {
+  // Yaw about true world-up (ω·û), û = -gravity/|g|. Falls back to rotation
+  // about the screen's up axis when gravity isn't available.
+  if (grav) {
+    const m = Math.hypot(grav.x, grav.y, grav.z);
+    if (m > 1) return -(wx * grav.x + wy * grav.y + wz * grav.z) / m;
+  }
+  return wx * up[0] + wy * up[1];
+}
+```
+
+Each integration step gets a deadzone for hand tremor, a per-frame clamp for
+sensor spikes, and a sensitivity gain. And because no two people hold an
+imaginary pistol the same way, there's a calibration screen: pick which axis
+drives what, flip it, tune sensitivity — persisted per phone in `localStorage`.
+
+A favorite hack hides in the trigger options. Browsers don't expose hardware
+volume keys — but while an `audio` element is playing, Android routes the volume
+buttons to that element's volume:
+
+```ts
+// Keep a looping silent clip playing and treat a volume *increase* as a shot,
+// then snap the volume back to mid so there's always headroom in both directions.
+const onVol = () => {
+  if (audio.volume > prev + 0.001) fire();       // volume up → shoot
+  if (audio.volume !== 0.5) audio.volume = 0.5;  // re-arm
+};
+```
+
+A silent WAV loop turns the volume rocker into a trigger.
+
+## Problem 4: one URL, no app
+
+The phone experience is "scan a QR code, you're holding a gun" — no app, no
+pairing. That takes some infrastructure honesty: the gyroscope API requires
+HTTPS, and the editor, the API/WebSocket server and the WebRTC media server are
+three separate services. All three sit behind a single reverse-proxy origin and
+one tunnel, so there's exactly one `https://` URL in the QR code and no
+mixed-content anywhere.
+
+Multiplayer was free from the start because the room is the unit: every phone
+gets its own crosshair color, ammo is operator-configured (magazine size, reload
+time — regeneration is one round per interval, server-side), and the scoreboard
+lives on the broadcast itself. Flip on your phone's camera and your face joins
+the broadcast next to your score — it's just one more
+[WHIP input](/ts-sdk/inputs/whip) into the same compositor, mirrored by a selfie
+shader.
+
+Even the sprites got an engineering footnote: Smelter samples textures
+bilinearly, which would blur 36-pixel NES sprites into mush. So a script
+pre-upscales them 16× with nearest-neighbor, and Smelter *downsamples* a crisp
+image instead of upsampling a tiny one.
+
+## And the pistol
+
+Grip: the handle of a saw. Barrel: a tube that used to hold glow sticks. A bike
+phone mount up top, a Bluetooth button as the trigger, a beer opener because
+every serious build has one, and a stick of DDR2 RAM as a heat sink. Does it
+cool anything? No. Does it look like it does? Absolutely.
+
+None of what it shoots at is post-production. YOLO finds the birds, Smelter
+composites the ducks, the crosshairs, the scoreboard and the players' faces into
+every frame live, and pushes it out over WebRTC while it happens. The phone just
+needs the stream and a socket — you could join the hunt from the other end of
+the internet, out of the box.
+
+Everything from this episode is up at
+[workshop.smelter.dev](https://workshop.smelter.dev) — grab a phone, join the
+room, shoot some ducks. The code is in
+[smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor):
+pull it apart and build your own on top of it.

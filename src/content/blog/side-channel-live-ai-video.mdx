@@ -1,0 +1,181 @@
+---
+title: "Smelter Workshop #4: Whisper captions, repainted cars, and ghost sprites in one stream"
+description: Smelter's side channel hands already-decoded frames to an external process. We point it at Whisper for captions that land on the speech, at YOLO for hue-painted drone traffic, and at a ghost swarm that haunts people on camera.
+date: 2026-07-22
+category: Broadcasting
+author: Software Mansion
+cover: /blog/covers/workshop-4.jpg
+video: https://www.youtube.com/watch?v=rz50IwNEAcQ
+duration: "3:26"
+---
+
+Quick refresher: Smelter consumes input streams and composes them into outputs —
+that's the pipeline. The [side channel](/ts-sdk/side-channel/overview) is a
+second tap on it: the compositor hands already-decoded frames — video or audio —
+straight to an external process over a Unix socket. No re-decoding, and a
+configurable delay means whatever's listening gets each frame *before* it hits
+the output.
+
+I'd been doing this the hard way — a bolt-on that decoded the stream a second
+time so my Python had something to look at (see the
+[previous episode](/blog/ai-security-app-multi-camera)). Swapping that for the
+side channel on plain motion detection made the difference obvious the second I
+hit play: the old way decoded the same video twice; this decodes once. So the
+question stops being "how do I get video into my AI" and becomes "what do I
+actually do with it."
+
+## The plumbing
+
+Enabling it is one field at input registration:
+
+```ts
+await smelter.registerInput(inputId, {
+  type: 'whip_server',
+  sideChannel: { video: true, audio: true, delayMs: 3000 },
+});
+```
+
+Smelter then opens one Unix socket per enabled track and streams decoded RGBA
+frames and PCM audio batches into it. The supported way to read them is the
+Python [`smelter-sdk`](/ts-sdk/side-channel/python) sidecar — you get the pixel
+buffer, and, crucially, a **PTS**: the pipeline clock, the exact time this frame
+will be presented on the output. Every trick below is built on it.
+
+`delayMs` creates a simple contract. The worker sees a frame `delayMs` before
+viewers do; when its result comes back after `procMs` of inference, the server
+holds the overlay for the remainder, so boxes land on the video instead of
+running ahead of it:
+
+```ts title="server/src/room/RoomState.ts"
+// The side channel hands frames to the worker ~delayMs before the output
+// presents them. Hold the on-output overlay until the frame is due, minus
+// the time the worker already spent processing it.
+const holdMs = Math.max(0, outputDelayMs - procMs);
+```
+
+In other words: the side channel converts "AI is always late" into "AI has a
+time budget."
+
+## Demo 1: captions that land on the speech
+
+Flip the tap to audio and hang a transcriber off it: **Silero VAD** in front, so
+Whisper only runs on actual speech, and **faster-whisper** behind it, running
+fully locally. The sidecar resamples side-channel audio to 16 kHz in 512-sample
+windows — and each window keeps its own PTS, so when VAD detects a speech
+segment, the transcript inherits the exact stream-time of its first word.
+
+Then the delay pays off. With an 8-second audio side channel, the server
+receives the transcript *before the words have played on the output*, and
+schedules the caption against the pipeline clock:
+
+```ts title="server/src/captions/CaptionBridge.ts"
+const start = SmelterInstance.getStartTime();
+const wait = start === null ? 0 : start + event.ts - Date.now();
+if (wait <= 0) { this.opts.onTranscript(event); return; }
+setTimeout(() => this.opts.onTranscript(event), wait);
+```
+
+The result: captions that appear exactly when the words play — landing *on* the
+speech instead of trailing behind it like every bad livestream caption you've
+seen. The renderer is just Smelter React again: a bottom-pinned rounded `View`
+with wrapped [`Text`](/ts-sdk/components/text), sized relative to its tile so it
+survives any layout change. There's a
+[full guide](/ts-sdk/guides/side-channel-speech-to-text) for this one in the
+docs.
+
+## Demo 2: drone traffic in Skittles colors
+
+Video tap, different problem: bird's-eye drone footage of an intersection, with
+a shader rotating the hue inside every detected car.
+
+The war story first. The standard street-level YOLOv8 weights found **exactly
+zero cars** in top-down footage — that viewpoint simply isn't in COCO. One swap
+to aerial **VisDrone** weights (`yolov8s-visdrone`) and the same frame yielded
+35 detections, faster. The worker selects classes *by name* (`car`, `van`,
+`truck`, `bus`), so COCO and VisDrone weights interchange without config
+changes.
+
+Detection runs on CPU at only ~4–6 results per second. The color stays glued to
+the cars anyway, because between detections the renderer dead-reckons:
+
+```ts title="server/src/inputs/motionPredictor.ts"
+// The track's expected position at `nowMs`: last target led forward along
+// the estimated velocity, capped so it can't run ahead of what one-or-so
+// missed responses could plausibly explain.
+predict(id: number, nowMs: number): number[] | undefined {
+  const e = this.entries.get(id);
+  if (!e) return undefined;
+  const horizon = Math.min(Math.max(0, nowMs - e.at), cap);
+  return e.target.map((t, i) => t + e.vel[i] * horizon);
+}
+```
+
+A 60 fps tick eases each drawn region toward its *predicted* position, so a
+handful of detections per second turns into glassy motion. Each stable track id
+maps to a hue via a golden-ratio hash, so a car keeps its color for as long as
+it's tracked.
+
+The recolor itself is a [WGSL shader](/ts-sdk/components/shader) taking up to 16
+box slots. Two details make it look right: the tint is a **feathered ellipse**
+inscribed in each box — edges hide tracker jitter far better than a hard
+rectangle — and rotation alone can't recolor a silver car, since there's no hue
+to rotate, so the shader boosts saturation and *paints* bright achromatic pixels
+instead. Broadcast live over WebRTC, the whole street lights up like a bag of
+Skittles.
+
+## Demo 3: the ghosts
+
+Same video tap, YOLO tuned to people, plus a tracker that gives each person a
+stable id across detections. Above the video floats a pool of ghost sprites.
+Each ghost locks onto the nearest unclaimed person and hovers over their head;
+the whole behavior is a pure, unit-tested state machine —
+`bored → looking (1 s, holds still) → hunting` — and the chase is an exponential
+ease with a hard speed cap:
+
+```ts title="server/src/haunter/haunterModel.ts"
+const k = Math.min(1, (EASE_PER_S * speed * dtMs) / 1000);
+let dx = (tx - g.px) * k;
+let dy = (ty - g.py) * k;
+const maxStep =
+  ((target ? MAX_SPEED_FRAC : IDLE_SPEED_FRAC) * speed * minEdge * dtMs) / 1000;
+const len = Math.hypot(dx, dy);
+if (len > maxStep && len > 0) {
+  dx *= maxStep / len;
+  dy *= maxStep / len;
+}
+```
+
+When a ghost's victim leaves the frame its track id disappears, so the ghost
+goes calm, floats back up to its home row, and drifts on a slow Lissajous curve
+until someone new shows up. Detection ticks a few times a second, physics run at
+sixty fps — so it glides instead of snapping. And it took almost no code,
+because "where are the people" just falls out of the side channel. The
+[object detection guide](/ts-sdk/guides/side-channel-object-detection) covers
+the same YOLO-to-overlay path end to end.
+
+## The gotcha worth knowing
+
+The whole sidecar pattern has one hard rule: **never let inference block the
+socket.** From the worker's own docstring:
+
+```python
+# The socket reader and YOLO inference run as SEPARATE coroutines sharing a
+# single-slot "latest frame" holder — this split is the whole point. Inference
+# takes tens to hundreds of ms; if it ran inline in the read loop the socket
+# would go undrained... Draining continuously on its own coroutine keeps the
+# buffer empty; inference just consumes the most recent frame and lets the
+# rest fall on the floor (we rate-limit output anyway).
+```
+
+Drain on one coroutine, infer on another, and always process the *latest* frame
+rather than queueing all of them. Real-time AI on video is a sampling problem,
+not a throughput problem.
+
+So: same feature, three times. Audio into a transcriber, video into a detector
+feeding a shader, video into a ghost sidecar. One tap, one decode — and what you
+hang off it is up to you. None of it is pre-rendered; it's all one live Smelter
+stream, broadcast over WebRTC while it happens.
+
+Watch the walkthrough above, then try it yourself in the
+[live demo](https://workshop.smelter.dev) or read the source in
+[smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor).

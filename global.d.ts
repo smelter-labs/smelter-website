@@ -3,6 +3,11 @@ export declare global {
     grecaptcha?: {
       ready: (callback: () => void) => void;
       execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      /** Present when the Enterprise script (enterprise.js) is the one loaded. */
+      enterprise?: {
+        ready: (callback: () => void) => void;
+        execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      };
     };
   }
 

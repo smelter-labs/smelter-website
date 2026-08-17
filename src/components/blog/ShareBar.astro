@@ -1,0 +1,138 @@
+---
+import { BLOG_GITHUB_SOURCE_URL, buildShareLinks, postUrl } from "./blogHelpers";
+
+interface Props {
+  title: string;
+  slug: string;
+  class?: string;
+}
+
+const { title, slug, class: className } = Astro.props;
+
+const url = postUrl(slug);
+const shareLinks = buildShareLinks(title, url);
+
+const btn =
+  "inline-flex h-8 items-center gap-2 rounded-full border border-homeLicense-border px-2.5 text-hero-subtitle no-underline transition-colors duration-200 hover:border-white/40 hover:text-white [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:shrink-0";
+---
+
+<div
+  class:list={[
+    "flex flex-wrap items-center gap-2 border-y border-homeLicense-border py-4",
+    className,
+  ]}
+>
+  <p class="mono mr-1 text-[10px] uppercase tracking-[0.16em] text-hero-subtitle/80">
+    Share
+  </p>
+
+  {
+    shareLinks.map(({ label, href }) => (
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label={`Share on ${label}`}
+        title={`Share on ${label}`}
+        class={btn}>
+        {label === "X" && (
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+        )}
+        {label === "LinkedIn" && (
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5M3 9h4v12H3zm7 0h3.8v1.71h.05c.53-.95 1.83-1.96 3.77-1.96 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.63c0-1.34-.03-3.07-1.95-3.07-1.95 0-2.25 1.46-2.25 2.97V21h-4z" />
+          </svg>
+        )}
+        {label === "Hacker News" && (
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M2 2h20v20H2zm5.2 3.6 3.9 7.06V18h1.8v-5.34l3.9-7.06h-2.02L12 10.77 9.22 5.6z" />
+          </svg>
+        )}
+        {label === "Reddit" && (
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M22 12.06c0-1.2-.98-2.18-2.19-2.18-.59 0-1.12.23-1.51.61-1.49-1.03-3.5-1.69-5.74-1.77l1.18-3.7 3.19.74a1.79 1.79 0 1 0 .2-1.32l-3.72-.86a.66.66 0 0 0-.77.44l-1.4 4.39c-2.4.02-4.57.69-6.15 1.76a2.17 2.17 0 0 0-1.5-.6A2.19 2.19 0 0 0 2 12.07c0 .82.45 1.53 1.1 1.9-.03.2-.05.4-.05.6 0 3.13 3.98 5.67 8.89 5.67s8.89-2.54 8.89-5.67c0-.2-.02-.39-.05-.58.67-.37 1.13-1.09 1.13-1.93M7.4 13.5a1.6 1.6 0 1 1 3.2 0 1.6 1.6 0 0 1-3.2 0m8.36 4.02c-.94.94-2.6 1.01-3.75 1.01s-2.81-.07-3.75-1.01a.4.4 0 0 1 .58-.57c.6.6 1.87.81 3.17.81s2.58-.21 3.18-.81a.4.4 0 1 1 .57.57m-.36-2.42a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2" />
+          </svg>
+        )}
+      </a>
+    ))
+  }
+
+  <button
+    type="button"
+    class:list={[btn, "share-copy"]}
+    data-share-url={url}
+    aria-label="Copy link to this post"
+    title="Copy link"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+      <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    </svg>
+    <span class="mono share-copy-label text-[10px] uppercase tracking-[0.12em]"
+      >Copy link</span
+    >
+  </button>
+
+  <a
+    href={BLOG_GITHUB_SOURCE_URL}
+    target="_blank"
+    rel="noreferrer noopener"
+    class:list={[btn, "ml-auto"]}
+    title="View the source on GitHub"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+      <path
+        d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.69-.22.69-.5l-.02-1.72c-2.78.62-3.37-1.37-3.37-1.37-.45-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 2.5-.34c.85 0 1.7.12 2.5.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.59.69.49A10.03 10.03 0 0 0 22 12.25C22 6.58 17.52 2 12 2"
+      ></path>
+    </svg>
+    <span class="mono text-[10px] uppercase tracking-[0.12em]">View on GitHub</span>
+  </a>
+</div>
+
+<script>
+  function initShareCopy() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".share-copy");
+    for (const button of buttons) {
+      if (button.dataset.bound === "true") continue;
+      button.dataset.bound = "true";
+
+      button.addEventListener("click", async () => {
+        const url = button.dataset.shareUrl ?? window.location.href;
+        const label = button.querySelector(".share-copy-label");
+
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          window.prompt("Copy the link to this post:", url);
+          return;
+        }
+
+        if (!label) return;
+        const previous = label.textContent;
+        label.textContent = "Copied";
+        setTimeout(() => {
+          label.textContent = previous;
+        }, 2000);
+      });
+    }
+  }
+
+  initShareCopy();
+  document.addEventListener("astro:page-load", initShareCopy);
+</script>
+
+<style>
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+</style>

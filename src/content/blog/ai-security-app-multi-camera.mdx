@@ -1,0 +1,167 @@
+---
+title: "Smelter Workshop #3: an AI security app that records and analyzes itself"
+description: A weekend-built surveillance rig on Smelter — WHIP cameras in, WHEP out, motion detection in 11 lines of numpy, automatic MP4 clips, and Gemini 2.5 Flash filing severity-rated incident reports.
+date: 2026-06-18
+category: Conferencing
+author: Software Mansion
+cover: /blog/covers/workshop-3.jpg
+video: https://www.youtube.com/watch?v=SZo4oI64N-k
+duration: "3:20"
+---
+
+This episode's project wasn't generated from a prompt — it's an existing app,
+built by Patryk at a hackathon organized by Software Mansion and Gemini. It's a
+video surveillance tool: multiple cameras stream in, motion gets scored in real
+time, incidents get recorded to MP4, and Gemini writes up what happened with a
+severity rating. Serious events fire a Web Push notification even with the
+browser tab closed. Everything persists in SQLite.
+
+The first test was accidental: fire up the app, light a cigarette at the desk
+while it boots, and by the time the dashboard loads Gemini has already filed a
+report on you, severity badge attached.
+
+What makes the codebase worth reading is one architectural idea used five
+different ways.
+
+## Everything is a Smelter output
+
+The server embeds Smelter and drives it with a React component tree. Cameras
+arrive over [WHIP](/ts-sdk/inputs/whip) (browsers publishing WebRTC) or as
+looping local MP4s; the composited result leaves over
+[WHEP](/ts-sdk/outputs/whep). But look at what else `registerOutput` is used
+for:
+
+- the main 1080p live view (a WHEP output),
+- a small per-camera preview for the dashboard (more WHEP outputs),
+- **recording** — an incident clip is just an [MP4 output](/ts-sdk/outputs/mp4)
+  that gets registered when motion starts and unregistered when it ends,
+- and the **motion detector's frame source** — a throwaway 320×240
+  [RTP stream](/ts-sdk/outputs/rtp) to localhost.
+
+There is no separate encoder, muxer, or screenshot code anywhere in the project.
+One primitive, five jobs.
+
+```tsx title="server/src/motion.tsx"
+// A mini output that exists only to feed Python.
+await SmelterInstance.registerOutput(
+  outputId,
+  <View style={{ backgroundColor: '#000000' }}>
+    <InputStream inputId={inputId} />
+  </View>,
+  {
+    type: 'rtp_stream',
+    port, ip: '127.0.0.1', transportProtocol: 'udp',
+    video: {
+      resolution: { width: 320, height: 240 },
+      encoder: {
+        type: 'ffmpeg_h264', preset: 'ultrafast',
+        ffmpegOptions: { tune: 'zerolatency', g: '15', 'forced-idr': '1' },
+      },
+    },
+  }
+);
+```
+
+The [encoder options](/ts-sdk/outputs/encoders/ffmpeg-h264) matter: `g: '15'`
+and `forced-idr` force frequent keyframes, so the Python side's decoder locks on
+immediately instead of waiting seconds for an IDR frame.
+
+## Motion detection: no OpenCV, no ML — 11 lines of numpy
+
+On the Python side, ffmpeg decodes that RTP stream to raw grayscale
+(`-pix_fmt gray -s 320x240`), which makes every frame exactly 76,800 bytes — so
+the "protocol" between ffmpeg and Python is a `read(FRAME_BYTES)` loop with no
+framing at all. The detector itself is frame differencing:
+
+```python title="server/motion_detector.py"
+DIFF_THRESHOLD = 10
+SAMPLE_INTERVAL = 0.3   # seconds between motion score reports
+
+def compute_motion_score(prev: np.ndarray, curr: np.ndarray) -> float:
+    diff = np.abs(curr.astype(np.int16) - prev.astype(np.int16))
+    changed = np.count_nonzero(diff > DIFF_THRESHOLD)
+    return round((changed / diff.size) * 100.0, 1)
+```
+
+A score is "percent of pixels that changed since the last frame," reported at
+~3 Hz per camera. That's it. For an apartment with three phone cameras it's
+completely sufficient — and it costs nothing next to an ML detector.
+
+## Focus follows motion, with manners
+
+Scores flow back to Node over stdout and drive a small arbitration store that
+the Smelter scene subscribes to via `useSyncExternalStore` — so a focus change
+is just a React re-render, and the camera swap animates because the `Rescaler`
+styles change under a 700 ms cubic-bezier
+[transition](/ts-sdk/components/props/transition).
+
+The arbitration has two rules that stop it from thrashing:
+
+```ts title="server/src/focusStore.ts"
+if (score <= noiseThreshold) return;
+if (focusedInputId === null) { focus(inputId); return; }   // first mover wins
+if (Date.now() - lastSwitchTime < COOLDOWN_MS) return;      // 3 s cooldown
+// Switch only if the incumbent went quiet OR the challenger dominates 2×
+if (currentScore <= noiseThreshold || score >= currentScore * DOMINANCE_FACTOR) {
+  focus(inputId);
+}
+```
+
+A camera has to *double* the incumbent's motion score to steal focus mid-event.
+Two people walking in different rooms don't ping-pong the stream.
+
+## Recording: linger windows and zero-gap rotation
+
+Recording state is a small per-camera machine. Motion above threshold starts a
+clip (register an MP4 output). Motion dropping below threshold doesn't stop it —
+it schedules a stop **five seconds out**, and returning motion cancels the
+timer, so a clip stretches as long as the event does. A hard 30-second cap
+rotates files, and the rotation registers the *new* output before unregistering
+the old one, so nothing is lost in the handoff.
+
+One production-grade wrinkle hides here: `unregisterOutput()` returns before the
+MP4's moov atom is flushed, so the analyzer polls the file size until it's
+stable before uploading. The file existing is not the file being done.
+
+## Gemini as the incident reporter
+
+Finished clips go into a sequential queue, upload via the Gemini File API, and
+get analyzed by **Gemini 2.5 Flash** against a prompt with a strict output
+contract:
+
+```text
+Analyze this home security camera footage.
+You are turned on most often when the owner isn't at home — beware of suspicious activity.
+If the camera cuts to dark it probably means someone covered it to block the view!
+Return a JSON object with exactly two fields:
+  - "description": a brief description in English of what is happening (1-2 sentences)
+  - "severity": exactly one of: "funny" | "unimportant" | "moderate" | "serious"
+Return ONLY valid JSON, no markdown, no additional text.
+```
+
+`serious` fires a Web Push to every subscribed browser — the VAPID keys are
+generated on first boot and stored in SQLite, so there's zero push
+configuration. `unimportant` auto-deletes the clip. Everything else — clips,
+analyses, camera names, settings, push subscriptions — lives in one SQLite file
+in WAL mode.
+
+And the part demoed in the video: because the analysis is *one prompt string*,
+the same pipeline happily re-purposes itself. Swap the local-video inputs for
+music videos, tweak the prompt to call out the most unhinged moments, and the
+identical engine, thresholds and recorder produce a completely different
+product — scoring dance routines and pyrotechnics instead of someone walking
+through the kitchen.
+
+## The workaround that became a feature
+
+Notice what the motion tap really is: the pipeline **re-encodes and re-decodes
+every camera a second time** just so Python can see pixels. At hackathon scale,
+fine. But it's pure overhead — the compositor already had those frames decoded.
+
+That exact pattern is why Smelter now ships a native
+[side channel](/ts-sdk/side-channel/overview): any input can hand its
+already-decoded frames straight to an external process over a local socket — no
+second encode, no RTP, no SDP files. The next episode takes that one feature and
+builds three completely different things with it.
+
+See it running in the [live demo](https://workshop.smelter.dev).

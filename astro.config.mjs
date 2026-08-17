@@ -34,6 +34,29 @@ export default defineConfig({
         context: "server",
         optional: true,
       }),
+      // Giscus (blog comments). All four come from https://giscus.app after
+      // enabling Discussions on the repo; the comment section is skipped
+      // entirely when any of them is missing, so local dev needs no setup.
+      PUBLIC_GISCUS_REPO: envField.string({
+        access: "public",
+        context: "server",
+        optional: true,
+      }),
+      PUBLIC_GISCUS_REPO_ID: envField.string({
+        access: "public",
+        context: "server",
+        optional: true,
+      }),
+      PUBLIC_GISCUS_CATEGORY: envField.string({
+        access: "public",
+        context: "server",
+        optional: true,
+      }),
+      PUBLIC_GISCUS_CATEGORY_ID: envField.string({
+        access: "public",
+        context: "server",
+        optional: true,
+      }),
     },
   },
   redirects: {
