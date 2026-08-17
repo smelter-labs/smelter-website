@@ -1,5 +1,5 @@
 ---
-import { buildShareLinks, githubSourceUrl, postUrl } from "./blogHelpers";
+import { BLOG_GITHUB_SOURCE_URL, buildShareLinks, postUrl } from "./blogHelpers";
 
 interface Props {
   title: string;
@@ -11,7 +11,6 @@ const { title, slug, class: className } = Astro.props;
 
 const url = postUrl(slug);
 const shareLinks = buildShareLinks(title, url);
-const sourceUrl = githubSourceUrl(slug);
 
 const btn =
   "inline-flex h-8 items-center gap-2 rounded-full border border-homeLicense-border px-2.5 text-hero-subtitle no-underline transition-colors duration-200 hover:border-white/40 hover:text-white [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:shrink-0";
@@ -85,11 +84,11 @@ const btn =
   </button>
 
   <a
-    href={sourceUrl}
+    href={BLOG_GITHUB_SOURCE_URL}
     target="_blank"
     rel="noreferrer noopener"
     class:list={[btn, "ml-auto"]}
-    title="View this post's source on GitHub"
+    title="View the source on GitHub"
   >
     <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
       <path

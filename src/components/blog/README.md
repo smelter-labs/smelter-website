@@ -32,6 +32,11 @@ preview domain.
 
 ## 2. Vercel KV (likes)
 
+> **Currently unused.** The like button is not rendered anywhere — `LikeButton.tsx`,
+> the `getBlogLikeCount` / `likeBlogPost` actions and `blogLikesStore.ts` are kept
+> intact so the feature can be switched back on by re-adding `<LikeButton />` to
+> `PostCard.astro`, `FeaturedPost.astro` and `pages/blog/[...slug].astro`.
+
 1. Vercel dashboard → **Storage → Create Database → Redis** → connect it to this
    project. Vercel injects `KV_REST_API_URL` and `KV_REST_API_TOKEN`
    automatically.

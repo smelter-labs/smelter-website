@@ -1,7 +1,7 @@
 ---
 title: "Smelter Workshop #2: Pong with your webcam inside the ball"
-description: A fully playable Pong where the live input video renders inside the ball — painted per-pixel on the GPU in a single shader and driven from React.
-date: 2026-06-03
+description: A playable Pong painted per-pixel by a WGSL shader on top of a live input — with the video inside the ball, an AI opponent that literally sees the past, and a 14-float protocol between browser and GPU.
+date: 2026-06-05
 category: Community
 author: Software Mansion
 cover: /blog/covers/workshop-2.jpg
@@ -9,25 +9,210 @@ video: https://www.youtube.com/watch?v=ZYjTVBaVSxg
 duration: "3:06"
 ---
 
-Episode two builds a complete Pong from a single prompt — and then does the
-thing that makes it a Smelter demo rather than a game jam entry: the live input
-video renders *inside the ball*.
+The original 1972 Pong was Allan Alcorn's training project at Atari. Ours is a
+training project too, of a different kind: can an AI agent build a playable game
+that lives *inside* a live video stream — not as an overlay app, but as a
+[WGSL shader](/ts-sdk/components/shader) composited by Smelter on every output
+frame?
 
-## A real game, not a loop
+Why a shader? In Smelter, user shaders run per-pixel on every output frame and
+get the input video as a texture. That means Pong can be painted *over* the live
+input, with the input itself rendered inside the ball — entirely on the GPU, at
+stream framerate, with no extra latency stages.
 
-Both paddles switch between keyboard, mouse, and AI control, the difficulty is
-adjustable, and the match length is configurable. Deflection angles depend on
-where the ball hits the paddle — the same trick the 1972 cabinet used.
+## The architecture in one breath
 
-The whole thing is painted per-pixel on the GPU in one shader and driven from
-React over a low-latency WebSocket. What you play is exactly what viewers see;
-there is no separate render path for the stream.
+The editor runs the actual game: a pure TypeScript simulation ticked in
+`requestAnimationFrame`. Thirty times a second it pushes the game state over a
+dedicated WebSocket to the server, which merges it into the shader's parameters.
+Smelter re-renders, and the stream *is* the game.
 
-## Something to put on the BRB screen
+```text
+RAF loop (editor)                    ~60 Hz
+  controllers → intents → tick(state, dt)   pure sim, UV coords [0..1]
+  canvas preview (local, instant)
+  every 33 ms → WS: { pong_shader_partial_update, params: {…14 floats} }
+server: merge params into shader → uniform struct → pong.wgsl → output stream
+```
 
-It takes the usual inputs — phone cameras, live streams, pre-recorded files —
-so it drops into a tournament intermission, a charity stream, or a BRB screen
-and gives viewers a real match instead of a placeholder card.
+The entire game→GPU protocol is **14 floats**: ball x/y, velocities, two paddle
+y's, both scores, countdown, last-bounce event, and a `mode` flag.
+
+```ts title="editor/lib/pong/shader-push.ts"
+return {
+  mode,
+  manual_ball_x: gameState.ball.x,
+  manual_ball_y: gameState.ball.y,
+  manual_vel_x: gameState.ball.vx,
+  manual_vel_y: gameState.ball.vy,
+  manual_paddle_l_y: gameState.paddles.left.y,
+  manual_paddle_r_y: gameState.paddles.right.y,
+  manual_last_bounce_time: lb?.time ?? -1000,
+  manual_last_bounce_x: lb?.x ?? 0.5,
+  manual_last_bounce_y: lb?.y ?? 0.5,
+  manual_last_bounce_kind: lb?.kind === 'paddle' ? 1 : 0,
+  manual_countdown_remaining: countdownRemaining,
+  score_left: gameState.score.left,
+  score_right: gameState.score.right,
+};
+```
+
+The sim runs in normalized UV coordinates `[0..1]` precisely so its numbers are
+the shader's numbers — no conversion layer exists.
+
+## Auto mode: the whole attract loop is a triangle wave
+
+The shader has two modes. `mode=0` is a self-contained attract mode: drop the
+shader on any input and Pong just plays itself forever, with zero state pushed
+from anywhere. The ball's position is a triangle wave of stream time:
+
+```wgsl title="server/shaders/pong.wgsl"
+// Bounces a position between 0 and 1 using a triangle wave driven by time.
+fn bounce(start: f32, vel: f32, time: f32) -> f32 {
+    let raw = start + vel * time;
+    let m = raw - 2.0 * floor(raw * 0.5);
+    return 1.0 - abs(m - 1.0);
+}
+```
+
+Auto-mode paddles track that ball with a sine wobble whose amplitude grows as
+`ai_skill` drops. Switching between the two modes is a handful of `select()`
+calls:
+
+```wgsl title="server/shaders/pong.wgsl"
+let is_manual = shader_options.mode > 0.5;
+let ball_x     = select(auto_ball_x,     shader_options.manual_ball_x,    is_manual);
+let ball_y     = select(auto_ball_y,     shader_options.manual_ball_y,    is_manual);
+let paddle_l_y = select(auto_paddle_l_y, shader_options.manual_paddle_l_y, is_manual);
+let paddle_r_y = select(auto_paddle_r_y, shader_options.manual_paddle_r_y, is_manual);
+```
+
+Pressing **Start** in the editor pushes `mode=1`; pressing **Reset** pushes one
+last update with `mode=0`. That last one matters — without it the stream would
+freeze on the final frame of the match. The attract mode doubles as the "never
+show a dead stream" guarantee.
+
+## The webcam inside the ball
+
+The ball is an aspect-corrected distance field, and inside it the shader samples
+the input texture with a "cover" mapping, so a 16:9 frame isn't squeezed into a
+circle — it samples the central strip instead:
+
+```wgsl title="server/shaders/pong.wgsl"
+let bdx = (uv.x - ball_x) * aspect;
+let bdy = uv.y - ball_y;
+let bdist = sqrt(bdx * bdx + bdy * bdy);
+if (bdist < ball_radius) {
+    let lu = vec2<f32>(
+        (bdx / ball_radius) * cover_x * 0.5 + 0.5,
+        (bdy / ball_radius) * cover_y * 0.5 + 0.5,
+    );
+    let c = textureSample(textures[0], sampler_, clamp(lu, vec2<f32>(0.0), vec2<f32>(1.0)));
+    let edge = 1.0 - smoothstep(ball_radius * 0.95, ball_radius, bdist);
+    color = mix(color, mix(c.rgb, paddle_color, border_m), edge);
+}
+```
+
+The score is drawn with a 3×5 bitmap font packed one glyph per `u32` — and the
+identical bit-packed table is duplicated in the editor's canvas renderer, so the
+operator's local preview is pixel-identical to the broadcast.
+
+## 1972 physics, on purpose
+
+The deflection mechanic is the same trick Alcorn put into the original cabinet:
+the exit angle depends on where the ball hits relative to the paddle's center,
+which turns rallies into a skill game instead of a coin flip.
+
+```ts title="editor/lib/pong/physics.ts"
+const hitOffset = (ball.y - paddle.y) / halfH;               // -1..1
+const angle = clamp(hitOffset, -1, 1) * MAX_DEFLECT_ANGLE_RAD; // ≈63° max
+
+const speed = Math.min(
+  Math.hypot(ball.vx, ball.vy) + BALL_SPEED_INCREMENT_PER_HIT,
+  BALL_MAX_SPEED,
+);
+const newVx = Math.cos(angle) * speed * dir;
+const newVy = Math.sin(angle) * speed;
+```
+
+The sim is deterministic end to end — serve angles key off score parity, and the
+AI's randomness comes from a seeded mulberry32 PRNG — so every physics and AI
+behavior is unit-testable without a DOM.
+
+## An AI opponent that sees the past
+
+The AI paddle's difficulty comes from three axes of deliberate imperfection:
+
+| difficulty | reaction lag | predicted bounces | aim noise | max speed |
+| --- | --- | --- | --- | --- |
+| easy | 300 ms | 0 | 0.15 | 0.6 |
+| medium | 150 ms | 1 | 0.05 | 1.0 |
+| hard | 50 ms | 8 | 0.01 | 1.5 |
+
+**Reaction lag** is implemented as time travel: the AI keeps a ring buffer of
+ball snapshots and aims using the newest one older than its lag — it literally
+plays against the past. **Prediction** walks the ball's trajectory analytically
+to the paddle's x, reflecting off walls at most `predictBounces` times, so easy
+mode genuinely whiffs on banked shots. And **aim noise** is re-rolled only on
+bounce events, so the paddle glides to a wrong-but-committed spot instead of
+jittering:
+
+```ts title="editor/lib/pong/controllers/ai.ts"
+const targetTime = state.now - this.diff.reactionLagSec;
+let snapshot: Sample = this.history[0]!;
+for (const h of this.history) {
+  if (h.t <= targetTime) snapshot = h;
+  else break;
+}
+// Re-sample aim noise on each new bounce so the AI's "aim point" varies
+// between rally segments but stays steady within a segment (no jitter).
+if (state.lastBounce && state.lastBounce.time !== this.lastSeenBounceTime) {
+  this.lastSeenBounceTime = state.lastBounce.time;
+  this.cachedNoise = (this.rng() * 2 - 1) * this.diff.aimNoise;
+}
+const predicted = predictAtX(snapshot.ball, myX, this.diff.predictBounces);
+```
+
+That combination is what makes the AI feel *believably laggy* on stream rather
+than robotic.
+
+## Why a dedicated WebSocket
+
+The editor already has a path for changing shader parameters: the sliders in the
+shader panel. But that path is HTTP with a ~200 ms debounce, tuned for humans
+dragging sliders, not for a 30 Hz game. So the panel opens a dedicated push
+socket, and the server-side handler does a **sparse merge** instead of a
+replace:
+
+```ts title="server/src/routing/routes.ts"
+const mergedParams = s.params.map((p) => {
+  seen.add(p.paramName);
+  const incoming = params[p.paramName];
+  return typeof incoming === 'number' ? { ...p, paramValue: incoming } : p;
+});
+for (const [name, value] of Object.entries(params)) {
+  if (!seen.has(name) && typeof value === 'number') {
+    mergedParams.push({ paramName: name, paramValue: value });
+  }
+}
+```
+
+That merge is why you can drag the ball-radius slider *while a match is running*
+and neither writer clobbers the other — both are writing into the same uniform
+struct, thirty times a second.
+
+Multiplayer, added later, keeps the same shape: the first player to join is the
+host and runs the entire sim; the guest sends paddle intents and locally
+predicts only its own paddle, so it never rubber-bands, while ball and score
+always come from the host.
+
+## Takeaway
+
+A tournament intermission, a charity stream, a BRB screen — anywhere you'd put a
+static placeholder, you can put a playable game instead, with the live feed
+inside the ball. It takes the usual inputs: phone cameras, live streams,
+pre-recorded files. No capture cards, no OBS gymnastics: the game state is 14
+floats, and the GPU that's already compositing your stream draws the rest.
 
 - [Live demo](https://workshop.smelter.dev)
 - [smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor)

@@ -60,7 +60,13 @@ const bannerReservationScript = topBarBannerReservationScript(
 ---
 
 <!doctype html>
-<html lang="en">
+<!--
+  `data-theme` pins the dark palette for theme-aware CSS that ships with docs
+  dependencies (expressive-code themes its code blocks off it). Pages on this
+  layout are dark-only, and without the attribute a visitor whose OS prefers
+  light gets light-themed syntax colors inside our dark article.
+-->
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

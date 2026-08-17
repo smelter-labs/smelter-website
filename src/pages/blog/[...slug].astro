@@ -7,10 +7,15 @@ import {
   PUBLIC_GISCUS_REPO_ID,
 } from "astro:env/server";
 import { GiscusComments } from "@components/blog/GiscusComments";
-import { LikeButton } from "@components/blog/LikeButton";
 import PostThumbnail from "@components/blog/PostThumbnail.astro";
 import ShareBar from "@components/blog/ShareBar.astro";
-import { formatBlogDate, postOgImage, postUrl } from "@components/blog/blogHelpers";
+import VideoEmbed from "@components/blog/VideoEmbed.astro";
+import {
+  formatBlogDate,
+  postOgImage,
+  postUrl,
+  youtubeEmbedUrl,
+} from "@components/blog/blogHelpers";
 import ArrowRight from "/public/images/arrow-right.svg";
 import MainLayout from "../../layouts/MainLayout.astro";
 
@@ -23,6 +28,8 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const hasVideo = Boolean(data.video);
+// Non-YouTube (or unparseable) video URLs keep the old thumbnail + link out.
+const embedUrl = data.video ? youtubeEmbedUrl(data.video) : null;
 
 const canonicalUrl = postUrl(entry.id);
 const ogImage = postOgImage(data.cover);
@@ -70,27 +77,38 @@ const giscus =
           </a>
           <h1 class="mb-5 text-white">{data.title}</h1>
           <p class="par-l mb-6 text-hero-subtitle">{data.description}</p>
-          <div class="mb-4 flex items-center justify-between gap-4">
-            <p class="mono text-[11px] uppercase tracking-[0.12em] text-hero-subtitle">
-              {formatBlogDate(data.date)} · {data.author}
-            </p>
-            <LikeButton client:visible slug={entry.id} />
-          </div>
+          <p
+            class="mono mb-4 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
+          >
+            {formatBlogDate(data.date)} · {data.author}
+          </p>
 
           <ShareBar title={data.title} slug={entry.id} class="mb-10" />
 
-          <PostThumbnail
-            cover={data.cover}
-            alt={data.title}
-            hasVideo={hasVideo}
-            duration={data.duration}
-            playSize="lg"
-            loading="eager"
-            class="mb-10 aspect-video w-full rounded-3xl border border-homeLicense-border"
-          />
+          {
+            embedUrl ? (
+              <VideoEmbed
+                embedUrl={embedUrl}
+                cover={data.cover}
+                title={data.title}
+                duration={data.duration}
+                class="mb-12 aspect-video w-full rounded-3xl border border-homeLicense-border"
+              />
+            ) : (
+              <PostThumbnail
+                cover={data.cover}
+                alt={data.title}
+                hasVideo={hasVideo}
+                duration={data.duration}
+                playSize="lg"
+                loading="eager"
+                class="mb-10 aspect-video w-full rounded-3xl border border-homeLicense-border"
+              />
+            )
+          }
 
           {
-            hasVideo && (
+            hasVideo && !embedUrl && (
               <a
                 href={data.video}
                 target="_blank"
@@ -136,45 +154,8 @@ const giscus =
   .mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   }
+</style>
 
-  /* Article body — spacing + rhythm consistent with the rest of the site. */
-  .blog-prose :global(p) {
-    color: #c2b1e0;
-    margin-bottom: 1.5rem;
-  }
-  .blog-prose :global(h2) {
-    color: #fff;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  .blog-prose :global(h3) {
-    color: #fff;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-  }
-  .blog-prose :global(ul),
-  .blog-prose :global(ol) {
-    color: #c2b1e0;
-    margin: 0 0 1.5rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .blog-prose :global(ul) {
-    list-style: disc;
-  }
-  .blog-prose :global(ol) {
-    list-style: decimal;
-  }
-  .blog-prose :global(li) {
-    padding-left: 0.25rem;
-  }
-  .blog-prose :global(a) {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .blog-prose :global(strong) {
-    color: #fff;
-    font-weight: 500;
-  }
+<style is:global>
+  @import "../../../styles/blog-article.scss";
 </style>

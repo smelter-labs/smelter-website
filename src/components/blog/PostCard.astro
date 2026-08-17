@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { LikeButton } from "./LikeButton";
 import PostThumbnail from "./PostThumbnail.astro";
 import { formatBlogDate } from "./blogHelpers";
 
@@ -15,12 +14,13 @@ const href = `/blog/${entry.id}`;
 ---
 
 <!--
-  The card is a plain container rather than one big <a>: the like button has to
-  sit outside the link so clicking it doesn't navigate. The title link stretches
-  over the whole card instead (`.card-link::after`), keeping the card clickable.
+  The whole card is one <a>. Nothing inside it is interactive on its own, so
+  there's no reason for a stretched-link overlay — which also can't be clicked
+  through by transformed children (they paint above it).
 -->
-<div
-  class="blog-card group relative flex flex-col overflow-hidden rounded-3xl border border-homeLicense-border bg-explanation-background transition-colors duration-300 hover:border-white/40 sm:flex-row"
+<a
+  href={href}
+  class="blog-card group relative flex flex-col overflow-hidden rounded-3xl border border-homeLicense-border bg-explanation-background text-inherit no-underline transition-colors duration-300 hover:border-white/40 sm:flex-row"
 >
   <PostThumbnail
     cover={data.cover}
@@ -32,30 +32,18 @@ const href = `/blog/${entry.id}`;
 
   <div class="flex flex-1 flex-col justify-center p-5 sm:p-6">
     <h3 class="mb-2 text-lg font-medium leading-snug text-white">
-      <a href={href} class="card-link text-inherit no-underline">{data.title}</a>
+      {data.title}
     </h3>
     <p class="par-s m-0 mb-5 text-hero-subtitle">{data.description}</p>
 
-    <div class="flex items-center justify-between gap-4">
-      <p class="mono text-[10px] uppercase tracking-[0.1em] text-hero-subtitle/80">
-        {formatBlogDate(data.date)} · {data.category} · {data.author}
-      </p>
-      <div class="relative z-10 shrink-0">
-        <LikeButton client:visible slug={entry.id} compact />
-      </div>
-    </div>
+    <p class="mono text-[10px] uppercase tracking-[0.1em] text-hero-subtitle/80">
+      {formatBlogDate(data.date)} · {data.category} · {data.author}
+    </p>
   </div>
-</div>
+</a>
 
 <style>
   .mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  }
-
-  /* Stretched link: the whole card is clickable, minus anything above it. */
-  .card-link::after {
-    content: "";
-    position: absolute;
-    inset: 0;
   }
 </style>

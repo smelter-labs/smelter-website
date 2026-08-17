@@ -1,9 +1,11 @@
 /** Canonical origin — used for absolute URLs in share links, RSS and OG tags. */
 export const BLOG_SITE_ORIGIN = "https://smelter.dev";
 
-/** Repo + branch the blog sources live in, for the "View on GitHub" link. */
-export const BLOG_GITHUB_REPO = "smelter-labs/smelter-website";
-export const BLOG_GITHUB_BRANCH = "main";
+/**
+ * Repo behind the posts, linked from the share bar. The Workshop episodes are
+ * all built in the Smelter Editor, so that repo is what readers actually want.
+ */
+export const BLOG_GITHUB_SOURCE_URL = "https://github.com/smelter-labs/smelter-editor";
 
 /** Design shows dates like "18 JUN 2026". */
 export function formatBlogDate(date: Date): string {
@@ -17,12 +19,17 @@ export function postUrl(slug: string): string {
   return `${BLOG_SITE_ORIGIN}/blog/${slug}`;
 }
 
+const YOUTUBE_ID =
+  /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/;
+
 /**
- * Link to the post's source file on GitHub. Entry ids match the file name
- * under src/content/blog/, so `.mdx` is the right extension for every post.
+ * Privacy-preserving embed URL for a YouTube link, or `null` for anything we
+ * can't turn into a player (the post then falls back to a plain link out).
  */
-export function githubSourceUrl(slug: string): string {
-  return `https://github.com/${BLOG_GITHUB_REPO}/blob/${BLOG_GITHUB_BRANCH}/src/content/blog/${slug}.mdx`;
+export function youtubeEmbedUrl(video: string): string | null {
+  const id = YOUTUBE_ID.exec(video)?.[1];
+  if (!id) return null;
+  return `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
 }
 
 const RASTER_IMAGE = /\.(png|jpe?g|webp|gif)(\?.*)?$/i;
