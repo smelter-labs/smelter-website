@@ -10,6 +10,7 @@ export const server = {
       email: z.string().email(),
       inquiry: z.string(),
       message: z.string(),
+      privacyConsent: z.literal("on"),
       recaptchaToken: z.string().optional(),
     }),
     handler: async ({ email, inquiry, message, recaptchaToken }) => {

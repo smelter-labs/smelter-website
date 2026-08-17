@@ -9,7 +9,7 @@ import ArrowRight from "/public/images/arrow-right.svg";
 
 <section
   id="contact"
-  class="mx-4 my-20 flex gap-x-28 rounded-4xl border border-form-border bg-mainBackground flex-col p-10 sm:mx-8 xl:mx-40 lg:flex-row"
+  class="mx-4 my-10 flex gap-x-28 rounded-4xl border border-form-border bg-mainBackground flex-col px-10 pt-10 pb-4 sm:mx-8 xl:mx-40 lg:flex-row"
 >
   <div>
     <h2 class="shrink-0 text-form-header md:mb-4">
@@ -42,23 +42,39 @@ import ArrowRight from "/public/images/arrow-right.svg";
     </Select>
     <div class="flex w-full flex-col">
       <TextArea
-      label="Tell us more about your needs"
-      name="message"
-      class="resize-none"
-      rows="6"
-      required
-    />
-    <p class="text-form-border text-xs">
-      This site is protected by reCAPTCHA and the Google
-          <a class="text-form-border text-xs" href="https://policies.google.com/privacy">Privacy Policy</a> and
-          <a class="text-form-border text-xs" href="https://policies.google.com/terms">Terms of Service</a> apply.
-      </p>
-      
+        label="Tell us more about your needs"
+        name="message"
+        class="resize-none"
+        rows="6"
+        required
+      />
+      <label class="mt-4 flex cursor-pointer items-start gap-x-3 text-form-label">
+        <input
+          type="checkbox"
+          name="privacyConsent"
+          required
+          class="mt-1.5 size-5 shrink-0 cursor-pointer accent-link"
+        />
+        <span>
+          By clicking this, I agree to my data provided above being processed in accordance with the
+          <a
+            class="text-form-label underline underline-offset-2 hover:text-link"
+            href="https://swmansion.com/privacy">Privacy Policy</a
+          >.
+        </span>
+      </label>
     </div>
-    <PrimaryButton type="submit" class="self-end w-full sm:w-fit">
-      <p class="par-l">Send the message</p>
-      <ArrowRight />
-    </PrimaryButton>
+    <div class="flex w-full flex-col items-end gap-y-3 sm:w-auto sm:self-end">
+      <PrimaryButton type="submit" class="w-full sm:w-fit">
+        <p class="par-l">Send the message</p>
+        <ArrowRight />
+      </PrimaryButton>
+      <p class="text-right text-form-border text-xs">
+        This site is protected by reCAPTCHA and the Google
+        <a class="text-form-border text-xs" href="https://policies.google.com/privacy">Privacy Policy</a> and
+        <a class="text-form-border text-xs" href="https://policies.google.com/terms">Terms of Service</a> apply.
+      </p>
+    </div>
   </form>
 </section>
 
