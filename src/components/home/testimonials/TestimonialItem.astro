@@ -8,19 +8,33 @@ type Props = Testimonial & { index: number };
 const { avatar, author, role, testimonial, index } = Astro.props;
 ---
 
-<div class:list={["testimonial-item", index === 0 ? 'active-item' : '']}> 
-  <p class="text-testimonials-content mb-6" set:html={testimonial}/>
-  <figure class="flex flex-col items-center">
-    <Image
-      alt=`${author} avatar`
-      width={320}
-      height={320}
-      src={avatar}
-      class="rounded-full w-16 h-16 mb-4 aspect-square"
+<div class:list={["testimonial-item", index === 0 ? "active-item" : ""]}>
+  <figure
+    class="relative mx-auto flex max-w-3xl flex-col items-center overflow-clip rounded-4xl border border-capabilities-border bg-capabilities-background px-8 py-12 text-center sm:px-14 sm:py-14"
+  >
+    <div
+      class="gradient-red-1 pointer-events-none absolute -right-24 -top-24 -z-10 h-64 w-64 rounded-full opacity-20 blur-3xl"
+    >
+    </div>
+    <span
+      aria-hidden="true"
+      class="pointer-events-none mb-2 select-none bg-gradient-to-br from-gradient-red to-gradient-purple bg-clip-text font-aeonik text-7xl leading-none text-transparent sm:text-8xl"
+      >&ldquo;</span
+    >
+    <blockquote
+      class="text-testimonials-content par-xl relative mb-8 max-w-2xl"
+      set:html={testimonial}
     />
-    <figcaption class="text-testimonials-caption flex flex-col">
+    <figcaption class="text-testimonials-caption flex flex-col items-center">
+      <Image
+        alt=`${author} avatar`
+        width={320}
+        height={320}
+        src={avatar}
+        class="mb-4 h-16 w-16 rounded-full aspect-square ring-2 ring-gradient-redLight/40 ring-offset-2 ring-offset-mainBackground"
+      />
       <span class="text-base mb-1 font-semibold">{author}</span>
-      <span>{role}</span>
+      <span class="par-s text-testimonials-content">{role}</span>
     </figcaption>
   </figure>
 </div>

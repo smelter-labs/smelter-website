@@ -5,6 +5,7 @@ import StreamerMp4 from "../../../assets/demos/streamer_640x360_full.mp4";
 import RaceMp4 from "../../../assets/race_640x360_full.mp4";
 import { isChromiumBased, isMobileBreakpoint } from "../../../utils/browser";
 import LoadingSpinner from "../../base/LoadingSpinner";
+import DemoBrowserNotice from "../DemoBrowserNotice";
 import { useSmelter } from "../smelter-utils/useSmelter";
 import LayoutsSection from "./LayoutsSection";
 import Output from "./Output";
@@ -49,12 +50,7 @@ export default function StreamSection() {
   }
 
   if (isChromium === false) {
-    return (
-      <div className="mx-auto max-w-3xl p-4 text-center">
-        <h3 className="mb-4 text-demos-header">Demos work only on chromium-based browsers</h3>
-        <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
-      </div>
-    );
+    return <DemoBrowserNotice />;
   }
 
   if (isMobile === true) {

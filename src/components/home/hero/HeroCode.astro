@@ -1,0 +1,58 @@
+---
+// Syntax-highlighted "scene.tsx" snippet for the hero.
+// Colours are mapped onto the site palette (see styles/colors.ts):
+//   keyword red20 · string green20 · type/component react cyan
+//   function purple40 · number red40 · comment white50 · accent red40
+const k = "#F78D9E"; // keyword
+const s = "#A4D7AF"; // string
+const t = "#61DAFB"; // type / component
+const f = "#8471C1"; // function
+const n = "#F24664"; // number
+const c = "#FFFFFF80"; // comment
+const a = "#F24664"; // accent (LIVE dot)
+
+const mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace";
+
+const codeHtml = [
+  `<span style="color:${k}">import</span> Smelter <span style="color:${k}">from</span> <span style="color:${s}">"@swmansion/smelter-web-wasm"</span>;`,
+  `<span style="color:${k}">import</span> {`,
+  `  <span style="color:${t}">View</span>, <span style="color:${t}">Text</span>, <span style="color:${t}">Rescaler</span>, <span style="color:${t}">InputStream</span>,`,
+  `} <span style="color:${k}">from</span> <span style="color:${s}">"@swmansion/smelter"</span>;`,
+  "",
+  `<span style="color:${k}">const</span> smelter = <span style="color:${k}">new</span> <span style="color:${t}">Smelter</span>();`,
+  `<span style="color:${k}">await</span> smelter.<span style="color:${f}">init</span>();`,
+  "",
+  `<span style="color:${c}">// live camera in, canvas out</span>`,
+  `<span style="color:${k}">await</span> smelter.<span style="color:${f}">registerInput</span>(<span style="color:${s}">"cam"</span>, { type: <span style="color:${s}">"camera"</span> });`,
+  `<span style="color:${k}">await</span> smelter.<span style="color:${f}">registerOutput</span>(<span style="color:${s}">"preview"</span>, &lt;<span style="color:${t}">Scene</span> /&gt;, {`,
+  `  type: <span style="color:${s}">"canvas"</span>,`,
+  `  video: { canvas, resolution: { width: <span style="color:${n}">1280</span>, height: <span style="color:${n}">720</span> } },`,
+  "});",
+  "",
+  `<span style="color:${k}">await</span> smelter.<span style="color:${f}">start</span>();`,
+  "",
+  `<span style="color:${k}">function</span> <span style="color:${f}">Scene</span>() {`,
+  `  <span style="color:${k}">return</span> (`,
+  `    &lt;<span style="color:${t}">View</span> style={{ padding: <span style="color:${n}">24</span> }}&gt;`,
+  `      &lt;<span style="color:${t}">Rescaler</span>&gt;&lt;<span style="color:${t}">InputStream</span> inputId=<span style="color:${s}">"cam"</span> /&gt;&lt;/<span style="color:${t}">Rescaler</span>&gt;`,
+  `      &lt;<span style="color:${t}">Text</span>&gt;<span style="color:${a}">●</span> LIVE&lt;/<span style="color:${t}">Text</span>&gt;`,
+  `    &lt;/<span style="color:${t}">View</span>&gt;`,
+  "  );",
+  "}",
+].join("\n");
+---
+
+<div
+  class="w-full max-w-[520px] rounded-2xl overflow-hidden border border-white/10 bg-[#0E0A1C] shadow-2xl"
+>
+  <div class="flex items-center gap-2 px-4 py-3 border-b border-white/10">
+    <span class="w-3 h-3 rounded-full bg-white/15"></span>
+    <span class="w-3 h-3 rounded-full bg-white/15"></span>
+    <span class="w-3 h-3 rounded-full bg-white/15"></span>
+    <span class="ml-2 text-xs text-white/40" style={`font-family:${mono}`}>scene.tsx</span>
+  </div>
+  <pre
+    class="m-0 px-5 py-4 text-[12.5px] leading-[1.7] text-white/75 whitespace-pre-wrap break-words"
+    style={`font-family:${mono}`}
+  ><code set:html={codeHtml} /></pre>
+</div>
