@@ -31,7 +31,11 @@ const hasVideo = Boolean(data.video);
 // Non-YouTube (or unparseable) video URLs keep the old thumbnail + link out.
 const embedUrl = data.video ? youtubeEmbedUrl(data.video) : null;
 
-const canonicalUrl = postUrl(entry.id);
+// Cross-posted articles point rel=canonical at the original publication
+// (SEO requirement from marketing); og:url stays on smelter.dev so share
+// links resolve to this page.
+const selfUrl = postUrl(entry.id);
+const canonicalUrl = data.canonical ?? selfUrl;
 const ogImage = postOgImage(data.cover);
 
 // Comments only render on deployments where Giscus is fully configured, so
@@ -51,7 +55,7 @@ const giscus =
   canonicalUrl={canonicalUrl}
   title={`${data.title} — Smelter Blog`}
   description={data.description}
-  ogUrl={canonicalUrl}
+  ogUrl={selfUrl}
   ogImage={ogImage}
   ogImageAlt={ogImage ? data.title : undefined}
   ogType="article"

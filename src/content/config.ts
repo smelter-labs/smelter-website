@@ -28,6 +28,12 @@ const blog = defineCollection({
     video: z.string().url().optional(),
     /** Human-readable length of the video, e.g. "2:14". Only meaningful with `video`. */
     duration: z.string().optional(),
+    /**
+     * For posts cross-posted from another site (e.g. the Software Mansion
+     * blog): absolute URL of the original article. Rendered as the page's
+     * `rel=canonical` so search engines attribute the content to the original.
+     */
+    canonical: z.string().url().optional(),
     /** Marks the single hero entry rendered at the top of the blog index. */
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
