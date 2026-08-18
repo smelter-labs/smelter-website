@@ -83,13 +83,13 @@ ffmpeg \
   cool_file.mp4
 ```
 
-Now, I have to admit writing this took me two hours. Additionally, fading the new video in isn’t the animation I wanted, but it’s the only one I was able to create. It also doesn’t work — `layout6` is somehow scaled up so much only a small fraction of it is visible in the output. During the 2 hours I spent on this, I tried many ways to do different animations, but I couldn’t get any of them to work. **I don’t want to say FFmpeg is bad, because it’s very good for most use-cases and I use it daily for my private multimedia manipulation. It just isn’t made for dynamic composition.**
+Now, I have to admit writing this took me two hours. Additionally, fading the new video in isn’t the animation I wanted, but it’s the only one I was able to create. It also doesn’t work - `layout6` is somehow scaled up so much only a small fraction of it is visible in the output. During the 2 hours I spent on this, I tried many ways to do different animations, but I couldn’t get any of them to work. **I don’t want to say FFmpeg is bad, because it’s very good for most use-cases and I use it daily for my private multimedia manipulation. It just isn’t made for dynamic composition.**
 
 ## GStreamer
 
 ![Diagram showing heat waves moving toward a curtain and infrared energy radiating away from it](/blog/ffmpeg-alternative-live-video-mixing/inline-2.png)
 
-Let’s turn to the other big and old multimedia library — GStreamer. I opted to try and make this using GStreamer bindings for Python, and I very much regret this decision, but let’s keep my complaints about stringly-typed APIs out of this blogpost.
+Let’s turn to the other big and old multimedia library - GStreamer. I opted to try and make this using GStreamer bindings for Python, and I very much regret this decision, but let’s keep my complaints about stringly-typed APIs out of this blogpost.
 
 **While FFmpeg generally works by specifying the inputs and outputs you want, with an optional processing step in between (like the `filter_complex` in the previous example), GStreamer allows you to build any kind of a processing graph using simple nodes.** The nodes do singular processing steps, like decoding a video or receiving video and audio over some protocol.
 
@@ -150,7 +150,7 @@ The most fun thing about Remotion, in my opinion, is the preview window. It basi
 
 See? It is pretty cool. You can see a clickable timeline with indicators of where different components show up and how long they last. The way it’s done is very fun too. Basically, the video you write in React gets turned into HTML, which then gets displayed on the page. When you want to render the video, the React code gets turned into different HTML, which works with rendering a bit better. This HTML is then fed into a headless Chrome instance, which, in turn, is screen-recorded to produce the output.
 
-Using React for describing the video makes sense too. When making a grid with videos like we did before, you don’t have to calculate the size of each video. CSS can do that for you — just make a div like this, stuff everything inside and it should work:
+Using React for describing the video makes sense too. When making a grid with videos like we did before, you don’t have to calculate the size of each video. CSS can do that for you - just make a div like this, stuff everything inside and it should work:
 
 ```tsx
 <div
@@ -185,7 +185,7 @@ OBS has a WebSocket API that you can use to control what it does. The problems t
 
 ![Remotion preview window showing a welcome screen above a timeline with layered clips](/blog/ffmpeg-alternative-live-video-mixing/inline-6.png)
 
-This whole story resembles the situation we faced around 3 years ago. We didn’t know how to join live streams in a way we would like. We decided to make our own thing — and we did!
+This whole story resembles the situation we faced around 3 years ago. We didn’t know how to join live streams in a way we would like. We decided to make our own thing - and we did!
 
 [**Smelter**](https://www.smelter.dev/)**, similarly to Remotion, features a React-based API. It has a custom renderer that makes it fast enough for real-time**, and we recently added support for hardware-accelerated decoding. Hardware-accelerated encoding is in the works, and quite close to being done. We feature multiple input and output protocols, so you can receive anything you like and send it wherever you want. Yeah, maybe the React API still needs a bit of polish, but we’re working on it continuously. For now, we also don’t have a fancy preview like Remotion does, but **Smelter can run in the browser using WebAssembly, and this possibility could be used to add a preview later down the line.**
 
@@ -228,7 +228,7 @@ function App() {
 }
 ```
 
-As you can see, it’s quite simple. The `Tiles` component arranges its children in a grid. We could manually set the `inputId` field of the `InputStream` component to `input1`, which is the name we gave to our input stream previously. I chose to do it using the `useInputStreams` hook so that it adds tiles for newly added streams automatically. The `Rescaler` is one of the quirks present in the React API right now — if a component needs to change its resolution, it needs to be wrapped in a `rescaler`.
+As you can see, it’s quite simple. The `Tiles` component arranges its children in a grid. We could manually set the `inputId` field of the `InputStream` component to `input1`, which is the name we gave to our input stream previously. I chose to do it using the `useInputStreams` hook so that it adds tiles for newly added streams automatically. The `Rescaler` is one of the quirks present in the React API right now - if a component needs to change its resolution, it needs to be wrapped in a `rescaler`.
 
 We can make the transitions animate the addition of new streams by passing a prop to `Tiles`:
 
@@ -242,13 +242,13 @@ What I actually wanted to show you is that Smelter is fun to play around with, a
 
 ## Conclusion
 
-So, that’s the story. We went through the most common *FFmpeg alternatives* like GStreamer, Remotion, even OBS — just like we at Software Mansion did 3 years ago — and found out that none of them are an incredible experience if you want live, dynamic video mixing.
+So, that’s the story. We went through the most common *FFmpeg alternatives* like GStreamer, Remotion, even OBS - just like we at Software Mansion did 3 years ago - and found out that none of them are an incredible experience if you want live, dynamic video mixing.
 
 That’s why we built Smelter. We’re still actively working on it, but it is actually fun to use. It doesn’t have many of the problems that make other solutions annoying.
 
 If I grabbed your attention, we have a few demos for various video compositing use cases, so you can just try it and see how it feels. You can also get started by reading [Smelter’s docs](/fundamentals/getting-started). The tool is totally free for most scenarios (i.e., up to 10k viewers and up to 50 machines).
 
-And if you need some help, or anything really, simply write to me or anyone from Software Mansion — we’ve been dealing with multimedia for quite some time, I think it would be fun to solve a problem together.
+And if you need some help, or anything really, simply write to me or anyone from Software Mansion - we’ve been dealing with multimedia for quite some time, I think it would be fun to solve a problem together.
 
 Also, sorry, if you couldn’t already tell, I don’t really know what actually happens with the curtains.
 

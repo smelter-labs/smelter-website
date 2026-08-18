@@ -1,6 +1,6 @@
 ---
 title: "Smelter Workshop #1: a video carousel from one AI prompt"
-description: A fifteen-line prompt turns into a clap-controlled carousel of live video inputs — and the animation runs on the GPU compositor, not in a render loop.
+description: A fifteen-line prompt turns into a clap-controlled carousel of live video inputs - and the animation runs on the GPU compositor, not in a render loop.
 date: 2026-05-27
 categories: ["Live Streaming", "Amusement Parks"]
 author: Piotr Snow
@@ -11,12 +11,12 @@ duration: "2:22"
 
 Smelter is an engine for real-time programmatic video composition: an end-to-end
 GPU pipeline controlled through a React interface. The scene you compose isn't
-DOM — components like [`View`](/ts-sdk/components/view),
+DOM - components like [`View`](/ts-sdk/components/view),
 [`Rescaler`](/ts-sdk/components/rescaler) and
 [`InputStream`](/ts-sdk/components/inputstream) render directly to video frames.
 
 For the first Smelter Workshop episode we set ourselves a simple goal: build a
-**carousel of live video inputs** inside the stream — navigable with arrow keys
+**carousel of live video inputs** inside the stream - navigable with arrow keys
 and, because why not, with a **clap**. And we wanted an AI agent to build it
 inside the existing Smelter Editor app, from a single prompt.
 
@@ -27,7 +27,7 @@ This is the entire prompt (it ships in the repo as `DEMO-PROMPTS.md`):
 ```text
 Add carousel to the layer system.
 A layer shows one slide at a time with animated transitions
-— configurable: duration, easing, visible slide count, gap.
+- configurable: duration, easing, visible slide count, gap.
 Server: carousel action endpoint (next/prev/setIndex)
 with debounce during animation and index wrap-around.
 Rendering component with slide animation and overflow hidden.
@@ -43,7 +43,7 @@ slide selection dialog.
 ```
 
 Fifteen lines. Every bullet maps 1:1 onto a file in the resulting squashed
-commit — the endpoint, the render component, both hooks, the settings UI. The
+commit - the endpoint, the render component, both hooks, the settings UI. The
 interesting part isn't that an agent can write React; it's *what the resulting
 architecture looks like* when the substrate is a video compositor.
 
@@ -97,7 +97,7 @@ const signedDistOf = (i: number, activeIndex: number, preferPositive: boolean): 
 };
 ```
 
-And the one genuinely subtle decision — **which slides animate and which snap**:
+And the one genuinely subtle decision - **which slides animate and which snap**:
 
 ```tsx title="server/src/app/App.tsx"
 // Animate only when this slide moved by at most one cell and both
@@ -115,7 +115,7 @@ const transition = shouldAnimate
 ```
 
 Two engine details hide in there. `transition: undefined` is deliberately not
-`durationMs: 0` — Smelter remembers a component's last
+`durationMs: 0` - Smelter remembers a component's last
 [transition](/ts-sdk/components/props/transition), and a zero-ms one would bleed
 into later updates. And `shouldInterrupt: true` makes rapid next-next-next pick
 up from the current visual position instead of queueing.
@@ -126,11 +126,11 @@ The clap hook is plain Web Audio: `getUserMedia` → `MediaStreamSource` →
 `AnalyserNode`, scanned in a `requestAnimationFrame` loop. The parameters are
 where the signal processing actually lives:
 
-- The analyser watches the **2–5 kHz band** — where a clap's transient energy
+- The analyser watches the **2–5 kHz band** - where a clap's transient energy
   sits, above voice fundamentals and below hiss.
 - `smoothingTimeConstant = 0`. The default (0.8) low-passes the spectrum across
   frames and would smear a 50 ms clap into invisibility.
-- It takes the band's **peak** dB, not the mean — a clap is a spike in a few
+- It takes the band's **peak** dB, not the mean - a clap is a spike in a few
   bins, not a lift of the whole band.
 
 ```ts title="editor/lib/audio/useClapDetection.ts"
@@ -157,7 +157,7 @@ if (cooled && aboveFloor && spike) { lastClapAt = now; onClap(); }
 The `SKIP_RECENT` detail is the classic transient-detection trick: the baseline
 is the average of the *older* history frames, excluding the most recent four, so
 the clap can't raise the baseline it's about to be compared against. All three
-conditions have to hold at once — the absolute floor rejects quiet-room noise,
+conditions have to hold at once - the absolute floor rejects quiet-room noise,
 the relative rise rejects steady loud sources like music.
 
 ## The server is the debounce
@@ -177,13 +177,13 @@ if (action === 'next')      newIndex = (oldIndex + 1) % n;
 else if (action === 'prev') newIndex = (oldIndex - 1 + n) % n;
 ```
 
-That split — **position state owned by the server, config state owned by the
-client** (debounced sliders for duration, easing and gap) — is what keeps N
+That split - **position state owned by the server, config state owned by the
+client** (debounced sliders for duration, easing and gap) - is what keeps N
 editor clients, a keyboard and a microphone from fighting over one carousel.
 
 ## Takeaway
 
-A carousel over live video inputs — phone cameras, live streams, MP4s — with
+A carousel over live video inputs - phone cameras, live streams, MP4s - with
 animated GPU transitions, driven by claps, built by an agent from a 15-line
 prompt in a single commit. The prompt could stay that short because Smelter's
 React model absorbs the hard parts: identity-based interpolation, clipping, and
