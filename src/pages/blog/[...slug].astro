@@ -80,7 +80,9 @@ const giscus =
           <p
             class="mono mb-4 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
           >
-            {formatBlogDate(data.date)} · {data.author}
+            {formatBlogDate(data.date)} · {data.categories.join(" · ")} · <span
+              class="text-hero-authorLabel">{data.author}</span
+            >
           </p>
 
           <ShareBar title={data.title} slug={entry.id} class="mb-10" />

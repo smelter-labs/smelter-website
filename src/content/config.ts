@@ -7,6 +7,11 @@ export const BLOG_CATEGORIES = [
   "Broadcasting",
   "Conferencing",
   "Community",
+  "Gaming",
+  "Rap Music",
+  "Birdwatching",
+  "Paranormal",
+  "Amusement Parks",
 ] as const;
 
 const blog = defineCollection({
@@ -15,7 +20,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    category: z.enum(BLOG_CATEGORIES),
+    categories: z.array(z.enum(BLOG_CATEGORIES)).nonempty(),
     author: z.string(),
     /** Cover shown on cards and at the top of the post. Path under /public or an absolute URL. */
     cover: z.string(),

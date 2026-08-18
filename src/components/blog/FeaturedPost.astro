@@ -33,13 +33,15 @@ const href = `/blog/${entry.id}`;
       <p
         class="mono mb-4 text-[11px] uppercase tracking-[0.14em] text-hero-docsGradientFrom"
       >
-        Featured · {data.category}
+        Featured · {data.categories.join(" · ")}
       </p>
       <h2 class="mb-4 text-white">{data.title}</h2>
       <p class="par-s m-0 mb-6 text-hero-subtitle">{data.description}</p>
 
       <p class="mono text-[11px] uppercase tracking-[0.12em] text-hero-subtitle">
-        {formatBlogDate(data.date)} · {data.author}
+        {formatBlogDate(data.date)} · <span class="text-hero-authorLabel"
+          >{data.author}</span
+        >
       </p>
     </div>
   </div>

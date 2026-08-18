@@ -23,7 +23,7 @@ export async function GET(context: APIContext) {
       title: entry.data.title,
       description: entry.data.description,
       pubDate: entry.data.date,
-      categories: [entry.data.category],
+      categories: entry.data.categories,
     })),
   });
 }
