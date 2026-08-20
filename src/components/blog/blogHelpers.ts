@@ -1,16 +1,10 @@
 /** Canonical origin — used for absolute URLs in share links, RSS and OG tags. */
 export const BLOG_SITE_ORIGIN = "https://smelter.dev";
 
-/**
- * Repo behind the posts, linked from the share bar. The Workshop episodes are
- * all built in the Smelter Editor, so that repo is what readers actually want.
- */
-export const BLOG_GITHUB_SOURCE_URL = "https://github.com/smelter-labs/smelter-editor";
-
-/** Design shows dates like "18 JUN 2026". */
+/** Dates render like "18 Jun 2026". */
 export function formatBlogDate(date: Date): string {
   const day = String(date.getUTCDate()).padStart(2, "0");
-  const month = date.toLocaleString("en-US", { month: "short", timeZone: "UTC" }).toUpperCase();
+  const month = date.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
   return `${day} ${month} ${date.getUTCFullYear()}`;
 }
 
@@ -61,19 +55,4 @@ export function buildShareLinks(title: string, url: string): ShareLink[] {
     { label: "Hacker News", href: `https://news.ycombinator.com/submitlink?u=${u}&t=${t}` },
     { label: "Reddit", href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
   ];
-}
-
-/** KV key holding the like count of a post. */
-export function likeCountKey(slug: string): string {
-  return `blog:likes:${slug}`;
-}
-
-/** KV key marking that a given visitor already liked a post (dedup). */
-export function visitorLikeKey(slug: string, fingerprint: string): string {
-  return `blog:liked:${slug}:${fingerprint}`;
-}
-
-/** localStorage key mirroring `visitorLikeKey` on the client, for optimistic UI. */
-export function localLikeKey(slug: string): string {
-  return `blog-liked-${slug}`;
 }

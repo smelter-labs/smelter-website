@@ -36,16 +36,10 @@ const href = `/blog/${entry.id}`;
     </h3>
     <p class="par-s m-0 mb-5 text-hero-subtitle">{data.description}</p>
 
-    <p class="mono text-[10px] uppercase tracking-[0.1em] text-hero-subtitle/80">
+    <p class="text-xs text-hero-subtitle/80">
       {formatBlogDate(data.date)} · {data.categories.join(" · ")} · <span
         class="text-hero-authorLabel">{data.author}</span
       >
     </p>
   </div>
 </a>
-
-<style>
-  .mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  }
-</style>

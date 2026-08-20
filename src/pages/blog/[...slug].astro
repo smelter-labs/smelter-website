@@ -1,12 +1,5 @@
 ---
 import { getCollection, render } from "astro:content";
-import {
-  PUBLIC_GISCUS_CATEGORY,
-  PUBLIC_GISCUS_CATEGORY_ID,
-  PUBLIC_GISCUS_REPO,
-  PUBLIC_GISCUS_REPO_ID,
-} from "astro:env/server";
-import { GiscusComments } from "@components/blog/GiscusComments";
 import PostThumbnail from "@components/blog/PostThumbnail.astro";
 import ShareBar from "@components/blog/ShareBar.astro";
 import VideoEmbed from "@components/blog/VideoEmbed.astro";
@@ -37,18 +30,6 @@ const embedUrl = data.video ? youtubeEmbedUrl(data.video) : null;
 const selfUrl = postUrl(entry.id);
 const canonicalUrl = data.canonical ?? selfUrl;
 const ogImage = postOgImage(data.cover);
-
-// Comments only render on deployments where Giscus is fully configured, so
-// local dev and previews without the env vars simply skip the section.
-const giscus =
-  PUBLIC_GISCUS_REPO && PUBLIC_GISCUS_REPO_ID && PUBLIC_GISCUS_CATEGORY && PUBLIC_GISCUS_CATEGORY_ID
-    ? {
-        repo: PUBLIC_GISCUS_REPO,
-        repoId: PUBLIC_GISCUS_REPO_ID,
-        category: PUBLIC_GISCUS_CATEGORY,
-        categoryId: PUBLIC_GISCUS_CATEGORY_ID,
-      }
-    : null;
 ---
 
 <MainLayout
@@ -74,22 +55,25 @@ const giscus =
         <div class="mx-auto flex max-w-[760px] flex-col">
           <a
             href="/blog"
-            class="mono mb-8 inline-flex w-fit items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-hero-subtitle no-underline transition-colors hover:text-white"
+            class="mb-8 inline-flex w-fit items-center gap-2 text-sm text-hero-subtitle no-underline transition-colors hover:text-white"
           >
             <ArrowRight class="h-3.5 w-3.5 rotate-180" />
             Blog
           </a>
           <h1 class="mb-5 text-white">{data.title}</h1>
           <p class="par-l mb-6 text-hero-subtitle">{data.description}</p>
-          <p
-            class="mono mb-4 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
-          >
+          <p class="mb-4 text-sm text-hero-subtitle">
             {formatBlogDate(data.date)} · {data.categories.join(" · ")} · <span
               class="text-hero-authorLabel">{data.author}</span
             >
           </p>
 
-          <ShareBar title={data.title} slug={entry.id} class="mb-10" />
+          <ShareBar
+            title={data.title}
+            slug={entry.id}
+            github={data.github}
+            class="mb-10"
+          />
 
           {
             embedUrl ? (
@@ -131,36 +115,17 @@ const giscus =
             <Content />
           </div>
 
-          <ShareBar title={data.title} slug={entry.id} class="mt-12" />
-
-          {
-            giscus && (
-              <section class="mt-16">
-                <p class="mono mb-6 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle">
-                  Comments
-                </p>
-                <GiscusComments
-                  client:visible
-                  repo={giscus.repo}
-                  repoId={giscus.repoId}
-                  category={giscus.category}
-                  categoryId={giscus.categoryId}
-                  term={`/blog/${entry.id}`}
-                />
-              </section>
-            )
-          }
+          <ShareBar
+            title={data.title}
+            slug={entry.id}
+            github={data.github}
+            class="mt-12"
+          />
         </div>
       </article>
     </div>
   </main>
 </MainLayout>
-
-<style>
-  .mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  }
-</style>
 
 <style is:global>
   @import "../../../styles/blog-article.scss";

@@ -31,14 +31,14 @@ const href = `/blog/${entry.id}`;
 
     <div class="flex flex-col justify-center p-4 sm:p-6 lg:p-8">
       <p
-        class="mono mb-4 text-[11px] uppercase tracking-[0.14em] text-hero-docsGradientFrom"
+        class="mb-4 text-[11px] uppercase tracking-[0.14em] text-hero-docsGradientFrom"
       >
         Featured · {data.categories.join(" · ")}
       </p>
       <h2 class="mb-4 text-white">{data.title}</h2>
       <p class="par-s m-0 mb-6 text-hero-subtitle">{data.description}</p>
 
-      <p class="mono text-[11px] uppercase tracking-[0.12em] text-hero-subtitle">
+      <p class="text-xs text-hero-subtitle">
         {formatBlogDate(data.date)} · <span class="text-hero-authorLabel"
           >{data.author}</span
         >
@@ -46,9 +46,3 @@ const href = `/blog/${entry.id}`;
     </div>
   </div>
 </a>
-
-<style>
-  .mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  }
-</style>

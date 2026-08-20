@@ -34,7 +34,6 @@
     "@swmansion/smelter-web-wasm": "^0.2.1",
     "@types/react-dom": "18.3.1",
     "@vercel/analytics": "^1.5.0",
-    "@vercel/kv": "^3.0.0",
     "astro": "^5.2.1",
     "astro-expressive-code": "^0.38.3",
     "lodash": "^4.17.21",

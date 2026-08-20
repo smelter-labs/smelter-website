@@ -44,14 +44,12 @@ const gridPosts = posts.filter((p) => p.id !== featured?.id);
           <!-- Latest articles -->
           <div class="mb-6 mt-16 flex items-center gap-4">
             <p
-              class="mono shrink-0 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle"
+              class="shrink-0 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle"
             >
               Latest articles
             </p>
             <div class="h-px flex-1 bg-homeLicense-border"></div>
-            <p
-              class="mono shrink-0 text-[11px] uppercase tracking-[0.16em] text-hero-subtitle"
-            >
+            <p class="shrink-0 text-[11px] tracking-[0.16em] text-hero-subtitle">
               {String(gridPosts.length).padStart(2, "0")}
             </p>
           </div>
@@ -64,9 +62,3 @@ const gridPosts = posts.filter((p) => p.id !== featured?.id);
     </div>
   </main>
 </MainLayout>
-
-<style>
-  .mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  }
-</style>

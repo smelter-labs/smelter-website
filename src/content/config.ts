@@ -28,6 +28,8 @@ const blog = defineCollection({
     video: z.string().url().optional(),
     /** Human-readable length of the video, e.g. "2:14". Only meaningful with `video`. */
     duration: z.string().optional(),
+    /** Repo with the post's source/code. When set, the share bar links to it. */
+    github: z.string().url().optional(),
     /**
      * For posts cross-posted from another site (e.g. the Software Mansion
      * blog): absolute URL of the original article. Rendered as the page's

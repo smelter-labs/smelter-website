@@ -66,17 +66,20 @@
     font-weight: 500;
   }
 
-  // Links read as body text with an accent underline, so a paragraph with
-  // several of them doesn't turn into a wall of red.
+  // Links underline in their own color (accent only on hover) — a red
+  // underline under white text reads like a spell-checker squiggle.
   a {
     color: var(--blog-heading);
     text-decoration: underline;
-    text-decoration-color: #f2466499;
+    text-decoration-color: #ffffff59;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
-    transition: text-decoration-color 0.2s ease;
+    transition:
+      color 0.2s ease,
+      text-decoration-color 0.2s ease;
 
     &:hover {
+      color: var(--blog-accent);
       text-decoration-color: var(--blog-accent);
     }
   }
