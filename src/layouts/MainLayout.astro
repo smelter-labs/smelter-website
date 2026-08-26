@@ -1,5 +1,6 @@
 ---
 import { PUBLIC_RECAPTCHA_SITE_KEY } from "astro:env/server";
+import { structuredDataJson } from "../structured-data";
 import { ClientRouter } from "astro:transitions";
 import {
   TOP_BAR_BANNER,
@@ -122,6 +123,7 @@ const bannerReservationScript = topBarBannerReservationScript(
     <meta name="”twitter:image”" content="https://smelter.dev/og-image.png" />
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="canonical" href={canonicalUrl} />
+    <script is:inline type="application/ld+json" set:html={structuredDataJson} />
 
     <title>{title}</title>
 
