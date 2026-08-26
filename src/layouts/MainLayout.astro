@@ -1,6 +1,5 @@
 ---
 import { PUBLIC_RECAPTCHA_SITE_KEY } from "astro:env/server";
-import { structuredDataJson } from "../structured-data";
 import { ClientRouter } from "astro:transitions";
 import {
   TOP_BAR_BANNER,
@@ -14,6 +13,7 @@ import FooterMobile from "../components/base/FooterMobile.astro";
 import Snackbar from "../components/base/Snackbar.astro";
 import NavBar from "../components/navigation/NavBar.astro";
 import ReactNavBar from "../components/navigation/ReactNavBar.astro";
+import { structuredDataJson } from "../structured-data";
 import { Captcha } from "../utils/recaptcha.tsx";
 
 interface Props {
