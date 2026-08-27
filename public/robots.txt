@@ -1,6 +1,7 @@
 # AI assistants: see https://smelter.dev/llms.txt
 
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Disallow:
 
 Sitemap: https://smelter.dev/sitemap-index.xml

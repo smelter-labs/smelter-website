@@ -13,6 +13,7 @@ import FooterMobile from "../components/base/FooterMobile.astro";
 import Snackbar from "../components/base/Snackbar.astro";
 import NavBar from "../components/navigation/NavBar.astro";
 import ReactNavBar from "../components/navigation/ReactNavBar.astro";
+import { structuredDataJson } from "../structured-data";
 import { Captcha } from "../utils/recaptcha.tsx";
 
 interface Props {
@@ -122,6 +123,7 @@ const bannerReservationScript = topBarBannerReservationScript(
     <meta name="”twitter:image”" content="https://smelter.dev/og-image.png" />
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="canonical" href={canonicalUrl} />
+    <script is:inline type="application/ld+json" set:html={structuredDataJson} />
 
     <title>{title}</title>
 
