@@ -9,7 +9,7 @@ export function formatBlogDate(date: Date): string {
 }
 
 /** Absolute URL of a post, e.g. https://smelter.dev/blog/my-post. */
-export function postUrl(slug: string): string {
+export function blogPostUrl(slug: string): string {
   return `${BLOG_SITE_ORIGIN}/blog/${slug}`;
 }
 
@@ -29,15 +29,17 @@ export function youtubeEmbedUrl(video: string): string | null {
 const RASTER_IMAGE = /\.(png|jpe?g|webp|gif)(\?.*)?$/i;
 
 /**
- * Absolute `og:image` for a post, or `undefined` to keep the site-wide default.
+ * Turns a cover — a path under `/public` or an absolute URL, both allowed by
+ * the blog schema — into an absolute `og:image`, or `undefined` to keep the
+ * site-wide default.
  *
  * Social crawlers (X, LinkedIn, Facebook, Slack) don't render SVG, so an SVG
  * cover would produce an *empty* preview card — worse than the generic one.
  * Give a post a raster cover and its own image is used automatically.
  */
-export function postOgImage(cover: string): string | undefined {
-  if (!RASTER_IMAGE.test(cover)) return undefined;
-  return cover.startsWith("http") ? cover : `${BLOG_SITE_ORIGIN}${cover}`;
+export function sanitizeOgImage(coverUrl: string): string | undefined {
+  if (!RASTER_IMAGE.test(coverUrl)) return undefined;
+  return coverUrl.startsWith("http") ? coverUrl : `${BLOG_SITE_ORIGIN}${coverUrl}`;
 }
 
 export interface ShareLink {

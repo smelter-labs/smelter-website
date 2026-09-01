@@ -1,5 +1,5 @@
 ---
-import { buildShareLinks, postUrl } from "./blogHelpers";
+import { blogPostUrl, buildShareLinks } from "./blogHelpers";
 
 interface Props {
   title: string;
@@ -11,7 +11,7 @@ interface Props {
 
 const { title, slug, github, class: className } = Astro.props;
 
-const url = postUrl(slug);
+const url = blogPostUrl(slug);
 const shareLinks = buildShareLinks(title, url);
 
 const btn =

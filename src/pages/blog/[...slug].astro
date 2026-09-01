@@ -4,9 +4,9 @@ import PostThumbnail from "@components/blog/PostThumbnail.astro";
 import ShareBar from "@components/blog/ShareBar.astro";
 import VideoEmbed from "@components/blog/VideoEmbed.astro";
 import {
+  blogPostUrl,
   formatBlogDate,
-  postOgImage,
-  postUrl,
+  sanitizeOgImage,
   youtubeEmbedUrl,
 } from "@components/blog/blogHelpers";
 import ArrowRight from "/public/images/arrow-right.svg";
@@ -27,9 +27,9 @@ const embedUrl = data.video ? youtubeEmbedUrl(data.video) : null;
 // Cross-posted articles point rel=canonical at the original publication
 // (SEO requirement from marketing); og:url stays on smelter.dev so share
 // links resolve to this page.
-const selfUrl = postUrl(entry.id);
+const selfUrl = blogPostUrl(entry.id);
 const canonicalUrl = data.canonical ?? selfUrl;
-const ogImage = postOgImage(data.cover);
+const ogImage = sanitizeOgImage(data.cover);
 ---
 
 <MainLayout
@@ -53,9 +53,15 @@ const ogImage = postOgImage(data.cover);
     <div class="relative w-full max-w-[1536px]">
       <article class="px-4 pb-28 pt-24 sm:px-8 sm:pt-28">
         <div class="mx-auto flex max-w-[760px] flex-col">
+          <!--
+            The arrow asset has ~5.5/31 of empty space on each side of its
+            viewBox, so the drawn arrowhead sits ~2.5px inside its box. The
+            negative margin puts that arrowhead — not the box — on the text
+            column, and the tighter gap keeps the visual spacing at ~8px.
+          -->
           <a
             href="/blog"
-            class="mb-8 inline-flex w-fit items-center gap-2 text-sm text-hero-subtitle no-underline transition-colors hover:text-white"
+            class="mb-8 -ml-[2.5px] inline-flex w-fit items-center gap-1.5 text-sm text-hero-subtitle no-underline transition-colors hover:text-white"
           >
             <ArrowRight class="h-3.5 w-3.5 rotate-180" />
             Blog
