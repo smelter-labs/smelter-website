@@ -37,6 +37,7 @@ type HlsInput = {
   offset_ms?: f64;
   decoder_map?: DecoderMap;
   side_channel?: SideChannel;
+  buffer?: InputBuffer;
 }
 ```
 </CollapsibleDetails>
@@ -79,6 +80,14 @@ external consumer reads decoded frames / audio from a Unix socket created under
 `SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
 
 - **Type**: [`SideChannel`](#sidechannel)
+
+---
+
+### buffer
+Input buffer configuration.
+
+- **Type**: [`InputBuffer`](#inputbuffer)
+- **Default value**: `{ desired_ms: 10000, min_ms: 2000, max_ms: 20000 }`
 
 
 ## DecoderMap
@@ -135,3 +144,38 @@ Side channel delay in milliseconds. Frames are buffered for this duration ahead 
 
 - **Type**: `f64`
 - **Default value**: `0`
+
+## InputBuffer
+Buffer a live input keeps between the live edge of the stream and playback. A larger buffer adds latency, but tolerates more delivery jitter and network stalls.
+
+A number value is a shorthand for `{ desired_ms: <number> }`. Values that are not provided are derived from the provided ones and the protocol defaults.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type InputBuffer = f64 | {
+  desired_ms?: f64;
+  min_ms?: f64;
+  max_ms?: f64;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### desired_ms
+Buffer the input aims to keep, in milliseconds. At the start it should buffer at least that much media before producing the first chunk.
+
+- **Type**: `f64`
+- **Default value**: `10000`
+
+#### min_ms
+Lower range of what is considered stable state. If the buffer is smaller than this value, then media will be slightly "stretched" so the buffer converges on the desired value.
+
+- **Type**: `f64`
+- **Default value**: `2000`
+
+#### max_ms
+Upper range of what is considered stable state. If the buffer is larger than this value, then media will be slightly "squashed" so the buffer converges on the desired value.
+
+- **Type**: `f64`
+- **Default value**: `20000`
