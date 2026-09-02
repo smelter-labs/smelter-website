@@ -1,0 +1,138 @@
+---
+import { getCollection, render } from "astro:content";
+import PostThumbnail from "@components/blog/PostThumbnail.astro";
+import ShareBar from "@components/blog/ShareBar.astro";
+import VideoEmbed from "@components/blog/VideoEmbed.astro";
+import {
+  blogPostUrl,
+  formatBlogDate,
+  sanitizeOgImage,
+  youtubeEmbedUrl,
+} from "@components/blog/blogHelpers";
+import ArrowRight from "/public/images/arrow-right.svg";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const hasVideo = Boolean(data.video);
+// Non-YouTube (or unparseable) video URLs keep the old thumbnail + link out.
+const embedUrl = data.video ? youtubeEmbedUrl(data.video) : null;
+
+// Cross-posted articles point rel=canonical at the original publication
+// (SEO requirement from marketing); og:url stays on smelter.dev so share
+// links resolve to this page.
+const selfUrl = blogPostUrl(entry.id);
+const canonicalUrl = data.canonical ?? selfUrl;
+const ogImage = sanitizeOgImage(data.cover);
+---
+
+<MainLayout
+  canonicalUrl={canonicalUrl}
+  title={`${data.title} — Smelter Blog`}
+  description={data.description}
+  ogUrl={selfUrl}
+  ogImage={ogImage}
+  ogImageAlt={ogImage ? data.title : undefined}
+  ogType="article"
+>
+  <Fragment slot="head">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Smelter Blog"
+      href="/blog/rss.xml"
+    />
+  </Fragment>
+  <main class="flex min-h-screen w-full justify-center overflow-x-clip">
+    <div class="relative w-full max-w-[1536px]">
+      <article class="px-4 pb-28 pt-24 sm:px-8 sm:pt-28">
+        <div class="mx-auto flex max-w-[760px] flex-col">
+          <!--
+            The arrow asset has ~5.5/31 of empty space on each side of its
+            viewBox, so the drawn arrowhead sits ~2.5px inside its box. The
+            negative margin puts that arrowhead — not the box — on the text
+            column, and the tighter gap keeps the visual spacing at ~8px.
+          -->
+          <a
+            href="/blog"
+            class="mb-8 -ml-[2.5px] inline-flex w-fit items-center gap-1.5 text-sm text-hero-subtitle no-underline transition-colors hover:text-white"
+          >
+            <ArrowRight class="h-3.5 w-3.5 rotate-180" />
+            Blog
+          </a>
+          <h1 class="mb-5 text-white">{data.title}</h1>
+          <p class="par-l mb-6 text-hero-subtitle">{data.description}</p>
+          <p class="mb-4 text-sm text-hero-subtitle">
+            {formatBlogDate(data.date)} · {data.categories.join(" · ")} · <span
+              class="text-hero-authorLabel">{data.author}</span
+            >
+          </p>
+
+          <ShareBar
+            title={data.title}
+            slug={entry.id}
+            github={data.github}
+            class="mb-10"
+          />
+
+          {
+            embedUrl ? (
+              <VideoEmbed
+                embedUrl={embedUrl}
+                cover={data.cover}
+                title={data.title}
+                duration={data.duration}
+                class="mb-12 aspect-video w-full rounded-3xl border border-homeLicense-border"
+              />
+            ) : (
+              <PostThumbnail
+                cover={data.cover}
+                alt={data.title}
+                hasVideo={hasVideo}
+                duration={data.duration}
+                playSize="lg"
+                loading="eager"
+                class="mb-10 aspect-video w-full rounded-3xl border border-homeLicense-border"
+              />
+            )
+          }
+
+          {
+            hasVideo && !embedUrl && (
+              <a
+                href={data.video}
+                target="_blank"
+                rel="noreferrer noopener"
+                class="bg-[#F24664] hover:bg-[#F5546E] mb-12 flex h-12 w-fit items-center gap-x-2 rounded-full px-5 text-white no-underline transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-[#fbc6cf40]"
+              >
+                <span class="text-base">Watch the video</span>
+                <ArrowRight class="h-4 w-4" />
+              </a>
+            )
+          }
+
+          <div class="blog-prose">
+            <Content />
+          </div>
+
+          <ShareBar
+            title={data.title}
+            slug={entry.id}
+            github={data.github}
+            class="mt-12"
+          />
+        </div>
+      </article>
+    </div>
+  </main>
+</MainLayout>
+
+<style is:global>
+  @import "../../../styles/blog-article.scss";
+</style>

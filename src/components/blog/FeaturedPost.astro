@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostThumbnail from "./PostThumbnail.astro";
+import { formatBlogDate } from "./blogHelpers";
+
+interface Props {
+  entry: CollectionEntry<"blog">;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const hasVideo = Boolean(data.video);
+const href = `/blog/${entry.id}`;
+---
+
+<!-- One big <a>, same as PostCard — see the note there. -->
+<a
+  href={href}
+  class="blog-featured group relative block rounded-4xl border border-homeLicense-border bg-explanation-background p-3 text-inherit no-underline transition-colors duration-300 hover:border-white/40 sm:p-4"
+>
+  <div class="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2">
+    <PostThumbnail
+      cover={data.cover}
+      alt={data.title}
+      hasVideo={hasVideo}
+      duration={data.duration}
+      playSize="lg"
+      loading="eager"
+      class="aspect-video w-full rounded-[calc(2rem-0.75rem)]"
+    />
+
+    <div class="flex flex-col justify-center p-4 sm:p-6 lg:p-8">
+      <p
+        class="mb-4 text-[11px] uppercase tracking-[0.14em] text-hero-docsGradientFrom"
+      >
+        Featured · {data.categories.join(" · ")}
+      </p>
+      <h2 class="mb-4 text-white">{data.title}</h2>
+      <p class="par-s m-0 mb-6 text-hero-subtitle">{data.description}</p>
+
+      <p class="text-xs text-hero-subtitle">
+        {formatBlogDate(data.date)} · <span class="text-hero-authorLabel"
+          >{data.author}</span
+        >
+      </p>
+    </div>
+  </div>
+</a>

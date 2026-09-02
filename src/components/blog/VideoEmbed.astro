@@ -1,0 +1,68 @@
+---
+import PostThumbnail from "./PostThumbnail.astro";
+
+interface Props {
+  /** Ready-made embed URL, e.g. from `youtubeEmbedUrl()`. */
+  embedUrl: string;
+  cover: string;
+  title: string;
+  duration?: string;
+  class?: string;
+}
+
+const { embedUrl, cover, title, duration, class: className } = Astro.props;
+---
+
+<!--
+  Click-to-play facade: the cover stands in for the player until the reader
+  actually wants it, so a post doesn't pull YouTube's scripts on every view.
+  The click swaps the whole thing for an autoplaying iframe.
+-->
+<div
+  class:list={["video-embed relative overflow-hidden", className]}
+  data-embed-src={`${embedUrl}&autoplay=1`}
+  data-embed-title={title}
+>
+  <button
+    type="button"
+    class="block h-full w-full cursor-pointer border-0 bg-transparent p-0"
+    aria-label={`Play video: ${title}`}
+  >
+    <PostThumbnail
+      cover={cover}
+      alt={title}
+      hasVideo
+      duration={duration}
+      playSize="lg"
+      loading="eager"
+      class="h-full w-full"
+    />
+  </button>
+</div>
+
+<script>
+  function initVideoEmbeds() {
+    const embeds = document.querySelectorAll<HTMLElement>(".video-embed");
+    for (const embed of embeds) {
+      if (embed.dataset.bound === "true") continue;
+      embed.dataset.bound = "true";
+
+      embed.addEventListener("click", () => {
+        const src = embed.dataset.embedSrc;
+        if (!src) return;
+
+        const iframe = document.createElement("iframe");
+        iframe.src = src;
+        iframe.title = embed.dataset.embedTitle ?? "Video";
+        iframe.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        iframe.className = "absolute inset-0 h-full w-full border-0";
+        embed.replaceChildren(iframe);
+      });
+    }
+  }
+
+  initVideoEmbeds();
+  document.addEventListener("astro:page-load", initVideoEmbeds);
+</script>

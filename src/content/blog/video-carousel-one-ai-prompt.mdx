@@ -1,0 +1,197 @@
+---
+title: "Smelter Workshop #1: a video carousel from one AI prompt"
+description: A fifteen-line prompt turns into a clap-controlled carousel of live video inputs - and the animation runs on the GPU compositor, not in a render loop.
+date: 2026-05-27
+categories: ["Live Streaming", "Amusement Parks"]
+author: Piotr Snow
+cover: /blog/covers/workshop-1.jpg
+video: https://www.youtube.com/watch?v=hfKUWf4Cl9M
+duration: "2:22"
+github: https://github.com/smelter-labs/smelter-editor
+---
+
+Smelter is an engine for real-time programmatic video composition: an end-to-end
+GPU pipeline controlled through a React interface. The scene you compose isn't
+DOM - components like [`View`](/ts-sdk/components/view),
+[`Rescaler`](/ts-sdk/components/rescaler) and
+[`InputStream`](/ts-sdk/components/inputstream) render directly to video frames.
+
+For the first Smelter Workshop episode we set ourselves a simple goal: build a
+**carousel of live video inputs** inside the stream - navigable with arrow keys
+and, because why not, with a **clap**. And we wanted an AI agent to build it
+inside the existing Smelter Editor app, from a single prompt.
+
+## The prompt is the spec
+
+This is the entire prompt (it ships in the repo as `DEMO-PROMPTS.md`):
+
+```text
+Add carousel to the layer system.
+A layer shows one slide at a time with animated transitions
+- configurable: duration, easing, visible slide count, gap.
+Server: carousel action endpoint (next/prev/setIndex)
+with debounce during animation and index wrap-around.
+Rendering component with slide animation and overflow hidden.
+State bounds sanitization.
+Editor: carousel action API,
+keyboard hook (←/→/Space),
+clap detection hook via mic (2-5kHz).
+UI: creation modal with input selection,
+inline settings (duration, visible count, gap, easing,
+position/size, keyboard/clap toggles with localStorage),
+slide selection dialog.
+"Carousel" label and settings/edit buttons in layer header.
+```
+
+Fifteen lines. Every bullet maps 1:1 onto a file in the resulting squashed
+commit - the endpoint, the render component, both hooks, the settings UI. The
+interesting part isn't that an agent can write React; it's *what the resulting
+architecture looks like* when the substrate is a video compositor.
+
+## There is no carousel primitive
+
+Smelter has no "carousel" component, and none was added. The whole animation
+falls out of two properties of the engine:
+
+1. Components with a **stable `id`** are matched between scene updates, and
+   Smelter interpolates their style changes on the GPU.
+2. A `View` can clip its children with `overflow: 'hidden'`.
+
+So a carousel is: one masking `View`, and one absolutely-positioned `Rescaler`
+per slide whose `left` changes between updates.
+
+```tsx title="server/src/app/App.tsx"
+<View
+  style={{
+    top: slot.y, left: slot.x,
+    width: slot.width, height: slot.height,
+    overflow: 'hidden',
+  }}>
+  ...
+  <Rescaler
+    key={`carousel-${layer.id}-${item.inputId}`}
+    id={`carousel-${layer.id}-${item.inputId}`}
+    transition={transition}
+    style={{ top: 0, left: offsetLeft, width: tileWidth, height: slot.height }}>
+    {inner}
+  </Rescaler>
+```
+
+The consequence is worth spelling out: **the server sends one scene update per
+navigation action, not one per frame.** There is no animation loop anywhere in
+the codebase. The compositor interpolates `left` at output framerate on the GPU.
+
+Slide positions come from a wrap-aware signed distance from the active index:
+
+```tsx title="server/src/app/App.tsx"
+// signedDist === 0                  → active (leftmost visible)
+// signedDist in [1, visibleCount-1] → other visible slides
+// signedDist === visibleCount       → entering from the right
+// signedDist === -1                 → exiting to the left
+// others                            → hidden (snap to hiddenOffset)
+const signedDistOf = (i: number, activeIndex: number, preferPositive: boolean): number => {
+  if (n === 0) return 0;
+  const raw = ((i - activeIndex) % n + n) % n;
+  if (raw === 0) return 0;
+  if (preferPositive) return raw > visibleCount ? raw - n : raw;
+  return raw > n / 2 ? raw - n : raw;
+};
+```
+
+And the one genuinely subtle decision - **which slides animate and which snap**:
+
+```tsx title="server/src/app/App.tsx"
+// Animate only when this slide moved by at most one cell and both
+// positions lie in the participating window [-1, visibleCount].
+// This prevents wrap-around slides from flying across the slot.
+const participates = (sd: number) => sd >= -1 && sd <= visibleCount;
+const shouldAnimate =
+  participates(cur) && participates(prev) && Math.abs(cur - prev) <= 1;
+// When snapping, leave transition undefined so Smelter applies its
+// default (no animation) without remembering a 0ms transition that
+// would bleed into subsequent updates.
+const transition = shouldAnimate
+  ? { durationMs: carousel.durationMs, easingFunction: easing, shouldInterrupt: true }
+  : undefined;
+```
+
+Two engine details hide in there. `transition: undefined` is deliberately not
+`durationMs: 0` - Smelter remembers a component's last
+[transition](/ts-sdk/components/props/transition), and a zero-ms one would bleed
+into later updates. And `shouldInterrupt: true` makes rapid next-next-next pick
+up from the current visual position instead of queueing.
+
+## Clap detection is three thresholds and a trick
+
+The clap hook is plain Web Audio: `getUserMedia` → `MediaStreamSource` →
+`AnalyserNode`, scanned in a `requestAnimationFrame` loop. The parameters are
+where the signal processing actually lives:
+
+- The analyser watches the **2–5 kHz band** - where a clap's transient energy
+  sits, above voice fundamentals and below hiss.
+- `smoothingTimeConstant = 0`. The default (0.8) low-passes the spectrum across
+  frames and would smear a 50 ms clap into invisibility.
+- It takes the band's **peak** dB, not the mean - a clap is a spike in a few
+  bins, not a lift of the whole band.
+
+```ts title="editor/lib/audio/useClapDetection.ts"
+analyser.getFloatFrequencyData(buf);
+let peakDb = -Infinity;
+for (let i = lowBin; i <= highBin; i++) {
+  if (buf[i] > peakDb) peakDb = buf[i];
+}
+// Baseline = average of older frames in the history (skip the most
+// recent ones so a clap doesn't dilute its own baseline).
+const baselineLen = peakHistory.length - SKIP_RECENT;
+let baselineDb = -Infinity;
+if (baselineLen > 0) {
+  let sum = 0;
+  for (let i = 0; i < baselineLen; i++) sum += peakHistory[i];
+  baselineDb = sum / baselineLen;
+}
+const cooled = now - lastClapAt > cooldownMs;          // 600 ms
+const aboveFloor = peakDb >= peakThresholdDb;          // -60 dB
+const spike = peakDb - baselineDb >= transientRiseDb;  // +10 dB rise
+if (cooled && aboveFloor && spike) { lastClapAt = now; onClap(); }
+```
+
+The `SKIP_RECENT` detail is the classic transient-detection trick: the baseline
+is the average of the *older* history frames, excluding the most recent four, so
+the clap can't raise the baseline it's about to be compared against. All three
+conditions have to hold at once - the absolute floor rejects quiet-room noise,
+the relative rise rejects steady loud sources like music.
+
+## The server is the debounce
+
+Keyboard and clap both just POST a `carouselAction` (`next` / `prev` /
+`setIndex`). The real rate limiter lives server-side: a per-`(room, layer)`
+timestamp map that silently no-ops any action arriving before the previous
+animation finished. Wrap-around is a modulo:
+
+```ts title="server/src/routing/routes.ts"
+const startedAt = carouselTransitionStartedAt.get(`${roomId}:${layerId}`) ?? 0;
+if (Date.now() - startedAt < targetLayer.carousel.durationMs) {
+  res.status(200).send({ status: 'ok', layers: currentLayers }); // silent no-op
+  return;
+}
+if (action === 'next')      newIndex = (oldIndex + 1) % n;
+else if (action === 'prev') newIndex = (oldIndex - 1 + n) % n;
+```
+
+That split - **position state owned by the server, config state owned by the
+client** (debounced sliders for duration, easing and gap) - is what keeps N
+editor clients, a keyboard and a microphone from fighting over one carousel.
+
+## Takeaway
+
+A carousel over live video inputs - phone cameras, live streams, MP4s - with
+animated GPU transitions, driven by claps, built by an agent from a 15-line
+prompt in a single commit. The prompt could stay that short because Smelter's
+React model absorbs the hard parts: identity-based interpolation, clipping, and
+a scene that re-renders like any other React tree.
+
+Try it in the [live demo](https://workshop.smelter.dev), or read the source of
+the editor itself in
+[smelter-labs/smelter-editor](https://github.com/smelter-labs/smelter-editor).
+The prompts used in the episode are listed under "Example AI prompts" in the
+repo's README.

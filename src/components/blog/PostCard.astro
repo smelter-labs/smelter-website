@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostThumbnail from "./PostThumbnail.astro";
+import { formatBlogDate } from "./blogHelpers";
+
+interface Props {
+  entry: CollectionEntry<"blog">;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const hasVideo = Boolean(data.video);
+const href = `/blog/${entry.id}`;
+---
+
+<!--
+  The whole card is one <a>. Nothing inside it is interactive on its own, so
+  there's no reason for a stretched-link overlay — which also can't be clicked
+  through by transformed children (they paint above it).
+-->
+<a
+  href={href}
+  class="blog-card group relative flex flex-col overflow-hidden rounded-3xl border border-homeLicense-border bg-explanation-background text-inherit no-underline transition-colors duration-300 hover:border-white/40 sm:flex-row"
+>
+  <PostThumbnail
+    cover={data.cover}
+    alt={data.title}
+    hasVideo={hasVideo}
+    duration={data.duration}
+    class="aspect-video w-full shrink-0 sm:w-[40%] sm:max-w-[440px]"
+  />
+
+  <div class="flex flex-1 flex-col justify-center p-5 sm:p-6">
+    <h3 class="mb-2 text-lg font-medium leading-snug text-white">
+      {data.title}
+    </h3>
+    <p class="par-s m-0 mb-5 text-hero-subtitle">{data.description}</p>
+
+    <p class="text-xs text-hero-subtitle/80">
+      {formatBlogDate(data.date)} · {data.categories.join(" · ")} · <span
+        class="text-hero-authorLabel">{data.author}</span
+      >
+    </p>
+  </div>
+</a>

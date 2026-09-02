@@ -1,0 +1,71 @@
+---
+interface Props {
+  cover: string;
+  alt: string;
+  hasVideo?: boolean;
+  duration?: string;
+  /** Diameter of the centered play button. */
+  playSize?: "sm" | "lg";
+  class?: string;
+  loading?: "eager" | "lazy";
+}
+
+const {
+  cover,
+  alt,
+  hasVideo = false,
+  duration,
+  playSize = "sm",
+  class: className,
+  loading = "lazy",
+} = Astro.props;
+
+const playDimensions = playSize === "lg" ? "h-16 w-16" : "h-12 w-12";
+const triangleSize = playSize === "lg" ? "h-5 w-5" : "h-4 w-4";
+---
+
+<div class:list={["group/thumb relative overflow-hidden bg-[#0E0A1C]", className]}>
+  <img
+    src={cover}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/thumb:scale-[1.03]"
+  />
+
+  {
+    hasVideo && (
+      <span
+        class:list={[
+          "pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-[#161127]/40 backdrop-blur-sm transition-all duration-300 group-hover/thumb:scale-110 group-hover/thumb:border-white/70 group-hover/thumb:bg-[#161127]/60",
+          playDimensions,
+        ]}
+      >
+        <svg
+          class:list={["translate-x-[1px] fill-white", triangleSize]}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </span>
+    )
+  }
+
+  {
+    duration && (
+      <span class="mono absolute bottom-2.5 right-2.5 inline-flex items-center gap-1 rounded-md bg-[#161127]/80 px-2 py-1 text-[11px] text-white backdrop-blur-sm">
+        <svg class="h-2.5 w-2.5 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        {duration}
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+</style>
