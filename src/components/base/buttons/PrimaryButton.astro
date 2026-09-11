@@ -7,9 +7,18 @@ const { class: buttonClass, textClass, ...primaryButtonProps } = Astro.props;
 ---
 
 <button
-  class:list={['bg-gradient-red-5 px-6 h-14 sm:px-7 sm:h-17.5 rounded-full w-fit shadow-none hover:shadow-[#fbc6cf40] hover:shadow-2xl hover:scale-[1.02] transition-all duration-300', buttonClass]}
+  class:list={['flex items-center justify-center bg-[#F24664] hover:bg-[#F5546E] px-5 h-12 sm:px-6 sm:h-14 rounded-2xl w-fit shadow-none hover:shadow-[#fbc6cf40] hover:shadow-2xl hover:scale-[1.02] transition-all duration-300', buttonClass]}
   {...primaryButtonProps}>
-  <div class:list={["flex gap-x-1.5 sm:gap-x-3 text-xl text-white justify-center items-center", textClass]}>
+  <div class:list={["btn-label flex gap-x-1.5 sm:gap-x-3 text-xl text-white justify-center items-center leading-none", textClass]}>
     <slot />
   </div>
 </button>
+
+<style>
+  /* Optical centering: Aeonik reserves descender space, so text sits high
+     inside its line box. Tighten line-height and nudge slotted text down. */
+  .btn-label :global(p) {
+    line-height: 1;
+    transform: translateY(0.045em);
+  }
+</style>

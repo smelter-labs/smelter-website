@@ -204,14 +204,6 @@ body {
 			#493880 100%);
 }
 
-.gradient-light-6 {
-	background: linear-gradient(170deg,
-			theme("colors.gradient.redLight") 0%,
-			#FBC6CF66 100%)
-}
-
-
-
 .border-gradient::before {
 	position: absolute;
 	content: "";
