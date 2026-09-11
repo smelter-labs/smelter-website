@@ -144,22 +144,6 @@ const bannerReservationScript = topBarBannerReservationScript(
 
     <title>{title}</title>
 
-    <script>
-      // wait for reCAPTCHA to load the badge and hide it
-      const hideBadge = () => {
-        const badge = document.querySelector(
-          ".grecaptcha-badge"
-        ) as HTMLElement | null;
-        if (badge) {
-          badge.style.opacity = "0";
-          badge.style.visibility = "hidden";
-          badge.style.pointerEvents = "none";
-        }
-        requestAnimationFrame(hideBadge);
-      };
-      hideBadge();
-    </script>
-
     <ClientRouter />
 
     <!-- Google Tag Manager -->
@@ -220,5 +204,9 @@ const bannerReservationScript = topBarBannerReservationScript(
   </body><style is:global>
     @import "../../styles/font-face.scss";
     @import "../../styles/global.scss";
+
+    .grecaptcha-badge {
+      visibility: hidden;
+    }
   </style>
 </html>

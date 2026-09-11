@@ -71,6 +71,7 @@ export const DARK_THEME = {
       subtitle: COLORS.purple20,
       border: COLORS.white25,
       label: COLORS.white100,
+      error: COLORS.red40,
     },
     footer: {
       logo: COLORS.white100,
