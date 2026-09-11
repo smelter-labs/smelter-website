@@ -12,6 +12,8 @@ export const CONTACT_ERRORS = {
   serverError: `Something went wrong on our side. Please try again later or e-mail us directly at ${CONTACT_EMAIL}.`,
 } as const;
 
+export const RECAPTCHA_ACTION = "submit";
+
 export function validateEmail(value: string): string | null {
   const email = value.trim();
   if (!email) return CONTACT_ERRORS.emailRequired;

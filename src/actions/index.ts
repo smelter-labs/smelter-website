@@ -2,7 +2,12 @@ import { defineAction } from "astro:actions";
 import { getSecret } from "astro:env/server";
 import { z } from "astro:schema";
 import sendGrid from "@sendgrid/mail";
-import { CONTACT_ERRORS, EMAIL_REGEX, MESSAGE_MIN_LENGTH } from "../utils/contactForm";
+import {
+  CONTACT_ERRORS,
+  EMAIL_REGEX,
+  MESSAGE_MIN_LENGTH,
+  RECAPTCHA_ACTION,
+} from "../utils/contactForm";
 
 export const server = {
   submitContact: defineAction({
@@ -36,7 +41,7 @@ export const server = {
             event: {
               token: recaptchaToken,
               siteKey: SITE_KEY,
-              expectedAction: "submit",
+              expectedAction: RECAPTCHA_ACTION,
             },
           }),
         }

@@ -2,6 +2,7 @@ import { actions, isInputError } from "astro:actions";
 import {
   CONTACT_EMAIL,
   CONTACT_ERRORS,
+  RECAPTCHA_ACTION,
   validateConsent,
   validateEmail,
   validateMessage,
@@ -10,9 +11,10 @@ import {
 const publicRecaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 const RECAPTCHA_TIMEOUT_MS = 10_000;
 
-function getRecaptchaToken(): Promise<string> {
+function getRecaptchaToken(siteKey: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    if (typeof grecaptcha === "undefined") {
+    const recaptcha = window.grecaptcha?.enterprise;
+    if (!recaptcha) {
       reject(new Error("reCAPTCHA is not loaded"));
       return;
     }
@@ -20,13 +22,9 @@ function getRecaptchaToken(): Promise<string> {
       () => reject(new Error("reCAPTCHA timed out")),
       RECAPTCHA_TIMEOUT_MS,
     );
-    grecaptcha.enterprise.ready(async () => {
+    recaptcha.ready(async () => {
       try {
-        resolve(
-          await grecaptcha.enterprise.execute(publicRecaptchaKey, {
-            action: "submit",
-          }),
-        );
+        resolve(await recaptcha.execute(siteKey, { action: RECAPTCHA_ACTION }));
       } catch (error) {
         reject(error);
       } finally {
@@ -159,7 +157,10 @@ export function initContactForm() {
       const formData = new FormData(form);
 
       if (!import.meta.env.DEV) {
-        formData.append("recaptchaToken", await getRecaptchaToken());
+        formData.append(
+          "recaptchaToken",
+          await getRecaptchaToken(publicRecaptchaKey),
+        );
       }
 
       const { data, error } = await actions.submitContact(formData);
