@@ -3,6 +3,8 @@ import {
   CONTACT_EMAIL,
   CONTACT_ERRORS,
   RECAPTCHA_ACTION,
+  RECAPTCHA_ERRORS,
+  isRecaptchaError,
   validateConsent,
   validateEmail,
   validateMessage,
@@ -152,18 +154,32 @@ export function initContactForm() {
       return;
     }
 
+    if (!publicRecaptchaKey) {
+      console.error(
+        "[ContactForm] PUBLIC_RECAPTCHA_SITE_KEY is not set - cannot request a reCAPTCHA token.",
+      );
+      setFormError(CONTACT_ERRORS.serverError);
+      return;
+    }
+
     setSubmitting(true);
     try {
       const formData = new FormData(form);
 
-      if (!import.meta.env.DEV) {
+      try {
         formData.append(
           "recaptchaToken",
           await getRecaptchaToken(publicRecaptchaKey),
         );
+      } catch (error) {
+        console.error("[ContactForm] Could not get a reCAPTCHA token:", error);
+        setFormError(CONTACT_ERRORS.submitFailed);
+        return;
       }
 
       const { data, error } = await actions.submitContact(formData);
+      // Only sent in dev: which env var is empty, the raw assessment, etc.
+      const details = data?.devWarnings ?? [];
       if (isInputError(error)) {
         for (const field of FIELDS)
           setError(field, error.fields[field]?.[0] ?? null);
@@ -173,10 +189,23 @@ export function initContactForm() {
         }
         return;
       }
+      if (data && isRecaptchaError(data.error)) {
+        console.error(
+          `[ContactForm] ${data.error} - message not sent.`,
+          ...details,
+        );
+        setFormError(
+          data.error === RECAPTCHA_ERRORS.notValidated
+            ? CONTACT_ERRORS.submitFailed
+            : CONTACT_ERRORS.serverError,
+        );
+        return;
+      }
       if (error || !data.success) {
         console.error(
           "[ContactForm] Server failed to send the message:",
           error ?? data.error,
+          ...details,
         );
         setFormError(CONTACT_ERRORS.serverError);
         return;

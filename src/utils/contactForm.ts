@@ -14,6 +14,19 @@ export const CONTACT_ERRORS = {
 
 export const RECAPTCHA_ACTION = "submit";
 
+export const RECAPTCHA_ERRORS = {
+  notConfigured: "reCAPTCHA is not configured on the server",
+  tokenMissing: "reCAPTCHA token missing from the request",
+  assessmentFailed: "reCAPTCHA assessment request failed",
+  notValidated: "reCAPTCHA did not validate the submission",
+} as const;
+
+export type RecaptchaError = (typeof RECAPTCHA_ERRORS)[keyof typeof RECAPTCHA_ERRORS];
+
+export function isRecaptchaError(error: string | undefined): error is RecaptchaError {
+  return Object.values(RECAPTCHA_ERRORS).includes(error as RecaptchaError);
+}
+
 export function validateEmail(value: string): string | null {
   const email = value.trim();
   if (!email) return CONTACT_ERRORS.emailRequired;
