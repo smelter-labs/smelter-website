@@ -18,13 +18,18 @@ import ArrowRight from "/public/images/arrow-right.svg";
     <p class="text-form-subtitle">Tell us about your needs and we’ll get back to you in 48 hours</p>
   </div>
   <form class="flex w-full flex-col gap-y-10 mt-12 sm:mt-0" method="POST">
-    <TextInput
-      label="Your e-mail"
-      type="email"
-      name="email"
-      placeholder="user@smelter.dev"
-      required
-    />
+    <div class="flex w-full flex-col">
+      <TextInput
+        label="Your e-mail"
+        type="email"
+        name="email"
+        placeholder="user@smelter.dev"
+        class="aria-[invalid=true]:border-form-error"
+        aria-describedby="contact-email-error"
+        required
+      />
+      <p id="contact-email-error" class="mt-2 text-sm text-form-error empty:mt-0" aria-live="polite"></p>
+    </div>
     <Select label="Type of inquiry" name="inquiry">
       <option value="demo-request"
         >I'm interested in a demo/trial to see how Smelter works</option
@@ -44,43 +49,98 @@ import ArrowRight from "/public/images/arrow-right.svg";
       <TextArea
         label="Tell us more about your needs"
         name="message"
-        class="resize-none"
+        class="resize-none aria-[invalid=true]:border-form-error"
         rows="6"
+        aria-describedby="contact-message-error"
         required
       />
+      <p id="contact-message-error" class="mt-2 text-sm text-form-error empty:mt-0" aria-live="polite"></p>
       <label class="mt-4 flex cursor-pointer items-start gap-x-3 text-form-label">
-        <input
-          type="checkbox"
-          name="privacyConsent"
-          required
-          class="mt-1.5 size-5 shrink-0 cursor-pointer accent-link"
-        />
+        <span
+          class="mt-1.5 flex shrink-0 rounded-sm has-[[aria-invalid=true]]:outline has-[[aria-invalid=true]]:outline-2 has-[[aria-invalid=true]]:outline-offset-2 has-[[aria-invalid=true]]:outline-form-error"
+        >
+          <input
+            type="checkbox"
+            name="privacyConsent"
+            aria-describedby="contact-privacyConsent-error"
+            required
+            class="m-0 size-5 cursor-pointer accent-link"
+          />
+        </span>
         <span>
           By clicking this, I agree to my data provided above being processed in accordance with the
           <a
             class="text-form-label underline underline-offset-2 hover:text-link"
-            href="https://swmansion.com/privacy">Privacy Policy</a
+            href="https://swmansion.com/privacy"
+            target="_blank"
+            rel="noopener">Privacy Policy</a
           >.
         </span>
       </label>
+      <p id="contact-privacyConsent-error" class="mt-2 text-sm text-form-error empty:mt-0" aria-live="polite"></p>
     </div>
     <div class="flex w-full flex-col items-end gap-y-3 sm:w-auto sm:self-end">
-      <PrimaryButton type="submit" class="w-full sm:w-fit">
+      <PrimaryButton
+        type="submit"
+        class="w-full sm:w-fit disabled:cursor-wait disabled:opacity-60 disabled:hover:scale-100 disabled:hover:shadow-none"
+      >
         <p class="par-l">Send the message</p>
         <ArrowRight />
       </PrimaryButton>
+      <p id="contact-form-error" class="text-right text-sm text-form-error empty:hidden" role="alert"></p>
       <p class="text-right text-form-border text-xs">
         This site is protected by reCAPTCHA and the Google
-        <a class="text-form-border text-xs" href="https://policies.google.com/privacy">Privacy Policy</a> and
-        <a class="text-form-border text-xs" href="https://policies.google.com/terms">Terms of Service</a> apply.
+        <a class="text-form-border text-xs" href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and
+        <a class="text-form-border text-xs" href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> apply.
       </p>
     </div>
   </form>
 </section>
 
 <script>
-  import { actions } from "astro:actions";
+  import { actions, isInputError } from "astro:actions";
+  import {
+    CONTACT_EMAIL,
+    CONTACT_ERRORS,
+    validateConsent,
+    validateEmail,
+    validateMessage,
+  } from "../utils/contactForm";
+
   const publicRecaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+  const RECAPTCHA_TIMEOUT_MS = 10_000;
+
+  function getRecaptchaToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (typeof grecaptcha === "undefined") {
+        reject(new Error("reCAPTCHA is not loaded"));
+        return;
+      }
+      const timeout = setTimeout(
+        () => reject(new Error("reCAPTCHA timed out")),
+        RECAPTCHA_TIMEOUT_MS
+      );
+      grecaptcha.enterprise.ready(async () => {
+        try {
+          resolve(await grecaptcha.enterprise.execute(publicRecaptchaKey, { action: "submit" }));
+        } catch (error) {
+          reject(error);
+        } finally {
+          clearTimeout(timeout);
+        }
+      });
+    });
+  }
+
+  type Field = "email" | "message" | "privacyConsent";
+  type FieldElement = HTMLInputElement | HTMLTextAreaElement;
+
+  const validators: Record<Field, (el: FieldElement) => string | null> = {
+    email: (el) => validateEmail(el.value),
+    message: (el) => validateMessage(el.value),
+    privacyConsent: (el) => validateConsent((el as HTMLInputElement).checked),
+  };
+  const FIELDS = Object.keys(validators) as Field[];
 
   function closeSnackbar() {
     const snackbar = document.getElementById("successSnackbar");
@@ -95,25 +155,123 @@ import ArrowRight from "/public/images/arrow-right.svg";
     setTimeout(closeSnackbar, 5000);
   }
 
-  const form = document.querySelector("form");
-  form?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
+  document.addEventListener("astro:page-load", () => {
+    const form = document.querySelector<HTMLFormElement>("#contact form");
+    if (!form) return;
+    // Set from JS so that without it the browser's native `required` checks still apply.
+    form.noValidate = true;
 
-    const token = await new Promise<string>((resolve) => {
-      grecaptcha.enterprise.ready(async () => {
-        const result = await grecaptcha.enterprise.execute(publicRecaptchaKey, {
-          action: "submit",
-        });
-        resolve(result);
-      });
-    });
-    formData.append("recaptchaToken", token);
+    const liveFields = new Set<Field>();
 
-    const { error } = await actions.submitContact(formData);
-    if (!error) {
-      form?.reset();
-      showSnackbar();
+    const fieldElement = (field: Field) => form.elements.namedItem(field) as FieldElement;
+
+    function setError(field: Field, error: string | null) {
+      const errorElement = document.getElementById(`contact-${field}-error`);
+      if (errorElement) errorElement.textContent = error ?? "";
+      if (error) {
+        fieldElement(field).setAttribute("aria-invalid", "true");
+        liveFields.add(field);
+      } else {
+        fieldElement(field).removeAttribute("aria-invalid");
+      }
     }
+
+    function validate(field: Field): boolean {
+      const error = validators[field](fieldElement(field));
+      setError(field, error);
+      return !error;
+    }
+
+    for (const field of FIELDS) {
+      const element = fieldElement(field);
+        element.addEventListener("blur", () => {
+          if (element.value.trim()) validate(field);
+        });
+      element.addEventListener(field === "privacyConsent" ? "change" : "input", () => {
+        if (liveFields.has(field)) validate(field);
+      });
+    }
+
+    form.addEventListener("reset", () => {
+      for (const field of FIELDS) setError(field, null);
+      liveFields.clear();
+    });
+
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const submitLabel = submitButton?.querySelector("p");
+    const idleLabel = submitLabel?.textContent ?? "";
+    let submitting = false;
+
+    function setSubmitting(value: boolean) {
+      submitting = value;
+      if (submitButton) {
+        submitButton.disabled = value;
+        submitButton.setAttribute("aria-busy", String(value));
+      }
+      if (submitLabel) submitLabel.textContent = value ? "Sending…" : idleLabel;
+    }
+
+    function setFormError(error: string | null) {
+      const errorElement = document.getElementById("contact-form-error");
+      if (!errorElement) return;
+      errorElement.replaceChildren();
+      if (!error) return;
+
+      // Render the contact address in the message as a mailto link.
+      const [before, ...after] = error.split(CONTACT_EMAIL);
+      errorElement.append(before);
+      if (after.length > 0) {
+        const link = document.createElement("a");
+        link.href = `mailto:${CONTACT_EMAIL}`;
+        link.textContent = CONTACT_EMAIL;
+        link.className = "text-form-error underline underline-offset-2";
+        errorElement.append(link, after.join(CONTACT_EMAIL));
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (submitting) return;
+      setFormError(null);
+
+      const invalidFields = FIELDS.filter((field) => !validate(field));
+      if (invalidFields.length > 0) {
+        const firstInvalid = fieldElement(invalidFields[0]);
+        firstInvalid.scrollIntoView({ block: "center", behavior: "smooth" });
+        firstInvalid.focus({ preventScroll: true });
+        return;
+      }
+
+      setSubmitting(true);
+      try {
+        const formData = new FormData(form);
+
+        if (!import.meta.env.DEV) {
+          formData.append("recaptchaToken", await getRecaptchaToken());
+        }
+
+        const { data, error } = await actions.submitContact(formData);
+        if (isInputError(error)) {
+          for (const field of FIELDS) setError(field, error.fields[field]?.[0] ?? null);
+          if (!FIELDS.some((field) => error.fields[field])) {
+            console.error("[ContactForm] Rejected input:", error.fields);
+            setFormError(CONTACT_ERRORS.submitFailed);
+          }
+          return;
+        }
+        if (error || !data.success) {
+          console.error("[ContactForm] Server failed to send the message:", error ?? data.error);
+          setFormError(CONTACT_ERRORS.serverError);
+          return;
+        }
+        form.reset();
+        showSnackbar();
+      } catch (error) {
+        console.error("[ContactForm] Failed to send the message:", error);
+        setFormError(CONTACT_ERRORS.submitFailed);
+      } finally {
+        setSubmitting(false);
+      }
+    });
   });
 </script>

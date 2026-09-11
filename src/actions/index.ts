@@ -2,15 +2,24 @@ import { defineAction } from "astro:actions";
 import { getSecret } from "astro:env/server";
 import { z } from "astro:schema";
 import sendGrid from "@sendgrid/mail";
+import { CONTACT_ERRORS, EMAIL_REGEX, MESSAGE_MIN_LENGTH } from "../utils/contactForm";
 
 export const server = {
   submitContact: defineAction({
     accept: "form",
     input: z.object({
-      email: z.string().email(),
+      email: z
+        .string({ invalid_type_error: CONTACT_ERRORS.emailRequired })
+        .trim()
+        .regex(EMAIL_REGEX, CONTACT_ERRORS.emailInvalid),
       inquiry: z.string(),
-      message: z.string(),
-      privacyConsent: z.literal("on"),
+      message: z
+        .string({ invalid_type_error: CONTACT_ERRORS.messageRequired })
+        .trim()
+        .min(MESSAGE_MIN_LENGTH, CONTACT_ERRORS.messageTooShort),
+      privacyConsent: z.literal("on", {
+        errorMap: () => ({ message: CONTACT_ERRORS.consentRequired }),
+      }),
       recaptchaToken: z.string().optional(),
     }),
     handler: async ({ email, inquiry, message, recaptchaToken }) => {
