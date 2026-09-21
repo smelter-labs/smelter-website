@@ -188,7 +188,7 @@ export function initContactForm() {
         );
         return;
       }
-      if (error || !data.success) {
+      if (error || !data?.success) {
         console.error(
           "[ContactForm] Server failed to send the message:",
           error ?? data.error,
