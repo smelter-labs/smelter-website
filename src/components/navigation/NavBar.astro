@@ -170,7 +170,37 @@ const positionClass = sticky ? "sticky top-0 w-full" : "fixed top-10 w-screen ma
   </nav>
 </header>
 
-<script src="./navBar.ts"></script>
+<script is:inline>
+  (function () {
+    function handleOpacity() {
+      const header = document.getElementById("pageHeader");
+      if (!header) return;
+      const scrollDistanceLimit = 150;
+      const alphaDecimal = Math.min(235, (window.scrollY / scrollDistanceLimit) * 235);
+      const alphaHex = Math.round(alphaDecimal).toString(16).padStart(2, "0");
+      header.style.backgroundColor = `#161127${alphaHex}`;
+    }
+
+    handleOpacity();
+
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            handleOpacity();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    document.addEventListener("astro:page-load", handleOpacity);
+  })();
+</script>
 
 <script is:inline data-astro-rerun>
   function toggleMobileMenu() {
