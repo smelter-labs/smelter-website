@@ -4,6 +4,7 @@ sidebar:
   order: 5
 ---
 
+import { Badge } from '@astrojs/starlight/components';
 import CollapsibleDetails from '@components/CollapsibleDetails.astro';
 
 ## Reference
@@ -31,7 +32,7 @@ Audio output encoder preset.
 - **Supported values**:
   - `quality` - Recommended for broadcast and high-fidelity applications requiring decoded audio to maintain maximum fidelity to the input signal.
   - `voip` - Recommended for VoIP and videoconferencing applications, prioritizing listening quality and speech intelligibility.
-  - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority.
+  - `lowest_latency` - Recommended **only** when achieving the lowest possible latency is the highest priority. Uses only the CELT codec, so `forwardErrorCorrection` has no effect.
 
 ---
 
@@ -48,8 +49,13 @@ Sample rate.
 When enabled, include in-band forward error correction data to protect against packet loss. For more information, visit RFC specification sections [2.1.7](https://datatracker.ietf.org/doc/html/rfc6716#section-2.1.7)
 and [4.2.5](https://datatracker.ietf.org/doc/html/rfc6716#section-4.2.5)
 
+Has no effect with `preset: "lowest_latency"`.
+
 - **Type**: `bool`
-- **Default value**: `false`
+- **Default value**:
+  - WHIP, WHEP: `true`
+  - RTP, MoQ: `false`
+- **Option availability**: <Badge text="WHIP" variant="tip" />, <Badge text="WHEP" variant="tip" />, <Badge text="RTP" variant="tip" />, <Badge text="MoQ" variant="tip" />
 
 ---
 
@@ -59,3 +65,4 @@ Expected packet loss expressed as a percentage. This value controls how much red
 - **Type**: `number`
 - **Default value**: `0`
 - **Supported values**: `0-100`
+- **Option availability**: <Badge text="WHEP" variant="tip" />, <Badge text="RTP" variant="tip" />, <Badge text="MoQ" variant="tip" />
