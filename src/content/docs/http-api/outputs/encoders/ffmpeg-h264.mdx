@@ -66,22 +66,17 @@ Default options:
 
 ```sh frame=none
 preset=fast       # value of the "preset" option
-qcomp=0.6         # QP curve compression
-me_range=16       # maximum motion vector search range
-qdiff=4           # maximum QP step
-qmin=4            # minimum QP
-qmax=69           # maximum QP
-i_qfactor=1.4     # QP factor between I and P frames
-f_pb_factor=1.3   # QP factor between P and B frames
-partitions=...    # macroblock partitions, depends on the preset
-subq=...          # subpixel motion estimation quality, depends on the preset
-threads=0         # auto-detect thread count
 g=...             # GOP size in frames, from "keyframe_interval_ms"
 crf=23            # ONLY if "bitrate" is not set, quality-based VBR
 b=...             # ONLY if "bitrate" is set, average bitrate
 maxrate=...       # ONLY if "bitrate" is set, maximum bitrate
 bufsize=...       # ONLY if "bitrate" is set, equal to the average bitrate
+tune=zerolatency  # ONLY for WHIP, WHEP and MoQ outputs
+bf=0              # ONLY for WHIP, WHEP and MoQ outputs, disable B-frames
+thread_type=slice # ONLY for WHIP, WHEP and MoQ outputs
 ```
+
+Other outputs use B-frames whenever the preset enables them (3 for `fast`). To disable them, set `bf: "0"` in [`ffmpeg_options`](#ffmpeg_options).
 
 </CollapsibleDetails>
 
