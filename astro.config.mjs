@@ -399,7 +399,8 @@ export default defineConfig({
     process.env.ENABLE_SITEMAP
       ? sitemap({ lastmod: new Date() })
       : { name: "@astrojs/sitemap", hooks: {} },
-    react(),
+    // Fast Refresh's dev runtime references `window`, which crashes web workers.
+    react({ exclude: ["**/*.worker.ts"] }),
   ],
 
   markdown: {

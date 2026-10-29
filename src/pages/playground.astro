@@ -1,0 +1,13 @@
+---
+import PlaygroundApp from "../components/playground/Playground";
+import DemosLayout from "../layouts/DemosLayout.astro";
+---
+
+<DemosLayout
+  canonicalUrl="https://smelter.dev/playground"
+  keywords="smelter playground, react video compositing, live video editing, video mixing"
+  description="Write a Smelter React component in the browser and watch the composed stream live.">
+  <main class="flex h-screen w-full flex-col px-4 pt-32 pb-4 md:px-8">
+    <PlaygroundApp client:only="react" />
+  </main>
+</DemosLayout>

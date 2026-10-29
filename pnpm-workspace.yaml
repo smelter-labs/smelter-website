@@ -1,0 +1,4 @@
+packages:
+  # Isolated so the playground can use a newer @swmansion/smelter than the
+  # WASM demos (see packages/playground-runtime/package.json).
+  - packages/playground-runtime

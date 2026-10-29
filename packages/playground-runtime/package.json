@@ -1,0 +1,18 @@
+{
+  "name": "@smelter-website/playground-runtime",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "@swmansion/smelter": "0.4.0",
+    "@swmansion/smelter-web-client": "0.4.0",
+    "smelter-sdk": "npm:@swmansion/smelter@0.4.0",
+    "react": "18.3.1",
+    "sucrase": "3.35.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.1"
+  }
+}
