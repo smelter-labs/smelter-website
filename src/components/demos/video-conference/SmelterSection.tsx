@@ -8,6 +8,7 @@ import VoiceOffCircle from "../../../assets/demos/voice-off-circle.svg";
 
 import { isChromiumBased } from "../../../utils/browser";
 import LoadingSpinner from "../../base/LoadingSpinner";
+import DemoBrowserNotice from "../DemoBrowserNotice";
 import Output from "./io/Output";
 import UserSettingsSection from "./settings/UsersSettingsSection";
 
@@ -76,12 +77,7 @@ export default function SmelterSection() {
   }
 
   if (isChromium === false) {
-    return (
-      <div className="mx-auto max-w-3xl p-4 text-center">
-        <h3 className="mb-4 text-demos-header">Demos work only on chromium-based browsers</h3>
-        <p className="text-demos-subheader">Please switch to a supported browser to continue.</p>
-      </div>
-    );
+    return <DemoBrowserNotice />;
   }
 
   return (

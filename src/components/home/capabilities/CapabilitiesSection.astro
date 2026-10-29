@@ -18,42 +18,44 @@ import CapabilitiesItemSmall from "./CapabilitiesItemSmall.astro";
 const CAPABILITIES = [
   {
     label: "Ultra-low latency",
-    text: "Compose and stream your videos with minimal delay. Smelter means seamless experience for use cases that demand immediate responsiveness.",
+    text: "Compose and stream in real time with minimal delay — built for use cases where every frame counts.",
     icon: Bolt,
+    featured: true,
   },
   {
     label: "Multi-source support",
-    text: "Combine live feeds, screen recordings, and pre-recorded videos into a single composition. Mix multiple inputs at the same time without any frame drops.",
+    text: "Mix live feeds, screen recordings and files into a single composition — any number of inputs, no frame drops.",
     icon: MultiSource,
+    featured: true,
   },
   {
     label: "Dynamic overlays",
-    text: "Add text, animations, transitions, and graphics seamlessly — both to live and to recorded videos. Change layouts on the fly.",
+    text: "Add text, animations and graphics on the fly — live or recorded.",
     icon: Wand,
   },
   {
     label: "Browser-based experience",
-    text: "Run high-performance video processing directly in the browser with WASM. Also, leverage GPU processing by rendering with WebGL or WebGPU.",
+    text: "High-performance processing in the browser via WASM, WebGL & WebGPU.",
     icon: Cog,
   },
   {
     label: "Simple API",
-    text: "Thanks to the declarative API, Smelter is quick to pick up for anyone familiar with web development. Which means you can customize it in no time.",
+    text: "A declarative API that’s instantly familiar to any web developer.",
     icon: Api,
   },
   {
     label: "Tech-stack flexibility",
-    text: "You can use Smelter with TypeScript (React), Elixir (Membrane Framework) or just HTTP API with any language. Also, you need no deep video expertise.",
+    text: "Drive it from TypeScript, Elixir, or any language over HTTP.",
     icon: Flexbility,
   },
   {
     label: "Easy deployment",
-    text: "We provide pre-built binaries and publish images to the Docker registry. This way, you can set up Smelter in just a few steps.",
+    text: "Pre-built binaries and Docker images — up and running in minutes.",
     icon: Rocket,
   },
   {
-    label: "Offline processing available",
-    text: "It’s not only about real-time streaming. With Smelter, you can also process data offline and then save the result as a file.",
+    label: "Offline processing",
+    text: "Not just real-time — process offline and save the result to a file.",
     icon: Offline,
   },
 ] as const;
@@ -80,10 +82,13 @@ const CAPABILITIES = [
     </button>
   </div>
   
-  <div class="hidden sm:grid capabilities-grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-12 sm:mt-20 justify-center">
+  <div class="hidden sm:grid capabilities-grid sm:grid-cols-2 xl:grid-cols-6 gap-6 mt-12 sm:mt-20">
     {
       CAPABILITIES.map(capability => (
-        <CapabilitiesItem {...capability} />
+        <CapabilitiesItem
+          {...capability}
+          class={"featured" in capability ? "sm:col-span-2 xl:col-span-3" : "xl:col-span-2"}
+        />
       ))
     }
   </div>

@@ -105,7 +105,9 @@ export default function StreamForm({ smelter }: { smelter?: Smelter }) {
           </p>
         </label>
         <div className="flex cursor-pointer select-none items-center gap-4">
-          <button type="submit" className="h-10 w-fit rounded-full bg-gradient-red-5 px-4">
+          <button
+            type="submit"
+            className="h-10 w-fit rounded-full bg-[#F24664] px-4 transition-colors hover:bg-[#F5546E]">
             {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <div
               onClick={() => {

@@ -19,14 +19,14 @@ const TESTIMONIALS = [
     author: "Deric Walintukan",
     role: "Senior Engineering Manager at Firework",
     testimonial:
-      "“We currently use this in one of our current production apps and the capabilities of it are fantastic.<br/>Quite a pragmatic toolkit to use and would definitely recommend it to anyone interested in doing real-time A/V.<br/>The best toolkit to use in Elixir for sure.”",
+      "We currently use this in one of our current production apps and the capabilities of it are fantastic.<br/>Quite a pragmatic toolkit to use and would definitely recommend it to anyone interested in doing real-time A/V.<br/>The best toolkit to use in Elixir for sure.",
   },
   {
     avatar: Michael,
     author: "Michaël de Marliave",
     role: "YouTuber & Founder of OneClickStudio",
     testimonial:
-      "“We use Smelter as a library to power our video production studios.<br/>It lets us composite multiple sources into high-quality animated scenes. Handling complex layouts entirely in software and real time!<br/>It is truly a versatile and reliable tool we can only recommend.”",
+      "We use Smelter as a library to power our video production studios.<br/>It lets us composite multiple sources into high-quality animated scenes. Handling complex layouts entirely in software and real time!<br/>It is truly a versatile and reliable tool we can only recommend.",
   },
 ] as const satisfies Testimonial[];
 ---
@@ -36,14 +36,15 @@ const TESTIMONIALS = [
   class="px-4 my-40 flex flex-row justify-center items-center w-full relative sm:px-12 sm:pb-14 2xl:pb-20 2xl:h-fit testimonials-scroll-margin"
 >
   <div class="flex flex-col text-center items-center w-full">
-    <h2 class="text-testimonials-header mb-10">
+    <h2 class="text-testimonials-header mb-4">
       What our users say about Smelter
     </h2>
+    <div class="gradient-red-3 mb-12 h-1 w-16 rounded-full"></div>
     <div class="w-full h-full relative">
-      <div class="testimonials-container">
+      <div class="testimonials-container mx-auto max-w-4xl">
         <button
           id="testimonialsPrevButton"
-          class="z-50 absolute hidden sm:block left-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
+          class="z-50 absolute hidden sm:block left-0 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
         >
           <ChevronLeft
             class="w-10 h-10 aspect-square"
@@ -56,7 +57,7 @@ const TESTIMONIALS = [
         }
         <button
           id="testimonialsNextButton"
-          class="absolute hidden sm:block right-4 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
+          class="z-50 absolute hidden sm:block right-0 top-1/2 -translate-y-1/2 aspect-square bg-[#38314b] border border-solid border-gradient-redLight rounded-full active:scale-110 transition-all duration-300"
         >
           <ChevronRight
             class="w-10 h-10 aspect-square"

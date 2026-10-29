@@ -1,7 +1,8 @@
 ---
 import PrimaryButton from "@components/base/buttons/PrimaryButton.astro";
 import Image from "astro/components/Image.astro";
-import HeroStreams from "./hero-streams/HeroStreams.astro";
+import HeroCode from "./HeroCode.astro";
+import HeroTrustBar from "./HeroTrustBar.astro";
 
 import heroGradient from "@assets/hero/gradient.webp";
 import ArrowRight from "public/images/arrow-right.svg";
@@ -9,10 +10,13 @@ import SwmLogo from "public/images/swm-logo.svg";
 
 import "./heroSection.scss";
 import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
+
+const mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace";
+const installCommand = "npm i @swmansion/smelter-web-wasm";
 ---
 
 <section
-  class="px-4 sm:px-12 xl:pl-20 flex h-screen flex-row justify-center sm:py-14 items-center relative 2xl:h-fit 2xl:py-80"
+  class="px-4 sm:px-12 xl:pl-20 flex h-screen flex-row justify-center sm:py-14 items-center relative 2xl:h-fit 2xl:py-52"
 >
   <Fragment slot="head">
     <link rel="preload" href={heroGradient.src} as="image" />
@@ -28,31 +32,65 @@ import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
         <SwmLogo class="fill-hero-authorLabel" />
       </a>
     </div>
-    <div class="mb-14 flex flex-col gap-y-4">
+    <div class="mb-8 flex flex-col gap-y-4">
       <h1 class="text-hero-title">
-        Smelter: Real-time video<br />compositing software
+        Composite live video<br />in a few lines of code
       </h1>
       <p class="par-l text-hero-subtitle">
-        Low-latency multimedia composition<br />for your live streams and
-        pre-recorded videos
+        Smelter is a low-latency toolkit for programmable video &amp; audio<br
+          class="hidden sm:block"
+        />composition — for live streams and pre-recorded files.
       </p>
     </div>
+
+    <div
+      class="flex items-center gap-3 mb-8 w-fit max-w-full rounded-2xl border border-white/15 bg-[#0E0A1C] pl-5 pr-2 py-2"
+    >
+      <span class="text-sm text-hero-subtitle" style={`font-family:${mono}`}>$</span>
+      <code
+        class="text-sm text-white/85 truncate"
+        style={`font-family:${mono}`}>{installCommand}</code>
+      <button
+        id="heroCopyInstall"
+        data-command={installCommand}
+        aria-label="Copy install command"
+        class="shrink-0 rounded-lg px-3 py-1.5 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+        style={`font-family:${mono}`}
+      >
+        <span data-copy-label>copy</span>
+      </button>
+    </div>
+
     <div class="flex flex-col sm:flex-row gap-2">
-      <a href="/#pricing" style="text-decoration: none; color: inherit;">
+      <a
+        href="/fundamentals/getting-started"
+        style="text-decoration: none; color: inherit;"
+      >
         <PrimaryButton>
-          <p class="par-xl">Try it for free</p>
+          <p class="par-xl">Get started</p>
           <ArrowRight />
         </PrimaryButton>
       </a>
-      <a href="https://demo.smelter.dev/" target="_blank" style="text-decoration: none; color: inherit;">
+      <a
+        href="https://github.com/software-mansion/smelter"
+        target="_blank"
+        rel="noreferrer noopener"
+        style="text-decoration: none; color: inherit;"
+      >
         <SecondaryButton>
-          <p class="par-xl" data-astro-prefetch>See a live demo</p>
+          <p class="par-xl">View on GitHub</p>
           <ArrowRight />
         </SecondaryButton>
       </a>
     </div>
+
+    <div class="mt-8">
+      <HeroTrustBar />
+    </div>
   </div>
-  <HeroStreams />
+  <div class="flex-1 hidden xl:flex flex-col items-center justify-center gap-10">
+    <HeroCode />
+  </div>
   <Image
     src={heroGradient}
     alt="Hero"
@@ -61,5 +99,28 @@ import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
     loading="eager"
   />
 </section>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const button = document.getElementById("heroCopyInstall");
+    if (!button) return;
+    const label = button.querySelector("[data-copy-label]");
+    let resetTimeout: ReturnType<typeof setTimeout>;
+
+    button.addEventListener("click", async () => {
+      const command = button.dataset.command ?? "";
+      try {
+        await navigator.clipboard.writeText(command);
+        if (label) label.textContent = "copied ✓";
+        clearTimeout(resetTimeout);
+        resetTimeout = setTimeout(() => {
+          if (label) label.textContent = "copy";
+        }, 1600);
+      } catch {
+        /* clipboard unavailable — no-op */
+      }
+    });
+  });
+</script>
 
 <script src="./hero-streams/heroStreams.ts"></script>

@@ -4,6 +4,9 @@ import Arrow from "../../../assets/demos/arrow.svg";
 import Arrows from "../../../assets/demos/arrows.svg";
 import SmelterLogo from "../../../assets/navigation/smelter-logo-small.svg";
 import CommercialMp4 from "../../../assets/race_640x360_full.mp4";
+import { isChromiumBased } from "../../../utils/browser";
+import LoadingSpinner from "../../base/LoadingSpinner";
+import DemoBrowserNotice from "../DemoBrowserNotice";
 import { useSmelter } from "../smelter-utils/useSmelter";
 import Camera from "./io/Camera";
 import Output from "./io/Output";
@@ -13,6 +16,7 @@ import TextInput from "./io/TextInput";
 setWasmBundleUrl("/smelter.wasm");
 
 export default function SmelterSection() {
+  const isChromium = isChromiumBased();
   const smelter = useSmelter();
 
   useEffect(() => {
@@ -31,17 +35,33 @@ export default function SmelterSection() {
     };
   }, [smelter]);
 
+  if (isChromium === "loading") {
+    return <LoadingSpinner />;
+  }
+
+  if (isChromium === false) {
+    return <DemoBrowserNotice />;
+  }
+
   return (
-    <div className="relative flex items-center">
-      <div className="flex flex-col gap-y-4">
-        <Camera smelter={smelter} />
-        <Stream smelter={smelter} />
-        <TextInput />
+    <>
+      <div>
+        <h2 className="text-demos-header">Compose video example</h2>
+        <p className="text-demos-subheader">
+          See how Smelter handles live video composition based your changes.
+        </p>
       </div>
-      <img alt="arrows" src={Arrows.src} className="-ml-12 -z-10 h-56" />
-      <img alt="smelter" src={SmelterLogo.src} className="-z-10 ml-16 h-24" />
-      <img alt="arrow" src={Arrow.src} className="-z-10 mr-4 ml-6 w-28" />
-      {smelter && <Output smelter={smelter} />}
-    </div>
+      <div className="relative flex items-center">
+        <div className="flex flex-col gap-y-4">
+          <Camera smelter={smelter} />
+          <Stream smelter={smelter} />
+          <TextInput />
+        </div>
+        <img alt="arrows" src={Arrows.src} className="-ml-12 -z-10 h-56" />
+        <img alt="smelter" src={SmelterLogo.src} className="-z-10 ml-16 h-24" />
+        <img alt="arrow" src={Arrow.src} className="-z-10 mr-4 ml-6 w-28" />
+        {smelter && <Output smelter={smelter} />}
+      </div>
+    </>
   );
 }

@@ -1,177 +1,189 @@
 ---
-import Star from "@assets/license/star.svg";
-import Suitcase from "@assets/license/suitcase.svg";
 import PrimaryButton from "@components/base/buttons/PrimaryButton.astro";
-import SecondaryButton from "@components/base/buttons/SecondaryButton.astro";
 import ArrowRight from "/public/images/arrow-right.svg";
 ---
 
-<section
-  id="pricing"
-  class="flex flex-col items-center mb-28 justify-center gap-y-12 mx-4 sm:mx-8 xl:mx-64 2xl:h-fit 2xl:min-h-[unset] 2xl:py-20 license-scroll-margin"
->
-  <div class="justify-center text-center">
-    <h2 class="mb-6 text-homeLicense-header">Choose your plan</h2>
-  </div>
+<section id="pricing" class="mb-28 px-4 sm:px-8 license-scroll-margin">
+  <div class="mx-auto flex max-w-[1040px] flex-col">
+    <div class="mb-12 flex flex-col items-center text-center">
+      <h2 class="mb-5 text-homeLicense-header">
+        Run it yourself.<br />License it when you <span
+          style="background:linear-gradient(120deg,#F78D9E,#C2B1E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent"
+          >scale</span
+        >.
+      </h2>
 
-  <div class="flex flex-col md:flex-row gap-8 max-w-[860px]">
-    <div class="gradient-light-4 flex flex-1 rounded-4xl p-px">
-      <div
-        class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10"
-      >
-        <div class="relative z-0 flex h-full flex-col">
-          <div class="flex justify-between flex-col items-start md:flex-row">
-            <div class="flex items-start gap-4 h-[100px] md:h-[130px]">
-              <div
-                class="flex grow aspect-square overflow-clip rounded-2xl border border-homeLicense-border w-14 h-14 min-w-14 min-h-14"
-              >
-                <div
-                  class="gradient-light-3 w-full h-full aspect-square min-w-14 min-h-14"
-                >
-                  <div class="flex items-center justify-center p-2.5 md:p-3">
-                    <Star class="w-full h-full object-cover" />
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-col">
-                <h3 class="text-homeLicense-header text-start">Free</h3>
-                <p
-                  class="text-homeLicense-subheader text-start text-md leading-6"
-                >
-                  For hobbyists and<br class="hidden md:block" />small-to-medium
-                  projects
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-col h-full justify-between">
-            <div class="my-3 flex flex-col text-capabilities-text">
-              <div class="mb-2">
-                <span class="font-semibold">Offline processing:</span> Unlimited
-              </div>
-              <div>
-                <span class="font-semibold">Live processing:</span>
-                <div class="flex flex-col mt-2">
-                  <ul class="list-disc mb-0 ml-8 text-capabilities-text">
-                    <li>Up to 50 employees</li>
-                    <li>Up to 10k viewers</li>
-                    <li>Up to 50 machines</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <a
-              href="/docs"
-              target="_blank"
-              style="text-decoration: none; color: inherit"
-              class="self-end mt-8"
-            >
-              <SecondaryButton class="max-h-14">
-                <p class="m-0">Try it now</p>
-                <ArrowRight class="w-4 h-4" />
-              </SecondaryButton>
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <div class="border border-homeLicense-border flex flex-1 rounded-4xl p-px">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <!-- Community License -->
       <div
-        class="h-full w-full rounded-[calc(2rem-1px)] bg-explanation-background p-10"
+        class="flex h-full flex-col rounded-4xl border border-homeLicense-border bg-explanation-background p-8"
       >
-        <div class="relative z-0 flex h-full flex-col">
-          <div class="flex justify-between flex-col items-start md:flex-row">
-            <div class="flex items-start gap-4 h-[100px] md:h-[130px]">
-              <div
-                class="flex grow aspect-square overflow-clip rounded-2xl border border-homeLicense-border w-14 h-14 min-w-14 min-h-14"
-              >
-                <div
-                  class="gradient-light-3 w-full h-full aspect-square min-w-14 min-h-14"
-                >
-                  <div class="flex items-center justify-center p-2.5 md:p-3">
-                    <Suitcase class="w-full h-full object-cover" />
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-col">
-                <h3 class="text-homeLicense-header text-start">Enterprise</h3>
-                <p class="text-homeLicense-subheader text-start leading-6">
-                  For enterprise-grade applications
-                </p>
-              </div>
-            </div>
+        <span
+          class="mono mb-6 inline-block w-fit rounded-md border border-homeLicense-border px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-hero-subtitle"
+        >
+          Free · Self-hosted
+        </span>
+        <h3 class="text-homeLicense-header">Community License</h3>
+        <p class="par-s text-hero-subtitle">
+          For hobbyists and small-to-medium projects
+        </p>
+
+        <div class="my-6 h-px bg-homeLicense-border"></div>
+
+        <div class="flex flex-col gap-5">
+          <div>
+            <p
+              class="mono mb-1.5 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
+            >
+              Offline processing
+            </p>
+            <p class="m-0 text-white">Unlimited</p>
           </div>
-          <div class="flex flex-col h-full justify-between">
-            <div class="flex flex-col gap-y-6">
-              <div class="my-3 flex flex-col gap-y-2 text-capabilities-text">
-                <div>
-                  <span class="font-semibold">Offline processing:</span> Unlimited
-                </div>
-                <div>
-                  <span class="font-semibold">Live processing:</span> Unlimited
-                </div>
-                <div>
-                  <span class="font-semibold">Priority support:</span> Custom integrations,
-                  new features, long-term support
-                </div>
-              </div>
-              <hr
-                class="solid my-2 border-t-2 [border-image:linear-gradient(180deg,#C2B1E0,#493880)_120] opacity-70"
-              />
-              <p class="text-capabilities-text">
-                <strong>Free trial</strong> for 90 days (no credit card required,
-                no strings attached)
+          <div>
+            <p
+              class="mono mb-2 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
+            >
+              Live processing
+            </p>
+            <ul class="m-0 flex list-none flex-col gap-1.5 p-0">
+              <li class="flex items-start gap-2.5">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 bg-[#8471C1]"></span>
+                <span class="text-white">Up to 50 employees</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 bg-[#8471C1]"></span>
+                <span class="text-white">Up to 10k viewers</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 bg-[#8471C1]"></span>
+                <span class="text-white">Up to 50 machines</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-auto pt-8">
+          <a
+            href="/fundamentals/getting-started"
+            style="text-decoration: none; color: inherit"
+          >
+            <PrimaryButton class="max-h-14">
+              <p class="m-0">Start building</p>
+              <ArrowRight class="w-4 h-4" />
+            </PrimaryButton>
+          </a>
+        </div>
+      </div>
+
+      <!-- Commercial License -->
+      <div class="gradient-light-4 flex h-full rounded-4xl p-px">
+        <div
+          class="flex h-full w-full flex-col rounded-[calc(2rem-1px)] bg-explanation-background p-8"
+        >
+          <span
+            class="mono mb-6 inline-block w-fit rounded-md bg-[#493880] px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-white"
+          >
+            Commercial · Self-hosted
+          </span>
+          <h3 class="text-homeLicense-header">Commercial License</h3>
+          <p class="par-s text-hero-subtitle">
+            For enterprise-grade applications
+          </p>
+
+          <div class="my-6 h-px bg-homeLicense-border"></div>
+
+          <div class="flex flex-col gap-5">
+            <div>
+              <p
+                class="mono mb-1.5 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
+              >
+                Offline processing
+              </p>
+              <p class="m-0 text-white">Unlimited</p>
+            </div>
+            <div>
+              <p
+                class="mono mb-1.5 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
+              >
+                Live processing
+              </p>
+              <p class="m-0 text-white">Unlimited</p>
+            </div>
+            <div>
+              <p
+                class="mono mb-1.5 text-[11px] uppercase tracking-[0.12em] text-hero-subtitle"
+              >
+                Priority support
+              </p>
+              <p class="m-0 text-white">
+                Custom integrations, new features, long-term support
               </p>
             </div>
-            <a
-              href="#contact"
-              style="text-decoration: none; color: inherit"
-              class="self-end mt-8"
-            >
-              <SecondaryButton class="max-h-14">
-                <p class="m-0">Contact us</p>
+          </div>
+
+          <div class="mt-auto pt-4">
+            <p class="mono mb-5 text-[14px] text-hero-subtitle">
+              <span class="text-white">90-day free trial</span> · no credit card
+            </p>
+            <a href="#contact" style="text-decoration: none; color: inherit">
+              <PrimaryButton class="max-h-14">
+                <p class="m-0">Start 90-day trial</p>
                 <ArrowRight class="w-4 h-4" />
-              </SecondaryButton>
+              </PrimaryButton>
             </a>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="gradient-red-1 rounded-4xl p-px max-w-[860px] w-full">
-    <div class="w-full rounded-[calc(2rem-1px)] bg-explanation-background px-8 py-8 sm:px-10 sm:py-10">
-      <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-        <div class="flex-1 text-center sm:text-left">
-          <h3 class="text-homeLicense-header mb-2">Managed Service</h3>
-          <p class="text-capabilities-text text-base leading-relaxed m-0">
-            Smelter is available a managed service - no server required.<br/>
-            Fishjam runs the infrastructure for you.
-          </p>
-        </div>
-        <a
-          href="https://fishjam.swmansion.com/real-time-composition"
-          target="_blank"
-          rel="noreferrer noopener"
-          style="text-decoration: none; color: inherit"
-          class="shrink-0"
+    <!-- Managed Service -->
+    <div class="gradient-red-1 mt-6 rounded-4xl p-px">
+      <div
+        class="rounded-[calc(2rem-1px)] bg-explanation-background px-8 py-8 sm:px-10"
+      >
+        <div
+          class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-8"
         >
-          <PrimaryButton>
-            <p class="m-0">Get Early Access</p>
-            <ArrowRight class="w-4 h-4" />
-          </PrimaryButton>
-        </a>
+          <div class="flex-1">
+            <p
+              class="mono mb-2 text-[11px] uppercase tracking-[0.14em] text-hero-docsGradientFrom"
+            >
+              Managed Service
+            </p>
+            <p class="m-0 text-white">
+              Don't want to run infrastructure? Software Mansion hosts and
+              operates Smelter for you via Fishjam — no server required.
+            </p>
+          </div>
+          <a
+            href="https://fishjam.swmansion.com/real-time-composition"
+            target="_blank"
+            rel="noreferrer noopener"
+            style="text-decoration: none; color: inherit"
+            class="shrink-0"
+          >
+            <PrimaryButton class="max-h-14">
+              <p class="m-0">Get Early Access</p>
+              <ArrowRight class="w-4 h-4" />
+            </PrimaryButton>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <style>
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
   .license-scroll-margin {
     scroll-margin-top: 10vh;
   }
-  @supports (scroll-margin-top;: 10dvh) {
+  @supports (scroll-margin-top: 10dvh) {
     .license-scroll-margin {
       scroll-margin-top: 10dvh;
     }

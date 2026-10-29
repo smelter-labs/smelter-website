@@ -5,14 +5,34 @@ interface Props {
   label: string;
   text: string;
   icon: LocalImageProps["src"];
+  featured?: boolean;
+  class?: string;
 }
 
-const { label, text, icon } = Astro.props;
+const { label, text, icon, featured = false, class: className } = Astro.props;
 ---
 
-<div class="h-full rounded-4xl border bg-capabilities-background border-capabilities-border overflow-clip p-10 item">
-  <div class="flex items-center mb-6 gap-4">
-    <div class="flex aspect-square w-14 h-14 maex-w-14 max-h-14 rounded-2xl border border-capabilities-border overflow-clip md:w-16 md:h-16 md:max-w-16 md:max-h-16">
+<div
+  class:list={[
+    "isolate relative h-full rounded-4xl border bg-capabilities-background border-capabilities-border overflow-clip item",
+    featured ? "p-10 xl:p-12" : "p-8 xl:p-10",
+    className,
+  ]}
+>
+  {
+    featured && (
+      <div class="gradient-red-1 pointer-events-none absolute -right-20 -top-20 -z-10 h-56 w-56 rounded-full opacity-20 blur-3xl" />
+    )
+  }
+  <div class:list={["flex items-center gap-4", featured ? "mb-6" : "mb-5"]}>
+    <div
+      class:list={[
+        "flex aspect-square rounded-2xl border border-capabilities-border overflow-clip",
+        featured
+          ? "w-14 h-14 max-w-14 max-h-14 md:w-16 md:h-16 md:max-w-16 md:max-h-16"
+          : "w-12 h-12 max-w-12 max-h-12 md:w-14 md:h-14 md:max-w-14 md:max-h-14",
+      ]}
+    >
       <div class="gradient-red-1 w-full h-full aspect-square">
         <div class="flex items-center justify-center p-3 md:p-4">
           <Image src={icon} alt="capability icon" class="w-full h-full object-cover" />
@@ -20,8 +40,15 @@ const { label, text, icon } = Astro.props;
       </div>
     </div>
     <div class="flex">
-      <h3 class="text-capabilities-header text-start">{label}</h3>
+      <h3 class:list={["text-capabilities-header text-start", featured && "xl:text-2xl"]}>{label}</h3>
     </div>
   </div>
-  <p class="par-l text-capabilities-text text-start">{text}</p>
+  <p
+    class:list={[
+      "text-capabilities-text text-start",
+      featured ? "par-xl max-w-md" : "par-l",
+    ]}
+  >
+    {text}
+  </p>
 </div>
