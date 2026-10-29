@@ -6,6 +6,8 @@ export const BLOG_CATEGORIES = [
   "Live Streaming",
   "Broadcasting",
   "Conferencing",
+  "Video processing",
+  "Release notes",
   "Community",
   "Gaming",
   "Rap Music",
