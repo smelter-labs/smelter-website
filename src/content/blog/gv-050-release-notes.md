@@ -66,6 +66,7 @@ The thread should sleep while the tasks are running, and wake up when one of the
 ```rust
 // in Vulkan, GPU operations are synchronized using semaphores.
 // you can tell the GPU to signal a semaphore after an operation is done.
+// for now, let's assume we have these three semaphores
 let mut semaphores = vec![op1, op2, op3];
 
 loop {
