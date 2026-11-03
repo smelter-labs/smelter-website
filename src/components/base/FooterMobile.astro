@@ -1,6 +1,8 @@
 ---
 import FooterWave from "@assets/footer-small.svg";
 import SwmLogo from "/public/images/swm-logo.svg";
+
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="relative flex overflow-hidden footer-size sm:hidden">
@@ -92,7 +94,7 @@ import SwmLogo from "/public/images/swm-logo.svg";
             >Privacy policy</a
           >
         </div>
-        <p class="text-xs text-white">&copy; 2024-2025 Software Mansion S.A.</p>
+        <p class="text-xs text-white">&copy; 2024-{currentYear} Software Mansion S.A.</p>
       </div>
     </div>
   </div>

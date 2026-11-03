@@ -1,11 +1,13 @@
 ---
 import FooterWave from "@assets/footer.svg";
+
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="relative h-[17.5rem] overflow-hidden mt-20 hidden sm:flex">
+<footer class="relative min-h-[17.5rem] overflow-hidden mt-20 hidden sm:flex">
   <FooterWave class="footer-wave" />
   <div
-    class="flex absolute inset-0 m-auto flex-col items-center justify-center gap-y-4 text-center px-18 mb-4"
+    class="relative flex w-full flex-col items-center justify-center gap-y-4 text-center px-18 mb-4"
   >
     <div class="hidden sm:flex w-full h-full items-center py-12">
       <div class="flex flex-1.5 h-full">
@@ -26,6 +28,9 @@ import FooterWave from "@assets/footer.svg";
             ul. Zabłocie 43b<br />
             30-701 Kraków, Poland<br />
             NIP/VAT EU: PL6793131302<br />
+          </p>
+          <p class="text-xs text-footer-text">
+            &copy; 2024-{currentYear} Software Mansion S.A.
           </p>
         </div>
       </div>
