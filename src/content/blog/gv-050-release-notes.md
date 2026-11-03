@@ -25,13 +25,13 @@ In order to learn that, we first have to understand how the Vulkan execution mod
 - copy a buffer that contains raw frame bytes into a GPU-based image
 - encode that image
 
-And there is a memory dependency between these two! You have to explicitly tell the GPU that it has to wait to start encoding until the copy operation is done writing to the image, or else a race can happen and your output will be garbage. The default is to run all independent operations simultaneously. There is another hidden dependency in an encoding workflow: video compression is so efficient because later frames are often very similar to earlier ones. The encoding process of a frame uses previous frames as references. Therefore, we need to also tell the GPU that it needs to wait for the previous frame to be done before starting the next one.
+And there is a memory dependency between these two! You have to explicitly tell the GPU that it has to wait to start encoding until the copy operation is done writing to the image, or else a race can happen and your output will be garbage. The default in Vulkan is to run all independent operations simultaneously. There is another hidden dependency in an encoding workflow: video compression is so efficient because later frames are often very similar to earlier ones. The encoding process of a frame uses previous frames as references. Therefore, we need to also tell the GPU that it needs to wait for the previous frame to be done before starting the next one.
 
 Now that we know all of this, we're ready for a diagram showing how encoding synchronization looked in the previous gpu-video release.
 
 ![A diagram showing a suboptimal flow described above](/blog/gv-050/diagram1.svg)
 
-The arrows on the diagram represent memory dependencies. It basically showcases what I described before. This is a synchronization pattern that _works_ for the encoder. It is not very fast, for two main reasons. First, if you look at the top row, you can see a lot of empty space. That means that, for the majority of the time, the encoding engine is idle. If we want to go as fast as possible, we should obviously utilize 100% of it, or as close to it as we can get. The other problem is harder to spot on this simplified diagram. The thread submitting a job blocks until the job is finished, and only submits the next job after that. The cost of synchronization between the CPU and the GPU is also non-negligible.
+The arrows on the diagram represent the aforementioned memory dependencies. It basically showcases what I described before. This is a synchronization pattern that _works_ for the encoder. It is not very fast, for two main reasons. First, if you look at the top row, you can see a lot of empty space. That means that, for the majority of the time, the encoding engine is idle. If we want to go as fast as possible, we should obviously utilize 100% of it, or as close to it as we can get. The other problem is harder to spot on this simplified diagram. The thread submitting a job blocks until the job is finished, and only submits the next job after that. The cost of synchronization between the CPU and the GPU is also non-negligible.
 
 Blocking until the GPU job completes was a deliberate decision. It made the initial phases of development much easier. But we're mostly past the early stages, definitely mature enough to stop blocking here. That change needs a new API, since we can't just return the result from the `encode()` function. We settled on delivering the results through a callback, a bit like [notify](https://lib.rs/crates/notify) does. Making the API asynchronous in this way allows us to submit multiple batches while the GPU is working, so it always has something to do after it's done with a job. After this first change, the sync diagram looks like this:
 
@@ -57,7 +57,7 @@ Notice that the only place where we are not comparable with the vendor API is hi
 
 I mentioned before that we had to change the API to be asynchronous. I think what we ended up with is pretty neat: the user gives us a callback that can accept a finished frame or chunk of bitstream, then we call it after every successful operation. This has the benefit of being compatible with synchronous Rust and all async runtimes. You can take a channel from your runtime of choice and send finished frames in the callback, which is nice. Implementing it required coming up with a quite fun idea which I wanted to talk about briefly.
 
-First of all, when a user submits an encode/decode operation, we schedule it and return to their code immediately. The callback gets called later. Something has to run it, and we no longer have the user's thread for that. So, gpu-video spawns its own thread that waits for all operations, and as soon as one of them finishes, runs its associated callback. Of course, the thread has to be told that it should wait for an operation to finish. This gives us this communication diagram.
+First of all, when a user submits an encode/decode operation, we schedule it (1A on the diagram) and return to their code immediately. The callback gets called later. Something has to run it, and we no longer have the user's thread for that. So, gpu-video spawns its own thread that waits for all operations, and as soon as one of them finishes, runs its associated callback. Of course, the thread has to be told that it should wait for an operation to finish (1B on the diagram). This gives us this communication diagram.
 
 ![A diagram showing how the user thread, the gpu-video thread and the GPU communicate.](/blog/gv-050/diagram4.svg)
 
@@ -142,9 +142,9 @@ The problem is, how does the thread get the operations it's supposed to wait for
 
 Both of them have drawbacks. For the first approach, the drawbacks are obvious. Either we keep the sleep time short and use more CPU than we should, or make it long and introduce latency to the pipeline. It's also ugly as hell.
 
-The second approach introduces latency too, but it is a bit harder to reason about than the first one. Especially if you factor in that a single thread is used for all encoders and decoders, and that they possibly have very different processing times per frame (they can have different resolutions and different quality settings).
+The second approach introduces latency too, but it is a bit harder to reason about than the first one. Especially if you factor in that a single thread is used for all encoders and decoders, and that they possibly have very different processing times per frame (they can have different resolutions and different quality settings). Since there is no hard limit on how long one of these tasks can run, they can theoretically delay other tasks indefinitely.
 
-We settled on the latter approach, implemented it, and had it pass one round of review. Only then did I realize there is a third solution we never thought of. Vulkan semaphores (the kind we use) can be signaled from the CPU. We didn't think of it because that is a rather rare use case, at least we rarely saw it used. In hindsight, this is obviously done to facilitate this exact use case, racing a Vulkan semaphore signal against another event that happens on the CPU. The solution is simple enough then. We add an additional semaphore we can use to wake the thread up whenever we want to, and signal it by hand after putting a new task in the channel. Works like a charm.
+We settled on the latter approach, implemented it, and had it pass one round of review. Only then did I realize there is a third solution we never thought of. Vulkan semaphores (the kind we use) can be signaled from the CPU. We can use a special semaphore to wake the thread up when we send it tasks. We didn't think of it because that is a rather rare use case, at least we rarely saw it used. In hindsight, this is obviously done to facilitate this exact use case, racing a Vulkan semaphore signal against another event that happens on the CPU. The solution is simple enough then. We add an additional semaphore we can use to wake the thread up whenever we want to, and signal it by hand after putting a new task in the channel. Works like a charm.
 
 ```rust
 let mut semaphores = vec![new_work_arrived_semaphore];
@@ -189,7 +189,7 @@ impl WorkSender {
 
 After writing it down, the solution seems stupidly obvious, but it wasn't that simple to figure out, and it was very exciting when I did have that lightbulb moment.
 
-## VideoToolbox support
+## macOS VideoToolbox support
 
 Last but not least, VideoToolbox is officially supported, and with full feature parity. This means we can do hardware encoding and decoding on all Apple devices, seamlessly. We also integrate with wgpu, we also do zero-copy inputs and outputs from/to wgpu, it all works. We haven't done extensive performance work yet and there are still a few wrinkles here and there, but it works!
 
