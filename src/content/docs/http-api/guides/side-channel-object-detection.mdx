@@ -131,7 +131,7 @@ The full sidecar lives in one `detect.py` file built up across the steps below.
             "bearer_token": "example",
             "video": {
                 "resolution": {"width": OUTPUT_W, "height": OUTPUT_H},
-                "encoder": {"type": "ffmpeg_h264", "preset": "ultrafast"},
+                "encoder": {"type": "ffmpeg_h264", "ffmpeg_options": {"preset": "ultrafast"}},
                 "initial": {"root": boxes_scene([])},
             },
             "audio": {
@@ -221,7 +221,7 @@ The full sidecar lives in one `detect.py` file built up across the steps below.
             "bearer_token": "example",
             "video": {
                 "resolution": {"width": OUTPUT_W, "height": OUTPUT_H},
-                "encoder": {"type": "ffmpeg_h264", "preset": "ultrafast"},
+                "encoder": {"type": "ffmpeg_h264", "ffmpeg_options": {"preset": "ultrafast"}},
                 "initial": {"root": boxes_scene([])},
             },
             "audio": {

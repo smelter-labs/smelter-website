@@ -68,4 +68,8 @@ Maximal interval between 2 consecutive keyframes, in milliseconds.
 
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
+On machines with a high core count, consider setting `threads`.
+libvpx uses as many threads as there are logical CPU cores, up to a limit based on frame width (e.g. 15 for 1080p).
+Fewer threads mean less CPU contention and memory usage.
+
 - **Type**: `Record<string, string>`

@@ -67,6 +67,7 @@ type MoqClientInput = {
   required?: bool;
   decoderMap?: DecoderMap;
   sideChannel?: SideChannel;
+  buffer?: InputBuffer;
 }
 ```
 </CollapsibleDetails>
@@ -112,6 +113,14 @@ external consumer reads decoded frames / audio from a Unix socket created under
 `SMELTER_SIDE_CHANNEL_SOCKET_DIR`.
 
 - **Type**: [`SideChannel`](#sidechannel)
+
+---
+
+### buffer
+Input buffer configuration.
+
+- **Type**: [`InputBuffer`](#inputbuffer)
+- **Default value**: `{ desiredMs: 2000, minMs: 1000, maxMs: 5000 }`
 
 
 ## DecoderMap
@@ -173,3 +182,38 @@ so the side-channel subscriber receives them early and has roughly this much tim
 
 - **Type**: `f64`
 - **Default value**: `0`
+
+## InputBuffer
+Buffer a live input keeps between the live edge of the stream and playback. A larger buffer adds latency, but tolerates more delivery jitter and network stalls.
+
+A number value is a shorthand for `{ desiredMs: <number> }`. Values that are not provided are derived from the provided ones and the protocol defaults.
+
+<CollapsibleDetails summaryTitle='Type definition' open>
+```tsx
+type InputBuffer = number | {
+  desiredMs?: number;
+  minMs?: number;
+  maxMs?: number;
+};
+```
+</CollapsibleDetails>
+
+### Properties
+
+#### desiredMs
+Buffer the input aims to keep, in milliseconds. At the start it should buffer at least that much media before producing the first chunk.
+
+- **Type**: `number`
+- **Default value**: `2000`
+
+#### minMs
+Lower range of what is considered stable state. If the buffer is smaller than this value, then media will be slightly "stretched" so the buffer converges on the desired value.
+
+- **Type**: `number`
+- **Default value**: `1000`
+
+#### maxMs
+Upper range of what is considered stable state. If the buffer is larger than this value, then media will be slightly "squashed" so the buffer converges on the desired value.
+
+- **Type**: `number`
+- **Default value**: `5000`

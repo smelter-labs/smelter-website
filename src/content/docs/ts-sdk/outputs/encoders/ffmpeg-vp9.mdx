@@ -78,4 +78,8 @@ Encoder pixel format.
 
 Raw FFmpeg encoder options. Visit <a href='https://ffmpeg.org/ffmpeg-codecs.html' target='_blank'>FFmpeg docs</a> to learn more.
 
+On machines with a high core count, consider setting `threads`.
+libvpx uses as many threads as there are logical CPU cores, up to 64.
+Fewer threads mean less CPU contention and memory usage.
+
 - **Type**: `Record<string, string>`

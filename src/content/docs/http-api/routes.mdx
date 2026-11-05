@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "whep_server" | "whip_client" | "rtmp_client"
+  type: "rtp_stream" | "mp4" | "whep_server" | "whip_client" | "rtmp_client" | "hls" | "moq_client"
   ... // output specific options
 }
 ```
@@ -60,6 +60,8 @@ Register external destination that can be used as a Smelter output. See outputs 
 - [WHEP](/http-api/outputs/whep)
 - [WHIP](/http-api/outputs/whip)
 - [RTMP](/http-api/outputs/rtmp)
+- [HLS](/http-api/outputs/hls)
+- [MoQ client](/http-api/outputs/moq-client)
 
 ### Unregister output
 
@@ -138,7 +140,7 @@ Content-Type: application/json
 
 ```tsx
 type RequestBody = {
-  type: "rtp_stream" | "mp4" | "decklink" | "whip_server" | "whep_client" | "rtmp_server";
+  type: "rtp_stream" | "mp4" | "decklink" | "whip_server" | "whep_client" | "rtmp_server" | "hls" | "moq_client" | "v4l2";
   ... // input specific options
 }
 ```
@@ -151,6 +153,9 @@ Register external source that can be used as a Smelter input. See inputs documen
 - [WHEP](/http-api/inputs/whep)
 - [WHIP](/http-api/inputs/whip)
 - [RTMP](/http-api/inputs/rtmp)
+- [HLS](/http-api/inputs/hls)
+- [MoQ client](/http-api/inputs/moq-client)
+- [V4L2](/http-api/inputs/v4l2)
 
 ### Unregister input
 
@@ -291,13 +296,39 @@ Content-Type: application/json
 
 ```tsx
 type Response = {
-  instance_id: string
+  instance_id: string;
+  configuration: {
+    api_port: number;
+    output_framerate: number;
+    mixing_sample_rate: number;
+    ahead_of_time_processing: boolean;
+    never_drop_output_frames: boolean;
+    run_late_scheduled_events: boolean;
+    download_root: string;
+    web_renderer_enable: boolean;
+    web_renderer_gpu_enable: boolean;
+    whip_whep_server_port: number;
+    whip_whep_enable: boolean;
+    webrtc_stun_servers: string[];
+    rendering_mode: string;
+  };
+  inputs: {
+    input_id: string;
+    input_type: "rtp_stream" | "rtmp_server" | "moq_client" | "mp4" | "whip_server" | "whep_client" | "hls" | "v4l2" | "decklink" | "raw_data";
+  }[];
+  outputs: {
+    output_id: string;
+    output_type: "rtp_stream" | "rtmp_client" | "moq_client" | "mp4" | "whip_client" | "whep_server" | "hls" | "encoded_data" | "raw_data";
+  }[];
 }
 ```
 
 Status/health check endpoint. Returns `200 OK`.
 
 - `instance_id` - ID that can be provided using [`SMELTER_INSTANCE_ID`](/deployment/configuration#smelter_instance_id) environment variable. Defaults to random number.
+- `configuration` - Configuration of the running Smelter instance.
+- `inputs` - Currently registered inputs. `input_type` has the same values as `type` in the [register input](#register-input) request. `raw_data` is used for inputs registered through the Rust API.
+- `outputs` - Currently registered outputs. `output_type` has the same values as `type` in the [register output](#register-output) request. `encoded_data` and `raw_data` are used for outputs registered through the Rust API.
 
 ## WebSocket endpoint 
 

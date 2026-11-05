@@ -44,6 +44,7 @@ type RegisterMp4Output = {
   video?: VideoOptions;
   audio?: AudioOptions;
   ffmpegOptions?: Record<string, string>;
+  startAtMs?: number;
 }
 ```
 </CollapsibleDetails>
@@ -81,6 +82,15 @@ Raw FFmpeg muxer options. Visit <a href='https://ffmpeg.org/ffmpeg-formats.html'
 to learn more. For codec specific options see `ffmpegOptions` in [`VideoEncoderOptions`](#videoencoderoptions).
 
 - **Type**: `Record<string, string>`
+
+---
+
+### startAtMs
+Time in milliseconds when this output should start producing data. Value `0` represents time of the
+[`start()`](/ts-sdk/nodejs/smelter#start) call. Output is always created when it is registered
+(e.g. file is created), only the moment it starts receiving frames/samples is delayed.
+
+- **Type**: `number`
 
 ## VideoOptions
 
