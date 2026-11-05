@@ -186,7 +186,7 @@ in `smelter-labs/examples`.
         bearerToken: "example",
         video: {
           resolution: { width: OUTPUT_W, height: OUTPUT_H },
-          encoder: { type: "ffmpeg_h264", preset: "ultrafast" },
+          encoder: { type: "ffmpeg_h264", ffmpegOptions: { preset: "ultrafast" } },
         },
         audio: { encoder: { type: "opus" } },
       });

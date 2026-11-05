@@ -128,7 +128,7 @@ The full sidecar lives in one `transcribe.py` file built up across the steps bel
             "bearer_token": "example",
             "video": {
                 "resolution": {"width": 1920, "height": 1080},
-                "encoder": {"type": "ffmpeg_h264", "preset": "ultrafast"},
+                "encoder": {"type": "ffmpeg_h264", "ffmpeg_options": {"preset": "ultrafast"}},
                 "initial": {"root": subtitle_scene("")},
             },
             "audio": {
@@ -218,7 +218,7 @@ The full sidecar lives in one `transcribe.py` file built up across the steps bel
             "bearer_token": "example",
             "video": {
                 "resolution": {"width": 1920, "height": 1080},
-                "encoder": {"type": "ffmpeg_h264", "preset": "ultrafast"},
+                "encoder": {"type": "ffmpeg_h264", "ffmpeg_options": {"preset": "ultrafast"}},
                 "initial": {"root": subtitle_scene("")},
             },
             "audio": {
