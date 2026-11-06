@@ -8,7 +8,7 @@ cover: /blog/covers/gpu-video-050.png
 ---
 If you don't know what gpu-video is, I wrote [this short explanation](/blog/what-is-gpu-video) recently with the express purpose of linking it near the top of posts like this one.
 
-First of all, sorry for not sharing anything for so long. The previous release was terribly long ago. The nice thing about this is that we have a lot to talk about today, and it will hopefully be interesting. I'm very excited about all of the improvements being released, and even more excited about explaining how things work. I'm not a huge fan of dry release notes that just list new features and sometimes give new code examples. I'd like for this post to be more of a collection of explanations of what we did to achieve these results. I hope this form will be entertaining for a software engineer to read, especially if they're not super familiar with the domain. There are three main things I'd like to talk about:
+First of all, sorry for not sharing anything for so long. The previous release was terribly long ago. The nice thing about this is that we have a lot to talk about today, and it will hopefully be interesting. I'm very excited about all of the improvements being released, and even more excited about explaining how things work. I'm not a huge fan of dry release notes that just list new features and sometimes give new code examples. I'd like for this post to be more of a collection of explanations of what we did to achieve these results. I hope this form will be entertaining for a software engineer to read, especially if they're not super familiar with the domain. If you prefer to just get a summary of what changed, check out the changelog [here](https://github.com/software-mansion/smelter/blob/master/gpu-video/CHANGELOG.md). There are three main things I'd like to talk about:
 
 - Speed improvements on Vulkan Video targets,
 - API changes,
@@ -212,6 +212,10 @@ We came to the conclusion that the amount of technical debt we took on is gettin
 We have also been looking at Android support, since it seems unlikely we will get Vulkan Video on Android in the near future. As much as it might be bad luck for planning, _I would like to work on Android in the unspecified future_.
 
 I'd also like future releases to be smaller and not take six months, but, well, I didn't want this release to take this long either and look where that got us.
+
+## Closing remarks
+
+You can check out gpu-video [here](https://github.com/software-mansion/smelter/tree/master/gpu-video). Be sure to look at our examples, we're trying to add a couple that demonstrate how to hook gpu-video up to various GUI frameworks in Rust by building mp4 players. You can check out the parent project, Smelter, on [its website](https://smelter.dev/) and on [GitHub](https://github.com/software-mansion/smelter). It is sort of like OBS, but built around a programmable interface rather than a graphical one. The easiest way to support us is to use gpu-video, to try Smelter and to talk about them with your friends.
 
 ## Life advice
 
