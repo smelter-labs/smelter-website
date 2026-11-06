@@ -1,0 +1,12 @@
+{
+  "name": "typecheck-examples-0.2.x",
+  "private": true,
+  "dependencies": {
+    "@swmansion/smelter": "0.2.1",
+    "@swmansion/smelter-node": "0.2.1",
+    "@types/node": "20.14.0",
+    "@types/react": "18.3.1",
+    "react": "18.3.1",
+    "typescript": "5.8.3"
+  }
+}
