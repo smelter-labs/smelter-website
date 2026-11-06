@@ -8,7 +8,7 @@ import Smelter from "@swmansion/smelter-node";
 
 type InputTileProps = {
   inputId: string;
-  state?: "ready" | "playing" | "finished";
+  state?: "ready" | "playing" | "paused" | "finished";
 };
 
 function InputTile({ inputId, state }: InputTileProps) {
@@ -58,9 +58,9 @@ async function run() {
       },
     },
     audio: {
+      channels: "stereo",
       encoder: {
         type: "aac",
-        channels: "stereo",
       },
     },
   });

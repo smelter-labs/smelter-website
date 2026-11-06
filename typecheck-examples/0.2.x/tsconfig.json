@@ -1,0 +1,4 @@
+{
+  "extends": "../tsconfig.base.json",
+  "include": ["../../src/content/docs/versions/ts-sdk/0.2.x/**/examples/**/*"]
+}

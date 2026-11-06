@@ -12,7 +12,14 @@ Astro + Starlight site for [Smelter](https://smelter.dev), deployed to Vercel as
 
 ## Build / CI gates
 
-CI (`.github/workflows/ci.yml`) runs **two** checks: `biome ci .` and `pnpm astrocheck` (= `astro check --minimumFailingSeverity warning`). `pnpm build` runs the stricter `astro check` + build. Run both `pnpm check` and `pnpm astrocheck` locally before pushing.
+CI (`.github/workflows/ci.yml`) runs **three** checks: `biome ci .`, `pnpm astrocheck` (= `astro check --minimumFailingSeverity warning`) and `node typecheck-examples/check.mjs`. `pnpm build` runs the stricter `astro check` + build. Run both `pnpm check` and `pnpm astrocheck` locally before pushing.
+
+### Docs examples type check
+
+The root `tsconfig.json` excludes `src/content/docs/**/examples/**`, because the single SDK installed at the root can't match every docs version. `typecheck-examples/<version>/` instead pins the SDK each snapshot documents, and its `paths` resolve the imports to that copy, so examples keep their real import lines.
+
+- `pnpm typecheck:examples` checks all released versions. This is what CI runs.
+- `pnpm typecheck:examples:unreleased` checks `src/content/docs/ts-sdk` against the SDK pinned in `typecheck-examples/unreleased/`, currently the last release. It is not on CI.
 
 `starlight-links-validator` is gated behind `ENABLE_LINK_CHECKER=1` (off by default for fast iteration); enable it before shipping anything that reshuffles routes.
 
@@ -20,11 +27,12 @@ CI (`.github/workflows/ci.yml`) runs **two** checks: `biome ci .` and `pnpm astr
 
 **Only do versioning work against `main`.** The version snapshots (`src/content/docs/versions/**`, `src/content/versions/**`) and the `starlightVersions({ versions: [...] })` config exist for already-released versions; on `next` they are frozen and must not be touched. Cutting a new version, editing snapshot content, or adding/removing entries from the version list all happen on `main`.
 
-Versioning is the part of this repo most likely to bite. It uses a **local fork** of `starlight-versions` at `packages/starlight-versions-custom/` (referenced via `"file:..."` in `package.json` — don't `pnpm add` upstream). Adding/maintaining a version requires three coordinated changes (on `main`):
+Versioning is the part of this repo most likely to bite. It uses a **local fork** of `starlight-versions` at `packages/starlight-versions-custom/` (referenced via `"file:..."` in `package.json` — don't `pnpm add` upstream). Adding/maintaining a version requires these coordinated changes (on `main`):
 
 1. Snapshot the docs into `src/content/docs/versions/{ts-sdk,http-api}/<version>/...`.
 2. Add the matching sidebar JSON at `src/content/versions/{ts-sdk,http-api}/<version>.json` — its shape mirrors the live `sidebar:` block in `astro.config.mjs`.
 3. Register the version in `starlightVersions({ versions: [...] })` in `astro.config.mjs`.
+4. For `ts-sdk` versions, add `typecheck-examples/<version>/` (copy the latest one, pin the SDK, run `pnpm install` there to generate its lockfile). CI picks up new folders automatically.
 
 The "current" sidebar is **hard-coded** in `astro.config.mjs`. New doc pages outside an `autogenerate` directory must be added there too, plus to each versioned sidebar JSON if backported.
 
