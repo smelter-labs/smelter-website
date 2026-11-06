@@ -12,7 +12,9 @@
     "check:links": "ENABLE_LINK_CHECKER=1 astro build",
     "build:sitemap": "ENABLE_SITEMAP=1 astro build && cp dist/client/sitemap-*.xml public/",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "typecheck:examples": "node typecheck-examples/check.mjs",
+    "typecheck:examples:unreleased": "node typecheck-examples/check.mjs unreleased"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["node"],
+    "typeRoots": ["${configDir}/node_modules/@types"],
+    "paths": {
+      "@swmansion/smelter": ["${configDir}/node_modules/@swmansion/smelter"],
+      "@swmansion/smelter-node": [
+        "${configDir}/node_modules/@swmansion/smelter-node"
+      ],
+      "react": ["${configDir}/node_modules/@types/react"],
+      "react/jsx-runtime": [
+        "${configDir}/node_modules/@types/react/jsx-runtime"
+      ]
+    }
+  }
+}
