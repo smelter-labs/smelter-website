@@ -108,7 +108,6 @@ type VideoOptions = {
     width: u32;
     height: u32;
   };
-  send_eos_when?: OutputEndCondition;
   encoder: VideoEncoderOptions;
   initial: { root: Component; };
 }
@@ -121,13 +120,6 @@ type VideoOptions = {
 Output resolution in pixels.
 
 - **Type**: `{ width: u32; height: u32; }`
-
----
-
-#### send_eos_when
-Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
-
-- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
@@ -171,7 +163,6 @@ Configuration for the video encoder, based on the selected codec. Visit encoder 
 ```tsx
 type AudioOptions = {
   mixing_strategy?: "sum_clip" | "sum_scale";
-  send_eos_when?: OutputEndCondition;
   encoder: AudioEncoderOptions;
   channels?: "mono" | "stereo";
   initial: { inputs: InputAudio[]; };
@@ -189,13 +180,6 @@ Specifies how audio should be mixed.
 - **Supported values**:
   - `sum_clip` - First, the input samples are summed. If the result exceeds the i16 PCM range, it is clipped.
   - `sum_scale` - First, the input samples are summed. If the result exceeds the i16 PCM range, the summed samples are scaled down by a factor to fit within the range.
-
----
-
-#### send_eos_when
-Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
-
-- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
@@ -260,50 +244,3 @@ Input volume in range `[0, 2]`
 - **Type**: `f32`
 - **Default value**: `1.0`
 - **Supported values**: `[0, 2]`
-
-## OutputEndCondition
-This type defines when end of an input stream should trigger end of the output stream. Only one of those fields can be set at the time.
-Unless specified otherwise the input stream is considered finished/ended when:
-- TCP connection was dropped/closed.
-- RTCP Goodbye packet (`BYE`) was received.
-- Mp4 track has ended.
-- Input was unregistered already (or never registered).
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-```tsx
-type OutputEndCondition = {
-  any_of?: string[];
-  all_of?: string[];
-  any_input?: bool;
-  all_inputs?: bool;
-}
-```
-</CollapsibleDetails>
-
-### Properties
-
-#### any_of
-List of the input streams. The output stream will terminate if any stream in the list finishes.
-
-- **Type**: `string[]`
-
----
-
-#### all_of
-List of the input streams. The output stream will terminate when all streams in the list finish.
-
-- **Type**: `string[]`
-
----
-
-#### any_input
-Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
-
-- **Type**: `bool`
-
----
-
-#### all_inputs
-Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
-
-- **Type**: `bool`
