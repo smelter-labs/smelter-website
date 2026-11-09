@@ -9,22 +9,20 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## Low latency streaming
 
-For latency-sensitive outputs you can reduce the delay introduced by the encoder itself with [`ffmpegOptions`](#ffmpegoptions):
+WHIP, WHEP and MoQ outputs use low latency settings by default. B-frames are disabled with `bf: "0"`, and depending on the encoder:
 
-```tsx
-ffmpegOptions: {
-  tune: "zerolatency",
-  thread_type: "slice",
-}
-```
+- **libx264**: `tune: "zerolatency"` also disables frame lookahead and other internal buffering, so every frame is emitted as soon as it is encoded instead of being held back by several frames. Costs some compression efficiency.
+- **h264_videotoolbox**: `realtime: "1"` hints that encoding should happen in real time, keeping up with the rate frames arrive at. It's a hint to VideoToolbox, not a guarantee.
 
-- **`tune: "zerolatency"`** (libx264) — disables frame lookahead, B-frames and other internal buffering, so every frame is emitted as soon as it is encoded instead of being held back by several frames. Costs some compression efficiency.
-- **`thread_type: "slice"`** — by default FFmpeg parallelizes encoding across frames, which delays output by roughly one frame per thread. Slice-based threading splits each frame into slices encoded in parallel, so multithreading adds no extra frame delay, at a small quality cost.
+Other outputs don't use these settings, but you can enable them via [`ffmpegOptions`](#ffmpegoptions). If you don't want the full `tune: "zerolatency"` on libx264, you can set only some of the options it includes:
 
+- `bf: "0"`: disables B-frames.
+- `"rc-lookahead": "0"`: disables frame lookahead, which otherwise adds 30 frames of latency with `preset: "fast"`.
+- `thread_type: "slice"`: encodes slices of each frame in parallel. Otherwise encoding is parallelized across frames, which delays output by roughly one frame per thread.
 
 ## Encoder selection
 
-FFmpeg picks whichever H.264 encoder is available in the build it was compiled with. Smelter passes a different set of default options depending on which encoder was picked. Anything you set in [`ffmpegOptions`](#ffmpegoptions) is applied on top of these defaults and overrides them.
+By default, FFmpeg picks whichever H.264 encoder is available in the build it was compiled with. Use [`encoderName`](#encodername) to select a specific one. Smelter passes a different set of default options depending on which encoder was picked. Anything you set in [`ffmpegOptions`](#ffmpegoptions) is applied on top of these defaults and overrides them.
 
 
 
@@ -32,16 +30,16 @@ FFmpeg picks whichever H.264 encoder is available in the build it was compiled w
 
 Default options:
 
-```sh frame=none
-qmin=4        # minimum QP
-qmax=51       # maximum QP, increased vs the encoder default to allow
-              # low bitrates without dropping frames
-rc_mode=0     # rate control mode: quality
-threads=0     # auto-detect thread count
-b=...         # average bitrate, from "bitrate" or calculated
-              # from resolution and framerate
-maxrate=...   # maximum bitrate
-g=...         # GOP size in frames, from "keyframeIntervalMs"
+```tsx frame=none
+qmin: "4",      // minimum QP
+qmax: "51",     // maximum QP, increased vs the encoder default to allow
+                // low bitrates without dropping frames
+threads: "0",   // auto-detect thread count
+b: "...",       // average bitrate, from "bitrate" or calculated
+                // from resolution and framerate
+maxrate: "...", // maximum bitrate
+g: "...",       // GOP size in frames, from "keyframeIntervalMs"
+bf: "0",        // ONLY for WHIP, WHEP and MoQ outputs, disable B-frames
 ```
 
 </CollapsibleDetails>
@@ -50,15 +48,16 @@ g=...         # GOP size in frames, from "keyframeIntervalMs"
 
 Default options:
 
-```sh frame=none
-qmin=4        # minimum QP
-qmax=51       # maximum QP, increased vs the encoder default to allow
-              # low bitrates without dropping frames
-bf=0          # disable B-frames
-b=...         # average bitrate, from "bitrate" or calculated
-              # from resolution and framerate
-maxrate=...   # maximum bitrate
-g=...         # GOP size in frames, from "keyframeIntervalMs"
+```tsx frame=none
+qmin: "4",      // minimum QP
+qmax: "51",     // maximum QP, increased vs the encoder default to allow
+                // low bitrates without dropping frames
+b: "...",       // average bitrate, from "bitrate" or calculated
+                // from resolution and framerate
+maxrate: "...", // maximum bitrate
+g: "...",       // GOP size in frames, from "keyframeIntervalMs"
+bf: "0",        // ONLY for WHIP, WHEP and MoQ outputs, disable B-frames
+realtime: "1",  // ONLY for WHIP, WHEP and MoQ outputs
 ```
 
 </CollapsibleDetails>
@@ -67,19 +66,36 @@ g=...         # GOP size in frames, from "keyframeIntervalMs"
 
 Default options:
 
-```sh frame=none
-preset=fast       # value of the "preset" option
-g=...             # GOP size in frames, from "keyframeIntervalMs"
-crf=23            # ONLY if "bitrate" is not set, quality-based VBR
-b=...             # ONLY if "bitrate" is set, average bitrate
-maxrate=...       # ONLY if "bitrate" is set, maximum bitrate
-bufsize=...       # ONLY if "bitrate" is set, equal to the average bitrate
-tune=zerolatency  # ONLY for WHIP, WHEP and MoQ outputs
-bf=0              # ONLY for WHIP, WHEP and MoQ outputs, disable B-frames
-thread_type=slice # ONLY for WHIP, WHEP and MoQ outputs
+```tsx frame=none
+preset: "fast",      // x264 encoding preset
+g: "...",            // GOP size in frames, from "keyframeIntervalMs"
+crf: "23",           // ONLY if "bitrate" is not set, quality-based VBR
+b: "...",            // ONLY if "bitrate" is set, average bitrate
+maxrate: "...",      // ONLY if "bitrate" is set, maximum bitrate
+bufsize: "...",      // ONLY if "bitrate" is set, equal to the average bitrate
+tune: "zerolatency", // ONLY for WHIP, WHEP and MoQ outputs
+bf: "0",             // ONLY for WHIP, WHEP and MoQ outputs, disable B-frames
 ```
 
-Other outputs use B-frames whenever the preset enables them (3 for `fast`). To disable them, set `bf: "0"` in [`ffmpegOptions`](#ffmpegoptions).
+To use a different preset, set it in `ffmpegOptions`, e.g. `preset: "ultrafast"`. See the <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> for available values.
+
+On machines with a high core count, consider setting `threads` in `ffmpegOptions`.
+libx264 uses 1.5x as many threads as there are logical CPU cores, up to a limit (e.g. 34 for 1080p).
+Fewer threads mean less CPU contention and memory usage and, unless `thread_type: "slice"` is set,
+lower latency, since each thread adds roughly one frame of delay.
+
+</CollapsibleDetails>
+
+<CollapsibleDetails summaryTitle='Other encoders'>
+
+Default options:
+
+```tsx frame=none
+g: "...",       // GOP size in frames, from "keyframeIntervalMs"
+b: "...",       // ONLY if "bitrate" is set, average bitrate
+maxrate: "...", // ONLY if "bitrate" is set, maximum bitrate
+bf: "0",        // ONLY for WHIP, WHEP and MoQ outputs, disable B-frames
+```
 
 </CollapsibleDetails>
 
@@ -96,6 +112,7 @@ Other outputs use B-frames whenever the preset enables them (3 for `fast`). To d
 ```tsx
 type FfmpegH264EncoderOptions = {
   type: "ffmpeg_h264";
+  encoderName?: string;
   bitrate?:
     | number
     | {
@@ -103,17 +120,6 @@ type FfmpegH264EncoderOptions = {
       maxBitrate: number;
     };
   keyframeIntervalMs?: number;
-  preset?:
-    | "ultrafast"
-    | "superfast"
-    | "veryfast"
-    | "faster"
-    | "fast"
-    | "medium"
-    | "slow"
-    | "slower"
-    | "veryslow"
-    | "placebo";
   pixelFormat?: "yuv420p" | "yuv422p" | "yuv444p";
   ffmpegOptions?: Record<string, string>;
 };
@@ -121,6 +127,15 @@ type FfmpegH264EncoderOptions = {
 </CollapsibleDetails>
 
 ## Properties
+
+### encoderName
+
+Name of the FFmpeg encoder to use, e.g. `"libopenh264"`. It must be an H.264 encoder available in the FFmpeg installed on the system.
+
+- **Type**: `string`
+- **Default value**: The H.264 encoder that FFmpeg selects by default.
+
+---
 
 ### bitrate
 
@@ -133,6 +148,7 @@ The [`maxBitrate`](#maxbitrate) is then set to 1.25x this value.
     Visit [FFmpeg docs](https://trac.ffmpeg.org/wiki/Encode/H.264#crf) to learn more.
   - **libopenh264**, **h264_videotoolbox**: Calculated based on framerate and resolution. Eg. for 30 FPS in 1080p
      the `averageBitrate` would be 5000 kb/s and `maxBitrate` 6250 kb/s.
+  - **Other encoders**: Default of the encoder.
 
 ---
 
@@ -161,32 +177,6 @@ Maximal interval between 2 consecutive keyframes, in milliseconds.
 
 - **Type**: `number`
 - **Default value**: `5000`
-
----
-
-### preset
-
-Video output encoder preset. Visit <a href='https://trac.ffmpeg.org/wiki/Encode/H.264#Preset' target='_blank'>FFmpeg docs</a> to learn more.
-
-- **Type**: `"ultrafast" | "superfast" | "veryfast" | "faster" | "fast" | "medium" | "slow" | "slower" | "veryslow" | "placebo"`
-- **Default value**: `fast`
-- **Supported values**:
-    - `ultrafast`
-    - `superfast`
-    - `veryfast`
-    - `faster`
-    - `fast`
-    - `medium`
-    - `slow`
-    - `slower`
-    - `veryslow`
-    - `placebo`
-
-<Aside>
-
-Make sure that your encoder supports these presets before setting.
-
-</Aside>
 
 ---
 

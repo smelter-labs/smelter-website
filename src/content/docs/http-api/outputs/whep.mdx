@@ -10,7 +10,8 @@ Smelter exposes WHEP endpoint on port 9000 under `/whep/:output_id` route. A dif
 configured with [`SMELTER_WHIP_WHEP_SERVER_PORT`](/deployment/configuration#smelter_whip_whep_server_port).
 
 To connect new output, register it first with [`register-output` request](/http-api/routes#register-output)
-and then establish WHEP connection.
+and then establish WHEP connection. The response to that request contains the route of the output in the
+`endpoint_route` field, e.g. `/whep/output_1`.
 
 <Aside>
   This output complies with the WHEP specification described in [draft-ietf-wish-whep-02](https://datatracker.ietf.org/doc/html/draft-ietf-wish-whep-02).
@@ -155,6 +156,8 @@ Configuration for the video encoder, based on the selected codec. Visit encoder 
 - [FFmpeg VP8](/http-api/outputs/encoders/ffmpeg-vp8)
 - [FFmpeg VP9](/http-api/outputs/encoders/ffmpeg-vp9)
 - [Vulkan H264](/http-api/outputs/encoders/vulkan-h264)
+
+With [FFmpeg H264](/http-api/outputs/encoders/ffmpeg-h264#low-latency-streaming), this output uses low latency encoder settings by default. Vulkan H264, FFmpeg VP8 and FFmpeg VP9 use the same settings on every output.
 
 ## AudioOptions
 

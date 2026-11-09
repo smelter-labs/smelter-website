@@ -23,7 +23,7 @@ Content-Type: application/json
   "video": {
     "resolution": { "width": 1280, "height": 720 },
     "encoder_preferences": [
-      { "type": "ffmpeg_h264", "preset": "ultrafast" },
+      { "type": "ffmpeg_h264", "ffmpeg_options": { "preset": "ultrafast" } },
       { "type": "ffmpeg_vp8" },
       { "type": "any" }
     ],
@@ -176,6 +176,8 @@ Configuration for the video encoder, based on the selected codec. Visit encoder 
 - [FFmpeg VP8](/http-api/outputs/encoders/ffmpeg-vp8)
 - [FFmpeg VP9](/http-api/outputs/encoders/ffmpeg-vp9)
 - [Vulkan H264](/http-api/outputs/encoders/vulkan-h264)
+
+With [FFmpeg H264](/http-api/outputs/encoders/ffmpeg-h264#low-latency-streaming), this output uses low latency encoder settings by default. Vulkan H264, FFmpeg VP8 and FFmpeg VP9 use the same settings on every output.
 
 ## AudioOptions
 Parameters of an audio source included in the WHIP stream.

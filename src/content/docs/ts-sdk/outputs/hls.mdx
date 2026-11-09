@@ -28,7 +28,7 @@ async function run() {
     video: {
       encoder: {
         type: 'ffmpeg_h264',
-        preset: 'ultrafast',
+        ffmpegOptions: { preset: 'ultrafast' },
       },
       resolution: {
         width: 1920,
@@ -57,6 +57,8 @@ type RegisterHlsOutput = {
   maxPlaylistSize?: number;
   video?: VideoOptions;
   audio?: AudioOptions;
+  ffmpegOptions?: Record<string, string>;
+  startAtMs?: number;
 }
 ```
 </CollapsibleDetails>
@@ -89,6 +91,25 @@ Video track configuration.
 Audio track configuration.
 
 - **Type**: [`AudioOptions`](#audiooptions)
+
+---
+
+### ffmpegOptions
+
+Raw FFmpeg muxer options. Visit <a href='https://ffmpeg.org/ffmpeg-formats.html' target='_blank'>FFmpeg docs</a>
+to learn more. For codec specific options see `ffmpegOptions` in [`VideoEncoderOptions`](#videoencoderoptions).
+Keys set here may override defaults, including `hls_list_size` derived from [`maxPlaylistSize`](#maxplaylistsize).
+
+- **Type**: `Record<string, string>`
+
+---
+
+### startAtMs
+Time in milliseconds when this output should start producing data. Value `0` represents time of the
+[`start()`](/ts-sdk/nodejs/smelter#start) call. Output is always created when it is registered
+(e.g. playlist is created), only the moment it starts receiving frames/samples is delayed.
+
+- **Type**: `number`
 
 ## VideoOptions
 

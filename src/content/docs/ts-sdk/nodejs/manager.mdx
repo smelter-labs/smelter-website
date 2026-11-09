@@ -60,7 +60,7 @@ void run();
 type LocallySpawnedInstanceOptions = {
   port: number;
   workingdir?: string;
-  mainExecutablePath?: string;
+  executablePath?: string;
   enableWebRenderer?: boolean;
 };
 ```
@@ -85,11 +85,12 @@ Working directory that smelter instance will use:
 
 ---
 
-#### mainExecutablePath
+#### executablePath
 
 Path to the compositor executable. If provided compositor will use that instead of downloading official binaries.
 
 - **Type**: `string`
+- **Default value**: Value of the `SMELTER_PATH` environment variable.
 
 ---
 

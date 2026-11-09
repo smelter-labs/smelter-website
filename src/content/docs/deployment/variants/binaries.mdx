@@ -34,7 +34,7 @@ For Linux:
   - For GPU based rendering the lowest version we tested was `22.0.1`, but older version might also work.
 
 For macOS:
-- FFmpeg 7 (this version will mostly follow a default version available in Homebrew)
+- FFmpeg 7 (the version available from Homebrew when the release was built). If your local version does not match, Apple Silicon builds download a compatible version of the FFmpeg libraries on startup. Intel builds don't have this fallback, so they require the matching version to be installed.
 
 <Aside>
 Changing FFmpeg version on macOS might be troublesome, so we decided to produce binaries that will
