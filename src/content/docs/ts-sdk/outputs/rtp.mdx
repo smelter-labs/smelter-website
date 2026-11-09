@@ -108,7 +108,6 @@ type VideoOptions = {
     width: number;
     height: number;
   };
-  sendEosWhen?: OutputEndCondition;
   encoder: VideoEncoderOptions;
 }
 ```
@@ -122,13 +121,6 @@ Parameters of a video source included in the RTP stream.
 Output resolution in pixels.
 
 - **Type**: `{ width: number; height: number;}`
-
----
-
-#### sendEosWhen
-Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
-
-- **Type**: [`OutputEndCondition`](#outputendcondition)
 
 ---
 
@@ -165,7 +157,6 @@ Configuration for the video encoder, based on the selected codec. Visit encoder 
 type AudioOptions = {
   channels?: "mono" | "stereo";
   mixingStrategy?: "sum_clip" | "sum_scale";
-  sendEosWhen?: OutputEndCondition;
   encoder: AudioEncoderOptions;
 }
 ```
@@ -197,13 +188,6 @@ Specifies how audio should be mixed.
 
 ---
 
-#### sendEosWhen
-Condition for termination of the output stream based on the input streams states. If output includes both audio and video streams, then EOS needs to be sent for every type.
-
-- **Type**: [`OutputEndCondition`](#outputendcondition)
-
----
-
 #### encoder
 Audio encoder options.
 
@@ -222,51 +206,3 @@ type AudioEncoderOptions =
 Configuration for the audio encoder. Visit encoder documentation to learn more.
 
 - [Opus](/ts-sdk/outputs/encoders/opus)
-
-## OutputEndCondition
-
-<CollapsibleDetails summaryTitle='Type definitions' open>
-```tsx
-type OutputEndCondition = 
-  | { anyOf: string[]; }
-  | { allOf: string[]; }
-  | { anyInput: boolean; }
-  | { allInputs: boolean; };
-```
-</CollapsibleDetails>
-
-Defines when the output stream should end based on the state of the input streams. Only one of the nested fields can be set at a time. 
-
-By default, the input stream is considered finished/ended when:
-- TCP connection was dropped/closed.
-- RTCP Goodbye packet (BYE) was received.
-- MP4 track has ended.
-- Input was unregistered already (or never registered).
-
-### Properties
-
-#### anyOf
-List of the input streams. The output stream will terminate if any stream in the list finishes.
-
-- **Type**: `string[]`
-
----
-
-#### allOf
-List of the input streams. The output stream will terminate when all streams in the list finish.
-
-- **Type**: `string[]`
-
----
-
-#### anyInput
-Terminate the output stream if any of the input streams end, including streams added after the output was registered. Notably, the output stream will not terminate if no inputs were ever connected.
-
-- **Type**: `boolean`
-
----
-
-#### allInputs
-Terminate the output stream only when all input streams have finished. Notably, the output stream will terminate if no inputs were ever connected.
-
-- **Type**: `boolean`
