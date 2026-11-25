@@ -103,6 +103,7 @@ import {
   RegisterWhipClientOutput,
   RegisterWhepServerOutput,
   RegisterRtmpClientOutput,
+  RegisterMoqClientOutput,
 } from "@swmansion/smelter"
 
 type RegisterOutput =
@@ -111,7 +112,8 @@ type RegisterOutput =
   | ({ type: 'hls' } & RegisterHlsOutput)
   | ({ type: 'whip_client' } & RegisterWhipClientOutput)
   | ({ type: 'whep_server' } & RegisterWhepServerOutput)
-  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput)
+  | ({ type: 'moq_client' } & RegisterMoqClientOutput);
 ```
 </CollapsibleDetails>
 
@@ -123,6 +125,7 @@ Register external destination that can be used as a smelter output. Visit output
 - [WHIP client](/ts-sdk/outputs/whip)
 - [WHEP server](/ts-sdk/outputs/whep)
 - [RTMP client](/ts-sdk/outputs/rtmp)
+- [MoQ client](/ts-sdk/outputs/moq-client)
 
 ## unregisterOutput()
 ```tsx
@@ -149,6 +152,8 @@ import {
   RegisterWhipServerInput,
   RegisterWhepClientInput,
   RegisterRtmpServerInput,
+  RegisterMoqClientInput,
+  RegisterV4l2Input,
 } from "@swmansion/smelter"
 
 type RegisterInput =
@@ -156,8 +161,10 @@ type RegisterInput =
   | ({ type: 'mp4' } & RegisterMp4Input)
   | ({ type: 'hls' } & RegisterHlsInput)
   | ({ type: 'whip_server' } & RegisterWhipServerInput)
-  | ({ type: 'whep_client' } & RegisterWhepClientInput);
-  | ({ type: 'rtmp_server' } & RegisterRtmpServerInput);
+  | ({ type: 'whep_client' } & RegisterWhepClientInput)
+  | ({ type: 'rtmp_server' } & RegisterRtmpServerInput)
+  | ({ type: 'moq_client' } & RegisterMoqClientInput)
+  | ({ type: 'v4l2' } & RegisterV4l2Input);
 ```
 </CollapsibleDetails>
 
@@ -169,6 +176,8 @@ Register external source that can be used as a smelter input. Visit input docume
 - [WHIP server](/ts-sdk/inputs/whip)
 - [WHEP client](/ts-sdk/inputs/whep)
 - [RTMP server](/ts-sdk/inputs/rtmp)
+- [MoQ client](/ts-sdk/inputs/moq-client)
+- [Video for Linux 2 (V4L2 API)](/ts-sdk/inputs/v4l2)
 
 The returned `InputHandle` lets you control the input after registration. For [MP4](/ts-sdk/inputs/mp4) inputs it is an `Mp4InputHandle` that additionally supports seeking; for [WHIP server](/ts-sdk/inputs/whip) inputs it is a `WhipInputHandle` that exposes the negotiated endpoint URL and bearer token.
 

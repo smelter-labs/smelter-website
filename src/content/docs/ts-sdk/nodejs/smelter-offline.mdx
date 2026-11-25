@@ -119,6 +119,7 @@ import {
   RegisterWhipClientOutput,
   RegisterWhepServerOutput,
   RegisterRtmpClientOutput,
+  RegisterMoqClientOutput,
 } from "@swmansion/smelter"
 
 type RegisterOutput =
@@ -127,7 +128,8 @@ type RegisterOutput =
   | ({ type: 'hls' } & RegisterHlsOutput)
   | ({ type: 'whip_client' } & RegisterWhipClientOutput)
   | ({ type: 'whep_server' } & RegisterWhepServerOutput)
-  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput);
+  | ({ type: 'rtmp_client' } & RegisterRtmpClientOutput)
+  | ({ type: 'moq_client' } & RegisterMoqClientOutput);
 ```
 </CollapsibleDetails>
 
@@ -159,6 +161,9 @@ import {
   RegisterHlsInput,
   RegisterWhipServerInput,
   RegisterWhepClientInput,
+  RegisterRtmpServerInput,
+  RegisterMoqClientInput,
+  RegisterV4l2Input,
 } from "@swmansion/smelter"
 
 type RegisterInput =
@@ -166,7 +171,10 @@ type RegisterInput =
   | ({ type: 'mp4' } & RegisterMp4Input)
   | ({ type: 'hls' } & RegisterHlsInput)
   | ({ type: 'whip_server' } & RegisterWhipServerInput)
-  | ({ type: 'whep_client' } & RegisterWhepClientInput);
+  | ({ type: 'whep_client' } & RegisterWhepClientInput)
+  | ({ type: 'rtmp_server' } & RegisterRtmpServerInput)
+  | ({ type: 'moq_client' } & RegisterMoqClientInput)
+  | ({ type: 'v4l2' } & RegisterV4l2Input);
 ```
 </CollapsibleDetails>
 
